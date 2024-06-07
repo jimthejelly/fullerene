@@ -1,4 +1,6 @@
 # Pop-Up Chemistry
+
+## Introduction
  
 Pop-Up Chemistry aims to create a 3D environment where the user can build and explore their own molecules and experiment with their molecular and atomic geometry in an accurate and detailed simulation.
 
