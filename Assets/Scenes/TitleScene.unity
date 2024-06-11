@@ -576,7 +576,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1731400631}
         m_TargetAssemblyTypeName: start, Assembly-CSharp
-        m_MethodName: load
+        m_MethodName: Load
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
