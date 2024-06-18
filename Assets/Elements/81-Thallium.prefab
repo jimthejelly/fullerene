@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3172205162675859591}
   m_Layer: 0
   m_Name: 81-Thallium
-  m_TagString: Untagged
+  m_TagString: Element
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
