@@ -4,9 +4,13 @@ using UnityEngine;
 
 public class user : MonoBehaviour
 {
-    [SerializeField] private Camera _camera;
-    public float moveSpeed = 2;
-    public float turnSpeed = 50;
+    public float moveSpeed; // Movement speed modifier
+    public float turnSpeed; // Look speed modifier
+    float xRotation = 0;
+    float yRotation = 0;
+    public void Start() {
+        
+    }
     // Update is called once per frame
     void Update()
     {
@@ -24,9 +28,12 @@ public class user : MonoBehaviour
     }
 
     void Turning() {
-        float y = Input.GetAxis("Mouse X") * moveSpeed * Time.timeScale;
-        float x = Input.GetAxis("Mouse Y") * moveSpeed * Time.timeScale;
-        x = Mathf.Clamp(x, -90, 90);
-        _camera.transform.eulerAngles = new Vector3(transform.eulerAngles.x - x, transform.eulerAngles.y + y, 0);
+        float xChange = Input.GetAxis("Mouse X") * turnSpeed * Time.deltaTime;
+        float yChange = Input.GetAxis("Mouse Y") * turnSpeed * Time.deltaTime;
+        
+        yRotation -= yChange;
+        xRotation += xChange;
+        yRotation = Mathf.Clamp(yRotation, -90f, 90f);
+        transform.localEulerAngles = (Vector3.right * yRotation) + (Vector3.up * xRotation);
     }
 }
