@@ -9,3 +9,14 @@ Fullerene aims to create a 3D environment where the user can build and explore t
 * Sandbox mode for users to make their own molecules.
 * VR device support
 * Fun mini-games to test user's knowledge.
+
+## Past/Present Contributors
+
+* Jimin Lee
+* Cyrus Bello
+* David Li
+* Andrew Choi
+
+## Licensing
+
+This project is an Open Source project, and uses the MIT License.
