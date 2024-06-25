@@ -982,6 +982,7 @@ RectTransform:
   - {fileID: 589838727}
   - {fileID: 1551671205}
   - {fileID: 366301014}
+  - {fileID: 1433643561}
   m_Father: {fileID: 810932140}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -1414,7 +1415,6 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1359027095}
-  m_GameObject: {fileID: 1241103026}
   m_CullTransparentMesh: 1
 --- !u!1 &1388475389
 GameObject:
@@ -1490,8 +1490,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 616062308}
+  m_Children: []
   m_Father: {fileID: 977895950}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -1542,19 +1541,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1433643563}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: end, Assembly-CSharp
-        m_MethodName: Return
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1433643563
 MonoBehaviour:
   m_ObjectHideFlags: 0
