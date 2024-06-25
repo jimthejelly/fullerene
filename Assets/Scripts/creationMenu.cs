@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class end : MonoBehaviour
+public class creationMenu : MonoBehaviour
 {
     public GameObject pause_menu;
+    public GameObject table_menu;
     public bool isPaused;
     // Start is called before the first frame update
     void Start()
@@ -14,33 +15,39 @@ public class end : MonoBehaviour
         Time.timeScale = 1;
         isPaused = false;
         pause_menu.SetActive(false);
-        // Removes mouse for first person control
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        table_menu.SetActive(false);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape)) {
-            Load();
+        if (Input.GetKeyDown(KeyCode.Escape) && !table_menu.activeSelf) {
+            LoadPauseMenu();
+        } else if (Input.GetKeyDown(KeyCode.Tab) && !pause_menu.activeSelf) {
+           LoadTableMenu();
         }
     }
 
-    public void Load()
+    public void LoadPauseMenu()
     {
         if (!isPaused) {
             Time.timeScale = 0;
             pause_menu.SetActive(true);
             isPaused = true;
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
         } else {
             Time.timeScale = 1;
             pause_menu.SetActive(false);
             isPaused = false;
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
+        }
+        
+    }
+
+    public void LoadTableMenu()
+    {
+        if (!table_menu.activeSelf) {
+            table_menu.SetActive(true);
+        } else {
+            table_menu.SetActive(false);
         }
         
     }
