@@ -7,7 +7,7 @@ public class start : MonoBehaviour
 {
     public void Load()
     {
-        SceneManager.LoadScene("CreationScene", LoadSceneMode.Single);
+        SceneManager.LoadScene("ExplorationScene", LoadSceneMode.Single);
     }
 
     public void Kill() {
