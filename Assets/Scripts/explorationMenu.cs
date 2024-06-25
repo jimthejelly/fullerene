@@ -45,6 +45,11 @@ public class explorationMenu : MonoBehaviour
         
     }
 
+    public void LoadCreationMenu()
+    {
+        SceneManager.LoadScene("CreationScene", LoadSceneMode.Single);
+    }
+
     public void Return()
     {
         SceneManager.LoadScene("TitleScene", LoadSceneMode.Single);
