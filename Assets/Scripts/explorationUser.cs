@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class user : MonoBehaviour
+public class explorationUser : MonoBehaviour
 {
     public float moveSpeed; // Movement speed modifier
     public float turnSpeed; // Look speed modifier
