@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1772147926120685974}
   - component: {fileID: 4786510498295342845}
   - component: {fileID: 854367359349244074}
+  - component: {fileID: -3314248292433871464}
   m_Layer: 0
   m_Name: 86-Radon
   m_TagString: Element
@@ -105,3 +106,18 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &-3314248292433871464
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1997745934753148215}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8773acf35f068e542abbeba2845187c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lonePairs: 4
+  bondingElectrons: 0
+  expandedOctet: 1

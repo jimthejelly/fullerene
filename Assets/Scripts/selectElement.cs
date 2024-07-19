@@ -15,7 +15,7 @@ using System;
 // }
 public class selectElement : MonoBehaviour
 {
-    public static string element;
+    public static string element = "6-Carbon";
 
     public string elementNumber;
     void Start() {
@@ -24,6 +24,7 @@ public class selectElement : MonoBehaviour
 
     public void OnClick() {
         element = elementNumber;
+        Debug.Log(element);
     }
     
 

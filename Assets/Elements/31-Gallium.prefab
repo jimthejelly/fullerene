@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7242704001436859781}
   - component: {fileID: 8101155629529095975}
   - component: {fileID: 7982166182686149650}
+  - component: {fileID: 8440880962672948239}
   m_Layer: 0
   m_Name: 31-Gallium
   m_TagString: Element
@@ -105,3 +106,18 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &8440880962672948239
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8029379647236982122}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8773acf35f068e542abbeba2845187c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lonePairs: 0
+  bondingElectrons: 3
+  expandedOctet: 0
