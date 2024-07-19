@@ -16,6 +16,7 @@ using System;
 public class selectElement : MonoBehaviour
 {
     public static string element;
+    public TMP_Text txt;
 
     public string elementNumber;
     void Start() {
@@ -24,7 +25,6 @@ public class selectElement : MonoBehaviour
 
     public void OnClick() {
         element = elementNumber;
+        txt.text = element;
     }
-    
-
 }
