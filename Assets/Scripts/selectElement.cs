@@ -15,6 +15,8 @@ using System;
 // }
 public class selectElement : MonoBehaviour
 {
+    public static string element;
+    public TMP_Text txt;
     public static string element = "6-Carbon";
 
     public string elementNumber;
@@ -24,8 +26,7 @@ public class selectElement : MonoBehaviour
 
     public void OnClick() {
         element = elementNumber;
+        txt.text = element;
         Debug.Log(element);
     }
-    
-
 }
