@@ -29,8 +29,7 @@ public class creationUser : MonoBehaviour
     }
     // Update is called once per frame
     void Update()
-    {
-        GameObject.Find("Cube").GetComponent<Renderer>().material.color = focusMaterial;        
+    { 
         if (Input.GetMouseButton(1)) {
             Turning();
         }
