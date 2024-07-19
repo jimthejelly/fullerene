@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 674523360455800430}
   - component: {fileID: 2506647521826386848}
   - component: {fileID: 125655203634979874}
+  - component: {fileID: -3985180767901355679}
   m_Layer: 0
   m_Name: 10-Neon
   m_TagString: Element
@@ -28,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 6936418743138873023}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -1.0364451, y: 0.29, z: -2.0890088}
   m_LocalScale: {x: 0.58, y: 0.58, z: 0.58}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -62,7 +63,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 677ffadc762135a4ab4112c2a15f7c17, type: 2}
+  - {fileID: 2100000, guid: 050a18841e44e0b4b9a8d0b77d2dc6fc, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -105,3 +106,18 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &-3985180767901355679
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6936418743138873023}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8773acf35f068e542abbeba2845187c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lonePairs: 4
+  bondingElectrons: 0
+  expandedOctet: 0
