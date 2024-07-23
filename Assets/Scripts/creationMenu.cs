@@ -8,6 +8,7 @@ public class creationMenu : MonoBehaviour
     public GameObject pause_menu;
     public GameObject table_menu;
     public GameObject preset_menu;
+    public GameObject general_info;
     public bool isPaused;
     // Start is called before the first frame update
     void Start()
@@ -49,9 +50,11 @@ public class creationMenu : MonoBehaviour
         if (!table_menu.activeSelf) {
             table_menu.SetActive(true);
             preset_menu.SetActive(true);
+            general_info.SetActive(false);
         } else {
             table_menu.SetActive(false);
             preset_menu.SetActive(false);
+            general_info.SetActive(true);
         }
         
     }
