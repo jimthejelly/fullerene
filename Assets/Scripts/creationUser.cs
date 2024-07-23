@@ -21,8 +21,8 @@ public class creationUser : MonoBehaviour
     {
         // Initializes variables to effectively nothing
         select = GameObject.Find("Main Camera");
-        molecule = GameObject.Find("Cube");
-        focus = GameObject.Find("Cube").transform;
+        molecule = GameObject.Find("4-Beryllium");
+        focus = GameObject.Find("4-Beryllium").transform;
         
         // Initializes starting camera position
         transform.position = new Vector3(molecule.transform.position.x,molecule.transform.position.y+1,molecule.transform.position.z-4);
@@ -133,6 +133,10 @@ public class creationUser : MonoBehaviour
         Debug.Log("Inter");
         if (clicknumber == 1) { // 1 click interaction
             Debug.Log("Creating");
+            if (Physics.Raycast(ray, out hit)) {
+                //Elements script = molecule.GetComponent<Elements>();
+                //script.SpawnElement();
+            }
         } else if (clicknumber == 2) { // 2 click interaction
             Debug.Log("Inteasr");
             if (Physics.Raycast(ray, out hit)) {

@@ -48,7 +48,6 @@ public class creationMenu : MonoBehaviour
     public void LoadTableMenu()
     {
         // Shows/hides menu
-        if (!isPaused) {
         if (!table_menu.activeSelf) {
             table_menu.SetActive(true);
             preset_menu.SetActive(true);
