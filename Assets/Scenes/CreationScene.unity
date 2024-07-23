@@ -439,6 +439,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea4cb601cc670214fa5a3604ba17d66e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txt: {fileID: 800158726}
+  txt_table: {fileID: 806940118}
   elementNumber: 17-Cloride
 --- !u!1 &49219549
 GameObject:
@@ -586,6 +588,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea4cb601cc670214fa5a3604ba17d66e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txt: {fileID: 800158726}
+  txt_table: {fileID: 806940118}
   elementNumber: 93-Neptunium
 --- !u!1 &54669136
 GameObject:
@@ -1126,6 +1130,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea4cb601cc670214fa5a3604ba17d66e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txt: {fileID: 800158726}
+  txt_table: {fileID: 806940118}
   elementNumber: 16-Sulfur
 --- !u!1 &93407130
 GameObject:
@@ -1409,6 +1415,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea4cb601cc670214fa5a3604ba17d66e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txt: {fileID: 800158726}
+  txt_table: {fileID: 806940118}
   elementNumber: 29-Copper
 --- !u!1 &112497615
 GameObject:
@@ -1556,6 +1564,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea4cb601cc670214fa5a3604ba17d66e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txt: {fileID: 800158726}
+  txt_table: {fileID: 806940118}
   elementNumber: 89-Actinium
 --- !u!1 &132846634
 GameObject:
@@ -2295,7 +2305,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1388475392}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: creationMenu, Assembly-CSharp
         m_MethodName: LoadExplorationMenu
         m_Mode: 1
@@ -2627,6 +2637,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea4cb601cc670214fa5a3604ba17d66e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txt: {fileID: 800158726}
+  txt_table: {fileID: 806940118}
   elementNumber: 51-Antimony
 --- !u!1 &163469137
 GameObject:
@@ -2774,6 +2786,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea4cb601cc670214fa5a3604ba17d66e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txt: {fileID: 800158726}
+  txt_table: {fileID: 806940118}
   elementNumber: 20-Calcium
 --- !u!1 &165003873
 GameObject:
@@ -3055,6 +3069,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea4cb601cc670214fa5a3604ba17d66e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txt: {fileID: 800158726}
+  txt_table: {fileID: 806940118}
   elementNumber: 77-Iridium
 --- !u!1 &218249679
 GameObject:
@@ -3474,6 +3490,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea4cb601cc670214fa5a3604ba17d66e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txt: {fileID: 800158726}
+  txt_table: {fileID: 806940118}
   elementNumber: 78-Platinum
 --- !u!1 &239116724
 GameObject:
@@ -3621,6 +3639,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea4cb601cc670214fa5a3604ba17d66e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txt: {fileID: 800158726}
+  txt_table: {fileID: 806940118}
   elementNumber: 66-Dysprosium
 --- !u!1 &249564333
 GameObject:
@@ -3768,6 +3788,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea4cb601cc670214fa5a3604ba17d66e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txt: {fileID: 800158726}
+  txt_table: {fileID: 806940118}
   elementNumber: 24-Chromium
 --- !u!1 &261114959
 GameObject:
@@ -3915,6 +3937,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea4cb601cc670214fa5a3604ba17d66e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txt: {fileID: 800158726}
+  txt_table: {fileID: 806940118}
   elementNumber: 47-Silver
 --- !u!1 &289620170
 GameObject:
@@ -4130,6 +4154,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea4cb601cc670214fa5a3604ba17d66e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txt: {fileID: 800158726}
+  txt_table: {fileID: 806940118}
   elementNumber: 65-Terbium
 --- !u!1 &313774509
 GameObject:
@@ -4549,6 +4575,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea4cb601cc670214fa5a3604ba17d66e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txt: {fileID: 800158726}
+  txt_table: {fileID: 806940118}
   elementNumber: 32-Germanium
 --- !u!1 &335548728
 GameObject:
@@ -4696,6 +4724,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea4cb601cc670214fa5a3604ba17d66e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txt: {fileID: 800158726}
+  txt_table: {fileID: 806940118}
   elementNumber: 10-Neon
 --- !u!1 &338610364
 GameObject:
@@ -5257,7 +5287,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &362818432
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5488,6 +5518,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea4cb601cc670214fa5a3604ba17d66e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txt: {fileID: 800158726}
+  txt_table: {fileID: 806940118}
   elementNumber: 96-Curium
 --- !u!1 &369676124
 GameObject:
@@ -5635,6 +5667,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea4cb601cc670214fa5a3604ba17d66e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txt: {fileID: 800158726}
+  txt_table: {fileID: 806940118}
   elementNumber: 11-Sodium
 --- !u!1 &370251657
 GameObject:
@@ -5782,6 +5816,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea4cb601cc670214fa5a3604ba17d66e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txt: {fileID: 800158726}
+  txt_table: {fileID: 806940118}
   elementNumber: 64-Gadolinium
 --- !u!1 &375170402
 GameObject:
@@ -5815,10 +5851,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1550490519}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 50, y: -160}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &375170404
 MonoBehaviour:
@@ -6140,6 +6176,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea4cb601cc670214fa5a3604ba17d66e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txt: {fileID: 800158726}
+  txt_table: {fileID: 806940118}
   elementNumber: 83-Bismuth
 --- !u!1 &379889717
 GameObject:
@@ -6287,7 +6325,143 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea4cb601cc670214fa5a3604ba17d66e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txt: {fileID: 800158726}
+  txt_table: {fileID: 806940118}
   elementNumber: 63-Europium
+--- !u!1 &420154950
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 420154951}
+  - component: {fileID: 420154953}
+  - component: {fileID: 420154952}
+  m_Layer: 5
+  m_Name: SelectedElement
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &420154951
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 420154950}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1614529917}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -305.45645, y: -148.81158}
+  m_SizeDelta: {x: 125.0871, y: 36.3768}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &420154952
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 420154950}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: 'Selected Element: '
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 14
+  m_fontSizeBase: 14
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 0
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 512
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_enableWordWrapping: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 1
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: -0.64712524, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!222 &420154953
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 420154950}
+  m_CullTransparentMesh: 1
 --- !u!1 &436047552
 GameObject:
   m_ObjectHideFlags: 0
@@ -6434,6 +6608,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea4cb601cc670214fa5a3604ba17d66e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txt: {fileID: 800158726}
+  txt_table: {fileID: 806940118}
   elementNumber: 6-Carbon
 --- !u!1 &438945378
 GameObject:
@@ -6717,6 +6893,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea4cb601cc670214fa5a3604ba17d66e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txt: {fileID: 800158726}
+  txt_table: {fileID: 806940118}
   elementNumber: 19-Potassium
 --- !u!1 &446268408
 GameObject:
@@ -7767,6 +7945,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea4cb601cc670214fa5a3604ba17d66e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txt: {fileID: 800158726}
+  txt_table: {fileID: 806940118}
   elementNumber: 56-Barium
 --- !u!1 &484126912
 GameObject:
@@ -7914,6 +8094,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea4cb601cc670214fa5a3604ba17d66e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txt: {fileID: 800158726}
+  txt_table: {fileID: 806940118}
   elementNumber: 84-Polonium
 --- !u!1 &500389327
 GameObject:
@@ -8204,10 +8386,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1550490519}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 50, y: -490}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &521223975
 MonoBehaviour:
@@ -8529,6 +8711,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea4cb601cc670214fa5a3604ba17d66e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txt: {fileID: 800158726}
+  txt_table: {fileID: 806940118}
   elementNumber: 94-Plutonium
 --- !u!1 &556374582
 GameObject:
@@ -9477,6 +9661,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea4cb601cc670214fa5a3604ba17d66e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txt: {fileID: 800158726}
+  txt_table: {fileID: 806940118}
   elementNumber: 58-Cerium
 --- !u!1 &614504658
 GameObject:
@@ -9624,6 +9810,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea4cb601cc670214fa5a3604ba17d66e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txt: {fileID: 800158726}
+  txt_table: {fileID: 806940118}
   elementNumber: 23-Vanadium
 --- !u!1 &614767241
 GameObject:
@@ -10028,6 +10216,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea4cb601cc670214fa5a3604ba17d66e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txt: {fileID: 800158726}
+  txt_table: {fileID: 806940118}
   elementNumber: 57-Lanthanum
 --- !u!1 &622682324
 GameObject:
@@ -10175,6 +10365,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea4cb601cc670214fa5a3604ba17d66e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txt: {fileID: 800158726}
+  txt_table: {fileID: 806940118}
   elementNumber: 8-Oxygen
 --- !u!1 &634870964
 GameObject:
@@ -10322,6 +10514,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea4cb601cc670214fa5a3604ba17d66e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txt: {fileID: 800158726}
+  txt_table: {fileID: 806940118}
   elementNumber: 90-Thorium
 --- !u!1 &636077660
 GameObject:
@@ -10741,6 +10935,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea4cb601cc670214fa5a3604ba17d66e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txt: {fileID: 800158726}
+  txt_table: {fileID: 806940118}
   elementNumber: 45-Rhodium
 --- !u!1 &651919302
 GameObject:
@@ -11145,6 +11341,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea4cb601cc670214fa5a3604ba17d66e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txt: {fileID: 800158726}
+  txt_table: {fileID: 806940118}
   elementNumber: 22-Titanium
 --- !u!1 &661811447
 GameObject:
@@ -11292,6 +11490,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea4cb601cc670214fa5a3604ba17d66e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txt: {fileID: 800158726}
+  txt_table: {fileID: 806940118}
   elementNumber: 72-Hafnium
 --- !u!1 &676665255
 GameObject:
@@ -11439,7 +11639,46 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea4cb601cc670214fa5a3604ba17d66e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txt: {fileID: 800158726}
+  txt_table: {fileID: 806940118}
   elementNumber: 88-Radium
+--- !u!1 &681310593
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 681310594}
+  m_Layer: 5
+  m_Name: General-Info-Table
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &681310594
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 681310593}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1204279828}
+  - {fileID: 806940117}
+  m_Father: {fileID: 1312701113}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &692382031
 GameObject:
   m_ObjectHideFlags: 0
@@ -11586,6 +11825,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea4cb601cc670214fa5a3604ba17d66e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txt: {fileID: 800158726}
+  txt_table: {fileID: 806940118}
   elementNumber: 37-Rubidium
 --- !u!1 &692994711
 GameObject:
@@ -11869,6 +12110,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea4cb601cc670214fa5a3604ba17d66e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txt: {fileID: 800158726}
+  txt_table: {fileID: 806940118}
   elementNumber: 50-Tin
 --- !u!1 &709732134
 GameObject:
@@ -12696,6 +12939,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea4cb601cc670214fa5a3604ba17d66e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txt: {fileID: 800158726}
+  txt_table: {fileID: 806940118}
   elementNumber: 13-Aluminum
 --- !u!1 &744987008
 GameObject:
@@ -13372,6 +13617,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea4cb601cc670214fa5a3604ba17d66e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txt: {fileID: 800158726}
+  txt_table: {fileID: 806940118}
   elementNumber: 1-Hydrogen
 --- !u!1 &770986964
 GameObject:
@@ -13655,6 +13902,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea4cb601cc670214fa5a3604ba17d66e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txt: {fileID: 800158726}
+  txt_table: {fileID: 806940118}
   elementNumber: 9-Fluorine
 --- !u!1 &787088610
 GameObject:
@@ -13802,6 +14051,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea4cb601cc670214fa5a3604ba17d66e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txt: {fileID: 800158726}
+  txt_table: {fileID: 806940118}
   elementNumber: 70-Ytterbium
 --- !u!1 &790869355
 GameObject:
@@ -13949,6 +14200,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea4cb601cc670214fa5a3604ba17d66e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txt: {fileID: 800158726}
+  txt_table: {fileID: 806940118}
   elementNumber: 62-Samarium
 --- !u!1 &791115865
 GameObject:
@@ -14364,6 +14617,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea4cb601cc670214fa5a3604ba17d66e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txt: {fileID: 800158726}
+  txt_table: {fileID: 806940118}
   elementNumber: 75-Rhenium
 --- !u!1 &799585463
 GameObject:
@@ -14500,6 +14755,278 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 799585463}
+  m_CullTransparentMesh: 1
+--- !u!1 &800158724
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 800158725}
+  - component: {fileID: 800158727}
+  - component: {fileID: 800158726}
+  m_Layer: 5
+  m_Name: Text (TMP)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &800158725
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 800158724}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1614529917}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -87.5038, y: -148.81}
+  m_SizeDelta: {x: 310.8123, y: 36.377}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &800158726
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 800158724}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: '6-Carbon
+
+'
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 14
+  m_fontSizeBase: 14
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 0
+  m_HorizontalAlignment: 1
+  m_VerticalAlignment: 512
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_enableWordWrapping: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 1
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!222 &800158727
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 800158724}
+  m_CullTransparentMesh: 1
+--- !u!1 &806940116
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 806940117}
+  - component: {fileID: 806940119}
+  - component: {fileID: 806940118}
+  m_Layer: 5
+  m_Name: Text (TMP)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &806940117
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 806940116}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 3.2608695, y: 3.2608695, z: 3.2608695}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 681310594}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -0.2848816, y: 257.00513}
+  m_SizeDelta: {x: 310.8123, y: 36.377}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &806940118
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 806940116}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: '6-Carbon
+
+'
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 14
+  m_fontSizeBase: 14
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 0
+  m_HorizontalAlignment: 1
+  m_VerticalAlignment: 512
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_enableWordWrapping: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 1
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!222 &806940119
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 806940116}
   m_CullTransparentMesh: 1
 --- !u!1 &811248930
 GameObject:
@@ -14919,6 +15446,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea4cb601cc670214fa5a3604ba17d66e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txt: {fileID: 800158726}
+  txt_table: {fileID: 806940118}
   elementNumber: 15-Phosphorus
 --- !u!1 &837646046
 GameObject:
@@ -15066,6 +15595,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea4cb601cc670214fa5a3604ba17d66e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txt: {fileID: 800158726}
+  txt_table: {fileID: 806940118}
   elementNumber: 35-Bromine
 --- !u!1 &850494609
 GameObject:
@@ -15349,6 +15880,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea4cb601cc670214fa5a3604ba17d66e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txt: {fileID: 800158726}
+  txt_table: {fileID: 806940118}
   elementNumber: 54-Xenon
 --- !u!1 &851082946
 GameObject:
@@ -15889,6 +16422,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea4cb601cc670214fa5a3604ba17d66e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txt: {fileID: 800158726}
+  txt_table: {fileID: 806940118}
   elementNumber: 81-Thallium
 --- !u!1 &878769017
 GameObject:
@@ -16036,6 +16571,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea4cb601cc670214fa5a3604ba17d66e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txt: {fileID: 800158726}
+  txt_table: {fileID: 806940118}
   elementNumber: 33-Arsenic
 --- !u!1 &878941153
 GameObject:
@@ -16183,6 +16720,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea4cb601cc670214fa5a3604ba17d66e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txt: {fileID: 800158726}
+  txt_table: {fileID: 806940118}
   elementNumber: 12-Magnesium
 --- !u!1 &880084004
 GameObject:
@@ -16738,6 +17277,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea4cb601cc670214fa5a3604ba17d66e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txt: {fileID: 800158726}
+  txt_table: {fileID: 806940118}
   elementNumber: 43-Technetium
 --- !u!1 &902070150
 GameObject:
@@ -16885,6 +17426,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea4cb601cc670214fa5a3604ba17d66e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txt: {fileID: 800158726}
+  txt_table: {fileID: 806940118}
   elementNumber: 80-Mercury
 --- !u!1 &907307809
 GameObject:
@@ -17168,6 +17711,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea4cb601cc670214fa5a3604ba17d66e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txt: {fileID: 800158726}
+  txt_table: {fileID: 806940118}
   elementNumber: 53-Iodine
 --- !u!1 &918711420
 GameObject:
@@ -17583,6 +18128,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea4cb601cc670214fa5a3604ba17d66e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txt: {fileID: 800158726}
+  txt_table: {fileID: 806940118}
   elementNumber: 46-Palladium
 --- !u!1 &954888285
 GameObject:
@@ -17730,6 +18277,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea4cb601cc670214fa5a3604ba17d66e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txt: {fileID: 800158726}
+  txt_table: {fileID: 806940118}
   elementNumber: 41-Niobium
 --- !u!1 &961782854
 GameObject:
@@ -17877,6 +18426,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea4cb601cc670214fa5a3604ba17d66e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txt: {fileID: 800158726}
+  txt_table: {fileID: 806940118}
   elementNumber: 52-Tellurium
 --- !u!1 &962332099
 GameObject:
@@ -17910,10 +18461,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1550490519}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 50, y: -270}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &962332101
 MonoBehaviour:
@@ -18099,6 +18650,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea4cb601cc670214fa5a3604ba17d66e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txt: {fileID: 800158726}
+  txt_table: {fileID: 806940118}
   elementNumber: 25-Manganese
 --- !u!1 &1010142868
 GameObject:
@@ -18976,6 +19529,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea4cb601cc670214fa5a3604ba17d66e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txt: {fileID: 800158726}
+  txt_table: {fileID: 806940118}
   elementNumber: 34-Selenium
 --- !u!1 &1047260336
 GameObject:
@@ -19259,6 +19814,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea4cb601cc670214fa5a3604ba17d66e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txt: {fileID: 800158726}
+  txt_table: {fileID: 806940118}
   elementNumber: 5-Boron
 --- !u!1 &1050605059
 GameObject:
@@ -19950,6 +20507,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea4cb601cc670214fa5a3604ba17d66e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txt: {fileID: 800158726}
+  txt_table: {fileID: 806940118}
   elementNumber: 36-Krypton
 --- !u!1 &1082877498
 GameObject:
@@ -20233,6 +20792,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea4cb601cc670214fa5a3604ba17d66e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txt: {fileID: 800158726}
+  txt_table: {fileID: 806940118}
   elementNumber: 39-Yttrium
 --- !u!1 &1096366460
 GameObject:
@@ -20402,10 +20963,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1550490519}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 50, y: -50}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1114342270
 MonoBehaviour:
@@ -20591,6 +21152,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea4cb601cc670214fa5a3604ba17d66e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txt: {fileID: 800158726}
+  txt_table: {fileID: 806940118}
   elementNumber: 59-Praseodymium
 --- !u!1 &1123222707
 GameObject:
@@ -20738,6 +21301,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea4cb601cc670214fa5a3604ba17d66e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txt: {fileID: 800158726}
+  txt_table: {fileID: 806940118}
   elementNumber: 95-Americium
 --- !u!1 &1137482085
 GameObject:
@@ -20822,7 +21387,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1388475392}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: creationMenu, Assembly-CSharp
         m_MethodName: LoadPauseMenu
         m_Mode: 1
@@ -21018,6 +21583,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea4cb601cc670214fa5a3604ba17d66e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txt: {fileID: 800158726}
+  txt_table: {fileID: 806940118}
   elementNumber: 86-Radon
 --- !u!1 &1148142222
 GameObject:
@@ -21694,6 +22261,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea4cb601cc670214fa5a3604ba17d66e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txt: {fileID: 800158726}
+  txt_table: {fileID: 806940118}
   elementNumber: 60-Neodymium
 --- !u!1 &1181931713
 GameObject:
@@ -21841,6 +22410,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea4cb601cc670214fa5a3604ba17d66e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txt: {fileID: 800158726}
+  txt_table: {fileID: 806940118}
   elementNumber: 44-Ruthenium
 --- !u!1 &1185912322
 GameObject:
@@ -21988,7 +22559,143 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea4cb601cc670214fa5a3604ba17d66e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txt: {fileID: 800158726}
+  txt_table: {fileID: 806940118}
   elementNumber: 31-Gallium
+--- !u!1 &1204279827
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1204279828}
+  - component: {fileID: 1204279830}
+  - component: {fileID: 1204279829}
+  m_Layer: 5
+  m_Name: SelectedElement
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1204279828
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1204279827}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 3.2608695, y: 3.2608695, z: 3.2608695}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 681310594}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -711, y: 257}
+  m_SizeDelta: {x: 125.0871, y: 36.3768}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1204279829
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1204279827}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: 'Selected Element: '
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 14
+  m_fontSizeBase: 14
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 0
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 512
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_enableWordWrapping: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 1
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: -0.64712524, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!222 &1204279830
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1204279827}
+  m_CullTransparentMesh: 1
 --- !u!1 &1208337519
 GameObject:
   m_ObjectHideFlags: 0
@@ -22651,6 +23358,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea4cb601cc670214fa5a3604ba17d66e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txt: {fileID: 800158726}
+  txt_table: {fileID: 806940118}
   elementNumber: 27-Cobalt
 --- !u!1 &1261500611
 GameObject:
@@ -22798,6 +23507,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea4cb601cc670214fa5a3604ba17d66e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txt: {fileID: 800158726}
+  txt_table: {fileID: 806940118}
   elementNumber: 69-Thulium
 --- !u!1 &1265478223
 GameObject:
@@ -22945,6 +23656,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea4cb601cc670214fa5a3604ba17d66e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txt: {fileID: 800158726}
+  txt_table: {fileID: 806940118}
   elementNumber: 40-Zirconium
 --- !u!1 &1294441344
 GameObject:
@@ -23099,10 +23812,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1550490519}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 50, y: -380}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1302651557
 MonoBehaviour:
@@ -23161,7 +23874,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1312701109
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23254,6 +23967,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2143431127}
+  - {fileID: 681310594}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -23949,6 +24663,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea4cb601cc670214fa5a3604ba17d66e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txt: {fileID: 800158726}
+  txt_table: {fileID: 806940118}
   elementNumber: 49-Indium
 --- !u!1 &1388475389
 GameObject:
@@ -23979,8 +24695,7 @@ Transform:
   m_LocalPosition: {x: -0.42, y: 0.93, z: -1.24}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1930603771}
+  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1388475392
@@ -23998,6 +24713,7 @@ MonoBehaviour:
   pause_menu: {fileID: 458891559}
   table_menu: {fileID: 1312701108}
   preset_menu: {fileID: 362818431}
+  general_info: {fileID: 1614529913}
   isPaused: 0
 --- !u!1 &1404770240
 GameObject:
@@ -24795,6 +25511,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea4cb601cc670214fa5a3604ba17d66e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txt: {fileID: 800158726}
+  txt_table: {fileID: 806940118}
   elementNumber: 55-Caesium
 --- !u!1 &1470652193
 GameObject:
@@ -25199,6 +25917,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea4cb601cc670214fa5a3604ba17d66e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txt: {fileID: 800158726}
+  txt_table: {fileID: 806940118}
   elementNumber: 92-Uranium
 --- !u!1 &1480823861
 GameObject:
@@ -25346,6 +26066,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea4cb601cc670214fa5a3604ba17d66e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txt: {fileID: 800158726}
+  txt_table: {fileID: 806940118}
   elementNumber: 21-Scandium
 --- !u!1 &1482878132
 GameObject:
@@ -25886,6 +26608,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea4cb601cc670214fa5a3604ba17d66e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txt: {fileID: 800158726}
+  txt_table: {fileID: 806940118}
   elementNumber: 48-Cadmium
 --- !u!1 &1510850794
 GameObject:
@@ -26033,6 +26757,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea4cb601cc670214fa5a3604ba17d66e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txt: {fileID: 800158726}
+  txt_table: {fileID: 806940118}
   elementNumber: 85-Astatine
 --- !u!1 &1537863666
 GameObject:
@@ -26180,6 +26906,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea4cb601cc670214fa5a3604ba17d66e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txt: {fileID: 800158726}
+  txt_table: {fileID: 806940118}
   elementNumber: 2-Helium
 --- !u!1 &1550490518
 GameObject:
@@ -26392,6 +27120,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea4cb601cc670214fa5a3604ba17d66e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txt: {fileID: 800158726}
+  txt_table: {fileID: 806940118}
   elementNumber: 38-Strontium
 --- !u!1 &1563172171
 GameObject:
@@ -26811,6 +27541,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea4cb601cc670214fa5a3604ba17d66e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txt: {fileID: 800158726}
+  txt_table: {fileID: 806940118}
   elementNumber: 71-Lutetium
 --- !u!1 &1567112603
 GameObject:
@@ -27092,6 +27824,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea4cb601cc670214fa5a3604ba17d66e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txt: {fileID: 800158726}
+  txt_table: {fileID: 806940118}
   elementNumber: 28-Nickel
 --- !u!1 &1579630370
 GameObject:
@@ -27511,6 +28245,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea4cb601cc670214fa5a3604ba17d66e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txt: {fileID: 800158726}
+  txt_table: {fileID: 806940118}
   elementNumber: 87-Francium
 --- !u!1 &1580020673
 GameObject:
@@ -27930,6 +28666,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea4cb601cc670214fa5a3604ba17d66e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txt: {fileID: 800158726}
+  txt_table: {fileID: 806940118}
   elementNumber: 4-Beryllium
 --- !u!1 &1590936804
 GameObject:
@@ -28077,6 +28815,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea4cb601cc670214fa5a3604ba17d66e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txt: {fileID: 800158726}
+  txt_table: {fileID: 806940118}
   elementNumber: 3-Lithium
 --- !u!1 &1599397986
 GameObject:
@@ -28564,6 +29304,109 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1607933334}
   m_CullTransparentMesh: 1
+--- !u!1 &1614529913
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1614529917}
+  - component: {fileID: 1614529916}
+  - component: {fileID: 1614529915}
+  - component: {fileID: 1614529914}
+  m_Layer: 5
+  m_Name: General-Info
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1614529914
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1614529913}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreReversedGraphics: 1
+  m_BlockingObjects: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+--- !u!114 &1614529915
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1614529913}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_UiScaleMode: 0
+  m_ReferencePixelsPerUnit: 100
+  m_ScaleFactor: 1
+  m_ReferenceResolution: {x: 800, y: 600}
+  m_ScreenMatchMode: 0
+  m_MatchWidthOrHeight: 0
+  m_PhysicalUnit: 3
+  m_FallbackScreenDPI: 96
+  m_DefaultSpriteDPI: 96
+  m_DynamicPixelsPerUnit: 1
+  m_PresetInfoIsWorld: 0
+--- !u!223 &1614529916
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1614529913}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 0
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 0
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_VertexColorAlwaysGammaSpace: 0
+  m_AdditionalShaderChannelsFlag: 25
+  m_UpdateRectTransformForStandalone: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_TargetDisplay: 0
+--- !u!224 &1614529917
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1614529913}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0, y: 0, z: 0}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 420154951}
+  - {fileID: 800158725}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0, y: 0}
 --- !u!1 &1614729016
 GameObject:
   m_ObjectHideFlags: 0
@@ -28710,6 +29553,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea4cb601cc670214fa5a3604ba17d66e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txt: {fileID: 800158726}
+  txt_table: {fileID: 806940118}
   elementNumber: 42-Molybdenum
 --- !u!1 &1619196693
 GameObject:
@@ -28857,6 +29702,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea4cb601cc670214fa5a3604ba17d66e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txt: {fileID: 800158726}
+  txt_table: {fileID: 806940118}
   elementNumber: 91-Protactinium
 --- !u!1 &1633062638
 GameObject:
@@ -29004,6 +29851,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea4cb601cc670214fa5a3604ba17d66e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txt: {fileID: 800158726}
+  txt_table: {fileID: 806940118}
   elementNumber: 74-Tungsten
 --- !u!1 &1640629319
 GameObject:
@@ -29088,7 +29937,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1388475392}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: creationMenu, Assembly-CSharp
         m_MethodName: Return
         m_Mode: 1
@@ -29949,6 +30798,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea4cb601cc670214fa5a3604ba17d66e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txt: {fileID: 800158726}
+  txt_table: {fileID: 806940118}
   elementNumber: 73-Tantalum
 --- !u!1 &1699304126
 GameObject:
@@ -30222,6 +31073,111 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1702138913}
   m_CullTransparentMesh: 1
+--- !u!1 &1711315670
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1711315674}
+  - component: {fileID: 1711315673}
+  - component: {fileID: 1711315672}
+  - component: {fileID: 1711315671}
+  m_Layer: 0
+  m_Name: Cube
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!65 &1711315671
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1711315670}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!23 &1711315672
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1711315670}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &1711315673
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1711315670}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &1711315674
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1711315670}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.05, z: -2.03}
+  m_LocalScale: {x: 1.1556, y: 1.1556, z: 1.1556}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1721239116
 GameObject:
   m_ObjectHideFlags: 0
@@ -30368,6 +31324,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea4cb601cc670214fa5a3604ba17d66e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txt: {fileID: 800158726}
+  txt_table: {fileID: 806940118}
   elementNumber: 79-Gold
 --- !u!1 &1732665723
 GameObject:
@@ -30651,6 +31609,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea4cb601cc670214fa5a3604ba17d66e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txt: {fileID: 800158726}
+  txt_table: {fileID: 806940118}
   elementNumber: 7-Nitrogen
 --- !u!1 &1742092609
 GameObject:
@@ -30798,6 +31758,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea4cb601cc670214fa5a3604ba17d66e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txt: {fileID: 800158726}
+  txt_table: {fileID: 806940118}
   elementNumber: 61-Promethium
 --- !u!1 &1751308970
 GameObject:
@@ -32033,6 +32995,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea4cb601cc670214fa5a3604ba17d66e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txt: {fileID: 800158726}
+  txt_table: {fileID: 806940118}
   elementNumber: 67-Holmium
 --- !u!1 &1860252669
 GameObject:
@@ -32316,6 +33280,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea4cb601cc670214fa5a3604ba17d66e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txt: {fileID: 800158726}
+  txt_table: {fileID: 806940118}
   elementNumber: 76-Osmium
 --- !u!1 &1863081452
 GameObject:
@@ -33222,69 +34188,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea4cb601cc670214fa5a3604ba17d66e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txt: {fileID: 800158726}
+  txt_table: {fileID: 806940118}
   elementNumber: 82-Lead
---- !u!1001 &1930603770
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 1388475391}
-    m_Modifications:
-    - target: {fileID: 1634221979056337567, guid: 32a7968446b573d49adeeba37fe48c78, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.4357182
-      objectReference: {fileID: 0}
-    - target: {fileID: 1634221979056337567, guid: 32a7968446b573d49adeeba37fe48c78, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.6978
-      objectReference: {fileID: 0}
-    - target: {fileID: 1634221979056337567, guid: 32a7968446b573d49adeeba37fe48c78, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -0.74480486
-      objectReference: {fileID: 0}
-    - target: {fileID: 1634221979056337567, guid: 32a7968446b573d49adeeba37fe48c78, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1634221979056337567, guid: 32a7968446b573d49adeeba37fe48c78, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1634221979056337567, guid: 32a7968446b573d49adeeba37fe48c78, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1634221979056337567, guid: 32a7968446b573d49adeeba37fe48c78, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1634221979056337567, guid: 32a7968446b573d49adeeba37fe48c78, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1634221979056337567, guid: 32a7968446b573d49adeeba37fe48c78, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1634221979056337567, guid: 32a7968446b573d49adeeba37fe48c78, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8580490045408655543, guid: 32a7968446b573d49adeeba37fe48c78, type: 3}
-      propertyPath: m_Name
-      value: 4-Beryllium
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 32a7968446b573d49adeeba37fe48c78, type: 3}
---- !u!4 &1930603771 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1634221979056337567, guid: 32a7968446b573d49adeeba37fe48c78, type: 3}
-  m_PrefabInstance: {fileID: 1930603770}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1932557041
 GameObject:
   m_ObjectHideFlags: 0
@@ -33431,6 +34337,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea4cb601cc670214fa5a3604ba17d66e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txt: {fileID: 800158726}
+  txt_table: {fileID: 806940118}
   elementNumber: 18-Argon
 --- !u!1 &1938699132
 GameObject:
@@ -33578,6 +34486,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea4cb601cc670214fa5a3604ba17d66e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txt: {fileID: 800158726}
+  txt_table: {fileID: 806940118}
   elementNumber: 30-Zinc
 --- !u!1 &1943180911
 GameObject:
@@ -34526,6 +35436,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea4cb601cc670214fa5a3604ba17d66e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txt: {fileID: 800158726}
+  txt_table: {fileID: 806940118}
   elementNumber: 68-Erbium
 --- !u!1 &2006774510
 GameObject:
@@ -34794,6 +35706,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea4cb601cc670214fa5a3604ba17d66e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txt: {fileID: 800158726}
+  txt_table: {fileID: 806940118}
   elementNumber: 26-Iron
 --- !u!1 &2013652463
 GameObject:
@@ -35213,6 +36127,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea4cb601cc670214fa5a3604ba17d66e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txt: {fileID: 800158726}
+  txt_table: {fileID: 806940118}
   elementNumber: 14-Silicon
 --- !u!1 &2051092765
 GameObject:
@@ -35246,8 +36162,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 2134234835}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.4394052}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -35935,9 +36851,11 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 1927259156}
+  - {fileID: 1711315674}
   - {fileID: 289620173}
   - {fileID: 458891563}
   - {fileID: 1312701113}
-  - {fileID: 362818435}
   - {fileID: 356859814}
   - {fileID: 1388475391}
+  - {fileID: 362818435}
+  - {fileID: 1614529917}
