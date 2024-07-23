@@ -13,21 +13,17 @@ using System;
 // public static class Globals {
 //     public static GameObject element;
 // }
-public class selectElement : MonoBehaviour
+public class selectPreset : MonoBehaviour
 {
-    public static string element = "6-Carbon";
-    public TMP_Text txt;
-    public TMP_Text txt_table;
-
-    public string elementNumber;
+    public static string preset;
+    public int presetNumber;
     void Start() {
         // numberText.text = "Loaded";
     }
 
     public void OnClick() {
-        element = elementNumber;
-        txt.text = element;
-        txt_table.text = element;
-        Debug.Log(element);
+        preset = "Preset" + presetNumber;
     }
+    
+
 }
