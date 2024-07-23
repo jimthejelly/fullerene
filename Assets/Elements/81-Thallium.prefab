@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 277977396889015498}
   - component: {fileID: 1630464003766943505}
   - component: {fileID: 3172205162675859591}
+  - component: {fileID: 2834985004664450940}
   m_Layer: 0
   m_Name: 81-Thallium
   m_TagString: Element
@@ -105,3 +106,18 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &2834985004664450940
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6485613679652313922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8773acf35f068e542abbeba2845187c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lonePairs: 0
+  bondingElectrons: 3
+  expandedOctet: 0
