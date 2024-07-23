@@ -20,8 +20,8 @@ public class creationUser : MonoBehaviour
     void Start()
     {
         select = GameObject.Find("Main Camera");
-        molecule = GameObject.Find("Cube");
-        focus = GameObject.Find("Cube").transform;
+        molecule = GameObject.Find("moleculeBody");
+        focus = GameObject.Find("moleculeBody").transform;
         
 
         transform.position = new Vector3(molecule.transform.position.x,molecule.transform.position.y+1,molecule.transform.position.z-4);
