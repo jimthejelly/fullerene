@@ -73,5 +73,20 @@ public class Elements : MonoBehaviour
             transform.GetChild(2).RotateAround(transform.position, transform.up, 109);
             transform.GetChild(3).RotateAround(transform.position, transform.up, -109);
         }
+        else if(bondCount == 5) {
+            for(int i = 2; i < 5; i++) {
+                transform.GetChild(i).RotateAround(transform.position, transform.right, 90);
+            }
+            transform.GetChild(1).RotateAround(transform.position, transform.right, 180);
+            transform.GetChild(3).RotateAround(transform.position, transform.up, 120);
+            transform.GetChild(4).RotateAround(transform.position, transform.up, -120);
+        }
+        else if(bondCount == 6) {
+            transform.GetChild(1).RotateAround(transform.position, transform.right, 180);
+            transform.GetChild(2).RotateAround(transform.position, transform.right, 90);
+            transform.GetChild(3).RotateAround(transform.position, transform.right, -90);
+            transform.GetChild(4).RotateAround(transform.position, transform.forward, 90);
+            transform.GetChild(5).RotateAround(transform.position, transform.forward, -90);
+        }
     }
 }
