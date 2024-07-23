@@ -440,6 +440,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt: {fileID: 800158726}
+  txt_table: {fileID: 2037482299}
   elementNumber: 17-Cloride
 --- !u!1 &46986009
 GameObject:
@@ -722,6 +723,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt: {fileID: 800158726}
+  txt_table: {fileID: 2037482299}
   elementNumber: 93-Neptunium
 --- !u!1 &54669136
 GameObject:
@@ -1263,6 +1265,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt: {fileID: 800158726}
+  txt_table: {fileID: 2037482299}
   elementNumber: 16-Sulfur
 --- !u!1 &93407130
 GameObject:
@@ -1547,6 +1550,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt: {fileID: 800158726}
+  txt_table: {fileID: 2037482299}
   elementNumber: 29-Copper
 --- !u!1 &112497615
 GameObject:
@@ -1695,6 +1699,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt: {fileID: 800158726}
+  txt_table: {fileID: 2037482299}
   elementNumber: 89-Actinium
 --- !u!1 &130292087
 GameObject:
@@ -2442,7 +2447,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 2051092766}
   m_Direction: 2
   m_Value: 1.0000001
-  m_Size: 0.62313443
+  m_Size: 0.61344975
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -2901,6 +2906,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt: {fileID: 800158726}
+  txt_table: {fileID: 2037482299}
   elementNumber: 51-Antimony
 --- !u!1 &163469137
 GameObject:
@@ -3049,6 +3055,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt: {fileID: 800158726}
+  txt_table: {fileID: 2037482299}
   elementNumber: 20-Calcium
 --- !u!1 &165003873
 GameObject:
@@ -3219,10 +3226,10 @@ RectTransform:
   - {fileID: 130292088}
   m_Father: {fileID: 1550490519}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 50, y: -160}
+  m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &170684241
 MonoBehaviour:
@@ -3478,6 +3485,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt: {fileID: 800158726}
+  txt_table: {fileID: 2037482299}
   elementNumber: 77-Iridium
 --- !u!1 &218249679
 GameObject:
@@ -3898,6 +3906,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt: {fileID: 800158726}
+  txt_table: {fileID: 2037482299}
   elementNumber: 78-Platinum
 --- !u!1 &239116724
 GameObject:
@@ -4046,6 +4055,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt: {fileID: 800158726}
+  txt_table: {fileID: 2037482299}
   elementNumber: 66-Dysprosium
 --- !u!1 &249564333
 GameObject:
@@ -4194,6 +4204,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt: {fileID: 800158726}
+  txt_table: {fileID: 2037482299}
   elementNumber: 24-Chromium
 --- !u!1 &261114959
 GameObject:
@@ -4342,6 +4353,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt: {fileID: 800158726}
+  txt_table: {fileID: 2037482299}
   elementNumber: 47-Silver
 --- !u!1 &289620170
 GameObject:
@@ -4558,6 +4570,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt: {fileID: 800158726}
+  txt_table: {fileID: 2037482299}
   elementNumber: 65-Terbium
 --- !u!1 &313774509
 GameObject:
@@ -4978,6 +4991,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt: {fileID: 800158726}
+  txt_table: {fileID: 2037482299}
   elementNumber: 32-Germanium
 --- !u!1 &335548728
 GameObject:
@@ -5126,6 +5140,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt: {fileID: 800158726}
+  txt_table: {fileID: 2037482299}
   elementNumber: 10-Neon
 --- !u!1 &338610364
 GameObject:
@@ -5687,7 +5702,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &362818432
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5919,6 +5934,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt: {fileID: 800158726}
+  txt_table: {fileID: 2037482299}
   elementNumber: 96-Curium
 --- !u!1 &369676124
 GameObject:
@@ -6067,6 +6083,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt: {fileID: 800158726}
+  txt_table: {fileID: 2037482299}
   elementNumber: 11-Sodium
 --- !u!1 &370251657
 GameObject:
@@ -6215,6 +6232,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt: {fileID: 800158726}
+  txt_table: {fileID: 2037482299}
   elementNumber: 64-Gadolinium
 --- !u!1 &376042595
 GameObject:
@@ -6499,6 +6517,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt: {fileID: 800158726}
+  txt_table: {fileID: 2037482299}
   elementNumber: 83-Bismuth
 --- !u!1 &379889717
 GameObject:
@@ -6647,6 +6666,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt: {fileID: 800158726}
+  txt_table: {fileID: 2037482299}
   elementNumber: 63-Europium
 --- !u!1 &420154950
 GameObject:
@@ -6929,6 +6949,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt: {fileID: 800158726}
+  txt_table: {fileID: 2037482299}
   elementNumber: 6-Carbon
 --- !u!1 &438945378
 GameObject:
@@ -7213,6 +7234,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt: {fileID: 800158726}
+  txt_table: {fileID: 2037482299}
   elementNumber: 19-Potassium
 --- !u!1 &446268408
 GameObject:
@@ -7657,10 +7679,10 @@ RectTransform:
   - {fileID: 46986010}
   m_Father: {fileID: 1550490519}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 50, y: -50}
+  m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &454078290
 MonoBehaviour:
@@ -8411,6 +8433,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt: {fileID: 800158726}
+  txt_table: {fileID: 2037482299}
   elementNumber: 56-Barium
 --- !u!1 &484126912
 GameObject:
@@ -8559,6 +8582,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt: {fileID: 800158726}
+  txt_table: {fileID: 2037482299}
   elementNumber: 84-Polonium
 --- !u!1 &500389327
 GameObject:
@@ -9100,6 +9124,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt: {fileID: 800158726}
+  txt_table: {fileID: 2037482299}
   elementNumber: 94-Plutonium
 --- !u!1 &556374582
 GameObject:
@@ -9236,6 +9261,140 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 556374582}
+  m_CullTransparentMesh: 1
+--- !u!1 &561376217
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 561376218}
+  - component: {fileID: 561376220}
+  - component: {fileID: 561376219}
+  m_Layer: 5
+  m_Name: SelectedElement
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &561376218
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 561376217}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1106914418}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: -4.1091}
+  m_SizeDelta: {x: 125.0871, y: 28.1584}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &561376219
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 561376217}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: 'Selected Element: '
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 14
+  m_fontSizeBase: 14
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 0
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 512
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_enableWordWrapping: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 1
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: -0.64712524, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!222 &561376220
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 561376217}
   m_CullTransparentMesh: 1
 --- !u!1 &571148448
 GameObject:
@@ -10049,6 +10208,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt: {fileID: 800158726}
+  txt_table: {fileID: 2037482299}
   elementNumber: 58-Cerium
 --- !u!1 &614504658
 GameObject:
@@ -10197,6 +10357,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt: {fileID: 800158726}
+  txt_table: {fileID: 2037482299}
   elementNumber: 23-Vanadium
 --- !u!1 &614767241
 GameObject:
@@ -10602,6 +10763,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt: {fileID: 800158726}
+  txt_table: {fileID: 2037482299}
   elementNumber: 57-Lanthanum
 --- !u!1 &622682324
 GameObject:
@@ -10750,6 +10912,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt: {fileID: 800158726}
+  txt_table: {fileID: 2037482299}
   elementNumber: 8-Oxygen
 --- !u!1 &634870964
 GameObject:
@@ -10898,6 +11061,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt: {fileID: 800158726}
+  txt_table: {fileID: 2037482299}
   elementNumber: 90-Thorium
 --- !u!1 &636077660
 GameObject:
@@ -11318,6 +11482,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt: {fileID: 800158726}
+  txt_table: {fileID: 2037482299}
   elementNumber: 45-Rhodium
 --- !u!1 &651919302
 GameObject:
@@ -11723,6 +11888,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt: {fileID: 800158726}
+  txt_table: {fileID: 2037482299}
   elementNumber: 22-Titanium
 --- !u!1 &661811447
 GameObject:
@@ -11871,6 +12037,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt: {fileID: 800158726}
+  txt_table: {fileID: 2037482299}
   elementNumber: 72-Hafnium
 --- !u!1 &676665255
 GameObject:
@@ -12019,6 +12186,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt: {fileID: 800158726}
+  txt_table: {fileID: 2037482299}
   elementNumber: 88-Radium
 --- !u!1 &692382031
 GameObject:
@@ -12167,6 +12335,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt: {fileID: 800158726}
+  txt_table: {fileID: 2037482299}
   elementNumber: 37-Rubidium
 --- !u!1 &692994711
 GameObject:
@@ -12451,6 +12620,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt: {fileID: 800158726}
+  txt_table: {fileID: 2037482299}
   elementNumber: 50-Tin
 --- !u!1 &709732134
 GameObject:
@@ -13279,6 +13449,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt: {fileID: 800158726}
+  txt_table: {fileID: 2037482299}
   elementNumber: 13-Aluminum
 --- !u!1 &744987008
 GameObject:
@@ -13956,6 +14127,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt: {fileID: 800158726}
+  txt_table: {fileID: 2037482299}
   elementNumber: 1-Hydrogen
 --- !u!1 &770986964
 GameObject:
@@ -14240,6 +14412,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt: {fileID: 800158726}
+  txt_table: {fileID: 2037482299}
   elementNumber: 9-Fluorine
 --- !u!1 &787088610
 GameObject:
@@ -14388,6 +14561,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt: {fileID: 800158726}
+  txt_table: {fileID: 2037482299}
   elementNumber: 70-Ytterbium
 --- !u!1 &790869355
 GameObject:
@@ -14536,6 +14710,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt: {fileID: 800158726}
+  txt_table: {fileID: 2037482299}
   elementNumber: 62-Samarium
 --- !u!1 &791115865
 GameObject:
@@ -14596,7 +14771,7 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 0.43921572, g: 0.6320972, b: 0.9137255, a: 1}
+    m_NormalColor: {r: 0.2901961, g: 0.49803922, b: 0.8039216, a: 1}
     m_HighlightedColor: {r: 0.29112756, g: 0.49923742, b: 0.8050314, a: 1}
     m_PressedColor: {r: 0.2901961, g: 0.49803922, b: 0.8039216, a: 1}
     m_SelectedColor: {r: 0.2901961, g: 0.49803922, b: 0.8039216, a: 1}
@@ -14619,7 +14794,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1312701109}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: periodicTable, Assembly-CSharp
         m_MethodName: actinideToggle
         m_Mode: 1
@@ -14952,6 +15127,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt: {fileID: 800158726}
+  txt_table: {fileID: 2037482299}
   elementNumber: 75-Rhenium
 --- !u!1 &799585463
 GameObject:
@@ -15146,7 +15322,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: None
+  m_text: '6-Carbon
+
+'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -15642,6 +15820,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt: {fileID: 800158726}
+  txt_table: {fileID: 2037482299}
   elementNumber: 15-Phosphorus
 --- !u!1 &837646046
 GameObject:
@@ -15790,6 +15969,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt: {fileID: 800158726}
+  txt_table: {fileID: 2037482299}
   elementNumber: 35-Bromine
 --- !u!1 &850494609
 GameObject:
@@ -16074,6 +16254,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt: {fileID: 800158726}
+  txt_table: {fileID: 2037482299}
   elementNumber: 54-Xenon
 --- !u!1 &851082946
 GameObject:
@@ -16615,6 +16796,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt: {fileID: 800158726}
+  txt_table: {fileID: 2037482299}
   elementNumber: 81-Thallium
 --- !u!1 &878769017
 GameObject:
@@ -16763,6 +16945,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt: {fileID: 800158726}
+  txt_table: {fileID: 2037482299}
   elementNumber: 33-Arsenic
 --- !u!1 &878941153
 GameObject:
@@ -16911,6 +17094,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt: {fileID: 800158726}
+  txt_table: {fileID: 2037482299}
   elementNumber: 12-Magnesium
 --- !u!1 &880084004
 GameObject:
@@ -17467,6 +17651,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt: {fileID: 800158726}
+  txt_table: {fileID: 2037482299}
   elementNumber: 43-Technetium
 --- !u!1 &902070150
 GameObject:
@@ -17615,6 +17800,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt: {fileID: 800158726}
+  txt_table: {fileID: 2037482299}
   elementNumber: 80-Mercury
 --- !u!1 &907307809
 GameObject:
@@ -18033,6 +18219,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt: {fileID: 800158726}
+  txt_table: {fileID: 2037482299}
   elementNumber: 53-Iodine
 --- !u!1 &918711420
 GameObject:
@@ -18093,7 +18280,7 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 0.91194963, g: 0.43876812, b: 0.5478508, a: 1}
+    m_NormalColor: {r: 0.8117647, g: 0.34509805, b: 0.4509804, a: 1}
     m_HighlightedColor: {r: 0.8113208, g: 0.34442854, b: 0.45246965, a: 1}
     m_PressedColor: {r: 0.8117647, g: 0.34509805, b: 0.45490196, a: 1}
     m_SelectedColor: {r: 0.8117647, g: 0.34509805, b: 0.45490196, a: 1}
@@ -18116,7 +18303,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1312701109}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: periodicTable, Assembly-CSharp
         m_MethodName: lanthanideToggle
         m_Mode: 1
@@ -18449,6 +18636,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt: {fileID: 800158726}
+  txt_table: {fileID: 2037482299}
   elementNumber: 46-Palladium
 --- !u!1 &954888285
 GameObject:
@@ -18597,6 +18785,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt: {fileID: 800158726}
+  txt_table: {fileID: 2037482299}
   elementNumber: 41-Niobium
 --- !u!1 &961782854
 GameObject:
@@ -18745,6 +18934,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt: {fileID: 800158726}
+  txt_table: {fileID: 2037482299}
   elementNumber: 52-Tellurium
 --- !u!1 &966188277
 GameObject:
@@ -18893,6 +19083,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt: {fileID: 800158726}
+  txt_table: {fileID: 2037482299}
   elementNumber: 25-Manganese
 --- !u!1 &1010142868
 GameObject:
@@ -19771,6 +19962,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt: {fileID: 800158726}
+  txt_table: {fileID: 2037482299}
   elementNumber: 34-Selenium
 --- !u!1 &1047260336
 GameObject:
@@ -20055,6 +20247,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt: {fileID: 800158726}
+  txt_table: {fileID: 2037482299}
   elementNumber: 5-Boron
 --- !u!1 &1050605059
 GameObject:
@@ -20747,6 +20940,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt: {fileID: 800158726}
+  txt_table: {fileID: 2037482299}
   elementNumber: 36-Krypton
 --- !u!1 &1082877498
 GameObject:
@@ -21031,6 +21225,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt: {fileID: 800158726}
+  txt_table: {fileID: 2037482299}
   elementNumber: 39-Yttrium
 --- !u!1 &1096366460
 GameObject:
@@ -21168,6 +21363,43 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1096366460}
   m_CullTransparentMesh: 1
+--- !u!1 &1106914417
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1106914418}
+  m_Layer: 5
+  m_Name: General-Info-Table
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1106914418
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1106914417}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 3.2608695, y: 3.2608695, z: 3.2608695}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 561376218}
+  - {fileID: 2037482298}
+  m_Father: {fileID: 1312701113}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -743, y: 242}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1120405934
 GameObject:
   m_ObjectHideFlags: 0
@@ -21315,6 +21547,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt: {fileID: 800158726}
+  txt_table: {fileID: 2037482299}
   elementNumber: 59-Praseodymium
 --- !u!1 &1123222707
 GameObject:
@@ -21463,6 +21696,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt: {fileID: 800158726}
+  txt_table: {fileID: 2037482299}
   elementNumber: 95-Americium
 --- !u!1 &1137482085
 GameObject:
@@ -21744,6 +21978,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt: {fileID: 800158726}
+  txt_table: {fileID: 2037482299}
   elementNumber: 86-Radon
 --- !u!1 &1148142222
 GameObject:
@@ -22421,6 +22656,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt: {fileID: 800158726}
+  txt_table: {fileID: 2037482299}
   elementNumber: 60-Neodymium
 --- !u!1 &1181931713
 GameObject:
@@ -22569,6 +22805,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt: {fileID: 800158726}
+  txt_table: {fileID: 2037482299}
   elementNumber: 44-Ruthenium
 --- !u!1 &1185912322
 GameObject:
@@ -22717,6 +22954,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt: {fileID: 800158726}
+  txt_table: {fileID: 2037482299}
   elementNumber: 31-Gallium
 --- !u!1 &1208337519
 GameObject:
@@ -23381,6 +23619,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt: {fileID: 800158726}
+  txt_table: {fileID: 2037482299}
   elementNumber: 27-Cobalt
 --- !u!1 &1261500611
 GameObject:
@@ -23529,6 +23768,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt: {fileID: 800158726}
+  txt_table: {fileID: 2037482299}
   elementNumber: 69-Thulium
 --- !u!1 &1265478223
 GameObject:
@@ -23677,6 +23917,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt: {fileID: 800158726}
+  txt_table: {fileID: 2037482299}
   elementNumber: 40-Zirconium
 --- !u!1 &1294441344
 GameObject:
@@ -23811,30 +24052,13 @@ GameObject:
   - component: {fileID: 1312701112}
   - component: {fileID: 1312701111}
   - component: {fileID: 1312701110}
-  - component: {fileID: 1312701109}
   m_Layer: 5
   m_Name: Table Menu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!114 &1312701109
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1312701108}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2e24450cffaee3f4ea3132ea6a88e720, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lanthanide: {fileID: 15254748}
-  actinide: {fileID: 1010142868}
-  showedLanthanide: 0
-  showedActinide: 0
+  m_IsActive: 1
 --- !u!114 &1312701110
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23911,6 +24135,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2143431127}
+  - {fileID: 1106914418}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -24607,6 +24832,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt: {fileID: 800158726}
+  txt_table: {fileID: 2037482299}
   elementNumber: 49-Indium
 --- !u!1 &1388475389
 GameObject:
@@ -24655,6 +24881,7 @@ MonoBehaviour:
   pause_menu: {fileID: 458891559}
   table_menu: {fileID: 1312701108}
   preset_menu: {fileID: 362818431}
+  general_info: {fileID: 1614529913}
   isPaused: 0
 --- !u!1 &1404770240
 GameObject:
@@ -25453,6 +25680,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt: {fileID: 800158726}
+  txt_table: {fileID: 2037482299}
   elementNumber: 55-Caesium
 --- !u!1 &1470652193
 GameObject:
@@ -25858,6 +26086,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt: {fileID: 800158726}
+  txt_table: {fileID: 2037482299}
   elementNumber: 92-Uranium
 --- !u!1 &1480823861
 GameObject:
@@ -26006,6 +26235,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt: {fileID: 800158726}
+  txt_table: {fileID: 2037482299}
   elementNumber: 21-Scandium
 --- !u!1 &1482878132
 GameObject:
@@ -26547,6 +26777,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt: {fileID: 800158726}
+  txt_table: {fileID: 2037482299}
   elementNumber: 48-Cadmium
 --- !u!1 &1510850794
 GameObject:
@@ -26695,6 +26926,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt: {fileID: 800158726}
+  txt_table: {fileID: 2037482299}
   elementNumber: 85-Astatine
 --- !u!1 &1537863666
 GameObject:
@@ -26843,6 +27075,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt: {fileID: 800158726}
+  txt_table: {fileID: 2037482299}
   elementNumber: 2-Helium
 --- !u!1 &1550490518
 GameObject:
@@ -26881,7 +27114,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.12231687}
   m_AnchorMax: {x: 1, y: 0.6404562}
-  m_AnchoredPosition: {x: 0, y: -64.530754}
+  m_AnchoredPosition: {x: 0, y: -67.407036}
   m_SizeDelta: {x: 0, y: 381.5525}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1550490520
@@ -27055,6 +27288,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt: {fileID: 800158726}
+  txt_table: {fileID: 2037482299}
   elementNumber: 38-Strontium
 --- !u!1 &1563172171
 GameObject:
@@ -27475,6 +27709,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt: {fileID: 800158726}
+  txt_table: {fileID: 2037482299}
   elementNumber: 71-Lutetium
 --- !u!1 &1567112603
 GameObject:
@@ -27757,6 +27992,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt: {fileID: 800158726}
+  txt_table: {fileID: 2037482299}
   elementNumber: 28-Nickel
 --- !u!1 &1579630370
 GameObject:
@@ -28177,6 +28413,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt: {fileID: 800158726}
+  txt_table: {fileID: 2037482299}
   elementNumber: 87-Francium
 --- !u!1 &1580020673
 GameObject:
@@ -28597,6 +28834,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt: {fileID: 800158726}
+  txt_table: {fileID: 2037482299}
   elementNumber: 4-Beryllium
 --- !u!1 &1590936804
 GameObject:
@@ -28745,6 +28983,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt: {fileID: 800158726}
+  txt_table: {fileID: 2037482299}
   elementNumber: 3-Lithium
 --- !u!1 &1599397986
 GameObject:
@@ -29482,6 +29721,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt: {fileID: 800158726}
+  txt_table: {fileID: 2037482299}
   elementNumber: 42-Molybdenum
 --- !u!1 &1619196693
 GameObject:
@@ -29630,6 +29870,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt: {fileID: 800158726}
+  txt_table: {fileID: 2037482299}
   elementNumber: 91-Protactinium
 --- !u!1 &1633062638
 GameObject:
@@ -29778,6 +30019,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt: {fileID: 800158726}
+  txt_table: {fileID: 2037482299}
   elementNumber: 74-Tungsten
 --- !u!1 &1640629319
 GameObject:
@@ -30724,6 +30966,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt: {fileID: 800158726}
+  txt_table: {fileID: 2037482299}
   elementNumber: 73-Tantalum
 --- !u!1 &1699304126
 GameObject:
@@ -31144,6 +31387,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt: {fileID: 800158726}
+  txt_table: {fileID: 2037482299}
   elementNumber: 79-Gold
 --- !u!1 &1732665723
 GameObject:
@@ -31428,6 +31672,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt: {fileID: 800158726}
+  txt_table: {fileID: 2037482299}
   elementNumber: 7-Nitrogen
 --- !u!1 &1742092609
 GameObject:
@@ -31576,6 +31821,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt: {fileID: 800158726}
+  txt_table: {fileID: 2037482299}
   elementNumber: 61-Promethium
 --- !u!1 &1751308970
 GameObject:
@@ -32812,6 +33058,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt: {fileID: 800158726}
+  txt_table: {fileID: 2037482299}
   elementNumber: 67-Holmium
 --- !u!1 &1860252669
 GameObject:
@@ -33096,6 +33343,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt: {fileID: 800158726}
+  txt_table: {fileID: 2037482299}
   elementNumber: 76-Osmium
 --- !u!1 &1863081452
 GameObject:
@@ -34003,6 +34251,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt: {fileID: 800158726}
+  txt_table: {fileID: 2037482299}
   elementNumber: 82-Lead
 --- !u!1 &1932557041
 GameObject:
@@ -34151,6 +34400,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt: {fileID: 800158726}
+  txt_table: {fileID: 2037482299}
   elementNumber: 18-Argon
 --- !u!1 &1937801016
 GameObject:
@@ -34433,6 +34683,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt: {fileID: 800158726}
+  txt_table: {fileID: 2037482299}
   elementNumber: 30-Zinc
 --- !u!1 &1943180911
 GameObject:
@@ -35149,10 +35400,10 @@ RectTransform:
   - {fileID: 1937801017}
   m_Father: {fileID: 1550490519}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 50, y: -380}
+  m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1975454549
 MonoBehaviour:
@@ -35529,6 +35780,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt: {fileID: 800158726}
+  txt_table: {fileID: 2037482299}
   elementNumber: 68-Erbium
 --- !u!1 &2001584409
 GameObject:
@@ -35564,10 +35816,10 @@ RectTransform:
   - {fileID: 910673383}
   m_Father: {fileID: 1550490519}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 50, y: -270}
+  m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2001584411
 MonoBehaviour:
@@ -35919,6 +36171,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt: {fileID: 800158726}
+  txt_table: {fileID: 2037482299}
   elementNumber: 26-Iron
 --- !u!1 &2013652463
 GameObject:
@@ -36192,6 +36445,140 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2021235541}
   m_CullTransparentMesh: 1
+--- !u!1 &2037482297
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2037482298}
+  - component: {fileID: 2037482300}
+  - component: {fileID: 2037482299}
+  m_Layer: 5
+  m_Name: Text (TMP)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &2037482298
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2037482297}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1106914418}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 143.98395, y: -4.108}
+  m_SizeDelta: {x: 162.8749, y: 28.1586}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2037482299
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2037482297}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: 6-Carbon
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 14
+  m_fontSizeBase: 14
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 0
+  m_HorizontalAlignment: 1
+  m_VerticalAlignment: 512
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_enableWordWrapping: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 1
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!222 &2037482300
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2037482297}
+  m_CullTransparentMesh: 1
 --- !u!1 &2045433866
 GameObject:
   m_ObjectHideFlags: 0
@@ -36339,6 +36726,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   txt: {fileID: 800158726}
+  txt_table: {fileID: 2037482299}
   elementNumber: 14-Silicon
 --- !u!1 &2051092765
 GameObject:
@@ -36372,8 +36760,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 2134234835}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 0.38655025}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
