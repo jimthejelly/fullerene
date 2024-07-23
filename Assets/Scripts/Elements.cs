@@ -11,7 +11,6 @@ public class Elements : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
     }
 
     // Update is called once per frame
@@ -31,7 +30,7 @@ public class Elements : MonoBehaviour
         return new Vector3(a.x * b.x, a.y * b.y, a.z * b.z);
     }
     // Spawns the element prefab contained in the global variable element
-    void SpawnElement() {
+    public void SpawnElement() {
         GameObject cyl = AssetDatabase.LoadAssetAtPath("Assets/Resources/SingleBond.prefab", typeof(GameObject)) as GameObject;
         GameObject cylClone = Instantiate(cyl, Vector3.zero, Quaternion.identity, transform);
         GameObject obj = AssetDatabase.LoadAssetAtPath("Assets/Elements/" + selectElement.element + ".prefab", typeof(GameObject)) as GameObject;
@@ -45,7 +44,7 @@ public class Elements : MonoBehaviour
             }
         }
         int start = 0;
-        if(transform.parent != null) {
+        if (transform.parent != null && (transform.parent.tag.Equals("Element")) || (transform.parent.tag.Equals("Bond"))) {
             bondCount++;
             start = 1;
         }
