@@ -45,7 +45,7 @@ public class Elements : MonoBehaviour
             }
         }
         int start = 0;
-        if(transform.parent != null) {
+        if (transform.parent != null && transform.parent.tag.Equals("Bond")) {
             bondCount++;
             start = 1;
         }

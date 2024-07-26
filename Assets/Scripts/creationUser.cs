@@ -134,7 +134,7 @@ public class creationUser : MonoBehaviour
         if (clicknumber == 1) { // 1 click interaction
             Debug.Log("Creating");
             if (Physics.Raycast(ray, out hit) && !Input.GetKey(KeyCode.LeftControl)) {
-                Elements script = molecule.GetComponent<Elements>();
+                Elements script = hit.collider.gameObject.GetComponent<Elements>();
                 script.SpawnElement();
             }
         } else if (clicknumber == 2) { // 2 click interaction
