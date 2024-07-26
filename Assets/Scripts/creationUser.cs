@@ -21,8 +21,8 @@ public class creationUser : MonoBehaviour
     {
         // Initializes variables to effectively nothing
         select = GameObject.Find("Main Camera");
-        molecule = GameObject.Find("4-Beryllium");
-        focus = GameObject.Find("4-Beryllium").transform;
+        molecule = GameObject.Find("moleculeBody");
+        focus = GameObject.Find("moleculeBody").transform;
         
         // Initializes starting camera position
         transform.position = new Vector3(molecule.transform.position.x,molecule.transform.position.y+1,molecule.transform.position.z-4);
