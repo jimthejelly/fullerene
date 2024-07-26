@@ -80,7 +80,7 @@ public class creationUser : MonoBehaviour
     void Hovering() {
         ray = Camera.main.ScreenPointToRay(Input.mousePosition);	
         if (Physics.Raycast(ray, out hit)) { // Hovering over object
-            if (check != hit.collider.gameObject.name) { // Don't check if already hovering this object
+            if (check != hit.collider.gameObject.name && hit.collider.gameObject.tag == "Element") { // Don't check if already hovering this object
 
                 // Swaps current color and highlight
                 select.GetComponent<Renderer>().material.color = focusMaterial;
@@ -133,13 +133,13 @@ public class creationUser : MonoBehaviour
         Debug.Log("Inter");
         if (clicknumber == 1) { // 1 click interaction
             Debug.Log("Creating");
-            if (Physics.Raycast(ray, out hit)) {
-                //Elements script = molecule.GetComponent<Elements>();
-                //script.SpawnElement();
+            if (Physics.Raycast(ray, out hit) && !Input.GetKey(KeyCode.LeftControl)) {
+                Elements script = molecule.GetComponent<Elements>();
+                script.SpawnElement();
             }
         } else if (clicknumber == 2) { // 2 click interaction
             Debug.Log("Inteasr");
-            if (Physics.Raycast(ray, out hit)) {
+            if (Physics.Raycast(ray, out hit) && Input.GetKey(KeyCode.LeftControl)) {
                 Debug.Log("Doubke + " + hit.collider.gameObject.name);
                 molecule = GameObject.Find(hit.collider.gameObject.name);
                 focus = GameObject.Find(hit.collider.gameObject.name).transform;

@@ -21,7 +21,7 @@ public class Elements : MonoBehaviour
 
     void OnMouseDown() {
         //if(Input.GetKeyDown("left shift")) {
-            SpawnElement();
+            
         //}
     }
 
