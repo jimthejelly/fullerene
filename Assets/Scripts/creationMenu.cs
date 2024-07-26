@@ -27,13 +27,12 @@ public class creationMenu : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape) && !table_menu.activeSelf) {
             LoadPauseMenu();
         } else if (Input.GetKeyDown(KeyCode.Tab) && !pause_menu.activeSelf) {
-            LoadTableMenu();
+           LoadTableMenu();
         }
     }
 
     public void LoadPauseMenu()
     {
-        // Stops/resumes time and shows/hides menu
         if (!isPaused) {
             Time.timeScale = 0;
             pause_menu.SetActive(true);
@@ -48,7 +47,6 @@ public class creationMenu : MonoBehaviour
 
     public void LoadTableMenu()
     {
-        // Shows/hides menu
         if (!table_menu.activeSelf) {
             table_menu.SetActive(true);
             preset_menu.SetActive(true);
