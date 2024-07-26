@@ -21,9 +21,7 @@ public class Elements : MonoBehaviour
     }
 
     void OnMouseDown() {
-        //if(Input.GetKeyDown("left shift")) {
-            SpawnElement();
-        //}
+        SpawnElement();
     }
 
     // returns (a.x*b.x, a.y*b.y, a.z*b.z)
@@ -32,12 +30,6 @@ public class Elements : MonoBehaviour
     }
     // Spawns the element prefab contained in the global variable element
     void SpawnElement() {
-        GameObject cyl = AssetDatabase.LoadAssetAtPath("Assets/Resources/SingleBond.prefab", typeof(GameObject)) as GameObject;
-        GameObject cylClone = Instantiate(cyl, Vector3.zero, Quaternion.identity, transform);
-        GameObject obj = AssetDatabase.LoadAssetAtPath("Assets/Elements/" + selectElement.element + ".prefab", typeof(GameObject)) as GameObject;
-        GameObject clone = Instantiate(obj, Vector3.zero, Quaternion.identity);
-        clone.transform.SetParent(cylClone.transform, true);
-        float radius = 3f;
         int bondCount = 0;
         foreach(Transform child in transform) {
             if(child.tag.Equals("Bond")) {
@@ -45,10 +37,24 @@ public class Elements : MonoBehaviour
             }
         }
         int start = 0;
-        if(transform.parent != null) {
+        if(transform.parent != null && transform.parent.tag.Equals("Bond")) {
             bondCount++;
             start = 1;
         }
+        // checking if the element can make more bonds
+        if((!expandedOctet && bondCount == bondingElectrons) || (expandedOctet && bondCount == bondingElectrons + 2 * lonePairs)) {
+            return;
+        }
+        // making new bond
+        float radius = 5f;
+        GameObject cyl = AssetDatabase.LoadAssetAtPath("Assets/Resources/SingleBond.prefab", typeof(GameObject)) as GameObject;
+        GameObject cylClone = Instantiate(cyl, Vector3.zero, Quaternion.identity, transform);
+        cylClone.transform.localScale = new Vector3(0.3f, radius / 2, 0.3f);
+        GameObject obj = AssetDatabase.LoadAssetAtPath("Assets/Elements/" + selectElement.element + ".prefab", typeof(GameObject)) as GameObject;
+        GameObject clone = Instantiate(obj, Vector3.zero, Quaternion.identity);
+        clone.transform.SetParent(cylClone.transform, true);
+        bondCount++;
+        
         for(int i = 0; i < transform.childCount; i++) {
             transform.GetChild(i).localPosition = Vector3.up * radius / 2;
             transform.GetChild(i).localEulerAngles = new Vector3(180, 0, 0);
