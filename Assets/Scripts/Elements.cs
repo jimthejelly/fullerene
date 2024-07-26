@@ -49,44 +49,41 @@ public class Elements : MonoBehaviour
             bondCount++;
             start = 1;
         }
-        for(int i = start; i < bondCount; i++) {
+        for(int i = 0; i < transform.childCount; i++) {
             transform.GetChild(i).localPosition = Vector3.up * radius / 2;
             transform.GetChild(i).localEulerAngles = new Vector3(180, 0, 0);
         }
-        transform.GetChild(bondCount - 1).GetChild(0).localEulerAngles = transform.GetChild(bondCount - 1).localEulerAngles + new Vector3(180, 0, 0);
-        clone.transform.localPosition = indivMult(cylClone.transform.up * radius / 2, clone.transform.localScale);
-        if(bondCount == 1) {
-            transform.GetChild(0).localPosition = Vector3.up * radius / 2;
-            transform.GetChild(0).localEulerAngles = new Vector3(180, 0, 0);
-        }
-        else if(bondCount == 2) {
-            transform.GetChild(1).RotateAround(transform.position, transform.forward, 180);
+        clone.transform.localEulerAngles = cylClone.transform.localEulerAngles + new Vector3(180, 0, 0);
+        clone.transform.localPosition = Vector3.up * -1;
+        
+        if(bondCount == 2) {
+            transform.GetChild(1 - start).RotateAround(transform.position, transform.forward, 180);
         }
         else if(bondCount == 3) {
-            transform.GetChild(1).RotateAround(transform.position, transform.forward, 120);
-            transform.GetChild(2).RotateAround(transform.position, transform.forward, 240);
+            transform.GetChild(1 - start).RotateAround(transform.position, transform.forward, 120);
+            transform.GetChild(2 - start).RotateAround(transform.position, transform.forward, 240);
         }
         else if(bondCount == 4) {
             for(int i = 1; i < 4; i++) {
-                transform.GetChild(i).RotateAround(transform.position, transform.right, 109);
+                transform.GetChild(i - start).RotateAround(transform.position, transform.right, 109);
             }
-            transform.GetChild(2).RotateAround(transform.position, transform.up, 109);
-            transform.GetChild(3).RotateAround(transform.position, transform.up, -109);
+            transform.GetChild(2 - start).RotateAround(transform.position, transform.up, 109);
+            transform.GetChild(3 - start).RotateAround(transform.position, transform.up, -109);
         }
         else if(bondCount == 5) {
             for(int i = 2; i < 5; i++) {
-                transform.GetChild(i).RotateAround(transform.position, transform.right, 90);
+                transform.GetChild(i - start).RotateAround(transform.position, transform.right, 90);
             }
-            transform.GetChild(1).RotateAround(transform.position, transform.right, 180);
-            transform.GetChild(3).RotateAround(transform.position, transform.up, 120);
-            transform.GetChild(4).RotateAround(transform.position, transform.up, -120);
+            transform.GetChild(1 - start).RotateAround(transform.position, transform.right, 180);
+            transform.GetChild(3 - start).RotateAround(transform.position, transform.up, 120);
+            transform.GetChild(4 - start).RotateAround(transform.position, transform.up, -120);
         }
         else if(bondCount == 6) {
-            transform.GetChild(1).RotateAround(transform.position, transform.right, 180);
-            transform.GetChild(2).RotateAround(transform.position, transform.right, 90);
-            transform.GetChild(3).RotateAround(transform.position, transform.right, -90);
-            transform.GetChild(4).RotateAround(transform.position, transform.forward, 90);
-            transform.GetChild(5).RotateAround(transform.position, transform.forward, -90);
+            transform.GetChild(1 - start).RotateAround(transform.position, transform.right, 180);
+            transform.GetChild(2 - start).RotateAround(transform.position, transform.right, 90);
+            transform.GetChild(3 - start).RotateAround(transform.position, transform.right, -90);
+            transform.GetChild(4 - start).RotateAround(transform.position, transform.forward, 90);
+            transform.GetChild(5 - start).RotateAround(transform.position, transform.forward, -90);
         }
     }
 }
