@@ -31,7 +31,7 @@ public class Elements : MonoBehaviour
         return new Vector3(a.x * b.x, a.y * b.y, a.z * b.z);
     }
     // Spawns the element prefab contained in the global variable element
-    void SpawnElement() {
+    public void SpawnElement() {
         GameObject cyl = AssetDatabase.LoadAssetAtPath("Assets/Resources/SingleBond.prefab", typeof(GameObject)) as GameObject;
         GameObject cylClone = Instantiate(cyl, Vector3.zero, Quaternion.identity, transform);
         GameObject obj = AssetDatabase.LoadAssetAtPath("Assets/Elements/" + selectElement.element + ".prefab", typeof(GameObject)) as GameObject;
