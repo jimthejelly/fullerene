@@ -24849,6 +24849,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1388475391}
   - component: {fileID: 1388475392}
+  - component: {fileID: 1388475393}
   m_Layer: 0
   m_Name: moleculeBody
   m_TagString: Untagged
@@ -24889,6 +24890,19 @@ MonoBehaviour:
   preset_menu: {fileID: 362818431}
   general_info: {fileID: 1614529913}
   isPaused: 0
+--- !u!114 &1388475393
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1388475389}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a192cd97629b3e47a1cb36e4c922412, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moleculeBody: {fileID: 1388475389}
 --- !u!1 &1404770240
 GameObject:
   m_ObjectHideFlags: 0
