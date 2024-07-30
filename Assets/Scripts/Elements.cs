@@ -31,11 +31,13 @@ public class Elements : MonoBehaviour
         return new Vector3(a.x * b.x, a.y * b.y, a.z * b.z);
     }
     // Spawns the element prefab contained in the global variable element
-    public void SpawnElement() {
+    public void SpawnElement(int num) {
         GameObject cyl = AssetDatabase.LoadAssetAtPath("Assets/Resources/SingleBond.prefab", typeof(GameObject)) as GameObject;
         GameObject cylClone = Instantiate(cyl, Vector3.zero, Quaternion.identity, transform);
         GameObject obj = AssetDatabase.LoadAssetAtPath("Assets/Elements/" + selectElement.element + ".prefab", typeof(GameObject)) as GameObject;
         GameObject clone = Instantiate(obj, Vector3.zero, Quaternion.identity);
+        clone.name = clone.name + "-" + num;
+        cylClone.name = cylClone.name + "-" + num;
         clone.transform.SetParent(cylClone.transform, true);
         float radius = 3f;
         int bondCount = 0;

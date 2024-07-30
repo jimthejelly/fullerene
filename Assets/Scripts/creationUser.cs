@@ -10,6 +10,7 @@ public class creationUser : MonoBehaviour
     Transform focus; // select object's transform properties
     Color focusMaterial; // select object's color properties
     public float turnSpeed; // Look speed modifier
+    int elements = 0;
     string check; // Last object hovered over
     float zoom = 12; // Distance from camera to molecule
     float click = 0; // Number of clicks during clickdelay
@@ -44,7 +45,7 @@ public class creationUser : MonoBehaviour
         
         // Changes distance of camera with scroll wheel input
         zoom -= (Input.mouseScrollDelta.y * 1);
-        zoom = Mathf.Clamp(zoom, 2, 20);
+        zoom = Mathf.Clamp(zoom, 2, 100);
         transform.position = focus.position - (transform.forward * zoom);
 
     }
@@ -135,7 +136,8 @@ public class creationUser : MonoBehaviour
             Debug.Log("Creating");
             if (Physics.Raycast(ray, out hit) && !Input.GetKey(KeyCode.LeftControl)) {
                 Elements script = hit.collider.gameObject.GetComponent<Elements>();
-                script.SpawnElement();
+                script.SpawnElement(elements);
+                elements++;
             }
         } else if (clicknumber == 2) { // 2 click interaction
             Debug.Log("Inteasr");
