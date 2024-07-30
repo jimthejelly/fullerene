@@ -31,26 +31,37 @@ public class Elements : MonoBehaviour
     // Spawns the element prefab contained in the global variable element
     public void SpawnElement() {
         int bondCount = 0;
+        int bondOrders = 0;
         foreach(Transform child in transform) {
             if(child.tag.Equals("Bond")) {
-                Debug.Log("found a bond");
                 bondCount++;
+                foreach(Transform ch in child.transform) {
+                    if(ch.tag.Equals("Bond")) {
+                        bondOrders++;
+                    }
+                }
             }
         }
         int start = 0;
         if(transform.parent != null && transform.parent.tag.Equals("Bond")) {
             bondCount++;
             start = 1;
+            foreach(Transform ch in transform.parent.parent.transform) {
+                if(ch.tag.Equals("Bond")) {
+                    bondOrders++;
+                }
+            }
         }
         // checking if the element can make more bonds
-        if((!expandedOctet && bondCount == bondingElectrons) || (expandedOctet && bondCount == bondingElectrons + 2 * lonePairs)) {
+        if((!expandedOctet && bondOrders == bondingElectrons) || (expandedOctet && bondOrders == bondingElectrons + 2 * lonePairs)) {
             return;
         }
         // making new bond
         float radius = 3f;
         GameObject cyl = AssetDatabase.LoadAssetAtPath("Assets/Resources/SingleBond.prefab", typeof(GameObject)) as GameObject;
-        GameObject cylClone = Instantiate(cyl, Vector3.zero, Quaternion.identity, transform);
+        GameObject cylClone = Instantiate(cyl, Vector3.zero, Quaternion.identity);
         cylClone.transform.localScale = new Vector3(0.3f, radius / 2, 0.3f);
+        cylClone.transform.SetParent(transform, true);
         GameObject obj = AssetDatabase.LoadAssetAtPath("Assets/Elements/" + selectElement.element + ".prefab", typeof(GameObject)) as GameObject;
         GameObject clone = Instantiate(obj, Vector3.zero, Quaternion.identity);
         clone.transform.SetParent(cylClone.transform.GetChild(0), true);
@@ -58,8 +69,9 @@ public class Elements : MonoBehaviour
         bondCount++;
         
         for(int i = 0; i < transform.childCount; i++) {
-            transform.GetChild(i).localPosition = Vector3.up * radius / 2;
+            transform.GetChild(i).localPosition = Vector3.zero;
             transform.GetChild(i).localEulerAngles = new Vector3(180, 0, 0);
+            transform.GetChild(i).Translate(0, -1 * (radius / 2), 0);
         }
         clone.transform.localEulerAngles = cylClone.transform.localEulerAngles + new Vector3(180, 0, 0);
         clone.transform.localPosition = Vector3.up * -1;
