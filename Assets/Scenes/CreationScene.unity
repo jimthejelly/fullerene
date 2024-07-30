@@ -441,7 +441,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   txt: {fileID: 800158726}
   txt_table: {fileID: 2037482299}
-  elementNumber: 17-Cloride
+  elementNumber: 17-Chlorine
 --- !u!1 &46986009
 GameObject:
   m_ObjectHideFlags: 0
