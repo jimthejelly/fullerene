@@ -21,7 +21,7 @@ public class Elements : MonoBehaviour
     }
 
     void OnMouseDown() {
-        //SpawnElement();
+        SpawnElement();
     }
 
     // returns (a.x*b.x, a.y*b.y, a.z*b.z)
@@ -33,6 +33,7 @@ public class Elements : MonoBehaviour
         int bondCount = 0;
         foreach(Transform child in transform) {
             if(child.tag.Equals("Bond")) {
+                Debug.Log("found a bond");
                 bondCount++;
             }
         }
@@ -46,13 +47,14 @@ public class Elements : MonoBehaviour
             return;
         }
         // making new bond
-        float radius = 5f;
+        float radius = 3f;
         GameObject cyl = AssetDatabase.LoadAssetAtPath("Assets/Resources/SingleBond.prefab", typeof(GameObject)) as GameObject;
         GameObject cylClone = Instantiate(cyl, Vector3.zero, Quaternion.identity, transform);
         cylClone.transform.localScale = new Vector3(0.3f, radius / 2, 0.3f);
         GameObject obj = AssetDatabase.LoadAssetAtPath("Assets/Elements/" + selectElement.element + ".prefab", typeof(GameObject)) as GameObject;
         GameObject clone = Instantiate(obj, Vector3.zero, Quaternion.identity);
-        clone.transform.SetParent(cylClone.transform, true);
+        clone.transform.SetParent(cylClone.transform.GetChild(0), true);
+        Debug.Log(bondCount);
         bondCount++;
         
         for(int i = 0; i < transform.childCount; i++) {

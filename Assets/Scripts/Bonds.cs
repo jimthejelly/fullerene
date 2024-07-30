@@ -20,7 +20,7 @@ public class Bonds : MonoBehaviour
     }
 
     void OnMouseDown() {
-        //CycleBondOrder();
+        CycleBondOrder();
     }
 
     public void CycleBondOrder() {
@@ -31,23 +31,24 @@ public class Bonds : MonoBehaviour
         // checking if upgrade possible
         Elements p;
         Elements c;
-        if(bondOrder == 1) {
-            p = transform.parent.gameObject.GetComponent(typeof(Elements)) as Elements;
-            c = transform.GetChild(0).gameObject.GetComponent(typeof(Elements)) as Elements;
-        }
-        else if(transform.parent.tag.Equals("Element")) { // if we're currently the parent bond
+
+        if(transform.parent.tag.Equals("Element")) { // if we're currently the parent bond
             p = transform.parent.gameObject.GetComponent(typeof(Elements)) as Elements;
             c = transform.GetChild(0).GetChild(0).gameObject.GetComponent(typeof(Elements)) as Elements;
         }
         else { // if we're currently the child bond
-            p = p = transform.parent.parent.gameObject.GetComponent(typeof(Elements)) as Elements;
-            c = transform.GetChild(0).gameObject.GetComponent(typeof(Elements)) as Elements;
+            p = transform.parent.parent.gameObject.GetComponent(typeof(Elements)) as Elements;
+            c = transform.parent.GetChild(0).GetChild(0).gameObject.GetComponent(typeof(Elements)) as Elements;
         }
         // checking if parent can make more bonds
         int bondCount = 0;
         foreach(Transform child in p.transform) {
             if(child.tag.Equals("Bond")) {
-                bondCount++;
+                foreach(Transform ch in child.transform) {
+                    if(ch.tag.Equals("Bond")) {
+                        bondCount++;
+                    }
+                }
             }
         }
         if(p.transform.parent != null && p.transform.parent.tag.Equals("Bond")) {
@@ -55,22 +56,34 @@ public class Bonds : MonoBehaviour
         }
         // checking if the element can make more bonds
         if((!p.expandedOctet && bondCount == p.bondingElectrons) || (p.expandedOctet && bondCount == p.bondingElectrons + 2 * p.lonePairs)) {
+            Debug.Log("paren't can't make more " + bondCount);
             newOrder = 1;
+        }
+        else {
+            Debug.Log("paren't CAN make more " + bondCount);
         }
         // checking if child can make more bonds
-        bondCount = 0;
+        bondCount = bondOrder;
         foreach(Transform child in c.transform) {
             if(child.tag.Equals("Bond")) {
-                bondCount++;
+                foreach(Transform ch in child.transform) {
+                    if(ch.tag.Equals("Bond")) {
+                        bondCount++;
+                    }
+                }
             }
         }
-        bondCount++;
+
         // checking if the element can make more bonds
         if((!c.expandedOctet && bondCount == c.bondingElectrons) || (c.expandedOctet && bondCount == c.bondingElectrons + 2 * c.lonePairs)) {
+            Debug.Log("child can't make more " + bondCount);
             newOrder = 1;
         }
+        else {
+            Debug.Log("child CAN make more " + bondCount);
+        }
+        Debug.Log("new order " + newOrder);
         GameObject obj = null;
-        Debug.Log(newOrder);
         if(newOrder == 1) {
             obj = AssetDatabase.LoadAssetAtPath("Assets/Resources/SingleBond.prefab", typeof(GameObject)) as GameObject;
         }
@@ -80,15 +93,23 @@ public class Bonds : MonoBehaviour
         else {
             obj = AssetDatabase.LoadAssetAtPath("Assets/Resources/TripleBond.prefab", typeof(GameObject)) as GameObject;
         }
-        GameObject newBond = Instantiate(obj, transform.position, Quaternion.identity, transform.parent);
-        newBond.transform.localScale = transform.localScale;
-        newBond.transform.localEulerAngles = transform.localEulerAngles;
-        if(newOrder == 1) {
-            c.transform.SetParent(newBond.transform);
+        GameObject newBond;
+        if(transform.parent.tag.Equals("Element")) { // if we're currently the parent bond
+            newBond = Instantiate(obj, transform.position, Quaternion.identity, p.transform);
+            newBond.transform.localScale = transform.localScale;
+            newBond.transform.localEulerAngles = transform.localEulerAngles;
         }
-        else {
-            c.transform.SetParent(newBond.transform.GetChild(0).transform);
+        else { // if we're currently the child bond
+            newBond = Instantiate(obj, transform.parent.position, Quaternion.identity, p.transform);
+            newBond.transform.localScale = transform.parent.localScale;
+            newBond.transform.localEulerAngles = transform.parent.localEulerAngles;
         }
-        Destroy(gameObject)
+        c.transform.SetParent(newBond.transform.GetChild(0).transform);
+        if(transform.parent.tag.Equals("Element")) { // if we're currently the parent bond
+            Destroy(gameObject);
+        }
+        else { // if we're currently the child bond
+            Destroy(transform.parent.gameObject);
+        }
 ;    }
 }
