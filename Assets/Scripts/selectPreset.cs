@@ -27,9 +27,16 @@ public class selectPreset : MonoBehaviour
 
     public void OnClick() {
         bool success;
-        preset = "Preset" + presetNumber;
-        path = "Assets/Resources/" + presetNumber + ".prefab";
-        path = AssetDatabase.GenerateUniqueAssetPath(path);  
+        preset = "Preset " + presetNumber;
+        path = "Assets/Resources/Presets/" + preset + ".prefab";
+        if (File.Exists("Assets/Resources/Presets/" + preset + ".prefab")) {
+            Debug.Log("Here " + path);
+            AssetDatabase.DeleteAsset(path);
+        } else {
+            Debug.Log("Not here" + path);
+        }
+        path = AssetDatabase.GenerateUniqueAssetPath(path);
+
         PrefabUtility.SaveAsPrefabAsset(GameObject.Find("moleculeBody"), path, out success);
         if (success) {
             Debug.Log("yippe");
