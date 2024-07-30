@@ -21,7 +21,7 @@ public class Elements : MonoBehaviour
     }
 
     void OnMouseDown() {
-        SpawnElement();
+        //SpawnElement();
     }
 
     // returns (a.x*b.x, a.y*b.y, a.z*b.z)
@@ -29,7 +29,7 @@ public class Elements : MonoBehaviour
         return new Vector3(a.x * b.x, a.y * b.y, a.z * b.z);
     }
     // Spawns the element prefab contained in the global variable element
-    void SpawnElement() {
+    public void SpawnElement() {
         int bondCount = 0;
         foreach(Transform child in transform) {
             if(child.tag.Equals("Bond")) {
