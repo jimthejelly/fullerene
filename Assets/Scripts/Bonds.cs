@@ -20,10 +20,10 @@ public class Bonds : MonoBehaviour
     }
 
     void OnMouseDown() {
-        CycleBondOrder();
+        //CycleBondOrder();
     }
 
-    void CycleBondOrder() {
+    public void CycleBondOrder() {
         int newOrder = bondOrder + 1;
         if(bondOrder == 3) {
             newOrder = 1;
@@ -70,6 +70,7 @@ public class Bonds : MonoBehaviour
             newOrder = 1;
         }
         GameObject obj = null;
+        Debug.Log(newOrder);
         if(newOrder == 1) {
             obj = AssetDatabase.LoadAssetAtPath("Assets/Resources/SingleBond.prefab", typeof(GameObject)) as GameObject;
         }
@@ -79,9 +80,8 @@ public class Bonds : MonoBehaviour
         else {
             obj = AssetDatabase.LoadAssetAtPath("Assets/Resources/TripleBond.prefab", typeof(GameObject)) as GameObject;
         }
-        GameObject newBond = Instantiate(obj, Vector3.zero, Quaternion.identity, transform.parent);
+        GameObject newBond = Instantiate(obj, transform.position, Quaternion.identity, transform.parent);
         newBond.transform.localScale = transform.localScale;
-        newBond.transform.position = transform.position;
         newBond.transform.localEulerAngles = transform.localEulerAngles;
         if(newOrder == 1) {
             c.transform.SetParent(newBond.transform);
