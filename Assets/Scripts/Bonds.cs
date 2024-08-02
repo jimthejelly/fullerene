@@ -20,10 +20,10 @@ public class Bonds : MonoBehaviour
     }
 
     void OnMouseDown() {
-        CycleBondOrder();
+        //CycleBondOrder();
     }
 
-    public void CycleBondOrder() {
+    public void CycleBondOrder(int num) {
         int newOrder = bondOrder + 1;
         if(bondOrder == 3) {
             newOrder = 1;
@@ -104,6 +104,7 @@ public class Bonds : MonoBehaviour
             newBond.transform.localScale = transform.parent.localScale;
             newBond.transform.localEulerAngles = transform.parent.localEulerAngles;
         }
+        newBond.name = newBond.name + " " + num;
         c.transform.SetParent(newBond.transform.GetChild(0).transform);
         if(transform.parent.tag.Equals("Element")) { // if we're currently the parent bond
             Destroy(gameObject);

@@ -9,7 +9,9 @@ public class creationUser : MonoBehaviour
     GameObject select; // Current object mouse is interacting with
     Transform focus; // select object's transform properties
     Color focusMaterial; // select object's color properties
+    List<Component> bondSiblings = new List<Component>();
     public float turnSpeed; // Look speed modifier
+    bool bondReplace = false;
     int elements = 0;
     string check; // Last object hovered over
     float zoom = 12; // Distance from camera to molecule
@@ -81,29 +83,72 @@ public class creationUser : MonoBehaviour
     void Hovering() {
         ray = Camera.main.ScreenPointToRay(Input.mousePosition);	
         if (Physics.Raycast(ray, out hit)) { // Hovering over object
-            if (check != hit.collider.gameObject.name && hit.collider.gameObject.tag == "Element") { // Don't check if already hovering this object
+            if (check != hit.collider.gameObject.name) { // Don't check if already hovering this object
+
+                
 
                 // Swaps current color and highlight
                 select.GetComponent<Renderer>().material.color = focusMaterial;
+                if (select.tag == "Bond" && bondSiblings != null)   {
+                    foreach (Renderer bond in bondSiblings) {
+                        bond.material.color = focusMaterial;
+                    }
+                    
+                } else {
+
+                }
                 select = GameObject.Find(hit.collider.gameObject.name);
+
+                bondSiblings.Clear();
+                foreach (Transform bond in hit.collider.transform.parent.transform) {
+                    if (bond.tag == "Bond") {
+                        bondSiblings.Add(bond.gameObject.GetComponent<Renderer>());
+                    }
+                    
+                }
+
+                
+                
                 focusMaterial = select.GetComponent<Renderer>().material.color;
-                select.GetComponent<Renderer>().material.color = new Color(1.75f, 1.75f, 1.75f, 0f);
+                if (select.tag == "Bond" && bondSiblings != null)   {
+                    foreach (Renderer bond in bondSiblings) {
+                        bond.material.color = new Color(1.75f, 1.75f, 1.75f, 0f);
+                    }
+                    
+                } else {
+                    select.GetComponent<Renderer>().material.color = new Color(1.75f, 1.75f, 1.75f, 0f);
+                }
+                
+
+                
+
+                bondReplace = false;
+                
 
                 // If left clicks object
                 if (Input.GetMouseButtonUp(0)) {
                     Clicking();
                 }
                 check = hit.collider.gameObject.name;
-
+                if (bondReplace) {
+                    select = GameObject.Find("Main Camera");
+                }
+                Debug.Log("Check");
             } else { // Only allow click interaction after initial hover
                 if (Input.GetMouseButtonUp(0)) {
                     Clicking();
+                }
+                if (bondReplace) {
+                    select = GameObject.Find("Main Camera");
                 }
             }
             
         } else { // No hovering
             if (select.name != "Main Camera") {
                 select.GetComponent<Renderer>().material.color = focusMaterial;
+                foreach (Renderer bond in bondSiblings) {
+                        bond.material.color = focusMaterial;
+                }
             }
             select = GameObject.Find("Main Camera");
             check = "";
@@ -134,7 +179,6 @@ public class creationUser : MonoBehaviour
         Debug.Log("Inter");
         if (clicknumber == 1) { // 1 click interaction
             Debug.Log("Creating");
-            /*
             if (Physics.Raycast(ray, out hit) && !Input.GetKey(KeyCode.LeftControl)) {
                 if(hit.transform.tag.Equals("Element")) {
                     Elements script = hit.collider.gameObject.GetComponent<Elements>();
@@ -143,9 +187,11 @@ public class creationUser : MonoBehaviour
                 }
                 else if(hit.transform.tag.Equals("Bond")) {
                     Bonds script = hit.collider.gameObject.GetComponent<Bonds>();
-                    script.CycleBondOrder();
+                    script.CycleBondOrder(elements);
+                    elements++;
+                    bondReplace = true;
                 }
-            }*/
+            }
         } else if (clicknumber == 2) { // 2 click interaction
             Debug.Log("Inteasr");
             if (Physics.Raycast(ray, out hit) && Input.GetKey(KeyCode.LeftControl)) {

@@ -21,7 +21,7 @@ public class Elements : MonoBehaviour
     }
 
     void OnMouseDown() {
-        SpawnElement();
+        //SpawnElement();
     }
 
     // returns (a.x*b.x, a.y*b.y, a.z*b.z)
@@ -29,7 +29,7 @@ public class Elements : MonoBehaviour
         return new Vector3(a.x * b.x, a.y * b.y, a.z * b.z);
     }
     // Spawns the element prefab contained in the global variable element
-    public void SpawnElement() {
+    public void SpawnElement(int num) {
         int bondCount = 0;
         int bondOrders = 0;
         foreach(Transform child in transform) {
@@ -65,6 +65,8 @@ public class Elements : MonoBehaviour
         GameObject obj = AssetDatabase.LoadAssetAtPath("Assets/Elements/" + selectElement.element + ".prefab", typeof(GameObject)) as GameObject;
         GameObject clone = Instantiate(obj, Vector3.zero, Quaternion.identity);
         clone.transform.SetParent(cylClone.transform.GetChild(0), true);
+        clone.name = clone.name + " " + num;
+        cylClone.name = cylClone.name + " " + num;
         Debug.Log(bondCount);
         bondCount++;
         
