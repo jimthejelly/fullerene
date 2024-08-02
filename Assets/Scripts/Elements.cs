@@ -117,7 +117,9 @@ public class Elements : MonoBehaviour
 
     public void DeleteElement() {
         if(!transform.parent.tag.Equals("Bond")) { // if root atom
-            //Destroy(gameObject);
+            GameObject obj = AssetDatabase.LoadAssetAtPath("Assets/Elements/" + selectElement.element + ".prefab", typeof(GameObject)) as GameObject;
+            GameObject clone = Instantiate(obj, Vector3.zero, Quaternion.identity, GameObject.Find("moleculeBody").transform);
+            Destroy(gameObject);
         }
         else { // if not root atom
             // getting parent

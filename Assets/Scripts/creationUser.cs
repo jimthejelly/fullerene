@@ -81,8 +81,7 @@ public class creationUser : MonoBehaviour
     void Hovering() {
         ray = Camera.main.ScreenPointToRay(Input.mousePosition);	
         if (Physics.Raycast(ray, out hit)) { // Hovering over object
-            if (check != hit.collider.gameObject.name && hit.collider.gameObject.tag == "Element") { // Don't check if already hovering this object
-
+            if (select != null && check != hit.collider.gameObject.name && hit.collider.gameObject.tag == "Element") { // Don't check if already hovering this object
                 // Swaps current color and highlight
                 select.GetComponent<Renderer>().material.color = focusMaterial;
                 select = GameObject.Find(hit.collider.gameObject.name);
