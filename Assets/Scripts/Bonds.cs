@@ -19,10 +19,6 @@ public class Bonds : MonoBehaviour
         
     }
 
-    void OnMouseDown() {
-        CycleBondOrder();
-    }
-
     public void CycleBondOrder() {
         int newOrder = bondOrder + 1;
         if(bondOrder == 3) {

@@ -21,7 +21,7 @@ public class Elements : MonoBehaviour
     }
 
     void OnMouseDown() {
-        SpawnElement();
+        //SpawnElement();
     }
 
     // returns (a.x*b.x, a.y*b.y, a.z*b.z)
@@ -67,15 +67,23 @@ public class Elements : MonoBehaviour
         clone.transform.SetParent(cylClone.transform.GetChild(0), true);
         Debug.Log(bondCount);
         bondCount++;
+
+        resetChildPositions(radius);
+
+        clone.transform.localEulerAngles = cylClone.transform.localEulerAngles + new Vector3(180, 0, 0);
+        clone.transform.localPosition = Vector3.up * -1;
         
+        moveChildren(bondCount, start);
+    }
+
+    public void resetChildPositions(float radius) {
         for(int i = 0; i < transform.childCount; i++) {
             transform.GetChild(i).localPosition = Vector3.zero;
             transform.GetChild(i).localEulerAngles = new Vector3(180, 0, 0);
             transform.GetChild(i).Translate(0, -1 * (radius / 2), 0);
         }
-        clone.transform.localEulerAngles = cylClone.transform.localEulerAngles + new Vector3(180, 0, 0);
-        clone.transform.localPosition = Vector3.up * -1;
-        
+    }
+    public void moveChildren(int bondCount, int start) {
         if(bondCount == 2) {
             transform.GetChild(1 - start).RotateAround(transform.position, transform.forward, 180);
         }
@@ -104,6 +112,35 @@ public class Elements : MonoBehaviour
             transform.GetChild(3 - start).RotateAround(transform.position, transform.right, -90);
             transform.GetChild(4 - start).RotateAround(transform.position, transform.forward, 90);
             transform.GetChild(5 - start).RotateAround(transform.position, transform.forward, -90);
+        }
+    }
+
+    public void DeleteElement() {
+        if(!transform.parent.tag.Equals("Bond")) { // if root atom
+            //Destroy(gameObject);
+        }
+        else { // if not root atom
+            // getting parent
+            Elements parent = transform.parent.parent.parent.gameObject.GetComponent(typeof(Elements)) as Elements;
+            // disconnecting this from parent
+            transform.parent.parent.SetParent(null);
+            // getting new bond count of parent
+            int bondCount = 0;
+            foreach(Transform child in parent.transform) {
+                if(child.tag.Equals("Bond")) {
+                    bondCount++;
+                }
+            }
+            int start = 0;
+            if(parent.transform.parent != null && parent.transform.parent.tag.Equals("Bond")) {
+                bondCount++;
+                start = 1;
+            }
+            Debug.Log(bondCount + " " + start);
+            // moving parent's old atoms into place
+            parent.resetChildPositions(3f);
+            parent.moveChildren(bondCount, start);
+            Destroy(transform.parent.parent.gameObject);
         }
     }
 }

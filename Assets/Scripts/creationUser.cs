@@ -102,7 +102,7 @@ public class creationUser : MonoBehaviour
             }
             
         } else { // No hovering
-            if (select.name != "Main Camera") {
+            if (select != null && select.name != "Main Camera") {
                 select.GetComponent<Renderer>().material.color = focusMaterial;
             }
             select = GameObject.Find("Main Camera");
@@ -134,18 +134,27 @@ public class creationUser : MonoBehaviour
         Debug.Log("Inter");
         if (clicknumber == 1) { // 1 click interaction
             Debug.Log("Creating");
-            /*
-            if (Physics.Raycast(ray, out hit) && !Input.GetKey(KeyCode.LeftControl)) {
-                if(hit.transform.tag.Equals("Element")) {
-                    Elements script = hit.collider.gameObject.GetComponent<Elements>();
-                    script.SpawnElement(elements);
-                    elements++;
+            
+            if (Physics.Raycast(ray, out hit)) {
+                if(!Input.GetKey(KeyCode.LeftControl)) {
+                    if(hit.transform.tag.Equals("Element")) {
+                        Elements script = hit.collider.gameObject.GetComponent<Elements>();
+                        script.SpawnElement();
+                        elements++;
+                    }
+                    else if(hit.transform.tag.Equals("Bond")) {
+                        Bonds script = hit.collider.gameObject.GetComponent<Bonds>();
+                        script.CycleBondOrder();
+                    }
                 }
-                else if(hit.transform.tag.Equals("Bond")) {
-                    Bonds script = hit.collider.gameObject.GetComponent<Bonds>();
-                    script.CycleBondOrder();
+                else {
+                    if(hit.transform.tag.Equals("Element")) {
+                        Elements script = hit.collider.gameObject.GetComponent<Elements>();
+                        script.DeleteElement();
+                        elements++;
+                    }
                 }
-            }*/
+            }
         } else if (clicknumber == 2) { // 2 click interaction
             Debug.Log("Inteasr");
             if (Physics.Raycast(ray, out hit) && Input.GetKey(KeyCode.LeftControl)) {
