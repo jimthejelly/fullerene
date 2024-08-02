@@ -134,6 +134,7 @@ public class creationUser : MonoBehaviour
         Debug.Log("Inter");
         if (clicknumber == 1) { // 1 click interaction
             Debug.Log("Creating");
+            /*
             if (Physics.Raycast(ray, out hit) && !Input.GetKey(KeyCode.LeftControl)) {
                 if(hit.transform.tag.Equals("Element")) {
                     Elements script = hit.collider.gameObject.GetComponent<Elements>();
@@ -144,7 +145,7 @@ public class creationUser : MonoBehaviour
                     Bonds script = hit.collider.gameObject.GetComponent<Bonds>();
                     script.CycleBondOrder();
                 }
-            }
+            }*/
         } else if (clicknumber == 2) { // 2 click interaction
             Debug.Log("Inteasr");
             if (Physics.Raycast(ray, out hit) && Input.GetKey(KeyCode.LeftControl)) {
