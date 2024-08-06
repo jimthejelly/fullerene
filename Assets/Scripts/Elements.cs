@@ -53,7 +53,7 @@ public class Elements : MonoBehaviour
             }
         }
         // checking if the element can make more bonds
-        if((!expandedOctet && bondOrders == bondingElectrons) || (expandedOctet && bondOrders == bondingElectrons + 2 * lonePairs)) {
+        if((!expandedOctet && bondOrders == bondingElectrons) || (expandedOctet && bondOrders == bondingElectrons + 2 * lonePairs) || (expandedOctet && bondOrders == 6)) {
             return;
         }
         // making new bond
