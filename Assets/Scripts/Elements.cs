@@ -60,7 +60,7 @@ public class Elements : MonoBehaviour
         float radius = 3f;
         GameObject cyl = AssetDatabase.LoadAssetAtPath("Assets/Resources/SingleBond.prefab", typeof(GameObject)) as GameObject;
         GameObject cylClone = Instantiate(cyl, Vector3.zero, Quaternion.identity);
-        cylClone.transform.localScale = new Vector3(0.3f, radius / 2, 0.3f);
+        cylClone.transform.localScale = new Vector3(0.3f, radius / 2, 0.15f);
         cylClone.transform.SetParent(transform, true);
         GameObject obj = AssetDatabase.LoadAssetAtPath("Assets/Elements/" + selectElement.element + ".prefab", typeof(GameObject)) as GameObject;
         GameObject clone = Instantiate(obj, Vector3.zero, Quaternion.identity);
