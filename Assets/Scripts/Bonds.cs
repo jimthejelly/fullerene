@@ -56,11 +56,11 @@ public class Bonds : MonoBehaviour
         }
         // checking if the element can make more bonds
         if((!p.expandedOctet && bondCount == p.bondingElectrons) || (p.expandedOctet && bondCount == p.bondingElectrons + 2 * p.lonePairs)) {
-            Debug.Log("paren't can't make more " + bondCount);
+            Debug.Log("parent can't make more " + bondCount);
             newOrder = 1;
         }
         else {
-            Debug.Log("paren't CAN make more " + bondCount);
+            Debug.Log("parent CAN make more " + bondCount);
         }
         // checking if child can make more bonds
         bondCount = bondOrder;
