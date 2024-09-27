@@ -5,6 +5,10 @@ using UnityEditor;
 
 public class Elements : MonoBehaviour
 {
+
+    public int electrons;
+    public int protons;
+    public int neutrons;
     public int lonePairs;
     public int bondingElectrons;
     public bool expandedOctet;
