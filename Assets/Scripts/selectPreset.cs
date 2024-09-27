@@ -25,7 +25,7 @@ public class selectPreset : MonoBehaviour
         // numberText.text = "Loaded";
     }
 
-    public void OnClick() {
+    public void SavePreset() {
         bool success;
         preset = "Preset " + presetNumber;
         path = "Assets/Resources/Presets/" + preset + ".prefab";
@@ -44,6 +44,13 @@ public class selectPreset : MonoBehaviour
             Debug.Log("whoops");
         }
     }
-    
 
+    public void getPreset() {
+        preset = "Preset " + presetNumber;
+       GameObject obj = PrefabUtility.LoadPrefabContents("Assets/Resources/Presets/" + preset + ".prefab");
+    //    GameObject clone = GameObject.Find("moleculeBody");
+       Instantiate(obj, transform.position, transform.rotation);
+    //    clone = obj;
+    
+    }
 }
