@@ -9,6 +9,8 @@ public class creationMenu : MonoBehaviour
     public GameObject table_menu;
     public GameObject preset_menu;
     public GameObject general_info;
+
+    public GameObject preset_dropdown;
     public bool isPaused;
     // Start is called before the first frame update
     
@@ -74,6 +76,14 @@ public class creationMenu : MonoBehaviour
             general_info.SetActive(true);
         }
         
+    }
+    public void LoadDropdownMenu()
+    {
+         if (!preset_dropdown.activeSelf) {
+            preset_dropdown.SetActive(true);
+        } else {
+            preset_dropdown.SetActive(false);
+        }
     }
 
     public void LoadExplorationMenu()
