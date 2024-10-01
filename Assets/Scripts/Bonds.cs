@@ -29,16 +29,16 @@ public class Bonds : MonoBehaviour
             newOrder = 1;
         }
         // checking if upgrade possible
-        Elements p;
-        Elements c;
+        createElement p;
+        createElement c;
 
         if(transform.parent.tag.Equals("Element")) { // if we're currently the parent bond
-            p = transform.parent.gameObject.GetComponent(typeof(Elements)) as Elements;
-            c = transform.GetChild(0).GetChild(0).gameObject.GetComponent(typeof(Elements)) as Elements;
+            p = transform.parent.gameObject.GetComponent(typeof(createElement)) as createElement;
+            c = transform.GetChild(0).GetChild(0).gameObject.GetComponent(typeof(createElement)) as createElement;
         }
         else { // if we're currently the child bond
-            p = transform.parent.parent.gameObject.GetComponent(typeof(Elements)) as Elements;
-            c = transform.parent.GetChild(0).GetChild(0).gameObject.GetComponent(typeof(Elements)) as Elements;
+            p = transform.parent.parent.gameObject.GetComponent(typeof(createElement)) as createElement;
+            c = transform.parent.GetChild(0).GetChild(0).gameObject.GetComponent(typeof(createElement)) as createElement;
         }
         // checking if parent can make more bonds
         int bondCount = 0;

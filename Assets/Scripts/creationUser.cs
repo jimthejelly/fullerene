@@ -183,7 +183,7 @@ public class creationUser : MonoBehaviour
             if (Physics.Raycast(ray, out hit)) {
                 if(!Input.GetKey(KeyCode.LeftControl) && !Input.GetKey(KeyCode.LeftShift)) {
                     if(hit.transform.tag.Equals("Element")) {
-                        Elements script = hit.collider.gameObject.GetComponent<Elements>();
+                        createElement script = hit.collider.gameObject.GetComponent<createElement>();
                         script.SpawnElement(elements);
                         elements++;
                     }
@@ -195,7 +195,7 @@ public class creationUser : MonoBehaviour
                     }
                 }
                 else if(Input.GetKey(KeyCode.LeftShift)){
-                    Elements script = hit.collider.gameObject.GetComponent<Elements>();
+                    createElement script = hit.collider.gameObject.GetComponent<createElement>();
                     script.DeleteElement();
                 }
             }
