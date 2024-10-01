@@ -9,8 +9,13 @@ public class creationMenu : MonoBehaviour
     public GameObject table_menu;
     public GameObject preset_menu;
     public GameObject general_info;
+
+    public GameObject preset_dropdown;
     public bool isPaused;
     // Start is called before the first frame update
+    
+    public bool simplified = false;    //simplified version
+
     void Start()
     {
         // Pauses time and brings up menu
@@ -19,6 +24,7 @@ public class creationMenu : MonoBehaviour
         pause_menu.SetActive(false);
         table_menu.SetActive(false);
         preset_menu.SetActive(false);
+
     }
 
     // Update is called once per frame
@@ -28,6 +34,19 @@ public class creationMenu : MonoBehaviour
             LoadPauseMenu();
         } else if (Input.GetKeyDown(KeyCode.Tab) && !pause_menu.activeSelf) {
            LoadTableMenu();
+        }
+
+    }
+
+    public void PressSimplified()
+    {
+        GameObject molecule = GameObject.Find("moleculeBody");
+        if(!simplified) {    // now simplified
+            simplified = false;
+
+        } else {            // now not simplified
+
+            simplified = true;
         }
     }
 
@@ -57,6 +76,14 @@ public class creationMenu : MonoBehaviour
             general_info.SetActive(true);
         }
         
+    }
+    public void LoadDropdownMenu()
+    {
+         if (!preset_dropdown.activeSelf) {
+            preset_dropdown.SetActive(true);
+        } else {
+            preset_dropdown.SetActive(false);
+        }
     }
 
     public void LoadExplorationMenu()

@@ -4,7 +4,12 @@
  
 Fullerene aims to create a 3D environment where the user can build and explore their own molecules and experiment with their molecular and atomic geometry in an accurate and detailed simulation.
 
-* Simulation stems from integration with Avogrado.cc (WIP)
+### Current Features
+* Basic (non-cyclical) molecule creation
+* General framework for lone pair geometry, ions, and other more advanced molecular concepts
+
+### Planned Features
+* Variable charge/ion support (Including transition metals and lanthanides/actinides)
 * Prebuilt molecules for users to build and learn from
 * Sandbox mode for users to make their own molecules.
 * VR device support

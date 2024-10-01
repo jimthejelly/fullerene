@@ -20,6 +20,7 @@ public class creationUser : MonoBehaviour
     float clicktime = 0; // Current time between two clicks
     Ray ray; // Tracks mouse
 	RaycastHit hit; // Object mouse touches
+
     void Start()
     {
         // Initializes variables to effectively nothing
