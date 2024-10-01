@@ -118,6 +118,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8773acf35f068e542abbeba2845187c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  electrons: 23
+  protons: 23
+  neutrons: 0
   lonePairs: 0
   bondingElectrons: 0
   expandedOctet: 0

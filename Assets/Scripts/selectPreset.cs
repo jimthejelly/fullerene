@@ -45,12 +45,12 @@ public class selectPreset : MonoBehaviour
         }
     }
 
-    public void getPreset() {
-        preset = "Preset " + presetNumber;
-       GameObject obj = PrefabUtility.LoadPrefabContents("Assets/Resources/Presets/" + preset + ".prefab");
-    //    GameObject clone = GameObject.Find("moleculeBody");
-       Instantiate(obj, transform.position, transform.rotation);
-    //    clone = obj;
+    // public void getPreset() {
+    // //     preset = "Preset " + presetNumber;
+    // //    GameObject obj = PrefabUtility.LoadPrefabContents("Assets/Resources/Presets/" + preset + ".prefab");
+    // //    GameObject clone = GameObject.Find("moleculeBody");
+    // //    Instantiate(obj, transform.position, transform.rotation);
+    // //    clone = obj;
     
-    }
+    // }
 }

@@ -36,6 +36,9 @@ public class Elements : MonoBehaviour
     public void SpawnElement(int num) {
         int bondCount = 0;
         int bondOrders = 0;
+        protons = 16;
+        electrons = 16;
+        neutrons = 0;
         foreach(Transform child in transform) {
             if(child.tag.Equals("Bond")) {
                 bondCount++;
