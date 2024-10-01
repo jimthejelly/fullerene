@@ -16,6 +16,10 @@ public class creationMenu : MonoBehaviour
     
     public bool simplified = false;    //simplified version
 
+    public bool orthographic = false;
+    public GameObject ortho;
+    public GameObject persp;
+
     void Start()
     {
         // Pauses time and brings up menu
@@ -55,6 +59,10 @@ public class creationMenu : MonoBehaviour
         if (!isPaused) {
             Time.timeScale = 0;
             pause_menu.SetActive(true);
+
+            ortho.SetActive(orthographic);
+            persp.SetActive(!orthographic);
+
             isPaused = true;
         } else {
             Time.timeScale = 1;
@@ -89,6 +97,13 @@ public class creationMenu : MonoBehaviour
     public void LoadExplorationMenu()
     {
         SceneManager.LoadScene("ExplorationScene", LoadSceneMode.Single);
+    }
+
+    public void CameraToggleText() {
+        orthographic = !orthographic;
+
+        ortho.SetActive(orthographic);
+        persp.SetActive(!orthographic);
     }
 
     public void Return()
