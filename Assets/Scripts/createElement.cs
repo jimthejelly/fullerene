@@ -83,6 +83,7 @@ public class createElement : MonoBehaviour
     public void SpawnElement(int num) {
         int bondCount = 0;
         int bondOrders = 0;
+        
         foreach(Transform child in transform) {
             if(child.tag.Equals("Bond")) {
                 bondCount++;
@@ -93,6 +94,8 @@ public class createElement : MonoBehaviour
                 }
             }
         }
+        
+        
         int start = 0;
         if(transform.parent != null && transform.parent.tag.Equals("Bond")) {
             bondCount++;
@@ -112,10 +115,10 @@ public class createElement : MonoBehaviour
         GameObject cyl = AssetDatabase.LoadAssetAtPath("Assets/Resources/SingleBond.prefab", typeof(GameObject)) as GameObject;
         GameObject cylClone = Instantiate(cyl, Vector3.zero, Quaternion.identity);
         cylClone.transform.localScale = new Vector3(0.3f, radius / 2, 0.3f);
-        cylClone.transform.SetParent(transform, true);
+        cylClone.transform.SetParent(GameObject.Find("moleculeBody").transform, true);
         GameObject obj = AssetDatabase.LoadAssetAtPath("Assets/Elements/" + selectElement.element + ".prefab", typeof(GameObject)) as GameObject;
         GameObject clone = Instantiate(obj, Vector3.zero, Quaternion.identity);
-        clone.transform.SetParent(cylClone.transform.GetChild(0), true);
+        clone.transform.SetParent(GameObject.Find("moleculeBody").transform, true);
         clone.name = clone.name + " " + num;
         cylClone.name = cylClone.name + " " + num;
         Debug.Log(bondCount);
@@ -125,6 +128,9 @@ public class createElement : MonoBehaviour
 
         clone.transform.localEulerAngles = cylClone.transform.localEulerAngles + new Vector3(180, 0, 0);
         clone.transform.localPosition = Vector3.up * -1;
+
+        GameObject[] obj1 = { cylClone.transform.GetChild(0).gameObject };
+        element a = new element(selectElement.element, lonePairs, bondingElectrons, expandedOctet, clone, obj1);
         
         moveChildren(bondCount, start);
     }

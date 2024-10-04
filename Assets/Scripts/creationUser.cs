@@ -2,16 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UIElements;
 
 public class creationUser : MonoBehaviour
 {
+    public static element head;
     GameObject molecule; // Current object the camera is rotated around
     GameObject select; // Current object mouse is interacting with
+    private GameObject palm;
     Transform focus; // select object's transform properties
     Color focusMaterial; // select object's color properties
     List<Component> bondSiblings = new List<Component>();
     public float turnSpeed; // Look speed modifier
     bool bondReplace = false;
+    private bool hold = false;
     int elements = 0;
     string check; // Last object hovered over
     float zoom = 12; // Distance from camera to molecule
@@ -43,8 +47,12 @@ public class creationUser : MonoBehaviour
         // Uses number bar to reset camera position
         ResetCamera();
 
-        // Manages mouse click and hover interaction
-        Hovering();
+        if (!hold)
+        {
+            // Manages mouse click and hover interaction
+            Hovering();
+        }
+        
         
         // Changes distance of camera with scroll wheel input
         zoom -= (Input.mouseScrollDelta.y * 1);
@@ -52,6 +60,23 @@ public class creationUser : MonoBehaviour
         transform.position = focus.position - (transform.forward * zoom);
 
     }
+
+    /*
+    void Holding()
+    {
+        Vector3 mouse = Input.mousePosition;
+        if (Camera.main != null)
+        {
+            Vector3 castPoint = Input.mousePosition);
+            palm.transform.position = castPoint + (Vector3.forward * 10);;
+        }
+        Debug.Log("Holding " + mouse);
+        if (Input.GetMouseButtonDown(0))
+        {
+            hold = false;
+        }
+    }
+    */
 
     void ResetCamera() {
         if (Input.GetKeyDown(KeyCode.Alpha1)) {
@@ -185,6 +210,7 @@ public class creationUser : MonoBehaviour
                     if(hit.transform.tag.Equals("Element")) {
                         createElement script = hit.collider.gameObject.GetComponent<createElement>();
                         script.SpawnElement(elements);
+                        hold = true;
                         elements++;
                     }
                     else if(hit.transform.tag.Equals("Bond")) {
