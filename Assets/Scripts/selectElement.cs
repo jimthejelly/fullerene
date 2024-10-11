@@ -34,7 +34,6 @@ public class selectElement : MonoBehaviour
         if(GameObject.Find("moleculeBody").transform.childCount == 0) {
             GameObject obj = AssetDatabase.LoadAssetAtPath("Assets/Elements/" + element + ".prefab", typeof(GameObject)) as GameObject;
             GameObject clone = Instantiate(obj, Vector3.zero, Quaternion.identity, GameObject.Find("moleculeBody").transform);
-            creationUser.head = new element(element, 0, 0, false, clone);
         }
     }
 }

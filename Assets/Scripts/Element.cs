@@ -1,20 +1,21 @@
 using System;
+using UnityEditor;
 using UnityEngine;
 
-public class element : MonoBehaviour
+public class Element : MonoBehaviour
 {
     private GameObject _obj;
     private GameObject[] _neighbors;
 
-    private String name;
+    private String elementName;
     
     private int lonePairs;
     private int bondingElectrons;
     private bool expandedOctet;
 
-    public element(String element, int pairs, int elec, bool oct, GameObject tar)
+    public Element(String element, int pairs, int elec, bool oct, GameObject tar)
     {
-        name = element;
+        elementName = element;
         lonePairs = pairs;
         bondingElectrons = elec;
         expandedOctet = oct;
@@ -22,9 +23,9 @@ public class element : MonoBehaviour
         _neighbors = null;
     }
     
-    public element(String element, int pairs, int elec, bool oct, GameObject tar, GameObject[] neigh)
+    public Element(String element, int pairs, int elec, bool oct, GameObject tar, GameObject[] neigh)
     {
-        name = element;
+        elementName = element;
         lonePairs = pairs;
         bondingElectrons = elec;
         expandedOctet = oct;
@@ -46,5 +47,10 @@ public class element : MonoBehaviour
     {
         return name;
     }
-    
+
+    public bool isObject(GameObject cur)
+    {
+        return cur == _obj;
+    }
+
 }

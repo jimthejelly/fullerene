@@ -6,7 +6,6 @@ using UnityEngine.UIElements;
 
 public class creationUser : MonoBehaviour
 {
-    public static element head;
     GameObject molecule; // Current object the camera is rotated around
     GameObject select; // Current object mouse is interacting with
     private GameObject palm;
@@ -208,7 +207,7 @@ public class creationUser : MonoBehaviour
             if (Physics.Raycast(ray, out hit)) {
                 if(!Input.GetKey(KeyCode.LeftControl) && !Input.GetKey(KeyCode.LeftShift)) {
                     if(hit.transform.tag.Equals("Element")) {
-                        createElement script = hit.collider.gameObject.GetComponent<createElement>();
+                        Elements script = hit.collider.gameObject.GetComponent<Elements>();
                         script.SpawnElement(elements);
                         hold = true;
                         elements++;
@@ -221,7 +220,7 @@ public class creationUser : MonoBehaviour
                     }
                 }
                 else if(Input.GetKey(KeyCode.LeftShift)){
-                    createElement script = hit.collider.gameObject.GetComponent<createElement>();
+                    Elements script = hit.collider.gameObject.GetComponent<Elements>();
                     script.DeleteElement();
                 }
             }

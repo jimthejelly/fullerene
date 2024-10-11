@@ -1,10 +1,12 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEditor;
 
-public class createElement : MonoBehaviour
+public class Elements : MonoBehaviour
 {
+    private List<Tuple<GameObject,GameObject>> neighbors = new List<Tuple<GameObject,GameObject>>();
     public int lonePairs;
     public int bondingElectrons;
     public bool expandedOctet;
@@ -63,7 +65,7 @@ public class createElement : MonoBehaviour
         GameObject cylClone = Instantiate(cyl, Vector3.zero, Quaternion.identity);
         cylClone.transform.localScale = new Vector3(0.3f, radius / 2, 0.3f);
         cylClone.transform.SetParent(transform, true);
-        GameObject obj = AssetDatabase.LoadAssetAtPath("Assets/createElement/" + selectElement.element + ".prefab", typeof(GameObject)) as GameObject;
+        GameObject obj = AssetDatabase.LoadAssetAtPath("Assets/ElementsElements/" + selectElement.element + ".prefab", typeof(GameObject)) as GameObject;
         GameObject clone = Instantiate(obj, Vector3.zero, Quaternion.identity);
         clone.transform.SetParent(cylClone.transform.GetChild(0), true);
         clone.name = clone.name + " " + num;
@@ -84,11 +86,11 @@ public class createElement : MonoBehaviour
         int bondCount = 0;
         int bondOrders = 0;
         
-        foreach(Transform child in transform) {
-            if(child.tag.Equals("Bond")) {
+        foreach(Tuple<GameObject,GameObject> child in neighbors) {
+            if(child.Item2.tag.Equals("Bond")) {
                 bondCount++;
-                foreach(Transform ch in child.transform) {
-                    if(ch.tag.Equals("Bond")) {
+                foreach(Tuple<GameObject, GameObject> ch in child.Item2.GetComponent<Elements>().neighbors) {
+                    if (ch.Item2.tag.Equals("Bond") && ch.Item2 != this) {
                         bondOrders++;
                     }
                 }
@@ -97,6 +99,7 @@ public class createElement : MonoBehaviour
         
         
         int start = 0;
+        /*
         if(transform.parent != null && transform.parent.tag.Equals("Bond")) {
             bondCount++;
             start = 1;
@@ -106,6 +109,7 @@ public class createElement : MonoBehaviour
                 }
             }
         }
+        */
         // checking if the element can make more bonds
         if((!expandedOctet && bondOrders == bondingElectrons) || (expandedOctet && bondOrders == bondingElectrons + 2 * lonePairs) || (expandedOctet && bondOrders == 6)) {
             return;
@@ -128,49 +132,58 @@ public class createElement : MonoBehaviour
 
         clone.transform.localEulerAngles = cylClone.transform.localEulerAngles + new Vector3(180, 0, 0);
         clone.transform.localPosition = Vector3.up * -1;
-
-        GameObject[] obj1 = { cylClone.transform.GetChild(0).gameObject };
-        element a = new element(selectElement.element, lonePairs, bondingElectrons, expandedOctet, clone, obj1);
         
         moveChildren(bondCount, start);
+        if (!cylClone)
+        {
+            Debug.Log("bond breok");
+        }
+
+        if (!clone)
+        {
+            Debug.Log("clone breok");
+        }
+        neighbors.Add(new Tuple<GameObject, GameObject>(cylClone, clone));
+
     }
 
     public void resetChildPositions(float radius) {
-        for(int i = 0; i < transform.childCount; i++) {
-            transform.GetChild(i).localPosition = Vector3.zero;
-            transform.GetChild(i).localEulerAngles = new Vector3(180, 0, 0);
-            transform.GetChild(i).Translate(0, -1 * (radius / 2), 0);
+        foreach(Tuple<GameObject,GameObject> child in neighbors) {
+            child.Item2.transform.localPosition = Vector3.zero;
+            child.Item2.transform.localEulerAngles = new Vector3(180, 0, 0);
+            child.Item2.transform.Translate(0, -1 * (radius / 2), 0);
         }
     }
+    
     public void moveChildren(int bondCount, int start) {
         if(bondCount == 2) {
-            transform.GetChild(1 - start).RotateAround(transform.position, transform.forward, 180);
+            neighbors[1-start].Item2.transform.RotateAround(transform.position, transform.forward, 180);
         }
         else if(bondCount == 3) {
-            transform.GetChild(1 - start).RotateAround(transform.position, transform.forward, 120);
-            transform.GetChild(2 - start).RotateAround(transform.position, transform.forward, 240);
+            neighbors[1-start].Item2.transform.RotateAround(transform.position, transform.forward, 120);
+            neighbors[2-start].Item2.transform.RotateAround(transform.position, transform.forward, 240);
         }
         else if(bondCount == 4) {
             for(int i = 1; i < 4; i++) {
-                transform.GetChild(i - start).RotateAround(transform.position, transform.right, 109);
+                neighbors[i-start].Item2.transform.RotateAround(transform.position, transform.forward, 109);
             }
-            transform.GetChild(2 - start).RotateAround(transform.position, transform.up, 109);
-            transform.GetChild(3 - start).RotateAround(transform.position, transform.up, -109);
+            neighbors[2-start].Item2.transform.RotateAround(transform.position, transform.forward, 109);
+            neighbors[3-start].Item2.transform.RotateAround(transform.position, transform.forward, -109);
         }
         else if(bondCount == 5) {
             for(int i = 2; i < 5; i++) {
-                transform.GetChild(i - start).RotateAround(transform.position, transform.right, 90);
+                neighbors[i-start].Item2.transform.RotateAround(transform.position, transform.forward, 90);
             }
-            transform.GetChild(1 - start).RotateAround(transform.position, transform.right, 180);
-            transform.GetChild(3 - start).RotateAround(transform.position, transform.up, 120);
-            transform.GetChild(4 - start).RotateAround(transform.position, transform.up, -120);
+            neighbors[1-start].Item2.transform.RotateAround(transform.position, transform.forward, 180);
+            neighbors[3-start].Item2.transform.RotateAround(transform.position, transform.forward, 120);
+            neighbors[4-start].Item2.transform.RotateAround(transform.position, transform.forward, -120);
         }
         else if(bondCount == 6) {
-            transform.GetChild(1 - start).RotateAround(transform.position, transform.right, 180);
-            transform.GetChild(2 - start).RotateAround(transform.position, transform.right, 90);
-            transform.GetChild(3 - start).RotateAround(transform.position, transform.right, -90);
-            transform.GetChild(4 - start).RotateAround(transform.position, transform.forward, 90);
-            transform.GetChild(5 - start).RotateAround(transform.position, transform.forward, -90);
+            neighbors[1-start].Item2.transform.RotateAround(transform.position, transform.forward, 180);
+            neighbors[2-start].Item2.transform.RotateAround(transform.position, transform.forward, 90);
+            neighbors[3-start].Item2.transform.RotateAround(transform.position, transform.forward, -90);
+            neighbors[4-start].Item2.transform.RotateAround(transform.position, transform.forward, 90);
+            neighbors[5-start].Item2.transform.RotateAround(transform.position, transform.forward, -90);
         }
     }
 
@@ -180,7 +193,7 @@ public class createElement : MonoBehaviour
         }
         else { // if not root atom
             // getting parent
-            createElement parent = transform.parent.parent.parent.gameObject.GetComponent(typeof(createElement)) as createElement;
+            Elements parent = transform.parent.parent.parent.gameObject.GetComponent(typeof(Elements)) as Elements;
             // disconnecting this from parent
             transform.parent.parent.SetParent(null);
             // getting new bond count of parent
