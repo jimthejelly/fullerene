@@ -20,6 +20,8 @@ public class creationUser : MonoBehaviour
     float clicktime = 0; // Current time between two clicks
     Ray ray; // Tracks mouse
 	RaycastHit hit; // Object mouse touches
+    
+    // GameObject tempHover; // temporary object made by hovering
 
     void Start()
     {
@@ -94,11 +96,35 @@ public class creationUser : MonoBehaviour
                     foreach (Renderer bond in bondSiblings) {
                         bond.material.color = focusMaterial;
                     }
-                    
+
                 } else {
 
                 }
+
+            
+                // if(!Input.GetKey(KeyCode.LeftControl) && !Input.GetKey(KeyCode.LeftShift)) {
+                //     if(hit.transform.tag.Equals("Element")) {
+                //         Elements script = hit.collider.gameObject.GetComponent<Elements>();
+                //         script.SpawnElement(elements);
+                //         elements++;
+                //     }
+                //     else if(hit.transform.tag.Equals("Bond")) {
+                //         Bonds script = hit.collider.gameObject.GetComponent<Bonds>();
+                //         script.CycleBondOrder(elements);
+                //         elements++;
+                //         bondReplace = true;
+                //     }
+                // }
+                // else if(Input.GetKey(KeyCode.LeftShift)){
+                //     Elements script = hit.collider.gameObject.GetComponent<Elements>();
+                //     script.DeleteElement();
+                // }
+
+
                 select = GameObject.Find(hit.collider.gameObject.name);
+
+
+                
 
                 bondSiblings.Clear();
                 foreach (Transform bond in hit.collider.transform.parent.transform) {
@@ -134,6 +160,8 @@ public class creationUser : MonoBehaviour
                 if (bondReplace) {
                     select = GameObject.Find("Main Camera");
                 }
+
+
                 Debug.Log("Check");
             } else { // Only allow click interaction after initial hover
                 if (Input.GetMouseButtonUp(0)) {
@@ -142,14 +170,36 @@ public class creationUser : MonoBehaviour
                 if (bondReplace) {
                     select = GameObject.Find("Main Camera");
                 }
+                
+                // if(select.tag == "Bond") {
+                //     /*
+                //     //bond creation script
+                //     Bonds script = hit.collider.gameObject.GetComponent<Bonds>();
+                //     script.CycleBondOrder(elements);
+                //     elements++;
+                //     bondReplace = true;
+                //     */
+                // } else {
+                //     // element creation script
+                //     Elements script = hit.collider.gameObject.GetComponent<Elements>();
+                //     script.TempSpawnElement(elements);
+                //     elements++;
+
+                // }
             }
             
+            // tempHover = hit.collider.gameObject;
+
         } else { // No hovering
             if (select != null && select.name != "Main Camera") {
                 select.GetComponent<Renderer>().material.color = focusMaterial;
                 foreach (Renderer bond in bondSiblings) {
                         bond.material.color = focusMaterial;
                 }
+
+                // Elements preview = select.transform.GetChild(select.transform.childCount-1).GetChild(0).GetChild(0).gameObject.GetComponent<Elements>();
+                // preview.DeleteElement();
+
             }
             select = GameObject.Find("Main Camera");
             check = "";
@@ -183,6 +233,10 @@ public class creationUser : MonoBehaviour
             if (Physics.Raycast(ray, out hit)) {
                 if(!Input.GetKey(KeyCode.LeftControl) && !Input.GetKey(KeyCode.LeftShift)) {
                     if(hit.transform.tag.Equals("Element")) {
+                        
+                        // Elements preview = hit.collider.gameObject.transform.GetChild(select.transform.childCount-1).GetChild(0).GetChild(0).gameObject.GetComponent<Elements>();
+                        // preview.DeleteElement();
+
                         Elements script = hit.collider.gameObject.GetComponent<Elements>();
                         script.SpawnElement(elements);
                         elements++;

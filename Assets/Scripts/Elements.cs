@@ -8,6 +8,8 @@ public class Elements : MonoBehaviour
     public int lonePairs;
     public int bondingElectrons;
     public bool expandedOctet;
+    public bool physicsOn = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -56,6 +58,12 @@ public class Elements : MonoBehaviour
         if((!expandedOctet && bondOrders == bondingElectrons) || (expandedOctet && bondOrders == bondingElectrons + 2 * lonePairs) || (expandedOctet && bondOrders == 6)) {
             return;
         }
+
+        // checking if the element follows physics:
+        if (physicsOn && transform.parent != null && !validBond(transform.parent.parent.gameObject, selectElement.element)) {
+            return;
+        }
+
         // making new bond
         float radius = 3f;
         GameObject cyl = AssetDatabase.LoadAssetAtPath("Assets/Resources/SingleBond.prefab", typeof(GameObject)) as GameObject;
@@ -147,4 +155,113 @@ public class Elements : MonoBehaviour
             Destroy(transform.parent.parent.gameObject);
         }
     }
+
+    public bool validBond(GameObject parent, string child) {
+        
+        return true;
+    }
+
+    public void togglePhysics(){
+        physicsOn = !physicsOn;
+    }
+
+    // Method to change the material's rendering mode to "Fade"
+    void SetMaterialToFadeMode(Material material)
+    {
+        material.SetFloat("_Mode", 2); // Set rendering mode to "Fade"
+        material.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.SrcAlpha);
+        material.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
+        material.SetInt("_ZWrite", 0);
+        material.DisableKeyword("_ALPHATEST_ON");
+        material.EnableKeyword("_ALPHABLEND_ON");
+        material.DisableKeyword("_ALPHAPREMULTIPLY_ON");
+        material.renderQueue = 3000; // Use the transparent render queue
+
+
+        Color color = material.color;
+        color.a = 0.5f;  // Set transparency value
+    }
+
+    // temporarily spawns the element prefab contained in the global variable element when selected
+    public void TempSpawnElement(int num) {
+        int bondCount = 0;
+        int bondOrders = 0;
+        foreach(Transform child in transform) {
+            if(child.tag.Equals("Bond")) {
+                bondCount++;
+                foreach(Transform ch in child.transform) {
+                    if(ch.tag.Equals("Bond")) {
+                        bondOrders++;
+                    }
+                }
+            }
+        }
+        int start = 0;
+        if(transform.parent != null && transform.parent.tag.Equals("Bond")) {
+            bondCount++;
+            start = 1;
+            foreach(Transform ch in transform.parent.parent.transform) {
+                if(ch.tag.Equals("Bond")) {
+                    bondOrders++;
+                }
+            }
+        }
+        // checking if the element can make more bonds
+        if((!expandedOctet && bondOrders == bondingElectrons) || (expandedOctet && bondOrders == bondingElectrons + 2 * lonePairs) || (expandedOctet && bondOrders == 6)) {
+            return;
+        }
+
+        // checking if the element follows physics:
+        if (physicsOn && transform.parent != null && !validBond(transform.parent.parent.gameObject, selectElement.element)) {
+            return;
+        }
+
+        // making new bond
+        float radius = 3f;
+        GameObject cyl = AssetDatabase.LoadAssetAtPath("Assets/Resources/SingleBond.prefab", typeof(GameObject)) as GameObject;
+        GameObject cylClone = Instantiate(cyl, Vector3.zero, Quaternion.identity);
+        cylClone.transform.localScale = new Vector3(0.3f, radius / 2, 0.3f);
+        cylClone.transform.SetParent(transform, true);
+
+
+        GameObject obj = AssetDatabase.LoadAssetAtPath("Assets/Elements/" + selectElement.element + ".prefab", typeof(GameObject)) as GameObject;
+        GameObject clone = Instantiate(obj, Vector3.zero, Quaternion.identity);
+        clone.transform.SetParent(cylClone.transform.GetChild(0), true);
+        clone.name = clone.name + " " + num;
+        cylClone.name = cylClone.name + " " + num;
+        Debug.Log(bondCount);
+        bondCount++;
+
+        resetChildPositions(radius);
+
+        clone.transform.localEulerAngles = cylClone.transform.localEulerAngles + new Vector3(180, 0, 0);
+        clone.transform.localPosition = Vector3.up * -1;
+        
+        moveChildren(bondCount, start);
+
+        // obj.GetComponent<Renderer>().material.SetFloat("_Mode", 3);
+        
+        // obj.layer = 2;
+        // SetMaterialToFadeMode(obj.GetComponent<Renderer>().material);
+        // // ChangeAlpha(obj.GetComponent<Renderer>().material, 0.5f);
+        
+        clone.layer = 2;
+        
+        SetMaterialToFadeMode(clone.GetComponent<Renderer>().material);
+        // ChangeAlpha(clone.GetComponent<Renderer>().material, 0f);
+
+        // cyl.layer = 2;
+        // SetMaterialToFadeMode(cyl.GetComponent<Renderer>().material);
+
+        cylClone.layer = 2;
+        SetMaterialToFadeMode(cylClone.GetComponent<Renderer>().material);
+        // ChangeAlpha(cylClone.GetComponent<Renderer>().material, 0.5f);
+
+        cylClone.transform.GetChild(0).gameObject.layer = 2;
+
+        SetMaterialToFadeMode(cylClone.transform.GetChild(0).gameObject.GetComponent<Renderer>().material);
+        // ChangeAlpha(cylClone.transform.GetChild(0).gameObject.GetComponent<Renderer>().material, 0f);
+
+    }
 }
+
