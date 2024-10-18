@@ -2,10 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using TMPro;
+using UnityEngine.UI;
 
 public class createElement : MonoBehaviour
 {
 
+    private TextMeshProUGUI textObject;
     public int electrons;
     public int protons;
     public int neutrons;
@@ -87,8 +90,6 @@ public class createElement : MonoBehaviour
     public void SpawnElement(int num) {
         int bondCount = 0;
         int bondOrders = 0;
-        protons = 16;
-        electrons = 16;
         neutrons = 0;
         foreach(Transform child in transform) {
             if(child.tag.Equals("Bond")) {
@@ -125,6 +126,36 @@ public class createElement : MonoBehaviour
         clone.transform.SetParent(cylClone.transform.GetChild(0), true);
         clone.name = clone.name + " " + num;
         cylClone.name = cylClone.name + " " + num;
+
+        // Vector3 labelPos = clone.transform.position;
+        // GameObject label = Instantiate("Hello")
+
+        // GameObject canvasGameObject = new GameObject("Canvas");
+        // Canvas canvas = canvasGameObject.AddComponent<Canvas>();
+        // canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+        // canvasGameObject.AddComponent<CanvasScaler>();
+        // canvasGameObject.AddComponent<GraphicRaycaster>();
+        // canvasGameObject.transform.SetParent(clone.transform, true);
+
+        // Debug.Log(clone.transform.name);
+
+        string text =  "Protons: " + clone.GetComponent<createElement>().protons + "\nElectrons: " + clone.GetComponent<createElement>().electrons + "\nNeutrons: " + clone.GetComponent<createElement>().neutrons;
+        GameObject textGameObject = new GameObject("Test");
+        textGameObject.transform.SetParent(clone.transform, true);
+        textObject = textGameObject.AddComponent<TextMeshProUGUI>();
+
+        textObject.text = $"{text}";
+        textObject.fontSize = 36;
+        textObject.color = Color.white;
+        textObject.alignment = TextAlignmentOptions.Center;
+
+         RectTransform rectTransform = textGameObject.GetComponent<RectTransform>();
+        rectTransform.sizeDelta = new Vector2(500, 200);
+        rectTransform.anchoredPosition = clone.transform.position;
+
+
+
+
         Debug.Log(bondCount);
         bondCount++;
 
