@@ -6,6 +6,7 @@ using UnityEngine.UIElements;
 
 public class creationUser : MonoBehaviour
 {
+    public static GameObject head; // First element added
     GameObject molecule; // Current object the camera is rotated around
     GameObject select; // Current object mouse is interacting with
     private GameObject palm;
@@ -107,7 +108,8 @@ public class creationUser : MonoBehaviour
 
     void Hovering() {
         ray = Camera.main.ScreenPointToRay(Input.mousePosition);	
-        if (Physics.Raycast(ray, out hit)) { // Hovering over object
+        if (Physics.Raycast(ray, out hit)) { // Hovering over object 
+            Debug.Log("Hovering");
             if (select != null && check != hit.collider.gameObject.name) { // Don't check if already hovering this object
 
                 
@@ -169,6 +171,7 @@ public class creationUser : MonoBehaviour
             }
             
         } else { // No hovering
+            Debug.Log("Not Hovering");
             if (select != null && select.name != "Main Camera") {
                 select.GetComponent<Renderer>().material.color = focusMaterial;
                 foreach (Renderer bond in bondSiblings) {
@@ -209,7 +212,6 @@ public class creationUser : MonoBehaviour
                     if(hit.transform.tag.Equals("Element")) {
                         Elements script = hit.collider.gameObject.GetComponent<Elements>();
                         script.SpawnElement(elements);
-                        hold = true;
                         elements++;
                     }
                     else if(hit.transform.tag.Equals("Bond")) {

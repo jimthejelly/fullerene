@@ -86,15 +86,10 @@ public class Elements : MonoBehaviour
         int bondCount = 0;
         int bondOrders = 0;
         
-        foreach(Tuple<GameObject,GameObject> child in neighbors) {
-            if(child.Item2.tag.Equals("Bond")) {
-                bondCount++;
-                foreach(Tuple<GameObject, GameObject> ch in child.Item2.GetComponent<Elements>().neighbors) {
-                    if (ch.Item2.tag.Equals("Bond") && ch.Item2 != this) {
-                        bondOrders++;
-                    }
-                }
-            }
+        for (int i = 0; i < neighbors.Count(); i++)
+        {
+            bondCount++;
+            bondOrders++;
         }
         
         
@@ -110,8 +105,14 @@ public class Elements : MonoBehaviour
             }
         }
         */
+        
+        if (neighbors.Any()) {
+           start = 1;
+        }
+        
         // checking if the element can make more bonds
         if((!expandedOctet && bondOrders == bondingElectrons) || (expandedOctet && bondOrders == bondingElectrons + 2 * lonePairs) || (expandedOctet && bondOrders == 6)) {
+            Debug.Log("Not enough space");
             return;
         }
         // making new bond
@@ -131,8 +132,9 @@ public class Elements : MonoBehaviour
         neighbors.Add(new Tuple<GameObject, GameObject>(cylClone, clone));
         resetChildPositions(radius);
         Debug.Log("worked");
-        clone.transform.localEulerAngles = cylClone.transform.localEulerAngles + new Vector3(180, 0, 0);
-        clone.transform.localPosition = Vector3.up * -1;
+        clone.transform.localEulerAngles = cylClone.transform.localEulerAngles;
+        clone.transform.localPosition = cylClone.transform.localPosition;
+        clone.transform.Translate(0, -radius/2, 0);
         
         moveChildren(bondCount, start);
         if (!cylClone)
@@ -144,13 +146,13 @@ public class Elements : MonoBehaviour
         {
             Debug.Log("clone breok");
         }
-        
+        Debug.Log("continued");
        
     }
 
     public void resetChildPositions(float radius) {
         foreach(Tuple<GameObject,GameObject> child in neighbors) {
-            child.Item1.transform.localPosition = Vector3.zero;
+            child.Item1.transform.localPosition = transform.position;
             child.Item1.transform.localEulerAngles = new Vector3(180, 0, 0);
             child.Item1.transform.Translate(0, -1 * (radius / 2), 0);
         }
@@ -159,10 +161,13 @@ public class Elements : MonoBehaviour
     public void moveChildren(int bondCount, int start) {
         if(bondCount == 2) {
             neighbors[1-start].Item1.transform.RotateAround(transform.position, transform.forward, 180);
+            neighbors[1-start].Item2.transform.RotateAround(transform.position, transform.forward, 180);
         }
         else if(bondCount == 3) {
             neighbors[1-start].Item1.transform.RotateAround(transform.position, transform.forward, 120);
             neighbors[2-start].Item1.transform.RotateAround(transform.position, transform.forward, 240);
+            neighbors[1-start].Item2.transform.RotateAround(transform.position, transform.forward, -60);
+            neighbors[2-start].Item2.transform.RotateAround(transform.position, transform.forward, 120);
         }
         else if(bondCount == 4) {
             for(int i = 1; i < 4; i++) {
