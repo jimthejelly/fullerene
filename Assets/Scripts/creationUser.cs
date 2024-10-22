@@ -2,11 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UIElements;
 
 public class creationUser : MonoBehaviour
 {
+    public static GameObject head; // First element added
     GameObject molecule; // Current object the camera is rotated around
     GameObject select; // Current object mouse is interacting with
+    private GameObject palm;
     Transform focus; // select object's transform properties
     Color focusMaterial; // select object's color properties
     List<Component> bondSiblings = new List<Component>();
@@ -16,6 +19,7 @@ public class creationUser : MonoBehaviour
     Vector3 panOffset = Vector3.zero;  // To store cumulative pan offset
 
     bool bondReplace = false;
+    private bool hold = false;
     int elements = 0;
     string check; // Last object hovered over
     float zoom = 12; // Distance from camera to molecule
@@ -61,11 +65,32 @@ public class creationUser : MonoBehaviour
         // Uses number bar to reset camera position
         ResetCamera();
 
-        // Manages mouse click and hover interaction
-        Hovering();
+        if (!hold)
+        {
+            // Manages mouse click and hover interaction
+            Hovering();
+        }
+        
         
         
     }
+
+    /*
+    void Holding()
+    {
+        Vector3 mouse = Input.mousePosition;
+        if (Camera.main != null)
+        {
+            Vector3 castPoint = Input.mousePosition);
+            palm.transform.position = castPoint + (Vector3.forward * 10);;
+        }
+        Debug.Log("Holding " + mouse);
+        if (Input.GetMouseButtonDown(0))
+        {
+            hold = false;
+        }
+    }
+    */
 
     void ResetCamera() {
 
@@ -127,7 +152,8 @@ public class creationUser : MonoBehaviour
 
     void Hovering() {
         ray = Camera.main.ScreenPointToRay(Input.mousePosition);	
-        if (Physics.Raycast(ray, out hit)) { // Hovering over object
+        if (Physics.Raycast(ray, out hit)) { // Hovering over object 
+            Debug.Log("Hovering");
             if (select != null && check != hit.collider.gameObject.name) { // Don't check if already hovering this object
 
                 
@@ -233,6 +259,7 @@ public class creationUser : MonoBehaviour
             // tempHover = hit.collider.gameObject;
 
         } else { // No hovering
+            Debug.Log("Not Hovering");
             if (select != null && select.name != "Main Camera") {
                 select.GetComponent<Renderer>().material.color = focusMaterial;
                 foreach (Renderer bond in bondSiblings) {
@@ -275,7 +302,7 @@ public class creationUser : MonoBehaviour
             if (Physics.Raycast(ray, out hit)) {
                 if(!Input.GetKey(KeyCode.LeftControl) && !Input.GetKey(KeyCode.LeftShift)) {
                     if(hit.transform.tag.Equals("Element")) {
-                        createElement script = hit.collider.gameObject.GetComponent<createElement>();
+                        Elements script = hit.collider.gameObject.GetComponent<Elements>();
                         script.SpawnElement(elements);
                         elements++;
                     }
@@ -287,7 +314,7 @@ public class creationUser : MonoBehaviour
                     }
                 }
                 else if(Input.GetKey(KeyCode.LeftShift)){
-                    createElement script = hit.collider.gameObject.GetComponent<createElement>();
+                    Elements script = hit.collider.gameObject.GetComponent<Elements>();
                     script.DeleteElement();
                 }
             }
