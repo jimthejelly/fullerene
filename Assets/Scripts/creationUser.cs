@@ -195,7 +195,7 @@ public class creationUser : MonoBehaviour
                 
 
                 bondSiblings.Clear();
-                foreach (Transform bond in hit.collider.transform.parent.transform) {
+                foreach (Transform bond in hit.collider.transform) {
                     if (bond.tag == "Bond") {
                         bondSiblings.Add(bond.gameObject.GetComponent<Renderer>());
                     }

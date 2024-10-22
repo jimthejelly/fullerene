@@ -147,10 +147,12 @@ public class Elements : MonoBehaviour
         neighbors.Add(new Tuple<GameObject, GameObject>(cylClone, clone));
         resetChildPositions(radius);
         Debug.Log("worked");
-        clone.transform.localEulerAngles = cylClone.transform.localEulerAngles;
+        clone.transform.localEulerAngles = cylClone.transform.localEulerAngles; //+ this.transform.localEulerAngles;
+
         clone.transform.localPosition = cylClone.transform.localPosition;
         clone.transform.Translate(0, -radius/2, 0);
         
+
         moveChildren(bondCount, start);
         if (!cylClone)
         {
@@ -170,6 +172,9 @@ public class Elements : MonoBehaviour
             child.Item1.transform.localPosition = transform.position;
             child.Item1.transform.localEulerAngles = new Vector3(180, 0, 0);
             child.Item1.transform.Translate(0, -1 * (radius / 2), 0);
+            child.Item2.transform.localPosition = transform.position;
+            child.Item2.transform.localEulerAngles = new Vector3(180, 0, 0);
+            child.Item2.transform.Translate(0, -1 * (radius), 0);
         }
     }
     
@@ -177,34 +182,44 @@ public class Elements : MonoBehaviour
         if(bondCount == 2) {
             neighbors[1-start].Item1.transform.RotateAround(transform.position, transform.forward, 180);
             neighbors[1-start].Item2.transform.RotateAround(transform.position, transform.forward, 180);
+            // neighbors[0-start].Item2.transform.Rotate(transform.up, 180);
         }
         else if(bondCount == 3) {
-            neighbors[1-start].Item1.transform.RotateAround(transform.position, transform.forward, 120);
-            neighbors[2-start].Item1.transform.RotateAround(transform.position, transform.forward, 240);
-            neighbors[1-start].Item2.transform.RotateAround(transform.position, transform.forward, -60);
-            neighbors[2-start].Item2.transform.RotateAround(transform.position, transform.forward, 120);
+            for(int i = 1; i < 3; i++) {
+                neighbors[i-start].Item1.transform.RotateAround(transform.position, transform.forward, 120*i);
+                neighbors[i-start].Item2.transform.RotateAround(transform.position, transform.forward, 120*i);
+            }
         }
         else if(bondCount == 4) {
             for(int i = 1; i < 4; i++) {
-                neighbors[i-start].Item1.transform.RotateAround(transform.position, transform.forward, 109);
+                neighbors[i-start].Item1.transform.RotateAround(transform.position, transform.forward, 120);
+                neighbors[i-start].Item2.transform.RotateAround(transform.position, transform.forward, 120);
+
+                neighbors[i-start].Item1.transform.RotateAround(transform.position, transform.up, 120*i);
+                neighbors[i-start].Item2.transform.RotateAround(transform.position, transform.up, 120*i);
             }
-            neighbors[2-start].Item1.transform.RotateAround(transform.position, transform.forward, 109);
-            neighbors[3-start].Item1.transform.RotateAround(transform.position, transform.forward, -109);
         }
         else if(bondCount == 5) {
+            neighbors[1-start].Item1.transform.RotateAround(transform.position, transform.forward, 180);
+            neighbors[1-start].Item2.transform.RotateAround(transform.position, transform.forward, 180);
             for(int i = 2; i < 5; i++) {
                 neighbors[i-start].Item1.transform.RotateAround(transform.position, transform.forward, 90);
+                neighbors[i-start].Item2.transform.RotateAround(transform.position, transform.forward, 90);
+
+                neighbors[i-start].Item1.transform.RotateAround(transform.position, transform.up, 120*i);
+                neighbors[i-start].Item2.transform.RotateAround(transform.position, transform.up, 120*i);
             }
-            neighbors[1-start].Item1.transform.RotateAround(transform.position, transform.forward, 180);
-            neighbors[3-start].Item1.transform.RotateAround(transform.position, transform.forward, 120);
-            neighbors[4-start].Item1.transform.RotateAround(transform.position, transform.forward, -120);
         }
         else if(bondCount == 6) {
             neighbors[1-start].Item1.transform.RotateAround(transform.position, transform.forward, 180);
-            neighbors[2-start].Item1.transform.RotateAround(transform.position, transform.forward, 90);
-            neighbors[3-start].Item1.transform.RotateAround(transform.position, transform.forward, -90);
-            neighbors[4-start].Item1.transform.RotateAround(transform.position, transform.forward, 90);
-            neighbors[5-start].Item1.transform.RotateAround(transform.position, transform.forward, -90);
+            neighbors[1-start].Item2.transform.RotateAround(transform.position, transform.forward, 180);
+            for(int i = 2; i < 6; i++) {
+                neighbors[i-start].Item1.transform.RotateAround(transform.position, transform.forward, 90);
+                neighbors[i-start].Item2.transform.RotateAround(transform.position, transform.forward, 90);
+
+                neighbors[i-start].Item1.transform.RotateAround(transform.position, transform.up, 90*i);
+                neighbors[i-start].Item2.transform.RotateAround(transform.position, transform.up, 90*i);
+            }
         }
     }
 
