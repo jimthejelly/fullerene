@@ -127,7 +127,19 @@ public class createElement : MonoBehaviour
         clone.name = clone.name + " " + num;
         cylClone.name = cylClone.name + " " + num;
 
-        // Vector3 labelPos = clone.transform.position;
+
+
+        Debug.Log(bondCount);
+        bondCount++;
+
+        resetChildPositions(radius);
+
+        clone.transform.localEulerAngles = cylClone.transform.localEulerAngles + new Vector3(180, 0, 0);
+        clone.transform.localPosition = Vector3.up * -1;
+        
+        moveChildren(bondCount, start);
+
+         // Vector3 labelPos = clone.transform.position;
         // GameObject label = Instantiate("Hello")
 
         // GameObject canvasGameObject = new GameObject("Canvas");
@@ -141,30 +153,19 @@ public class createElement : MonoBehaviour
 
         string text =  "Protons: " + clone.GetComponent<createElement>().protons + "\nElectrons: " + clone.GetComponent<createElement>().electrons + "\nNeutrons: " + clone.GetComponent<createElement>().neutrons;
         GameObject textGameObject = new GameObject("Test");
-        textGameObject.transform.SetParent(clone.transform, true);
+        textGameObject.transform.SetParent(clone.transform, true); 
         textObject = textGameObject.AddComponent<TextMeshProUGUI>();
 
-        textObject.text = $"{text}";
-        textObject.fontSize = 36;
+        textObject.text = text;        
+        textObject.fontSize = 5;
         textObject.color = Color.white;
         textObject.alignment = TextAlignmentOptions.Center;
+        // textObject.transform.position = clone.transform.position;
+        // textObject.transform.rotation = GameObject.Find("Main Camera").transform.rotation;
 
-         RectTransform rectTransform = textGameObject.GetComponent<RectTransform>();
-        rectTransform.sizeDelta = new Vector2(500, 200);
-        rectTransform.anchoredPosition = clone.transform.position;
-
-
-
-
-        Debug.Log(bondCount);
-        bondCount++;
-
-        resetChildPositions(radius);
-
-        clone.transform.localEulerAngles = cylClone.transform.localEulerAngles + new Vector3(180, 0, 0);
-        clone.transform.localPosition = Vector3.up * -1;
-        
-        moveChildren(bondCount, start);
+        //  RectTransform rectTransform = textGameObject.GetComponent<RectTransform>();
+        // rectTransform.sizeDelta = new Vector2(500, 200);
+        // rectTransform.anchoredPosition = GameObject.Find("moleculeBody").transform.position;
     }
 
     public void resetChildPositions(float radius) {
