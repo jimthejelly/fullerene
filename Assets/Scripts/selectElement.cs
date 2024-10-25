@@ -35,6 +35,7 @@ public class selectElement : MonoBehaviour
             GameObject obj = AssetDatabase.LoadAssetAtPath("Assets/Elements/" + element + ".prefab", typeof(GameObject)) as GameObject;
             GameObject clone = Instantiate(obj, Vector3.zero, Quaternion.identity, GameObject.Find("moleculeBody").transform);
             creationUser.head = clone;
+            clone.transform.Rotate(180,0,0);
         }
     }
 }

@@ -153,7 +153,7 @@ public class creationUser : MonoBehaviour
     void Hovering() {
         ray = Camera.main.ScreenPointToRay(Input.mousePosition);	
         if (Physics.Raycast(ray, out hit)) { // Hovering over object 
-            Debug.Log("Hovering");
+            // Debug.Log("Hovering");
             if (select != null && check != hit.collider.gameObject.name) { // Don't check if already hovering this object
 
                 
@@ -259,7 +259,7 @@ public class creationUser : MonoBehaviour
             // tempHover = hit.collider.gameObject;
 
         } else { // No hovering
-            Debug.Log("Not Hovering");
+            // Debug.Log("Not Hovering");
             if (select != null && select.name != "Main Camera") {
                 select.GetComponent<Renderer>().material.color = focusMaterial;
                 foreach (Renderer bond in bondSiblings) {
