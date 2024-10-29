@@ -110,8 +110,9 @@ public class creationMenu : MonoBehaviour
      public void LoadReset() {
         GameObject molecule = GameObject.Find("moleculeBody");
         
-        while (molecule.transform.childCount > 0) {
-            Destroy(molecule.transform.GetChild(0).gameObject);
+        Debug.Log(molecule.transform.childCount);
+        for(int i = 0; i < molecule.transform.childCount; i++) {
+            Destroy(molecule.transform.GetChild(i).gameObject);
         }
 
         Camera.GetComponent<creationUser>().Restart();
