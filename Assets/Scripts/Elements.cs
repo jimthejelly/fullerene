@@ -184,12 +184,12 @@ public class Elements : MonoBehaviour
             {
                 child.Item1.transform.localPosition = transform.position;
                 child.Item1.transform.localEulerAngles = new Vector3(this.transform.localEulerAngles.x,
-                    -this.transform.localEulerAngles.y, this.transform.localEulerAngles.z);
+                    this.transform.localEulerAngles.y, this.transform.localEulerAngles.z);
                 child.Item1.transform.Translate(0, -1 * (radius / 2), 0);
 
                 child.Item2.transform.localPosition = transform.position;
                 child.Item2.transform.localEulerAngles = new Vector3(this.transform.localEulerAngles.x,
-                    -this.transform.localEulerAngles.y, this.transform.localEulerAngles.z);
+                    this.transform.localEulerAngles.y, this.transform.localEulerAngles.z);
                 child.Item2.transform.Translate(0, -1 * (radius), 0);
             }
 
