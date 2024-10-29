@@ -100,6 +100,7 @@ public class Elements : MonoBehaviour
     public void SpawnElement(int num) {
         // int bondCount = 0;
         // int bondOrders = 0;
+        Debug.Log("neighbor num: " + neighbors.Count);
         protons = 16;
         electrons = 16;
         neutrons = 0;
@@ -148,12 +149,10 @@ public class Elements : MonoBehaviour
         clone.transform.SetParent(GameObject.Find("moleculeBody").transform, true);
         clone.name = clone.name + " " + num;
         cylClone.name = cylClone.name + " " + num;
-        Debug.Log(bondCount);
         bondCount++;
-        Debug.Log("add");
         neighbors.Add(new Tuple<GameObject, GameObject>(cylClone, clone));
+        clone.GetComponent<Elements>().neighbors.Add(new Tuple<GameObject, GameObject>(cylClone, clone));
         resetChildPositions(radius);
-        Debug.Log("worked");
         clone.transform.localEulerAngles = cylClone.transform.localEulerAngles; //+ this.transform.localEulerAngles;
 
         clone.transform.localPosition = cylClone.transform.localPosition;
@@ -170,7 +169,6 @@ public class Elements : MonoBehaviour
         {
             Debug.Log("clone breok");
         }
-        Debug.Log("continued");
        
     }
 
@@ -193,7 +191,7 @@ public class Elements : MonoBehaviour
             neighbors[1-start].Item2.transform.RotateAround(transform.position, transform.forward, 180);
 
             Debug.Log("index: " + (1-start) + "   name: " + neighbors[1-start].Item2.name);
-            moveInnerChildren(neighbors[1-start], neighbors[1-start].Item2.GetComponent<Elements>().bondCount, neighbors[1-start].Item2.GetComponent<Elements>().start, 0 , 0 ,180);
+            //moveInnerChildren(neighbors[1-start], neighbors[1-start].Item2.GetComponent<Elements>().bondCount, neighbors[1-start].Item2.GetComponent<Elements>().start, 0 , 0 ,180);
             // neighbors[0-start].Item2.transform.Rotate(transform.up, 180);
         }
         else if(bondCount == 3) {
@@ -236,9 +234,6 @@ public class Elements : MonoBehaviour
     }
 
     public void moveInnerChildren(Tuple<GameObject,GameObject> parent, int bondCount, int start, float right, float up, float forward) {
-        
-        Debug.Log("bondcount" + bondCount);
-        Debug.Log("start" + start);
         for(int i = 1; i < bondCount; i++) {
             Debug.Log("entered");
             parent.Item2.GetComponent<Elements>().neighbors[i-start].Item1.transform.RotateAround(transform.position, transform.right, right);
@@ -397,7 +392,6 @@ public class Elements : MonoBehaviour
         clone.transform.SetParent(cylClone.transform.GetChild(0), true);
         clone.name = clone.name + " " + num;
         cylClone.name = cylClone.name + " " + num;
-        Debug.Log(bondCount);
         bondCount++;
 
         resetChildPositions(radius);

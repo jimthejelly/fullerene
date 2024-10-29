@@ -230,7 +230,7 @@ public class creationUser : MonoBehaviour
                 }
 
 
-                Debug.Log("Check");
+
             } else { // Only allow click interaction after initial hover
                 if (Input.GetMouseButtonUp(0)) {
                     Clicking();
@@ -296,9 +296,7 @@ public class creationUser : MonoBehaviour
 
     void Interacting(int clicknumber) {
         ray = GetComponent<Camera>().ScreenPointToRay(Input.mousePosition);
-        Debug.Log("Inter");
         if (clicknumber == 1) { // 1 click interaction
-            Debug.Log("Creating");
             if (Physics.Raycast(ray, out hit)) {
                 if(!Input.GetKey(KeyCode.LeftControl) && !Input.GetKey(KeyCode.LeftShift)) {
                     if(hit.transform.tag.Equals("Element")) {
@@ -319,9 +317,7 @@ public class creationUser : MonoBehaviour
                 }
             }
         } else if (clicknumber == 2) { // 2 click interaction
-            Debug.Log("Inteasr");
             if (Physics.Raycast(ray, out hit) && Input.GetKey(KeyCode.LeftControl)) {
-                Debug.Log("Doubke + " + hit.collider.gameObject.name);
                 molecule = GameObject.Find(hit.collider.gameObject.name);
                 focus = GameObject.Find(hit.collider.gameObject.name).transform;
                 panOffset = Vector3.zero;
