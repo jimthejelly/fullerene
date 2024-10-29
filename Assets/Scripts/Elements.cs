@@ -193,13 +193,16 @@ public class Elements : MonoBehaviour
             neighbors[1-start].Item2.transform.RotateAround(transform.position, transform.forward, 180);
 
             Debug.Log("index: " + (1-start) + "   name: " + neighbors[1-start].Item2.name);
-            moveInnerChildren(neighbors[1-start], neighbors[1-start].Item2.GetComponent<Elements>().bondCount, neighbors[1-start].Item2.GetComponent<Elements>().start, 0 , 0 ,180);
+            moveInnerChildren(neighbors[1-start], neighbors[1-start].Item2.GetComponent<Elements>().bondCount, neighbors[1-start].Item2.GetComponent<Elements>().start, 0, 0, 180);
             // neighbors[0-start].Item2.transform.Rotate(transform.up, 180);
         }
         else if(bondCount == 3) {
             for(int i = 1; i < 3; i++) {
                 neighbors[i-start].Item1.transform.RotateAround(transform.position, transform.forward, 120*i);
                 neighbors[i-start].Item2.transform.RotateAround(transform.position, transform.forward, 120*i);
+
+                moveInnerChildren(neighbors[i-start], neighbors[i-start].Item2.GetComponent<Elements>().bondCount, neighbors[i-start].Item2.GetComponent<Elements>().start, 0, 0, 120*i);
+
             }
         }
         else if(bondCount == 4) {
