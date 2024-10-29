@@ -152,14 +152,19 @@ public class Elements : MonoBehaviour
         bondCount++;
         neighbors.Add(new Tuple<GameObject, GameObject>(cylClone, clone));
         clone.GetComponent<Elements>().neighbors.Add(new Tuple<GameObject, GameObject>(cylClone, clone));
+        
         resetChildPositions(radius);
+
         clone.transform.localEulerAngles = cylClone.transform.localEulerAngles; //+ this.transform.localEulerAngles;
 
         clone.transform.localPosition = cylClone.transform.localPosition;
         clone.transform.Translate(0, -radius/2, 0);
-        
 
-        moveChildren(bondCount, start);
+        if (gameObject == creationUser.head)
+        {
+            moveChildren(bondCount, start);
+        }
+
         if (!cylClone)
         {
             Debug.Log("bond breok");
@@ -175,13 +180,19 @@ public class Elements : MonoBehaviour
     public void resetChildPositions(float radius) {
 
         foreach(Tuple<GameObject,GameObject> child in neighbors) {
-            child.Item1.transform.localPosition = transform.position;
-            child.Item1.transform.localEulerAngles = new Vector3(this.transform.localEulerAngles.x, -this.transform.localEulerAngles.y, this.transform.localEulerAngles.z);
-            child.Item1.transform.Translate(0, -1 * (radius / 2), 0);
+            if (!child.Equals(neighbors[0]) || gameObject == creationUser.head)
+            {
+                child.Item1.transform.localPosition = transform.position;
+                child.Item1.transform.localEulerAngles = new Vector3(this.transform.localEulerAngles.x,
+                    -this.transform.localEulerAngles.y, this.transform.localEulerAngles.z);
+                child.Item1.transform.Translate(0, -1 * (radius / 2), 0);
 
-            child.Item2.transform.localPosition = transform.position;
-            child.Item2.transform.localEulerAngles = new Vector3(this.transform.localEulerAngles.x, -this.transform.localEulerAngles.y, this.transform.localEulerAngles.z);
-            child.Item2.transform.Translate(0, -1 * (radius), 0);
+                child.Item2.transform.localPosition = transform.position;
+                child.Item2.transform.localEulerAngles = new Vector3(this.transform.localEulerAngles.x,
+                    -this.transform.localEulerAngles.y, this.transform.localEulerAngles.z);
+                child.Item2.transform.Translate(0, -1 * (radius), 0);
+            }
+
         }
     }
     
