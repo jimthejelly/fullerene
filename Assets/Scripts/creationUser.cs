@@ -42,6 +42,19 @@ public class creationUser : MonoBehaviour
         transform.position = new Vector3(molecule.transform.position.x,molecule.transform.position.y+1,molecule.transform.position.z-4);
         transform.eulerAngles = new Vector3(0,0,0);
     }
+
+    public void Restart()
+    {
+        // Initializes variables to effectively nothing
+        select = GameObject.Find("Main Camera");
+        molecule = GameObject.Find("moleculeBody");
+        focus = GameObject.Find("moleculeBody").transform;
+        
+        // Initializes starting camera position
+        transform.position = new Vector3(molecule.transform.position.x,molecule.transform.position.y+1,molecule.transform.position.z-4);
+        transform.eulerAngles = new Vector3(0,0,0);
+    }
+
     // Update is called once per frame
     void Update()
     { 

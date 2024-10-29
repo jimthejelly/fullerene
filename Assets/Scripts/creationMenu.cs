@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class creationMenu : MonoBehaviour
 {
+    public GameObject Camera;
     public GameObject pause_menu;
     public GameObject table_menu;
     public GameObject preset_menu;
@@ -104,6 +105,16 @@ public class creationMenu : MonoBehaviour
 
         ortho.SetActive(orthographic);
         persp.SetActive(!orthographic);
+    }
+
+     public void LoadReset() {
+        GameObject molecule = GameObject.Find("moleculeBody");
+        
+        while (molecule.transform.childCount > 0) {
+            Destroy(molecule.transform.GetChild(0).gameObject);
+        }
+
+        Camera.GetComponent<creationUser>().Restart();
     }
 
     public void Return()
