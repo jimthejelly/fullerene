@@ -151,7 +151,7 @@ public class Elements : MonoBehaviour
         cylClone.name = cylClone.name + " " + num;
         bondCount++;
         neighbors.Add(new Tuple<GameObject, GameObject>(cylClone, clone));
-        clone.GetComponent<Elements>().neighbors.Add(new Tuple<GameObject, GameObject>(cylClone, clone));
+        clone.GetComponent<Elements>().neighbors.Add(new Tuple<GameObject, GameObject>(cylClone, gameObject));
         
         resetChildPositions(radius);
 
@@ -159,11 +159,8 @@ public class Elements : MonoBehaviour
 
         clone.transform.localPosition = cylClone.transform.localPosition;
         clone.transform.Translate(0, -radius/2, 0);
-
-        if (gameObject == creationUser.head)
-        {
-            moveChildren(bondCount, start);
-        }
+        
+        moveChildren(bondCount, start);
 
         if (!cylClone)
         {
@@ -180,7 +177,7 @@ public class Elements : MonoBehaviour
     public void resetChildPositions(float radius) {
 
         foreach(Tuple<GameObject,GameObject> child in neighbors) {
-            if (!child.Equals(neighbors[0]) || gameObject == creationUser.head)
+            if (!Equals(child, neighbors[0]) || gameObject == creationUser.head)
             {
                 child.Item1.transform.localPosition = transform.position;
                 child.Item1.transform.localEulerAngles = new Vector3(this.transform.localEulerAngles.x,
@@ -192,15 +189,18 @@ public class Elements : MonoBehaviour
                     this.transform.localEulerAngles.y, this.transform.localEulerAngles.z);
                 child.Item2.transform.Translate(0, -1 * (radius), 0);
             }
-
+            
         }
     }
     
     public void moveChildren(int bondCount, int start) {
         if(bondCount == 2) {
-            neighbors[1-start].Item1.transform.RotateAround(transform.position, transform.forward, 180);
-            neighbors[1-start].Item2.transform.RotateAround(transform.position, transform.forward, 180);
-
+            if (gameObject == creationUser.head)
+            {
+                neighbors[neighbors.Count()-1].Item1.transform.RotateAround(transform.position, transform.forward, 180);
+                neighbors[neighbors.Count()-1].Item2.transform.RotateAround(transform.position, transform.forward, 180);
+            }
+            
             Debug.Log("index: " + (1-start) + "   name: " + neighbors[1-start].Item2.name);
             //moveInnerChildren(neighbors[1-start], neighbors[1-start].Item2.GetComponent<Elements>().bondCount, neighbors[1-start].Item2.GetComponent<Elements>().start, 0 , 0 ,180);
             // neighbors[0-start].Item2.transform.Rotate(transform.up, 180);
