@@ -5,12 +5,22 @@ using UnityEditor;
 using TMPro;
 using UnityEngine.SceneManagement;
 using System;
-public class MakeAMolecule : MonoBehaviour {
-    public TextMeshProUGUI moleculeText;
 
-    void start() {
+public class makeAMolecule : MonoBehaviour
+{
+    public TMP_Text myText;
+    // Start is called before the first frame update
+    void Start()
+    {
         String line = grabMolecule("Assets/Resources/MakeAMolecule.txt"); 
-        moleculeText.text = line;
+        myText.text = line;
+        // myText.text = "Hello, World!";
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
     }
 
     private String grabMolecule(String filename) {
