@@ -16,6 +16,8 @@ public class creationMenu : MonoBehaviour
     
     public bool simplified = false;    //simplified version
 
+    public static bool molMini = false; //toggle for makeAMolecule, will probably end up making a separate menu for different mini games
+
     public bool orthographic = false;
     public GameObject ortho;
     public GameObject persp;
@@ -51,6 +53,15 @@ public class creationMenu : MonoBehaviour
         } else {            // now not simplified
 
             simplified = true;
+        }
+    }
+
+    public void makeAMolecule() {
+        GameObject molecule = GameObject.Find("moleculeBody");
+        if(!molMini) {
+            molMini = false;
+        } else {
+            molMini = true;
         }
     }
 

@@ -12,21 +12,29 @@ public class makeAMolecule : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        String line = grabMolecule("Assets/Resources/MakeAMolecule.txt"); 
-        myText.text = line;
-        // myText.text = "Hello, World!";
+        myText.color = Color.black;
+        String fullLine = grabMolecule("Assets/Resources/MakeAMolecule.txt"); 
+        int index = fullLine.IndexOf(':');
+        String displayLine = fullLine.Substring(0, index);
+        String formula = fullLine.Substring(index, fullLine.Length - index);
+        myText.text = displayLine;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        GameObject molecule = GameObject.Find("moleculeBody");
+        if(creationMenu.molMini == true) {
+            myText.color = Color.white;
+        } else {
+            myText.color = Color.black;
+        }
     }
 
     private String grabMolecule(String filename) {
         System.Random gen = new System.Random();
         int num = gen.Next(0, 100);
-        String line = "test";
+        String line = "";
         var openFile = new System.IO.StreamReader(filename);
         for (int i = 0; i < num; i++)
         {
