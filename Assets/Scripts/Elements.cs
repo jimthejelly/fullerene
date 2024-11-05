@@ -177,7 +177,7 @@ public class Elements : MonoBehaviour
     public void resetChildPositions(float radius) {
 
         foreach(Tuple<GameObject,GameObject> child in neighbors) {
-            if (!Equals(child, neighbors[0]) || gameObject == creationUser.head)
+            if (gameObject == creationUser.head)
             {
                 child.Item1.transform.localPosition = transform.position;
                 child.Item1.transform.localEulerAngles = new Vector3(this.transform.localEulerAngles.x,
@@ -188,6 +188,28 @@ public class Elements : MonoBehaviour
                 child.Item2.transform.localEulerAngles = new Vector3(this.transform.localEulerAngles.x,
                     this.transform.localEulerAngles.y, this.transform.localEulerAngles.z);
                 child.Item2.transform.Translate(0, -1 * (radius), 0);
+            } else if (!Equals(child, neighbors[0])) {
+
+                child.Item1.transform.localPosition = transform.position;
+                child.Item1.transform.localEulerAngles = new Vector3(this.transform.localEulerAngles.x,
+                    this.transform.localEulerAngles.y, this.transform.localEulerAngles.z + 180);
+                child.Item1.transform.Translate(0, -1 * (radius / 2), 0);
+
+                // // child.Item1.transform.RotateAround(transform.position, transform.forward, 180);
+                // // child.Item1.transform.RotateAround(transform.position, transform.up, 180);
+                // // child.Item1.transform.RotateAround(transform.position, transform.right, 180);
+
+                child.Item2.transform.localPosition = transform.position;
+                child.Item2.transform.localEulerAngles = new Vector3(this.transform.localEulerAngles.x,
+                    this.transform.localEulerAngles.y, this.transform.localEulerAngles.z + 180);
+                child.Item2.transform.Translate(0, -1 * (radius), 0);
+
+                // child.Item2.transform.RotateAround(transform.position, transform.forward, 180);
+                // child.Item2.transform.RotateAround(transform.position, transform.up, 180);
+                // child.Item2.transform.RotateAround(transform.position, transform.right, 180);
+
+            } else {
+
             }
             
         }
@@ -195,24 +217,33 @@ public class Elements : MonoBehaviour
     
     public void moveChildren(int bondCount, int start) {
         if(bondCount == 2) {
-            if (gameObject == creationUser.head)
-            {
+            // if (gameObject == creationUser.head)
+            // {
                 neighbors[neighbors.Count()-1].Item1.transform.RotateAround(transform.position, transform.forward, 180);
                 neighbors[neighbors.Count()-1].Item2.transform.RotateAround(transform.position, transform.forward, 180);
-            }
+            // }
             
             Debug.Log("index: " + (1-start) + "   name: " + neighbors[1-start].Item2.name);
             //moveInnerChildren(neighbors[1-start], neighbors[1-start].Item2.GetComponent<Elements>().bondCount, neighbors[1-start].Item2.GetComponent<Elements>().start, 0 , 0 ,180);
             // neighbors[0-start].Item2.transform.Rotate(transform.up, 180);
         }
         else if(bondCount == 3) {
-            for(int i = 1; i < 3; i++) {
-                neighbors[i-start].Item1.transform.RotateAround(transform.position, transform.forward, 120*i);
-                neighbors[i-start].Item2.transform.RotateAround(transform.position, transform.forward, 120*i);
+            // if (gameObject == creationUser.head) {
+                for(int i = 1; i < 3; i++) {
+                    neighbors[i-start].Item1.transform.RotateAround(transform.position, transform.forward, 120*i);
+                    neighbors[i-start].Item2.transform.RotateAround(transform.position, transform.forward, 120*i);
 
-                moveInnerChildren(neighbors[i-start], neighbors[i-start].Item2.GetComponent<Elements>().bondCount, neighbors[i-start].Item2.GetComponent<Elements>().start, 0, 0, 120*i);
+                    //moveInnerChildren(neighbors[i-start], neighbors[i-start].Item2.GetComponent<Elements>().bondCount, neighbors[i-start].Item2.GetComponent<Elements>().start, 0, 0, 120*i);
+                }
+            // } else {
+            //     for(int i = 1; i < 3; i++) {
+            //         // neighbors[i-start].Item1.transform.RotateAround(transform.position, transform.forward, 120*(i));
+            //         // neighbors[i-start].Item2.transform.RotateAround(transform.position, transform.forward, 120*(i));
 
-            }
+            //         //moveInnerChildren(neighbors[i-start], neighbors[i-start].Item2.GetComponent<Elements>().bondCount, neighbors[i-start].Item2.GetComponent<Elements>().start, 0, 0, 120*i);
+            //     }
+            // }
+            
         }
         else if(bondCount == 4) {
             for(int i = 1; i < 4; i++) {
