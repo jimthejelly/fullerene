@@ -12,7 +12,7 @@ public class makeAMolecule : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        myText.color = Color.black;
+        myText.color = Color.white;
         String fullLine = grabMolecule("Assets/Resources/MakeAMolecule.txt"); 
         int index = fullLine.IndexOf(':');
         String displayLine = fullLine.Substring(0, index);
@@ -27,7 +27,7 @@ public class makeAMolecule : MonoBehaviour
         if(creationMenu.molMini == true) {
             myText.color = Color.white;
         } else {
-            myText.color = Color.black;
+            //myText.color = Color.black;
         }
     }
 

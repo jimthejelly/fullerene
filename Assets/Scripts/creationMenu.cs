@@ -6,6 +6,8 @@ using UnityEngine.SceneManagement;
 public class creationMenu : MonoBehaviour
 {
     public GameObject pause_menu;
+
+    public GameObject mini_menu;
     public GameObject table_menu;
     public GameObject preset_menu;
     public GameObject general_info;
@@ -70,6 +72,7 @@ public class creationMenu : MonoBehaviour
         if (!isPaused) {
             Time.timeScale = 0;
             pause_menu.SetActive(true);
+            mini_menu.SetActive(false);
 
             ortho.SetActive(orthographic);
             persp.SetActive(!orthographic);
@@ -108,6 +111,14 @@ public class creationMenu : MonoBehaviour
     public void LoadExplorationMenu()
     {
         SceneManager.LoadScene("ExplorationScene", LoadSceneMode.Single);
+    }
+
+    public void LoadMiniGameMenu() {
+
+        mini_menu.SetActive(true);
+        pause_menu.SetActive(false);
+        LoadPauseMenu();
+
     }
 
     public void CameraToggleText() {
