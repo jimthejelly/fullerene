@@ -86,6 +86,14 @@ public class creationMenu : MonoBehaviour
         
     }
 
+    public void LoadMiniGameMenu() {
+
+        mini_menu.SetActive(true);
+        pause_menu.SetActive(false);
+        LoadPauseMenu();
+
+    }
+
     public void LoadTableMenu()
     {
         if (!table_menu.activeSelf) {
@@ -112,15 +120,11 @@ public class creationMenu : MonoBehaviour
     {
         SceneManager.LoadScene("ExplorationScene", LoadSceneMode.Single);
     }
-
-    public void LoadMiniGameMenu() {
-
-        mini_menu.SetActive(true);
-        pause_menu.SetActive(false);
-        LoadPauseMenu();
-
+    
+    public void LoadMakeAMolecule() {
+        SceneManager.LoadScene("MakeAMolecule", LoadSceneMode.Single);
     }
-
+    
     public void CameraToggleText() {
         orthographic = !orthographic;
 
