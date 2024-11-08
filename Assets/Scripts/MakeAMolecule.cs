@@ -9,10 +9,11 @@ using System;
 public class makeAMolecule : MonoBehaviour
 {
     public TMP_Text myText;
+    private Scene scene;
     // Start is called before the first frame update
     void Start()
     {
-        myText.color = Color.white;
+        myText.color = Color.black;
         String fullLine = grabMolecule("Assets/Resources/MakeAMolecule.txt"); 
         int index = fullLine.IndexOf(':');
         String displayLine = fullLine.Substring(0, index);
@@ -23,6 +24,13 @@ public class makeAMolecule : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        scene = SceneManager.GetActiveScene();
+        if(scene.name == "MakeAMolecule") {
+            myText.color = Color.white;
+        } else {
+            myText.color = Color.black;
+        }
+
         GameObject molecule = GameObject.Find("moleculeBody");
         if(creationMenu.molMini == true) {
             myText.color = Color.white;

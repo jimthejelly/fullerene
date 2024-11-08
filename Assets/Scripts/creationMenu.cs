@@ -24,6 +24,8 @@ public class creationMenu : MonoBehaviour
     public GameObject ortho;
     public GameObject persp;
 
+    private Scene scene;
+
     void Start()
     {
         // Pauses time and brings up menu
