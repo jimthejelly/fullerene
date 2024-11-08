@@ -161,6 +161,7 @@ public class Elements : MonoBehaviour
         clone.transform.Translate(0, -radius/2, 0);
         
         moveChildren(bondCount, start);
+            
 
         if (!cylClone)
         {
@@ -228,21 +229,21 @@ public class Elements : MonoBehaviour
             // neighbors[0-start].Item2.transform.Rotate(transform.up, 180);
         }
         else if(bondCount == 3) {
-            // if (gameObject == creationUser.head) {
+            if (gameObject == creationUser.head) {
                 for(int i = 1; i < 3; i++) {
                     neighbors[i-start].Item1.transform.RotateAround(transform.position, transform.forward, 120*i);
                     neighbors[i-start].Item2.transform.RotateAround(transform.position, transform.forward, 120*i);
 
                     //moveInnerChildren(neighbors[i-start], neighbors[i-start].Item2.GetComponent<Elements>().bondCount, neighbors[i-start].Item2.GetComponent<Elements>().start, 0, 0, 120*i);
                 }
-            // } else {
-            //     for(int i = 1; i < 3; i++) {
-            //         // neighbors[i-start].Item1.transform.RotateAround(transform.position, transform.forward, 120*(i));
-            //         // neighbors[i-start].Item2.transform.RotateAround(transform.position, transform.forward, 120*(i));
-
-            //         //moveInnerChildren(neighbors[i-start], neighbors[i-start].Item2.GetComponent<Elements>().bondCount, neighbors[i-start].Item2.GetComponent<Elements>().start, 0, 0, 120*i);
-            //     }
-            // }
+            } else {
+                for(int i = 2; i < 4; i++) {
+                     neighbors[i-start].Item1.transform.RotateAround(transform.position, transform.forward, 120*(i-1));
+                     neighbors[i-start].Item2.transform.RotateAround(transform.position, transform.forward, 120*(i-1));
+                     Debug.Log("Rotation " + 120*i + ": " + i);
+                    //moveInnerChildren(neighbors[i-start], neighbors[i-start].Item2.GetComponent<Elements>().bondCount, neighbors[i-start].Item2.GetComponent<Elements>().start, 0, 0, 120*i);
+                }
+            }
             
         }
         else if(bondCount == 4) {
