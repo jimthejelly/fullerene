@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEditor;
 
 public class creationMenu : MonoBehaviour
 {
@@ -47,11 +48,42 @@ public class creationMenu : MonoBehaviour
     {
         GameObject molecule = GameObject.Find("moleculeBody");
         if(!simplified) {    // now simplified
-            simplified = false;
+            for(int i = 0; i < molecule.transform.childCount; i++) {
+                string name = molecule.transform.GetChild(i).gameObject.name;
+                string result = (name.IndexOf('(') != -1) ? name.Substring(0, name.IndexOf('(')) : name;
 
-        } else {            // now not simplified
+                bool containsBond = result.Contains("Bond");
+                if (!containsBond) { 
+                    molecule.transform.GetChild(i).localScale = new Vector3(1, 1, 1);
+                }
+            }
 
             simplified = true;
+            
+        } else {            // now not simplified
+            for(int i = 0; i < molecule.transform.childCount; i++) {
+                string name = molecule.transform.GetChild(i).gameObject.name;
+                string result = (name.IndexOf('(') != -1) ? name.Substring(0, name.IndexOf('(')) : name;
+
+                bool containsBond = result.Contains("Bond");
+                GameObject obj;
+                if (containsBond) {
+                    obj = AssetDatabase.LoadAssetAtPath("Assets/Resources/" + result + ".prefab", typeof(GameObject)) as GameObject;
+                } else {
+                    obj = AssetDatabase.LoadAssetAtPath("Assets/Elements/" + result + ".prefab", typeof(GameObject)) as GameObject;
+                }
+
+                if (obj != null)
+                {
+                    if (!containsBond) molecule.transform.GetChild(i).localScale = obj.transform.localScale;
+                }
+                else
+                {
+                    Debug.LogWarning("Prefab not found for: " + result);
+                }
+            }
+            
+            simplified = false;
         }
     }
 
