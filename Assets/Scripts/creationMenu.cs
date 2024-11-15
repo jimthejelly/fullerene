@@ -92,9 +92,17 @@ public class creationMenu : MonoBehaviour
     public void LoadMiniGameMenu() {
 
         mini_menu.SetActive(true);
-        pause_menu.SetActive(false);
+        pause_menu.SetActive(false);    
         LoadPauseMenu();
+        
+    }
+    
+    public void UnloadMiniGameMenu() {
 
+        mini_menu.SetActive(false);
+        pause_menu.SetActive(true);    
+        LoadPauseMenu();
+        
     }
 
     public void LoadTableMenu()
@@ -112,7 +120,7 @@ public class creationMenu : MonoBehaviour
     }
     public void LoadDropdownMenu()
     {
-         if (!preset_dropdown.activeSelf) {
+        if (!preset_dropdown.activeSelf) {
             preset_dropdown.SetActive(true);
         } else {
             preset_dropdown.SetActive(false);
