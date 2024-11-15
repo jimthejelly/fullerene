@@ -7,6 +7,8 @@ public class creationMenu : MonoBehaviour
 {
     public GameObject Camera;
     public GameObject pause_menu;
+
+    public GameObject mini_menu;
     public GameObject table_menu;
     public GameObject preset_menu;
     public GameObject general_info;
@@ -17,9 +19,13 @@ public class creationMenu : MonoBehaviour
     
     public bool simplified = false;    //simplified version
 
+    public static bool molMini = false; //toggle for makeAMolecule, will probably end up making a separate menu for different mini games
+
     public bool orthographic = false;
     public GameObject ortho;
     public GameObject persp;
+
+    private Scene scene;
 
     void Start()
     {
@@ -55,11 +61,21 @@ public class creationMenu : MonoBehaviour
         }
     }
 
+    public void makeAMolecule() {
+        GameObject molecule = GameObject.Find("moleculeBody");
+        if(!molMini) {
+            molMini = false;
+        } else {
+            molMini = true;
+        }
+    }
+
     public void LoadPauseMenu()
     {
         if (!isPaused) {
             Time.timeScale = 0;
             pause_menu.SetActive(true);
+            mini_menu.SetActive(false);
 
             ortho.SetActive(orthographic);
             persp.SetActive(!orthographic);
@@ -71,6 +87,14 @@ public class creationMenu : MonoBehaviour
             isPaused = false;
         }
         
+    }
+
+    public void LoadMiniGameMenu() {
+
+        mini_menu.SetActive(true);
+        pause_menu.SetActive(false);
+        LoadPauseMenu();
+
     }
 
     public void LoadTableMenu()
@@ -99,7 +123,11 @@ public class creationMenu : MonoBehaviour
     {
         SceneManager.LoadScene("ExplorationScene", LoadSceneMode.Single);
     }
-
+    
+    public void LoadMakeAMolecule() {
+        SceneManager.LoadScene("MakeAMolecule", LoadSceneMode.Single);
+    }
+    
     public void CameraToggleText() {
         orthographic = !orthographic;
 

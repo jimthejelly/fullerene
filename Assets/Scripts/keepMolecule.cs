@@ -1,20 +1,17 @@
-using System.Collections;
-using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 
 public class keepMolecule : MonoBehaviour
 {
+    public Canvas canvas;
     public GameObject moleculeBody;
+
+    private Scene sceneManager;
 
     // Start is called before the first frame update
     void Start()
     {
-        DontDestroyOnLoad(moleculeBody);
+        moleculeBody = moleculeSingleton.Instance;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
