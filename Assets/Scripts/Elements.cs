@@ -335,57 +335,21 @@ public class Elements : MonoBehaviour
 
     public void moveInnerChildren(GameObject parent)
     {
-        /*
+        getBranch(parent);
+    }
+
+    public List<Tuple<GameObject, GameObject>> getBranch(GameObject parent)
+    {
         List<Tuple<GameObject, GameObject>> children = parent.GetComponent<Elements>().neighbors;
+        List<Tuple<GameObject, GameObject>> valid = new List<Tuple<GameObject, GameObject>>();
+
         for (int i = 1; i < children.Count; i++)
         {
-            children[i].Item2.GetComponent<Elements>().resetChildPositions(3f);
-            children[i].Item2.GetComponent<Elements>().moveChildren(children[i].Item2.GetComponent<Elements>().bondCount, children[i].Item2.GetComponent<Elements>().start);
+            valid.Add(new Tuple<GameObject, GameObject>(children[i].Item1, children[i].Item2));
+            valid.AddRange(getBranch(children[i].Item2));
         }
-        */
-
-        // if(bondCount == 2) {
-        //     parent.GetComponent<Elements>().neighbors[1-start].Item1.transform.RotateAround(transform.position, transform.forward, 180);
-        //     neighbors[1-start].Item2.transform.RotateAround(transform.position, transform.forward, 180);
-
-        // }
-        // else if(bondCount == 3) {
-        //     for(int i = 1; i < 3; i++) {
-        //         neighbors[i-start].Item1.transform.RotateAround(transform.position, transform.forward, 120*i);
-        //         neighbors[i-start].Item2.transform.RotateAround(transform.position, transform.forward, 120*i);
-        //     }
-        // }
-        // else if(bondCount == 4) {
-        //     for(int i = 1; i < 4; i++) {
-        //         neighbors[i-start].Item1.transform.RotateAround(transform.position, transform.forward, 120);
-        //         neighbors[i-start].Item2.transform.RotateAround(transform.position, transform.forward, 120);
-
-        //         neighbors[i-start].Item1.transform.RotateAround(transform.position, transform.up, 120*i);
-        //         neighbors[i-start].Item2.transform.RotateAround(transform.position, transform.up, 120*i);
-        //     }
-        // }
-        // else if(bondCount == 5) {
-        //     neighbors[1-start].Item1.transform.RotateAround(transform.position, transform.forward, 180);
-        //     neighbors[1-start].Item2.transform.RotateAround(transform.position, transform.forward, 180);
-        //     for(int i = 2; i < 5; i++) {
-        //         neighbors[i-start].Item1.transform.RotateAround(transform.position, transform.forward, 90);
-        //         neighbors[i-start].Item2.transform.RotateAround(transform.position, transform.forward, 90);
-
-        //         neighbors[i-start].Item1.transform.RotateAround(transform.position, transform.up, 120*i);
-        //         neighbors[i-start].Item2.transform.RotateAround(transform.position, transform.up, 120*i);
-        //     }
-        // }
-        // else if(bondCount == 6) {
-        //     neighbors[1-start].Item1.transform.RotateAround(transform.position, transform.forward, 180);
-        //     neighbors[1-start].Item2.transform.RotateAround(transform.position, transform.forward, 180);
-        //     for(int i = 2; i < 6; i++) {
-        //         neighbors[i-start].Item1.transform.RotateAround(transform.position, transform.forward, 90);
-        //         neighbors[i-start].Item2.transform.RotateAround(transform.position, transform.forward, 90);
-
-        //         neighbors[i-start].Item1.transform.RotateAround(transform.position, transform.up, 90*i);
-        //         neighbors[i-start].Item2.transform.RotateAround(transform.position, transform.up, 90*i);
-        //     }
-        // }
+        
+        return valid;
     }
 
     public void DeleteElement() {
