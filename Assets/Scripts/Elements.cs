@@ -335,12 +335,14 @@ public class Elements : MonoBehaviour
 
     public void moveInnerChildren(GameObject parent)
     {
+        /*
         List<Tuple<GameObject, GameObject>> children = parent.GetComponent<Elements>().neighbors;
         for (int i = 1; i < children.Count; i++)
         {
             children[i].Item2.GetComponent<Elements>().resetChildPositions(3f);
             children[i].Item2.GetComponent<Elements>().moveChildren(children[i].Item2.GetComponent<Elements>().bondCount, children[i].Item2.GetComponent<Elements>().start);
         }
+        */
 
         // if(bondCount == 2) {
         //     parent.GetComponent<Elements>().neighbors[1-start].Item1.transform.RotateAround(transform.position, transform.forward, 180);
