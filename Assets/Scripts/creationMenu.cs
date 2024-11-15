@@ -16,7 +16,7 @@ public class creationMenu : MonoBehaviour
     public bool isPaused;
     // Start is called before the first frame update
     
-    public bool simplified = false;    //simplified version
+    public static bool simplified = false;    //simplified version
 
     public bool orthographic = false;
     public GameObject ortho;
@@ -30,7 +30,7 @@ public class creationMenu : MonoBehaviour
         pause_menu.SetActive(false);
         table_menu.SetActive(false);
         preset_menu.SetActive(false);
-
+        
     }
 
     // Update is called once per frame

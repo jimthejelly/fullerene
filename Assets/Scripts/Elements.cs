@@ -160,6 +160,10 @@ public class Elements : MonoBehaviour
         clone.transform.localPosition = cylClone.transform.localPosition;
         clone.transform.Translate(0, -radius/2, 0);
         
+        // creationMenu sn = gameObject.GetComponent<creationMenu>();
+
+        if (creationMenu.simplified) { clone.transform.localScale = new Vector3(1,1,1); }
+
         moveChildren(bondCount, start);
 
         if (!cylClone)
