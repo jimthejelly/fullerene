@@ -244,6 +244,13 @@ public class Elements : MonoBehaviour
             
             Debug.Log("index: " + (1) + "   name: " + neighbors[1].Item2.name);
 
+            // List<GameObject> branch = GetBranch(gameObject);
+            // foreach (var obj in branch)
+            // {
+            //     // Print the name of each connected GameObject
+            //     Debug.Log("Connected Element: " + obj.name);
+            // }
+
         }
         else if(bondCount == 3) {
             
@@ -319,6 +326,63 @@ public class Elements : MonoBehaviour
         }
 
     }
+
+    // perform dfs in order to find all the elements/bonds on a branch of the molecule. this will be used for moving inner children.
+    // public List<GameObject> GetBranch(GameObject parent)
+    // {
+    //     if (parent == null)
+    //     {
+    //         Debug.LogError("Parent GameObject is null!");
+    //         return new List<GameObject>();  // Return an empty list to avoid further issues
+    //     }
+
+    //     List<GameObject> branch = new List<GameObject>();
+    //     HashSet<GameObject> visited = new HashSet<GameObject>();
+
+    //     // Call the recursive method to populate the branch list
+    //     GetBranchRecursive(parent, branch, visited);
+
+    //     return branch;
+    // }
+
+    // private void GetBranchRecursive(GameObject current, List<GameObject> branch, HashSet<GameObject> visited)
+    // {
+    //     if (current == null)
+    //     {
+    //         Debug.LogError("Current GameObject is null in GetBranchRecursive!");
+    //         return;
+    //     }
+
+    //     // Add the current element to the branch list if it's not already visited
+    //     if (!visited.Contains(current))
+    //     {
+    //         branch.Add(current);
+    //         visited.Add(current);
+
+    //         // Get the neighbors of the current element (connected atoms)
+    //         Elements currentElement = current.GetComponent<Elements>();
+
+    //         // Loop through all neighbors and recursively visit them
+    //         foreach (var neighbor in currentElement.neighbors)
+    //         {
+    //             GameObject neighbor1 = neighbor.Item1;
+    //             GameObject neighbor2 = neighbor.Item2;
+
+    //             // Check both items in the tuple (they represent the bond and the connected element)
+    //             if (!visited.Contains(neighbor1))
+    //             {
+    //                 GetBranchRecursive(neighbor1, branch, visited);
+    //             }
+
+    //             if (!visited.Contains(neighbor2))
+    //             {
+    //                 GetBranchRecursive(neighbor2, branch, visited);
+    //             }
+    //         }
+    //     }
+    // }
+
+
 
 
     public void DeleteElement() {
