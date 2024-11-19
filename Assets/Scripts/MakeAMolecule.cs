@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEditor;
 using TMPro;
@@ -19,6 +20,7 @@ public class makeAMolecule : MonoBehaviour
         String displayLine = fullLine.Substring(0, index);
         String formula = fullLine.Substring(index, fullLine.Length - index);
         myText.text = displayLine;
+        Dictionary<char, int> elements = getElements(formula);
     }
 
     // Update is called once per frame
@@ -52,4 +54,24 @@ public class makeAMolecule : MonoBehaviour
         }
         return line;
     }
+
+    private static Dictionary<char, int> getElements(String formula) { 
+        Debug.Log("Hello");
+        Dictionary<char, int> elements = new Dictionary<char, int>();
+        char current = ' ';
+        for(int i = 0; i < formula.Length; ++i) {
+            if(Char.IsLetter(formula[i])) {
+                current = formula[i];
+            } else {
+                int num = formula[i] - '0';
+                elements.Add(current, num);
+                Debug.Log("" + current + " " + num);
+            }
+        }
+        return elements;
+    }
+
+    // private bool checkMolecule() {
+    //     GameObject molecule = GameObject.Find("moleculeBody");
+    // }
 }
