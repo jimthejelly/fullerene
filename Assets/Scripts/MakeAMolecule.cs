@@ -56,7 +56,6 @@ public class makeAMolecule : MonoBehaviour
     }
 
     private static Dictionary<char, int> getElements(String formula) { 
-        Debug.Log("Hello");
         Dictionary<char, int> elements = new Dictionary<char, int>();
         char current = ' ';
         for(int i = 0; i < formula.Length; ++i) {
@@ -65,13 +64,15 @@ public class makeAMolecule : MonoBehaviour
             } else {
                 int num = formula[i] - '0';
                 elements.Add(current, num);
-                Debug.Log("" + current + " " + num);
             }
         }
         return elements;
     }
 
-    // private bool checkMolecule() {
-    //     GameObject molecule = GameObject.Find("moleculeBody");
-    // }
-}
+    private static Dictionary<char, int> checkMolecule() {
+        Dictionary<char, int> elements = new Dictionary<char, int>();
+        GameObject molecule = GameObject.Find("moleculeBody");
+        for(int i = 0; i < molecule.transform.childCount; i++) {
+            string name = molecule.transform.GetChild(i).gameObject.name;
+        }
+    }
