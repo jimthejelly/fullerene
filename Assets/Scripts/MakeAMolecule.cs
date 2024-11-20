@@ -69,10 +69,19 @@ public class makeAMolecule : MonoBehaviour
         return elements;
     }
 
-    private static Dictionary<char, int> checkMolecule() {
-        Dictionary<char, int> elements = new Dictionary<char, int>();
+    public Dictionary<string, int> checkMolecule() {
+        Dictionary<string, int> elements = new Dictionary<string, int>();
         GameObject molecule = GameObject.Find("moleculeBody");
         for(int i = 0; i < molecule.transform.childCount; i++) {
             string name = molecule.transform.GetChild(i).gameObject.name;
+            if(elements.ContainsKey(name)) {
+                ++elements[name];
+            } else {
+                elements.Add(name, 0);
+            }
         }
+        return elements;
     }
+
+
+}
