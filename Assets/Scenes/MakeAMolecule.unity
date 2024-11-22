@@ -1427,7 +1427,7 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1388475392}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: creationMenu, Assembly-CSharp
         m_MethodName: PressSimplified
         m_Mode: 1
@@ -2955,7 +2955,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1388475392}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: creationMenu, Assembly-CSharp
         m_MethodName: LoadExplorationMenu
         m_Mode: 1
@@ -4925,7 +4925,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1388475392}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: creationMenu, Assembly-CSharp
         m_MethodName: LoadMakeAMolecule
         m_Mode: 1
@@ -5742,7 +5742,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1388475392}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: creationMenu, Assembly-CSharp
         m_MethodName: LoadDropdownMenu
         m_Mode: 1
@@ -6461,6 +6461,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   turnSpeed: 500
+  PanSpeed: 50
 --- !u!23 &356859816
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -7621,6 +7622,77 @@ MonoBehaviour:
   txt: {fileID: 800158726}
   txt_table: {fileID: 2037482299}
   elementNumber: 63-Europium
+--- !u!1 &419901970
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 419901973}
+  - component: {fileID: 419901972}
+  - component: {fileID: 419901971}
+  m_Layer: 0
+  m_Name: moleculeBody
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &419901971
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 419901970}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a192cd97629b3e47a1cb36e4c922412, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvas: {fileID: 0}
+  moleculeBody: {fileID: 419901970}
+--- !u!114 &419901972
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 419901970}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac7200925ea66644ca6f499e946b7c41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Camera: {fileID: 356859811}
+  pause_menu: {fileID: 458891559}
+  mini_menu: {fileID: 1866835958}
+  table_menu: {fileID: 1312701108}
+  preset_menu: {fileID: 362818431}
+  general_info: {fileID: 1614529913}
+  preset_dropdown: {fileID: 182613956}
+  isPaused: 0
+  simplified: 0
+  orthographic: 0
+  ortho: {fileID: 2068494941}
+  persp: {fileID: 828185348}
+--- !u!4 &419901973
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 419901970}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &420154950
 GameObject:
   m_ObjectHideFlags: 0
@@ -12850,7 +12922,7 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1388475392}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: creationMenu, Assembly-CSharp
         m_MethodName: 
         m_Mode: 1
@@ -20768,7 +20840,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1388475392}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: creationMenu, Assembly-CSharp
         m_MethodName: LoadMiniGameMenu
         m_Mode: 1
@@ -23665,7 +23737,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1388475392}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: creationMenu, Assembly-CSharp
         m_MethodName: LoadPauseMenu
         m_Mode: 1
@@ -26854,76 +26926,6 @@ MonoBehaviour:
   txt: {fileID: 800158726}
   txt_table: {fileID: 2037482299}
   elementNumber: 49-Indium
---- !u!1 &1388475389
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1388475391}
-  - component: {fileID: 1388475392}
-  - component: {fileID: 1388475393}
-  m_Layer: 0
-  m_Name: moleculeBody
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1388475391
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1388475389}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1388475392
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1388475389}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ac7200925ea66644ca6f499e946b7c41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pause_menu: {fileID: 458891559}
-  mini_menu: {fileID: 1866835958}
-  table_menu: {fileID: 1312701108}
-  preset_menu: {fileID: 362818431}
-  general_info: {fileID: 1614529913}
-  preset_dropdown: {fileID: 182613956}
-  isPaused: 0
-  simplified: 0
-  orthographic: 0
-  ortho: {fileID: 2068494941}
-  persp: {fileID: 828185348}
---- !u!114 &1388475393
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1388475389}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6a192cd97629b3e47a1cb36e4c922412, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  canvas: {fileID: 0}
-  moleculeBody: {fileID: 1388475389}
 --- !u!1 &1404770240
 GameObject:
   m_ObjectHideFlags: 0
@@ -32361,7 +32363,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1388475392}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: creationMenu, Assembly-CSharp
         m_MethodName: Return
         m_Mode: 1
@@ -39969,7 +39971,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1388475392}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: creationMenu, Assembly-CSharp
         m_MethodName: CameraToggleText
         m_Mode: 1
@@ -40326,5 +40328,5 @@ SceneRoots:
   - {fileID: 1312701113}
   - {fileID: 362818435}
   - {fileID: 356859814}
-  - {fileID: 1388475391}
   - {fileID: 1614529917}
+  - {fileID: 419901973}

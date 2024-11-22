@@ -18,7 +18,7 @@ public class makeAMolecule : MonoBehaviour
         String fullLine = grabMolecule("Assets/Resources/MakeAMolecule.txt"); 
         int index = fullLine.IndexOf(':');
         String displayLine = fullLine.Substring(0, index);
-        String formula = fullLine.Substring(index, fullLine.Length - index);
+        String formula = fullLine.Substring(index + 1, fullLine.Length - index - 1);
         myText.text = displayLine;
         Dictionary<char, int> elements = getElements(formula);
     }
@@ -36,9 +36,8 @@ public class makeAMolecule : MonoBehaviour
         GameObject molecule = GameObject.Find("moleculeBody");
         if(creationMenu.molMini == true) {
             myText.color = Color.white;
-        } else {
-            //myText.color = Color.black;
-        }
+        } 
+
     }
 
     private String grabMolecule(String filename) {
@@ -59,11 +58,13 @@ public class makeAMolecule : MonoBehaviour
         Dictionary<char, int> elements = new Dictionary<char, int>();
         char current = ' ';
         for(int i = 0; i < formula.Length; ++i) {
-            if(Char.IsLetter(formula[i])) {
-                current = formula[i];
-            } else {
-                int num = formula[i] - '0';
-                elements.Add(current, num);
+            if(!elements.ContainsKey(formula[i])) {
+                if(Char.IsLetter(formula[i])) {
+                    current = formula[i];
+                } else {
+                    int num = formula[i] - '0';
+                    elements.Add(current, num);
+                }
             }
         }
         return elements;

@@ -129,6 +129,8 @@ public class creationMenu : MonoBehaviour
 
     public void LoadExplorationMenu()
     {
+        mini_menu.SetActive(false);
+        pause_menu.SetActive(false);
         SceneManager.LoadScene("ExplorationScene", LoadSceneMode.Single);
     }
     

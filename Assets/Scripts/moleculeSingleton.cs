@@ -9,7 +9,7 @@ public class moleculeSingleton : MonoBehaviour {
         get {
                 if (_Instance == null) {
                     _Instance = GameObject.Find("moleculeBody");
-                    DontDestroyOnLoad(_Instance.gameObject);
+                    // DontDestroyOnLoad(_Instance.gameObject);
                 }
                 return _Instance;
         }
