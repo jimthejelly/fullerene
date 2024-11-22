@@ -362,32 +362,26 @@ public class Elements : MonoBehaviour
     }
 
     public void DeleteElement() {
-        if(!transform.parent.tag.Equals("Bond")) { // if root atom
-            Destroy(gameObject);
-        }
-        else { // if not root atom
-            // getting parent
-            Elements parent = transform.parent.parent.parent.gameObject.GetComponent(typeof(Elements)) as Elements;
-            // disconnecting this from parent
-            transform.parent.parent.SetParent(null);
-            // getting new bond count of parent
-            int bondCount = 0;
-            foreach(Transform child in parent.transform) {
-                if(child.tag.Equals("Bond")) {
-                    bondCount++;
-                }
+        foreach (Tuple<GameObject, GameObject> neigh in neighbors)
+        {
+            if (neigh.Item2 is null)
+            {
+                neigh.Item2.GetComponent<Elements>().neighbors.Remove(neigh);
             }
-            int start = 0;
-            if(parent.transform.parent != null && parent.transform.parent.tag.Equals("Bond")) {
-                bondCount++;
-                start = 1;
+            else
+            {
+                Debug.Log("Not Gone");
             }
-            Debug.Log(bondCount + " " + start);
-            // moving parent's old atoms into place
-            parent.resetChildPositions(3f);
-            parent.moveChildren(bondCount, start);
-            Destroy(transform.parent.parent.gameObject);
+
+            if (neigh.Item1 is not null)
+            {
+                Destroy(neigh.Item1);
+            }
+            
         }
+        Debug.Log("Delete obj");
+        Destroy(gameObject);
+        
     }
 
     public bool validBond(GameObject parent, string child) {
