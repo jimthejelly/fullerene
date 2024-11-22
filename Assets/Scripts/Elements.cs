@@ -6,18 +6,17 @@ using UnityEditor;
 
 public class Elements : MonoBehaviour
 {
-
     public int electrons;
     public int protons;
     public int neutrons;
-    private List<Tuple<GameObject,GameObject>> neighbors = new List<Tuple<GameObject,GameObject>>();
+    public List<Tuple<GameObject,GameObject>> neighbors = new List<Tuple<GameObject,GameObject>>();
     public int lonePairs;
     public int bondingElectrons;
     public bool expandedOctet;
     public bool physicsOn = false;
 
-    int bondCount = 0;
-    int bondOrders = 0;
+    public int bondCount = 0;
+    public int bondOrders = 0;
     int start = 0;
     // Start is called before the first frame update
     void Start()
@@ -134,7 +133,7 @@ public class Elements : MonoBehaviour
         }
         
         // checking if the element can make more bonds
-        if((!expandedOctet && bondOrders == bondingElectrons) || (expandedOctet && bondOrders == bondingElectrons + 2 * lonePairs) || (expandedOctet && bondOrders == 6)) {
+        if(GameObject.Find("moleculeBody").GetComponent<creationMenu>().isLogic && (!expandedOctet && bondOrders == bondingElectrons) || (expandedOctet && bondOrders == bondingElectrons + 2 * lonePairs) || (expandedOctet && bondOrders == 6)) {
             Debug.Log("Not enough space");
             return;
         }
@@ -152,6 +151,15 @@ public class Elements : MonoBehaviour
         bondCount++;
         neighbors.Add(new Tuple<GameObject, GameObject>(cylClone, clone));
         clone.GetComponent<Elements>().neighbors.Add(new Tuple<GameObject, GameObject>(cylClone, gameObject));
+        cylClone.GetComponent<Bonds>().cIndex = neighbors.Count - 1;
+        cylClone.GetComponent<Bonds>().pIndex = clone.GetComponent<Elements>().neighbors.Count - 1;
+        cylClone.GetComponent<Bonds>().c = clone;
+        cylClone.GetComponent<Bonds>().p = gameObject;
+        cylClone.transform.GetChild(0).GetComponent<Bonds>().pIndex = neighbors.Count - 1;
+        cylClone.transform.GetChild(0).GetComponent<Bonds>().cIndex = clone.GetComponent<Elements>().neighbors.Count - 1;
+        cylClone.transform.GetChild(0).GetComponent<Bonds>().c = clone;
+        cylClone.transform.GetChild(0).GetComponent<Bonds>().p = gameObject;
+        
         
         resetChildPositions(radius);
 
@@ -336,6 +344,7 @@ public class Elements : MonoBehaviour
     public void moveInnerChildren(GameObject parent)
     {
         getBranch(parent);
+        
     }
 
     public List<Tuple<GameObject, GameObject>> getBranch(GameObject parent)
