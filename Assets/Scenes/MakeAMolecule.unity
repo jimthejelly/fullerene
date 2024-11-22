@@ -1427,7 +1427,7 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 419901972}
         m_TargetAssemblyTypeName: creationMenu, Assembly-CSharp
         m_MethodName: PressSimplified
         m_Mode: 1
@@ -2955,7 +2955,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 419901972}
         m_TargetAssemblyTypeName: creationMenu, Assembly-CSharp
         m_MethodName: LoadExplorationMenu
         m_Mode: 1
@@ -4925,7 +4925,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 419901972}
         m_TargetAssemblyTypeName: creationMenu, Assembly-CSharp
         m_MethodName: LoadMakeAMolecule
         m_Mode: 1
@@ -20840,7 +20840,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 419901972}
         m_TargetAssemblyTypeName: creationMenu, Assembly-CSharp
         m_MethodName: LoadMiniGameMenu
         m_Mode: 1
@@ -23737,7 +23737,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 419901972}
         m_TargetAssemblyTypeName: creationMenu, Assembly-CSharp
         m_MethodName: LoadPauseMenu
         m_Mode: 1
@@ -32363,7 +32363,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 419901972}
         m_TargetAssemblyTypeName: creationMenu, Assembly-CSharp
         m_MethodName: Return
         m_Mode: 1
