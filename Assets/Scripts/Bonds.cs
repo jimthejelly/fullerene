@@ -104,21 +104,22 @@ public class Bonds : MonoBehaviour
         GameObject newBond;
         if(transform.childCount > 0) { // if we're currently the parent bond
             Debug.Log("parent dub");
-            newBond = Instantiate(obj, transform.position, Quaternion.identity, p.transform);
+            newBond = Instantiate(obj, GameObject.Find("moleculeBody").transform);
+            newBond.transform.position = transform.position;
             newBond.transform.localScale = transform.localScale;
             newBond.transform.localEulerAngles = transform.localEulerAngles;
         }
         else { // if we're currently the child bond
             Debug.Log("child dub");
-            newBond = Instantiate(obj, transform.parent.position, Quaternion.identity, p.transform);
+            newBond = Instantiate(obj, GameObject.Find("moleculeBody").transform);
+            newBond.transform.position = transform.parent.position;
             newBond.transform.localScale = transform.parent.localScale;
             newBond.transform.localEulerAngles = transform.parent.localEulerAngles;
         }
         newBond.name = newBond.name + " " + num;
-        c.GetComponent<Elements>().neighbors[cIndex] = new Tuple<GameObject, GameObject>(newBond, c);
-        p.GetComponent<Elements>().neighbors[pIndex] = new Tuple<GameObject, GameObject>(newBond, p);
+        c.GetComponent<Elements>().neighbors[cIndex] = new Tuple<GameObject, GameObject>(newBond, p);
+        p.GetComponent<Elements>().neighbors[pIndex] = new Tuple<GameObject, GameObject>(newBond, c);
         if(transform.childCount > 0) { // if we're currently the parent bond
-            
             Destroy(gameObject);
         }
         else { // if we're currently the child bond
