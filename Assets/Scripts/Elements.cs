@@ -183,11 +183,19 @@ public class Elements : MonoBehaviour
        
     }
 
-    public void resetChildPositions(float radius) {
-
-        foreach(Tuple<GameObject,GameObject> child in neighbors) {
-            if (gameObject == creationUser.head)
+    public void resetChildPositions(float radius)
+    {
+        foreach (Tuple<GameObject, GameObject> dir in neighbors.ToList())
+        {
+            if (dir.Item1 == null || dir.Item2 == null)
             {
+                neighbors.Remove(dir);
+            }
+        }
+        
+        foreach(Tuple<GameObject,GameObject> child in neighbors.ToList()) {
+            
+            if (gameObject == creationUser.head) {
                 child.Item1.transform.localPosition = transform.position;
                 child.Item1.transform.localEulerAngles = new Vector3(this.transform.localEulerAngles.x,
                     this.transform.localEulerAngles.y, this.transform.localEulerAngles.z);
@@ -364,22 +372,25 @@ public class Elements : MonoBehaviour
     public void DeleteElement() {
         foreach (Tuple<GameObject, GameObject> neigh in neighbors)
         {
-            if (neigh.Item2 is null)
+            if (neigh.Item2 != null)
             {
                 neigh.Item2.GetComponent<Elements>().neighbors.Remove(neigh);
+                neigh.Item2.GetComponent<Elements>().neighbors.Remove(null);
             }
             else
             {
                 Debug.Log("Not Gone");
             }
 
-            if (neigh.Item1 is not null)
+            if (neigh.Item1 != null)
             {
                 Destroy(neigh.Item1);
             }
             
         }
         Debug.Log("Delete obj");
+        
+        
         Destroy(gameObject);
         
     }
