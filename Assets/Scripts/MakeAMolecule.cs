@@ -10,14 +10,25 @@ public class makeAMolecule : MonoBehaviour
 {
     public TMP_Text myText;
     private Scene scene;
+
+    private String formula;
+
+    private int correctMols;
+
+    private int currMol;
+
+    private int[] usedMols = new int[100];
+
     // Start is called before the first frame update
     void Start()
     {
         myText.color = Color.black;
-        String fullLine = grabMolecule("Assets/Resources/MakeAMolecule.txt"); 
+        String fullLine = grabMolecule("Assets/Resources/MakeAMolecule.txt");
         int index = fullLine.IndexOf(':');
         String displayLine = fullLine.Substring(0, index);
-        String formula = fullLine.Substring(index, fullLine.Length - index);
+        formula = fullLine.Substring(index, fullLine.Length - index);
+        correctMols = 0;
+
         myText.text = displayLine;
     }
 
@@ -35,21 +46,51 @@ public class makeAMolecule : MonoBehaviour
         if(creationMenu.molMini == true) {
             myText.color = Color.white;
         } else {
-            //myText.color = Color.black;
+            // myText.color = Color.black;
+        }
+
+        if(molIsCorrect()){
+            correctScreen();
+            newMol();
+            usedMols[correctMols] = currMol;
+            correctMols += 1;
         }
     }
 
+
     private String grabMolecule(String filename) {
         System.Random gen = new System.Random();
-        int num = gen.Next(0, 100);
+        currMol = gen.Next(0, 100);
         String line = "";
         var openFile = new System.IO.StreamReader(filename);
-        for (int i = 0; i < num; i++)
+        for (int i = 0; i < currMol; i++)
         {
             line = openFile.ReadLine();
-            if (line == null) 
+            if (line == null)
                 break; // there are less than 15 lines in the file
         }
         return line;
+    }
+
+    private void newMol()
+    {
+        String fullLine = grabMolecule("Assets/Resources/MakeAMolecule.txt");
+        int index = fullLine.IndexOf(':');
+        String displayLine = fullLine.Substring(0, index);
+        formula = fullLine.Substring(index, fullLine.Length - index);
+
+        myText.text = displayLine;
+    }
+
+    // Changes the screen to show that what was created was correct
+    private void correctScreen(){
+        // Todo
+
+    }
+
+    // Checks if the molecule is correct
+    private bool molIsCorrect(){
+        // Todo
+        return false;
     }
 }
