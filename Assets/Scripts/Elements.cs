@@ -35,6 +35,14 @@ public class Elements : MonoBehaviour
         //SpawnElement();
     }
 
+    // returns the number to the right of the name of the element, or -1 if it's the root
+    int getID() {
+        if(name[name.Length - 1] == ')') {
+            return -1;
+        }
+        return Int32.Parse(name.Substring(name.LastIndexOf(' ')));
+    }
+
     // returns (a.x*b.x, a.y*b.y, a.z*b.z)
     Vector3 indivMult(Vector3 a, Vector3 b) {
         return new Vector3(a.x * b.x, a.y * b.y, a.z * b.z);
@@ -152,7 +160,7 @@ public class Elements : MonoBehaviour
         bondCount++;
         neighbors.Add(new Tuple<GameObject, GameObject>(cylClone, clone));
         clone.GetComponent<Elements>().neighbors.Add(new Tuple<GameObject, GameObject>(cylClone, gameObject));
-        
+
         resetChildPositions(radius);
 
         clone.transform.localEulerAngles = cylClone.transform.localEulerAngles; //+ this.transform.localEulerAngles;
@@ -388,32 +396,73 @@ public class Elements : MonoBehaviour
         // }
     }
 
+    // deletes an element chosen in creationUser
     public void DeleteElement() {
-        if(!transform.parent.tag.Equals("Bond")) { // if root atom
-            Destroy(gameObject);
+        if(getID() == -1) {
+            foreach(Transform item in transform.parent) {
+                Destroy(item.gameObject);
+            }
         }
-        else { // if not root atom
-            // getting parent
-            Elements parent = transform.parent.parent.parent.gameObject.GetComponent(typeof(Elements)) as Elements;
-            // disconnecting this from parent
-            transform.parent.parent.SetParent(null);
-            // getting new bond count of parent
-            int bondCount = 0;
-            foreach(Transform child in parent.transform) {
-                if(child.tag.Equals("Bond")) {
-                    bondCount++;
+        else {
+            // finding the parent and deleting neighbors' bonds
+            GameObject parent = null;
+            foreach(Tuple<GameObject, GameObject> bond in neighbors) {
+                if((bond.Item2.GetComponent(typeof(Elements)) as Elements).getID() == -1
+                    || (bond.Item2.GetComponent(typeof(Elements)) as Elements).getID() < this.getID()) {
+                    parent = bond.Item2;
+                }
+                foreach(Tuple<GameObject, GameObject> t in (bond.Item2.GetComponent(typeof(Elements)) as Elements).neighbors) {
+                    if(t.Item2.Equals(gameObject)) {
+                        (bond.Item2.GetComponent(typeof(Elements)) as Elements).neighbors.Remove(t);
+                        //Debug.Log("removing " + t.Item1.name);
+                        break;
+                    }
                 }
             }
-            int start = 0;
-            if(parent.transform.parent != null && parent.transform.parent.tag.Equals("Bond")) {
-                bondCount++;
-                start = 1;
+            foreach(Tuple<GameObject, GameObject> t in (parent.gameObject.GetComponent(typeof(Elements)) as Elements).neighbors) {
+                Debug.Log("still got " + t.Item1.name);
             }
-            Debug.Log(bondCount + " " + start);
-            // moving parent's old atoms into place
-            parent.resetChildPositions(3f);
-            parent.moveChildren(bondCount, start);
-            Destroy(transform.parent.parent.gameObject);
+            // pathfinding from parent and adding every object pathed through to found
+            if(parent == null) { // if parent is still null, that means the parent couldn't be found (an error occurred somewhere)
+                Debug.Log("couldn't find parent");
+                return;
+            }
+            HashSet<GameObject> found = new HashSet<GameObject>();
+            deletionDFS(parent, found);
+            // looping through all objects and deleting any that haven't been found
+            foreach(Transform t in transform.parent) {
+                if(!found.Contains(t.gameObject)) {
+                    Destroy(t.gameObject);
+                }
+                else if(t.tag.Equals("Element") && (t.gameObject.GetComponent(typeof(Elements)) as Elements).neighbors.Count() > 1) {
+                    (t.gameObject.GetComponent(typeof(Elements)) as Elements).resetChildPositions(3f);
+                    (t.gameObject.GetComponent(typeof(Elements)) as Elements).moveChildren(
+                        (t.gameObject.GetComponent(typeof(Elements)) as Elements).neighbors.Count(), (t.gameObject.GetComponent(typeof(Elements)) as Elements).start);
+                }
+            }
+
+
+            Destroy(gameObject);
+        }
+    }
+
+    /// <summary>
+    /// DFS algorithm for marking GameObjects for deletion
+    /// </summary>
+    /// <param name="current">The current GameObject (Element) being checked by the algorithm</param>
+    /// <param name="found">The list of all GameObjects that have been found by the algorithm</param>
+    private void deletionDFS(GameObject current, HashSet<GameObject> found) {
+        if(found.Contains(current)) { // if this element has been visited already, return to the last one
+            return;
+        }
+        Debug.Log("added " + current.name);
+        found.Add(current);
+        foreach(Tuple<GameObject, GameObject> bond in (current.GetComponent(typeof(Elements)) as Elements).neighbors) {
+            if(!found.Contains(bond.Item1)) { // if this bond has not been travelled already
+                Debug.Log("added " + bond.Item1.name);
+                found.Add(bond.Item1);
+                deletionDFS(bond.Item2, found);
+            }
         }
     }
 
