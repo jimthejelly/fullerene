@@ -46,6 +46,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bondOrder: 1
+  p: {fileID: 0}
+  c: {fileID: 0}
+  pIndex: 0
+  cIndex: 0
 --- !u!1 &7582264075448142807
 GameObject:
   m_ObjectHideFlags: 0
@@ -167,3 +171,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bondOrder: 1
+  p: {fileID: 0}
+  c: {fileID: 0}
+  pIndex: 0
+  cIndex: 0

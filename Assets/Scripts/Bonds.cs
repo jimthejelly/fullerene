@@ -16,7 +16,8 @@ public class Bonds : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        Material mat = Resources.Load<Material>("BondColor");
+        transform.GetChild(0).GetComponent<Renderer>().material = mat; // This needs to loop for all children
     }
 
     // Update is called once per frame

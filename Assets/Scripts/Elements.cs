@@ -21,7 +21,24 @@ public class Elements : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        string name = transform.name;
+        string[] split = name.Split('-');
+        string nameNumber = split[0].Trim();
+        Material mat = null;
+        switch (nameNumber) // Needs cases for every possible color gonna be yikes moment for me 
+        {
+            case "16":
+                mat = Resources.Load<Material>("Materials/Sulfur");
+                break;
+            case "1":
+                mat = Resources.Load<Material>("Materials/Hydrogen");
+                break;
+            default:
+                Debug.Log("Material for element " + name + " not found!");
+                mat = Resources.Load<Material>("BondColor"); // Probably should make a error material
+                break;
+        }
+        transform.GetComponent<Renderer>().material = mat;
     }
 
     // Update is called once per frame
@@ -349,12 +366,14 @@ public class Elements : MonoBehaviour
         }
     }
 
+    // Move children outside of the selected node's neighbors.
     public void moveInnerChildren(GameObject parent)
     {
         getBranch(parent);
         
     }
-
+    
+    // WIP
     public List<Tuple<GameObject, GameObject>> getBranch(GameObject parent)
     {
         List<Tuple<GameObject, GameObject>> children = parent.GetComponent<Elements>().neighbors;
