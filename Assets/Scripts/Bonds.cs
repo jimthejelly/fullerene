@@ -6,6 +6,8 @@ using UnityEditor;
 public class Bonds : MonoBehaviour
 {
     public int bondOrder; // 1, 2, or 3 depending on single double or triple bond
+    public Elements parent; // parent element of this bond
+    public Elements child; // child element of this bond
 
     // Start is called before the first frame update
     void Start()
@@ -19,15 +21,16 @@ public class Bonds : MonoBehaviour
         
     }
 
-    void OnMouseDown() {
-        //CycleBondOrder();
-    }
-
     public void CycleBondOrder(int num) {
         int newOrder = bondOrder + 1;
         if(bondOrder == 3) {
             newOrder = 1;
         }
+        Debug.Log("new bond order " + 2);
+        Debug.Log("parent " + parent.gameObject.name);
+        Debug.Log("child " + child.gameObject.name);
+
+        /*
         // checking if upgrade possible
         Elements p;
         Elements c;
@@ -112,5 +115,6 @@ public class Bonds : MonoBehaviour
         else { // if we're currently the child bond
             Destroy(transform.parent.gameObject);
         }
-;    }
+        */
+    }
 }
