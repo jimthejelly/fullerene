@@ -97,7 +97,6 @@ public class Elements : MonoBehaviour {
 
         moveChildren(bondCount, start);
 
-
         if(!cylClone) {
             Debug.Log("bond breok");
         }
@@ -156,10 +155,12 @@ public class Elements : MonoBehaviour {
 
     /// <summary>
     /// Moves the "children" of this Element to their proper VSEPR geometrical positions (Does not currently account for lone pairs)
+    /// NOTE: DOES NOT WORK FOR CYCLICAL MOLECULES
     /// </summary>
     /// <param name="bondCount">The number of bonds the current Element has (does nothing with bonds < 2 or bonds > 6</param>
     /// <param name="start">An offset variable that ensures moveChildren() will never move the "parent" Element</param>
     public void moveChildren(int bondCount, int start) {
+        Debug.Log("woag " + neighbors[0].Item2.name);
         if(bondCount == 2) {
             // if (gameObject == creationUser.head)
             // {
@@ -258,6 +259,15 @@ public class Elements : MonoBehaviour {
                 }
             }
         }
+        // recursively move all grandchildren
+        foreach(Tuple<GameObject, GameObject> bond in neighbors) {
+            if(gameObject != creationUser.head && Equals(bond, neighbors[0])) {
+                continue;
+            }
+            Elements childElement = bond.Item2.GetComponent<Elements>() as Elements;
+            childElement.resetChildPositions(3f);
+            childElement.moveChildren(childElement.neighbors.Count, 1);
+        }
     }
 
     /// <summary>
@@ -273,19 +283,19 @@ public class Elements : MonoBehaviour {
             // finding the parent and deleting neighbors' bonds
             GameObject parent = null;
             foreach(Tuple<GameObject, GameObject> bond in neighbors) {
-                if((bond.Item2.GetComponent(typeof(Elements)) as Elements).getID() == -1
-                    || (bond.Item2.GetComponent(typeof(Elements)) as Elements).getID() < this.getID()) {
+                if((bond.Item2.GetComponent<Elements>() as Elements).getID() == -1
+                    || (bond.Item2.GetComponent<Elements>() as Elements).getID() < this.getID()) {
                     parent = bond.Item2;
                 }
-                foreach(Tuple<GameObject, GameObject> t in (bond.Item2.GetComponent(typeof(Elements)) as Elements).neighbors) {
+                foreach(Tuple<GameObject, GameObject> t in (bond.Item2.GetComponent<Elements>() as Elements).neighbors) {
                     if(t.Item2.Equals(gameObject)) {
-                        (bond.Item2.GetComponent(typeof(Elements)) as Elements).neighbors.Remove(t);
+                        (bond.Item2.GetComponent<Elements>() as Elements).neighbors.Remove(t);
                         //Debug.Log("removing " + t.Item1.name);
                         break;
                     }
                 }
             }
-            foreach(Tuple<GameObject, GameObject> t in (parent.gameObject.GetComponent(typeof(Elements)) as Elements).neighbors) {
+            foreach(Tuple<GameObject, GameObject> t in (parent.gameObject.GetComponent<Elements>() as Elements).neighbors) {
                 Debug.Log("still got " + t.Item1.name);
             }
             // pathfinding from parent and adding every object pathed through to found
@@ -300,10 +310,10 @@ public class Elements : MonoBehaviour {
                 if(!found.Contains(t.gameObject)) {
                     Destroy(t.gameObject);
                 }
-                else if(t.tag.Equals("Element") && (t.gameObject.GetComponent(typeof(Elements)) as Elements).neighbors.Count() > 1) {
-                    (t.gameObject.GetComponent(typeof(Elements)) as Elements).resetChildPositions(3f);
-                    (t.gameObject.GetComponent(typeof(Elements)) as Elements).moveChildren(
-                        (t.gameObject.GetComponent(typeof(Elements)) as Elements).neighbors.Count(), (t.gameObject.GetComponent(typeof(Elements)) as Elements).start);
+                else if(t.tag.Equals("Element") && (t.gameObject.GetComponent<Elements>() as Elements).neighbors.Count() > 1) {
+                    (t.gameObject.GetComponent<Elements>() as Elements).resetChildPositions(3f);
+                    (t.gameObject.GetComponent<Elements>() as Elements).moveChildren(
+                        (t.gameObject.GetComponent<Elements>() as Elements).neighbors.Count(), (t.gameObject.GetComponent<Elements>() as Elements).start);
                 }
             }
 
@@ -323,7 +333,7 @@ public class Elements : MonoBehaviour {
         }
         Debug.Log("added " + current.name);
         found.Add(current);
-        foreach(Tuple<GameObject, GameObject> bond in (current.GetComponent(typeof(Elements)) as Elements).neighbors) {
+        foreach(Tuple<GameObject, GameObject> bond in (current.GetComponent<Elements>() as Elements).neighbors) {
             if(!found.Contains(bond.Item1)) { // if this bond has not been travelled already
                 Debug.Log("added " + bond.Item1.name);
                 found.Add(bond.Item1);
