@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,8 +7,8 @@ using UnityEditor;
 public class Bonds : MonoBehaviour
 {
     public int bondOrder; // 1, 2, or 3 depending on single double or triple bond
-    public Elements parent; // parent element of this bond
-    public Elements child; // child element of this bond
+    private Elements parent; // parent element of this bond
+    private Elements child; // child element of this bond
 
     // Start is called before the first frame update
     void Start()
@@ -21,70 +22,38 @@ public class Bonds : MonoBehaviour
         
     }
 
+    /// <summary>
+    /// Sets the parent and child Elements this Bond connects
+    /// </summary>
+    /// <param name="p">The parent Element of this Bond</param>
+    /// <param name="c">The child Element of this Bond</param>
+    public void setElements(Elements p, Elements c) {
+        Debug.Log("parent: " + p.name + "   child: " + c.name);
+        parent = p;
+        child = c;
+    }
+
+    /// <summary>
+    /// Cycles the bond order of this Bond (i.e. 1 goes to 2, 2 goes to 3, and 3 goes back to 1)
+    /// <br></br>
+    /// If either the parent or child Element cannot support an increase in bond order, this method cycles back to 1
+    /// </summary>
+    /// <param name="num">The "construction ID" or number next to the name in the Hierarchy View</param>
     public void CycleBondOrder(int num) {
         int newOrder = bondOrder + 1;
         if(bondOrder == 3) {
             newOrder = 1;
         }
-        Debug.Log("new bond order " + 2);
-        Debug.Log("parent " + parent.gameObject.name);
-        Debug.Log("child " + child.gameObject.name);
 
-        /*
         // checking if upgrade possible
-        Elements p;
-        Elements c;
-
-        if(transform.parent.tag.Equals("Element")) { // if we're currently the parent bond
-            p = transform.parent.gameObject.GetComponent(typeof(Elements)) as Elements;
-            c = transform.GetChild(0).GetChild(0).gameObject.GetComponent(typeof(Elements)) as Elements;
-        }
-        else { // if we're currently the child bond
-            p = transform.parent.parent.gameObject.GetComponent(typeof(Elements)) as Elements;
-            c = transform.parent.GetChild(0).GetChild(0).gameObject.GetComponent(typeof(Elements)) as Elements;
-        }
-        // checking if parent can make more bonds
-        int bondCount = 0;
-        foreach(Transform child in p.transform) {
-            if(child.tag.Equals("Bond")) {
-                foreach(Transform ch in child.transform) {
-                    if(ch.tag.Equals("Bond")) {
-                        bondCount++;
-                    }
-                }
+        if(!parent.canBondMore() || !child.canBondMore()) {
+            if(bondOrder == 1) { // if current bond order is 1, there's nothing to cycle to
+                return;
             }
-        }
-        if(p.transform.parent != null && p.transform.parent.tag.Equals("Bond")) {
-            bondCount++;
-        }
-        // checking if the element can make more bonds
-        if((!p.expandedOctet && bondCount == p.bondingElectrons) || (p.expandedOctet && bondCount == p.bondingElectrons + 2 * p.lonePairs)) {
-            Debug.Log("parent can't make more " + bondCount);
             newOrder = 1;
         }
-        else {
-            Debug.Log("parent CAN make more " + bondCount);
-        }
-        // checking if child can make more bonds
-        bondCount = bondOrder;
-        foreach(Transform child in c.transform) {
-            if(child.tag.Equals("Bond")) {
-                foreach(Transform ch in child.transform) {
-                    if(ch.tag.Equals("Bond")) {
-                        bondCount++;
-                    }
-                }
-            }
-        }
 
-        // checking if the element can make more bonds
-        if((!c.expandedOctet && bondCount == c.bondingElectrons) || (c.expandedOctet && bondCount == c.bondingElectrons + 2 * c.lonePairs)) {
-            Debug.Log("child can't make more " + bondCount);
-            newOrder = 1;
-        }
-        else {
-            Debug.Log("child CAN make more " + bondCount);
-        }
+        // loading new bond asset
         Debug.Log("new order " + newOrder);
         GameObject obj = null;
         if(newOrder == 1) {
@@ -96,25 +65,21 @@ public class Bonds : MonoBehaviour
         else {
             obj = AssetDatabase.LoadAssetAtPath("Assets/Resources/TripleBond.prefab", typeof(GameObject)) as GameObject;
         }
-        GameObject newBond;
-        if(transform.parent.tag.Equals("Element")) { // if we're currently the parent bond
-            newBond = Instantiate(obj, transform.position, Quaternion.identity, p.transform);
-            newBond.transform.localScale = transform.localScale;
-            newBond.transform.localEulerAngles = transform.localEulerAngles;
-        }
-        else { // if we're currently the child bond
-            newBond = Instantiate(obj, transform.parent.position, Quaternion.identity, p.transform);
-            newBond.transform.localScale = transform.parent.localScale;
-            newBond.transform.localEulerAngles = transform.parent.localEulerAngles;
-        }
+        GameObject newBond = newBond = Instantiate(obj, transform.position, Quaternion.identity, transform.parent);
+        newBond.transform.localScale = transform.localScale;
+        newBond.transform.localEulerAngles = transform.localEulerAngles;
+        (newBond.GetComponent<Bonds>() as Bonds).setElements(parent, child);
         newBond.name = newBond.name + " " + num;
-        c.transform.SetParent(newBond.transform.GetChild(0).transform);
-        if(transform.parent.tag.Equals("Element")) { // if we're currently the parent bond
-            Destroy(gameObject);
-        }
-        else { // if we're currently the child bond
-            Destroy(transform.parent.gameObject);
-        }
-        */
+
+        // updating parent and child neighbor lists
+        parent.updateBond(newBond, child.gameObject);
+        child.updateBond(newBond, parent.gameObject);
+
+        // updating parent and child bond orders
+        parent.bondOrders += (newOrder - bondOrder);
+        child.bondOrders += (newOrder - bondOrder);
+
+        // deleting this
+        Destroy(gameObject);
     }
 }
