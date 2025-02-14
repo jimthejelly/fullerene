@@ -18,9 +18,9 @@ public class Elements : MonoBehaviour {
     public bool expandedOctet;
     public bool physicsOn = false;
 
-    int bondCount = 0;
-    int bondOrders = 0;
-    int start = 0;
+    public int bondCount = 0;
+    public int bondOrders = 0;
+    public int start = 0;
     // Start is called before the first frame update
     void Start() {
 
@@ -32,14 +32,25 @@ public class Elements : MonoBehaviour {
     }
 
     /// <summary>
-    /// Helper function for finding the construction order of Elements, its main use is finding the parent of an Element
+    /// Finds the construction order of Elements, its main use is finding the parent of an Element
     /// </summary>
     /// <returns>The number to the right of the name of the element, or -1 if it's the root</returns>
-    int getID() {
+    public int getID() {
         if(name[name.Length - 1] == ')') {
             return -1;
         }
         return Int32.Parse(name.Substring(name.LastIndexOf(' ')));
+    }
+
+    /// <summary>
+    /// Determines whether or not this Element can make more bonds
+    /// </summary>
+    /// <returns>True if this Element can make more bonds, or False if it can't</returns>
+    public bool canBondMore() {
+        if(bondingElectrons + 2 * lonePairs < 6) {
+            return (!expandedOctet && bondOrders < bondingElectrons) || (expandedOctet && bondOrders < bondingElectrons + 2 * lonePairs);
+        }
+        return (!expandedOctet && bondOrders < bondingElectrons) || (expandedOctet && bondOrders < 6);
     }
 
     /// <summary>
@@ -54,14 +65,6 @@ public class Elements : MonoBehaviour {
         electrons = 16;
         neutrons = 0;
 
-        bondCount = 0;
-        bondOrders = 0;
-
-        for(int i = 0; i < neighbors.Count(); i++) {
-            bondCount++;
-            bondOrders++;
-        }
-
         start = 0;
 
         if(neighbors.Any()) {
@@ -69,7 +72,7 @@ public class Elements : MonoBehaviour {
         }
 
         // checking if the element can make more bonds
-        if((!expandedOctet && bondOrders == bondingElectrons) || (expandedOctet && bondOrders == bondingElectrons + 2 * lonePairs) || (expandedOctet && bondOrders == 6)) {
+        if(!canBondMore()) {
             Debug.Log("Not enough space");
             return;
         }
@@ -85,6 +88,13 @@ public class Elements : MonoBehaviour {
         clone.name = clone.name + " " + num;
         cylClone.name = cylClone.name + " " + num;
         bondCount++;
+        bondOrders++;
+
+        (clone.GetComponent<Elements>() as Elements).bondCount = 1;
+        (clone.GetComponent<Elements>() as Elements).bondOrders = 1;
+
+        (cylClone.GetComponent<Bonds>() as Bonds).setElements(this, clone.GetComponent<Elements>() as Elements);
+
         neighbors.Add(new Tuple<GameObject, GameObject>(cylClone, clone));
         clone.GetComponent<Elements>().neighbors.Add(new Tuple<GameObject, GameObject>(cylClone, gameObject));
 
@@ -95,7 +105,7 @@ public class Elements : MonoBehaviour {
         clone.transform.localPosition = cylClone.transform.localPosition;
         clone.transform.Translate(0, -radius / 2, 0);
 
-        moveChildren(bondCount, start);
+        moveChildren(start);
 
         if(!cylClone) {
             Debug.Log("bond breok");
@@ -155,12 +165,12 @@ public class Elements : MonoBehaviour {
 
     /// <summary>
     /// Moves the "children" of this Element to their proper VSEPR geometrical positions (Does not currently account for lone pairs)
-    /// NOTE: DOES NOT WORK FOR CYCLICAL MOLECULES
+    /// <br></br>
+    /// NOTE: This does not currently work with cyclic molecules
     /// </summary>
-    /// <param name="bondCount">The number of bonds the current Element has (does nothing with bonds < 2 or bonds > 6</param>
+    /// <param name="bondCount">The number of bonds the current Element has (does nothing with bonds less than 2 or bonds greater than 6</param>
     /// <param name="start">An offset variable that ensures moveChildren() will never move the "parent" Element</param>
-    public void moveChildren(int bondCount, int start) {
-        Debug.Log("woag " + neighbors[0].Item2.name);
+    public void moveChildren(int start) {
         if(bondCount == 2) {
             // if (gameObject == creationUser.head)
             // {
@@ -266,7 +276,7 @@ public class Elements : MonoBehaviour {
             }
             Elements childElement = bond.Item2.GetComponent<Elements>() as Elements;
             childElement.resetChildPositions(3f);
-            childElement.moveChildren(childElement.neighbors.Count, 1);
+            childElement.moveChildren(1);
         }
     }
 
@@ -290,6 +300,9 @@ public class Elements : MonoBehaviour {
                 foreach(Tuple<GameObject, GameObject> t in (bond.Item2.GetComponent<Elements>() as Elements).neighbors) {
                     if(t.Item2.Equals(gameObject)) {
                         (bond.Item2.GetComponent<Elements>() as Elements).neighbors.Remove(t);
+                        (bond.Item2.GetComponent<Elements>() as Elements).bondCount--;
+                        (bond.Item2.GetComponent<Elements>() as Elements).bondOrders -= (bond.Item1.GetComponent<Bonds>() as Bonds).bondOrder;
+                        ;
                         //Debug.Log("removing " + t.Item1.name);
                         break;
                     }
@@ -312,8 +325,7 @@ public class Elements : MonoBehaviour {
                 }
                 else if(t.tag.Equals("Element") && (t.gameObject.GetComponent<Elements>() as Elements).neighbors.Count() > 1) {
                     (t.gameObject.GetComponent<Elements>() as Elements).resetChildPositions(3f);
-                    (t.gameObject.GetComponent<Elements>() as Elements).moveChildren(
-                        (t.gameObject.GetComponent<Elements>() as Elements).neighbors.Count(), (t.gameObject.GetComponent<Elements>() as Elements).start);
+                    (t.gameObject.GetComponent<Elements>() as Elements).moveChildren((t.gameObject.GetComponent<Elements>() as Elements).start);
                 }
             }
 
@@ -340,5 +352,21 @@ public class Elements : MonoBehaviour {
                 deletionDFS(bond.Item2, found);
             }
         }
+    }
+
+    /// <summary>
+    /// Updates a bond GameObject being pointed to in neighbors whenever its bond order is cycled
+    /// </summary>
+    /// <param name="newBond">The new bond GameObject to be referenced in neighbors</param>
+    /// <param name="otherElement">The other element the bond connects to - used to find which Tuple to replace</param>
+    public void updateBond(GameObject newBond, GameObject otherElement) {
+        for(int i = 0; i < neighbors.Count; i++) {
+            if(Equals(neighbors[i].Item2, otherElement)) {
+                neighbors.Insert(i, new Tuple<GameObject, GameObject>(newBond, otherElement));
+                neighbors.RemoveAt(i + 1);
+                return;
+            }
+        }
+        
     }
 }
