@@ -26,6 +26,8 @@ Fullerene aims to create a 3D environment where the user can build and explore t
 * David Li
 * Andrew Choi
 * Billy Olsen
+* Erica Hammersmark
+* Danny Roeder
 
 ## Licensing
 
