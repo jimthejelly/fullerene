@@ -17,7 +17,11 @@ public class Bonds : MonoBehaviour
     void Start()
     {
         Material mat = Resources.Load<Material>("BondColor");
-        transform.GetChild(0).GetComponent<Renderer>().material = mat; // This needs to loop for all children
+        transform.GetComponent<MeshRenderer>().material = mat;
+        foreach (Transform child in transform)
+        {
+            child.transform.GetChild(0).GetComponent<Renderer>().material = mat; // This needs to loop for all children
+        }
     }
 
     // Update is called once per frame
