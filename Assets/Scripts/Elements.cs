@@ -39,6 +39,14 @@ public class Elements : MonoBehaviour
     Vector3 indivMult(Vector3 a, Vector3 b) {
         return new Vector3(a.x * b.x, a.y * b.y, a.z * b.z);
     }
+    public List<Tuple<GameObject, GameObject>> GetNeighbors()
+    {
+        return neighbors;
+    }
+    public int GetBondOrder()
+    {
+        return bondOrders;
+    }
     // Spawns the element prefab contained in the global variable element
     /*
     public void SpawnElement(int num) {
@@ -96,7 +104,7 @@ public class Elements : MonoBehaviour
         moveChildren(bondCount, start);
     }
     */
-    
+
     public void SpawnElement(int num) {
         // int bondCount = 0;
         // int bondOrders = 0;
@@ -522,6 +530,37 @@ public class Elements : MonoBehaviour
         SetMaterialToFadeMode(cylClone.transform.GetChild(0).gameObject.GetComponent<Renderer>().material);
         // ChangeAlpha(cylClone.transform.GetChild(0).gameObject.GetComponent<Renderer>().material, 0f);
 
+    }
+}
+
+public class ElementsComparer : IEqualityComparer<Elements>
+{
+    public bool Equals(Elements x, Elements y)
+    {
+        return EqualsHelper(x, y, true, new HashSet<Elements>());
+    }
+
+    private bool EqualsHelper(Elements x, Elements y, bool done, HashSet<Elements> alreadyChecked)
+    {
+        if (done == false) return false;
+        if (x.electrons != y.electrons) return false;
+        if (x.protons != y.protons) return false;
+        if (x.neutrons != y.neutrons) return false;
+        if (x.GetBondOrder() != y.GetBondOrder()) return false;
+        foreach (Tuple<GameObject,GameObject> neighbor_x in x.GetNeighbors()) {
+            foreach (Tuple<GameObject, GameObject> neighbor_y in x.GetNeighbors())
+            {
+                // order is (BOND, ELEMENT)
+            }
+        }
+        if (alreadyChecked.Contains(x)) return false;
+        if (IEqualityComparer<Elements>.Equals(x.GetNeighbors(), y.GetNeighbors())) return true;
+        return false;
+    }
+
+    public int GetHashCode(Elements obj)
+    {
+        return obj.GetHashCode();
     }
 }
 

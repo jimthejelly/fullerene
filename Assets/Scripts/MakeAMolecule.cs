@@ -5,6 +5,7 @@ using UnityEditor;
 using TMPro;
 using UnityEngine.SceneManagement;
 using System;
+using System.Xml.Linq;
 
 public class makeAMolecule : MonoBehaviour
 {
@@ -17,13 +18,13 @@ public class makeAMolecule : MonoBehaviour
 
     private int currMol;
 
-    private int[] usedMols = new int[100];
+    // private int[] usedMols = new int[100];
 
     // Start is called before the first frame update
     void Start()
     {
         myText.color = Color.black;
-        String fullLine = grabMolecule("Assets/Resources/MakeAMolecule.txt");
+        String fullLine = GrabMolecule("Assets/Resources/MakeAMolecule.txt");
         int index = fullLine.IndexOf(':');
         String displayLine = fullLine.Substring(0, index);
         formula = fullLine.Substring(index, fullLine.Length - index);
@@ -49,16 +50,15 @@ public class makeAMolecule : MonoBehaviour
             // myText.color = Color.black;
         }
 
-        if(molIsCorrect()){
-            correctScreen();
-            newMol();
-            usedMols[correctMols] = currMol;
+        if(MolIsCorrect(molecule)){
+            ShowCorrect();
+            NewMol();
             correctMols += 1;
         }
     }
 
 
-    private String grabMolecule(String filename) {
+    private String GrabMolecule(String filename) {
         System.Random gen = new System.Random();
         currMol = gen.Next(0, 100);
         String line = "";
@@ -72,9 +72,9 @@ public class makeAMolecule : MonoBehaviour
         return line;
     }
 
-    private void newMol()
+    private void NewMol()
     {
-        String fullLine = grabMolecule("Assets/Resources/MakeAMolecule.txt");
+        String fullLine = GrabMolecule("Assets/Resources/MakeAMolecule.txt");
         int index = fullLine.IndexOf(':');
         String displayLine = fullLine.Substring(0, index);
         formula = fullLine.Substring(index, fullLine.Length - index);
@@ -83,14 +83,38 @@ public class makeAMolecule : MonoBehaviour
     }
 
     // Changes the screen to show that what was created was correct
-    private void correctScreen(){
+    private void ShowCorrect(){
         // Todo
-
+        
     }
 
-    // Checks if the molecule is correct
-    private bool molIsCorrect(){
+    // Recursion helper function
+    private bool MolIsCorrect(GameObject molecule){
         // Todo
+        Elements[] elements = molecule.GetComponents<Elements>();
         return false;
+        
     }
+    //// Recurses through the children from the root
+    //private bool ChildrenAreCorrect(Elements root0, Elements root1, HashSet<Elements> alreadyChecked)
+    //{
+    //    if (root0 != root1) return false;
+    //    HashSet<Elements> bAlreadyChecked = new HashSet<Elements>();
+    //    foreach (Elements root in root0.GetComponents<Elements>())
+    //    {
+    //        bool couldMatch = false;
+    //        foreach (Elements root2 in root0.GetComponents<Elements>())
+    //        {
+    //            if (!bAlreadyChecked.Contains(root2)) continue;
+    //            if ()
+    //            {
+    //                bAlreadyChecked.Add(root2);
+    //                couldMatch = true;
+    //                break;
+    //            }
+    //        }
+    //        if (!couldMatch) return false;
+    //    }
+    //    return true;
+    //}
 }
