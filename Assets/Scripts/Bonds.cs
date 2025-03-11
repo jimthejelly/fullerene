@@ -79,6 +79,10 @@ public class Bonds : MonoBehaviour
         parent.bondOrders += (newOrder - bondOrder);
         child.bondOrders += (newOrder - bondOrder);
 
+        // updating parent and child electron counts
+        parent.updateElectrons(newOrder - bondOrder);
+        child.updateElectrons(newOrder - bondOrder);
+
         // deleting this
         Destroy(gameObject);
     }

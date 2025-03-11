@@ -47,10 +47,20 @@ public class Elements : MonoBehaviour {
     /// </summary>
     /// <returns>True if this Element can make more bonds, or False if it can't</returns>
     public bool canBondMore() {
-        if(bondingElectrons + 2 * lonePairs < 6) {
-            return (!expandedOctet && bondOrders < bondingElectrons) || (expandedOctet && bondOrders < bondingElectrons + 2 * lonePairs);
+        if(expandedOctet) {
+            return bondingElectrons + 2 * lonePairs > 0;
         }
-        return (!expandedOctet && bondOrders < bondingElectrons) || (expandedOctet && bondOrders < 6);
+        return bondingElectrons > 0;
+    }
+
+    public void updateElectrons(int change) {
+        if(change > 0) {
+            while(bondingElectrons < change) {
+                lonePairs--;
+                bondingElectrons += 2;
+            }
+        }
+        bondingElectrons -= change;
     }
 
     /// <summary>
@@ -78,20 +88,27 @@ public class Elements : MonoBehaviour {
         }
         // making new bond
         float radius = 3f;
+        GameObject obj = AssetDatabase.LoadAssetAtPath("Assets/Elements/" + selectElement.element + ".prefab", typeof(GameObject)) as GameObject;
+        GameObject clone = Instantiate(obj, Vector3.zero, Quaternion.identity);
+        // making sure the newly created atom can bond
+        if(!(clone.GetComponent<Elements>() as Elements).canBondMore()) {
+            Debug.Log(selectElement.element + " is inert!");
+            return;
+        }
         GameObject cyl = AssetDatabase.LoadAssetAtPath("Assets/Resources/SingleBond.prefab", typeof(GameObject)) as GameObject;
         GameObject cylClone = Instantiate(cyl, Vector3.zero, Quaternion.identity);
         cylClone.transform.localScale = new Vector3(0.3f, radius / 2, 0.3f);
         cylClone.transform.SetParent(GameObject.Find("moleculeBody").transform, true);
-        GameObject obj = AssetDatabase.LoadAssetAtPath("Assets/Elements/" + selectElement.element + ".prefab", typeof(GameObject)) as GameObject;
-        GameObject clone = Instantiate(obj, Vector3.zero, Quaternion.identity);
         clone.transform.SetParent(GameObject.Find("moleculeBody").transform, true);
         clone.name = clone.name + " " + num;
         cylClone.name = cylClone.name + " " + num;
         bondCount++;
         bondOrders++;
+        updateElectrons(1);
 
         (clone.GetComponent<Elements>() as Elements).bondCount = 1;
         (clone.GetComponent<Elements>() as Elements).bondOrders = 1;
+        (clone.GetComponent<Elements>() as Elements).updateElectrons(1);
 
         (cylClone.GetComponent<Bonds>() as Bonds).setElements(this, clone.GetComponent<Elements>() as Elements);
 
@@ -171,7 +188,12 @@ public class Elements : MonoBehaviour {
     /// <param name="bondCount">The number of bonds the current Element has (does nothing with bonds less than 2 or bonds greater than 6</param>
     /// <param name="start">An offset variable that ensures moveChildren() will never move the "parent" Element</param>
     public void moveChildren(int start) {
-        if(bondCount == 2) {
+        if(bondCount < 2) {
+            return;
+        }
+        int bonds = bondCount + lonePairs;
+        Debug.Log("bonds: " + bonds);
+        if(bonds == 2) {
             // if (gameObject == creationUser.head)
             // {
             neighbors[neighbors.Count() - 1].Item1.transform.RotateAround(transform.position, transform.forward, 180);
@@ -180,24 +202,24 @@ public class Elements : MonoBehaviour {
 
             Debug.Log("index: " + (1 - start) + "   name: " + neighbors[1 - start].Item2.name);
         }
-        else if(bondCount == 3) {
+        else if(bonds == 3) {
             if(gameObject == creationUser.head) {
-                for(int i = 1; i < 3; i++) {
+                for(int i = 1; i < 3 - lonePairs; i++) {
                     neighbors[i - start].Item1.transform.RotateAround(transform.position, transform.forward, 120 * i);
                     neighbors[i - start].Item2.transform.RotateAround(transform.position, transform.forward, 120 * i);
                 }
             }
             else {
-                for(int i = 2; i < 4; i++) {
+                for(int i = 2; i < 4 - lonePairs; i++) {
                     neighbors[i - start].Item1.transform.RotateAround(transform.position, transform.forward, 120 * (i - 1));
                     neighbors[i - start].Item2.transform.RotateAround(transform.position, transform.forward, 120 * (i - 1));
                 }
             }
 
         }
-        else if(bondCount == 4) {
+        else if(bonds == 4) {
             if(gameObject == creationUser.head) {
-                for(int i = 1; i < 4; i++) {
+                for(int i = 1; i < 4 - lonePairs; i++) {
                     neighbors[i - start].Item1.transform.RotateAround(transform.position, transform.forward, 120);
                     neighbors[i - start].Item2.transform.RotateAround(transform.position, transform.forward, 120);
 
@@ -207,7 +229,7 @@ public class Elements : MonoBehaviour {
                 }
             }
             else {
-                for(int i = 1; i < 4; i++) {
+                for(int i = 1; i < 4 - lonePairs; i++) {
                     neighbors[i].Item1.transform.RotateAround(transform.position, transform.forward, 120);
                     neighbors[i].Item2.transform.RotateAround(transform.position, transform.forward, 120);
 
@@ -217,11 +239,11 @@ public class Elements : MonoBehaviour {
                 }
             }
         }
-        else if(bondCount == 5) {
+        else if(bonds == 5) {
             if(gameObject == creationUser.head) {
                 neighbors[1 - start].Item1.transform.RotateAround(transform.position, transform.forward, 180);
                 neighbors[1 - start].Item2.transform.RotateAround(transform.position, transform.forward, 180);
-                for(int i = 2; i < 5; i++) {
+                for(int i = 2; i < 5 - lonePairs; i++) {
                     neighbors[i - start].Item1.transform.RotateAround(transform.position, transform.forward, 90);
                     neighbors[i - start].Item2.transform.RotateAround(transform.position, transform.forward, 90);
 
@@ -233,7 +255,7 @@ public class Elements : MonoBehaviour {
             else {
                 neighbors[1].Item1.transform.RotateAround(transform.position, transform.forward, 180);
                 neighbors[1].Item2.transform.RotateAround(transform.position, transform.forward, 180);
-                for(int i = 2; i < 5; i++) {
+                for(int i = 2; i < 5 - lonePairs; i++) {
                     neighbors[i].Item1.transform.RotateAround(transform.position, transform.forward, 90);
                     neighbors[i].Item2.transform.RotateAround(transform.position, transform.forward, 90);
 
@@ -243,31 +265,70 @@ public class Elements : MonoBehaviour {
                 }
             }
         }
-        else if(bondCount == 6) {
+        else if(bonds == 6) {
             if(gameObject == creationUser.head) {
                 neighbors[1 - start].Item1.transform.RotateAround(transform.position, transform.forward, 180);
                 neighbors[1 - start].Item2.transform.RotateAround(transform.position, transform.forward, 180);
-                for(int i = 2; i < 6; i++) {
+                for(int i = 2; i < 6 - lonePairs; i++) {
                     neighbors[i - start].Item1.transform.RotateAround(transform.position, transform.forward, 90);
                     neighbors[i - start].Item2.transform.RotateAround(transform.position, transform.forward, 90);
 
                     neighbors[i - start].Item1.transform.RotateAround(transform.position, transform.up, 90 * i);
                     neighbors[i - start].Item2.transform.RotateAround(transform.position, transform.up, 90 * i);
-
+                }
+                if(lonePairs == 2) { // fixing square planar geometry
+                    neighbors[2].Item1.transform.RotateAround(transform.position, transform.up, 90);
+                    neighbors[2].Item2.transform.RotateAround(transform.position, transform.up, 90);
                 }
             }
             else {
                 neighbors[1].Item1.transform.RotateAround(transform.position, transform.forward, 180);
                 neighbors[1].Item2.transform.RotateAround(transform.position, transform.forward, 180);
-                for(int i = 2; i < 6; i++) {
+                for(int i = 2; i < 6 - lonePairs; i++) {
                     neighbors[i].Item1.transform.RotateAround(transform.position, transform.forward, 90);
                     neighbors[i].Item2.transform.RotateAround(transform.position, transform.forward, 90);
 
                     neighbors[i].Item1.transform.RotateAround(transform.position, transform.up, 90 * i);
                     neighbors[i].Item2.transform.RotateAround(transform.position, transform.up, 90 * i);
-
+                }
+                if(lonePairs == 2) { // fixing square planar geometry
+                    neighbors[3].Item1.transform.RotateAround(transform.position, transform.up, 90);
+                    neighbors[3].Item2.transform.RotateAround(transform.position, transform.up, 90);
                 }
             }
+        }
+        else if(bonds == 7) {
+            if(gameObject == creationUser.head) {
+                for(int i = 0; i < 6 - lonePairs; i++) {
+                    neighbors[i].Item1.transform.RotateAround(transform.position, transform.forward, 72 * i);
+                    neighbors[i].Item2.transform.RotateAround(transform.position, transform.forward, 72 * i);
+                }
+                if(lonePairs < 2) {
+                    neighbors[5].Item1.transform.RotateAround(transform.position, transform.right, 90);
+                    neighbors[5].Item2.transform.RotateAround(transform.position, transform.right, 90);
+                    if(lonePairs < 1) {
+                        neighbors[6].Item1.transform.RotateAround(transform.position, transform.right, -90);
+                        neighbors[6].Item2.transform.RotateAround(transform.position, transform.right, -90);
+                    }
+                }
+            }
+            else {
+                for(int i = 1; i < 6 - lonePairs; i++) {
+                    neighbors[i].Item1.transform.RotateAround(transform.position, transform.forward, 72 * i);
+                    neighbors[i].Item2.transform.RotateAround(transform.position, transform.forward, 72 * i);
+                }
+                if(lonePairs < 2) {
+                    neighbors[5].Item1.transform.RotateAround(transform.position, transform.right, 90);
+                    neighbors[5].Item2.transform.RotateAround(transform.position, transform.right, 90);
+                    if(lonePairs < 1) {
+                        neighbors[6].Item1.transform.RotateAround(transform.position, transform.right, -90);
+                        neighbors[6].Item2.transform.RotateAround(transform.position, transform.right, -90);
+                    }
+                }
+            }
+        }
+        else if(bonds == 8) {
+            // TODO: implement 8 bond order geometry. Current plan is to either stick to square antiprismal or to actually learn how it works
         }
         // recursively move all grandchildren
         foreach(Tuple<GameObject, GameObject> bond in neighbors) {
@@ -302,6 +363,7 @@ public class Elements : MonoBehaviour {
                         (bond.Item2.GetComponent<Elements>() as Elements).neighbors.Remove(t);
                         (bond.Item2.GetComponent<Elements>() as Elements).bondCount--;
                         (bond.Item2.GetComponent<Elements>() as Elements).bondOrders -= (bond.Item1.GetComponent<Bonds>() as Bonds).bondOrder;
+                        (bond.Item2.GetComponent<Elements>() as Elements).bondingElectrons += (bond.Item1.GetComponent<Bonds>() as Bonds).bondOrder;
                         ;
                         //Debug.Log("removing " + t.Item1.name);
                         break;
