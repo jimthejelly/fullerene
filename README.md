@@ -28,6 +28,7 @@ Fullerene aims to create a 3D environment where the user can build and explore t
 * Billy Olsen
 * Erica Hammersmark
 * Danny Roeder
+* Daniel Fellenzer
 
 ## Licensing
 
