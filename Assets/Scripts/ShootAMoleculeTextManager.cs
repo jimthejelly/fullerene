@@ -10,9 +10,9 @@ public class ShootAMoleculeTextManager : MonoBehaviour
     [SerializeField] GameObject GunEditor;
     [SerializeField] GameObject IntroParagraphCanvas;
     [SerializeField] GameObject AddMoleculeCanvas;
+    [SerializeField] GameObject ConstantsCanvas;
     ArrayList molecules;
     TextMeshProUGUI IntroParagraph;
-    TextMeshProUGUI AddMolecule;
 
     int Paragraph = 0;
     string Introparagraph0 = "Welcome to Shoot the Molecule!\r\n\r\nHere you can practice your memory and quick thinking by shooting MoleculeAsteroids before they hit Earth and break the Ozone Layer Even more!";
@@ -23,9 +23,9 @@ public class ShootAMoleculeTextManager : MonoBehaviour
     void Start()
     {
         IntroParagraph = IntroParagraphCanvas.GetComponentInChildren<TextMeshProUGUI>();
-        print(IntroParagraph);
 
         AddMoleculeCanvas.SetActive(false);
+        ConstantsCanvas.SetActive(false);
         IntroParagraph.GetComponent<TextMeshProUGUI>().text = Introparagraph0;
 
 
@@ -59,15 +59,14 @@ public class ShootAMoleculeTextManager : MonoBehaviour
 
     }
 
-    void AddMoleculePanel()
+    public void AddMoleculePanel()
     {
         AddMoleculeCanvas.SetActive(true);
         IntroParagraphCanvas.SetActive(false);
     }
 
-    void AddMoleculePair()  //After intro text can add molecules, maybe create/copy the save system from earlier to save certain molecule lists
-    {
 
-    }
+
+
 
 }
