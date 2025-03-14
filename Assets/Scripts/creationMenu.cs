@@ -138,7 +138,12 @@ public class creationMenu : MonoBehaviour
     public void LoadMakeAMolecule() {
         SceneManager.LoadScene("MakeAMolecule", LoadSceneMode.Single);
     }
-    
+
+    public void ShootAMolecule()
+    {
+        SceneManager.LoadScene("ShootAMolecule", LoadSceneMode.Single);
+    }
+
     public void CameraToggleText() {
         orthographic = !orthographic;
 
