@@ -95,26 +95,26 @@ public class makeAMolecule : MonoBehaviour
         return false;
         
     }
-    //// Recurses through the children from the root
-    //private bool ChildrenAreCorrect(Elements root0, Elements root1, HashSet<Elements> alreadyChecked)
-    //{
-    //    if (root0 != root1) return false;
-    //    HashSet<Elements> bAlreadyChecked = new HashSet<Elements>();
-    //    foreach (Elements root in root0.GetComponents<Elements>())
-    //    {
-    //        bool couldMatch = false;
-    //        foreach (Elements root2 in root0.GetComponents<Elements>())
-    //        {
-    //            if (!bAlreadyChecked.Contains(root2)) continue;
-    //            if ()
-    //            {
-    //                bAlreadyChecked.Add(root2);
-    //                couldMatch = true;
-    //                break;
-    //            }
-    //        }
-    //        if (!couldMatch) return false;
-    //    }
-    //    return true;
-    //}
+    // Recurses through the children from the root
+    private bool ChildrenAreCorrect(Elements root0, Elements root1, HashSet<Elements> alreadyChecked)
+    {
+        if (root0 != root1) return false;
+        HashSet<Elements> bAlreadyChecked = new HashSet<Elements>();
+        foreach (Elements root in root0.GetComponents<Elements>())
+        {
+            bool couldMatch = false;
+            foreach (Elements root2 in root0.GetComponents<Elements>())
+            {
+                if (!bAlreadyChecked.Contains(root2)) continue;
+                if ()
+                {
+                    bAlreadyChecked.Add(root2);
+                    couldMatch = true;
+                    break;
+                }
+            }
+            if (!couldMatch) return false;
+        }
+        return true;
+    }
 }

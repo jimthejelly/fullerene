@@ -551,10 +551,8 @@ public class ElementsComparer : IEqualityComparer<Elements>
             foreach (Tuple<GameObject, GameObject> neighbor_y in y.GetNeighbors())
             {
                 // order is (BOND, ELEMENT)
-                if (neighbor_x.Item1.GetComponent<int>() != neighbor_y.Item1.GetComponent<int>() && neighbor_x.Item2.GetComponent<int>() != neighbor_y.Item2.GetComponent<int>())
+                if ((neighbor_x.Item1.GetComponent<Bonds>() as Bonds).bondOrder != (neighbor_y.Item1.GetComponent<Bonds>() as Bonds).bondOrder && (neighbor_x.Item2.GetComponent<Elements>() as Elements).protons != (neighbor_y.Item2.GetComponent<Elements>() as Elements).protons)
                 {
-                    Elements temp = (neighbor_x.Item2.GetComponent<Elements>() as Elements);
-                    temp.protons
                     works = true;
                 }
             }
