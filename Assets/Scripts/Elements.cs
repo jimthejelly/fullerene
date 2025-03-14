@@ -537,25 +537,30 @@ public class ElementsComparer : IEqualityComparer<Elements>
 {
     public bool Equals(Elements x, Elements y)
     {
-        return EqualsHelper(x, y, true, new HashSet<Elements>());
+        return EqualsHelper(x, y);
     }
 
-    private bool EqualsHelper(Elements x, Elements y, bool done, HashSet<Elements> alreadyChecked)
+    private bool EqualsHelper(Elements x, Elements y)
     {
-        if (done == false) return false;
         if (x.electrons != y.electrons) return false;
         if (x.protons != y.protons) return false;
         if (x.neutrons != y.neutrons) return false;
         if (x.GetBondOrder() != y.GetBondOrder()) return false;
         foreach (Tuple<GameObject,GameObject> neighbor_x in x.GetNeighbors()) {
-            foreach (Tuple<GameObject, GameObject> neighbor_y in x.GetNeighbors())
+            bool works = false;
+            foreach (Tuple<GameObject, GameObject> neighbor_y in y.GetNeighbors())
             {
                 // order is (BOND, ELEMENT)
+                if (neighbor_x.Item1.GetComponent<int>() != neighbor_y.Item1.GetComponent<int>() && neighbor_x.Item2.GetComponent<int>() != neighbor_y.Item2.GetComponent<int>())
+                {
+                    Elements temp = (neighbor_x.Item2.GetComponent<Elements>() as Elements);
+                    temp.protons
+                    works = true;
+                }
             }
+            if (works == false) return false;
         }
-        if (alreadyChecked.Contains(x)) return false;
-        if (IEqualityComparer<Elements>.Equals(x.GetNeighbors(), y.GetNeighbors())) return true;
-        return false;
+        return true;
     }
 
     public int GetHashCode(Elements obj)
