@@ -20,10 +20,68 @@ public class Elements : MonoBehaviour {
 
     public int bondCount = 0;
     public int bondOrders = 0;
-    public int start = 0;
+    int start = 0;
     // Start is called before the first frame update
-    void Start() {
-
+    void Start()
+    {
+        string name = transform.name;
+        string[] split = name.Split('-');
+        string nameNumber = split[0].Trim();
+        Material mat = null;
+        switch (nameNumber) // Needs cases for every possible color gonna be yikes moment for me 
+        {
+            
+            case "1":
+                mat = Resources.Load<Material>("Materials/Hydrogen");
+                break;
+            case "6":
+                mat = Resources.Load<Material>("Materials/Carbon");
+                break;
+            case "7":
+                mat = Resources.Load<Material>("Materials/Nitrogen");
+                break;
+            case "8":
+                mat = Resources.Load<Material>("Materials/Oxygen");
+                break;
+            case "15":
+                mat = Resources.Load<Material>("Materials/Phosphorus");
+                break;
+            case "16":
+                mat = Resources.Load<Material>("Materials/Sulfur");
+                break;
+            case "9" or "17":
+                mat = Resources.Load<Material>("Materials/Fluorine_Chlorine");
+                break;
+            case "22":
+                mat = Resources.Load<Material>("Materials/Titanium");
+                break;
+            case "26":
+                mat = Resources.Load<Material>("Materials/Iron");
+                break;
+            case "35":
+                mat = Resources.Load<Material>("Materials/Bromine");
+                break;
+            case "53":
+                mat = Resources.Load<Material>("Materials/Iodine");
+                break;
+            case "2" or "10" or "18" or "36" or "54" or "86":
+                mat = Resources.Load<Material>("Materials/Noble_Gases");
+                break;
+            case "3" or "11" or "19" or "37" or "55" or "87":
+                mat = Resources.Load<Material>("Materials/Alkali_Metals");
+                break;
+            case "4" or "12" or "20" or "38" or "56" or "88":
+                mat = Resources.Load<Material>("Materials/Alkaline_Earth_Metals");
+                break;
+            case "5" or "21" or "22" or "23" or "24" or "25" or "26" or "27" or "28" or "29" or "30" or "39" or "40" or "41" or "42" or "44" or "45" or "46" or "47" or "48" or "72" or "73" or "74" or "75" or "76" or "77" or "78" or "79" or "80":
+                // Yeah imma figure out how to make these if statements rn I want all the #s down
+                mat = Resources.Load<Material>("Materials/Boron_Transition_Metals");
+                break;
+            default:
+                mat = Resources.Load<Material>("Materials/Other"); // Probably should make a error material
+                break;
+        }
+        transform.GetComponent<Renderer>().material = mat;
     }
 
     // Update is called once per frame
@@ -114,7 +172,6 @@ public class Elements : MonoBehaviour {
 
         neighbors.Add(new Tuple<GameObject, GameObject>(cylClone, clone));
         clone.GetComponent<Elements>().neighbors.Add(new Tuple<GameObject, GameObject>(cylClone, gameObject));
-
         resetChildPositions(radius);
 
         clone.transform.localEulerAngles = cylClone.transform.localEulerAngles; //+ this.transform.localEulerAngles;

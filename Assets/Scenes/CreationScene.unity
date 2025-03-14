@@ -12853,7 +12853,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1388475392}
         m_TargetAssemblyTypeName: creationMenu, Assembly-CSharp
-        m_MethodName: 
+        m_MethodName: LogicActive
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -27234,6 +27234,7 @@ MonoBehaviour:
   general_info: {fileID: 1614529913}
   preset_dropdown: {fileID: 182613956}
   isPaused: 0
+  isLogic: 0
   simplified: 0
   orthographic: 0
   ortho: {fileID: 2068494941}

@@ -15,6 +15,8 @@ public class creationMenu : MonoBehaviour
 
     public GameObject preset_dropdown;
     public bool isPaused;
+
+    public bool isLogic;
     // Start is called before the first frame update
     
     public bool simplified = false;    //simplified version
@@ -32,6 +34,7 @@ public class creationMenu : MonoBehaviour
         // Pauses time and brings up menu
         Time.timeScale = 1;
         isPaused = false;
+        isLogic = true;
         pause_menu.SetActive(false);
         table_menu.SetActive(false);
         preset_menu.SetActive(false);
@@ -141,6 +144,11 @@ public class creationMenu : MonoBehaviour
 
         ortho.SetActive(orthographic);
         persp.SetActive(!orthographic);
+    }
+
+    public void LogicActive()
+    {
+        isLogic = !isLogic;
     }
 
      public void LoadReset() {
