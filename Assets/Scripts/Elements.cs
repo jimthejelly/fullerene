@@ -328,7 +328,24 @@ public class Elements : MonoBehaviour {
             }
         }
         else if(bonds == 8) {
-            // TODO: implement 8 bond order geometry. Current plan is to either stick to square antiprismal or to actually learn how it works
+            // TODO: should probably fix this, it's eyeballed without proper mathed-out angles (and also is only square antiprismal)
+            // getting an axis for rotating things at a 60 degree offset from transform.right
+            Vector3 newAxis = Vector3.RotateTowards(transform.right, transform.up, Mathf.PI / 6, 0);
+            for(int i = 4; i < 8; i++) {
+                neighbors[i].Item1.transform.RotateAround(transform.position, transform.forward, 60);
+                neighbors[i].Item2.transform.RotateAround(transform.position, transform.forward, 60);
+
+                neighbors[i].Item1.transform.RotateAround(transform.position, newAxis, 45);
+                neighbors[i].Item2.transform.RotateAround(transform.position, newAxis, 45);
+            }
+            for(int i = 0; i < 8; i++) {
+                neighbors[i].Item1.transform.RotateAround(transform.position, newAxis, 90 * i);
+                neighbors[i].Item2.transform.RotateAround(transform.position, newAxis, 90 * i);
+            }
+        }
+        else {
+            // TODO: implement coordination numbers up to 16.
+            // This is way unimportant right now given coordination numbers above 8 aren't possible with just valence electrons/lone pairs
         }
         // recursively move all grandchildren
         foreach(Tuple<GameObject, GameObject> bond in neighbors) {
