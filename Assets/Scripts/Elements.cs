@@ -595,16 +595,13 @@ public class ElementsComparer : IEqualityComparer<Elements>
 {
     public bool Equals(Elements x, Elements y)
     {
-        return EqualsHelper(x, y);
-    }
-
-    private bool EqualsHelper(Elements x, Elements y)
-    {
         if (x.electrons != y.electrons) return false;
         if (x.protons != y.protons) return false;
         if (x.neutrons != y.neutrons) return false;
         if (x.bondOrders != y.bondOrders) return false;
-        foreach (Tuple<GameObject,GameObject> neighbor_x in x.GetNeighbors()) {
+
+        foreach (Tuple<GameObject, GameObject> neighbor_x in x.GetNeighbors())
+        {
             bool works = false;
             foreach (Tuple<GameObject, GameObject> neighbor_y in y.GetNeighbors())
             {
@@ -616,6 +613,7 @@ public class ElementsComparer : IEqualityComparer<Elements>
             }
             if (works == false) return false;
         }
+
         return true;
     }
 

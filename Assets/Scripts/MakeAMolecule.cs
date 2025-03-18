@@ -50,11 +50,11 @@ public class makeAMolecule : MonoBehaviour
             // myText.color = Color.black;
         }
 
-        if(MolIsCorrect(molecule)){
-            ShowCorrect();
-            NewMol();
-            correctMols += 1;
-        }
+        //if(MolIsCorrect(molecule)){
+        //    ShowCorrect();
+        //    NewMol();
+        //    correctMols += 1;
+        //}
     }
 
 
@@ -96,17 +96,20 @@ public class makeAMolecule : MonoBehaviour
         
     }
     // Recurses through the children from the root
-    private bool ChildrenAreCorrect(Elements root0, Elements root1, HashSet<Elements> alreadyChecked)
-    {
-        if (root0 != root1) return false;
+    private bool ChildrenAreCorrect(Elements root0, Elements root1, HashSet<Elements> alreadyChecked){
+
+        ElementsComparer EC = new ElementsComparer();
+        if (!EC.Equals(root0, root1) || root0.GetComponents<Elements>().Length != root1.GetComponents<Elements>().Length) return false;
+
         HashSet<Elements> bAlreadyChecked = new HashSet<Elements>();
         foreach (Elements root in root0.GetComponents<Elements>())
         {
             bool couldMatch = false;
             foreach (Elements root2 in root0.GetComponents<Elements>())
             {
-                if (!bAlreadyChecked.Contains(root2)) continue;
-                if ()
+                if (!ElementSetContains(bAlreadyChecked, root2)) continue;
+                alreadyChecked.Add(root);
+                if (ChildrenAreCorrect(root, root2, alreadyChecked))
                 {
                     bAlreadyChecked.Add(root2);
                     couldMatch = true;
@@ -116,5 +119,19 @@ public class makeAMolecule : MonoBehaviour
             if (!couldMatch) return false;
         }
         return true;
+    }
+
+    private bool ElementSetContains(HashSet<Elements> set, Elements element)
+    {
+        ElementsComparer EC = new ElementsComparer();
+        bool allEqual = false;
+        foreach (Elements x in set)
+        { 
+            if (EC.Equals(x, element) == true) {
+                allEqual = true;
+            }
+            
+        } 
+        return allEqual;
     }
 }
