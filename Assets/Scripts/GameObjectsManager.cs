@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
 using TMPro;
+using UnityEditor.VersionControl;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -21,9 +22,11 @@ public class GameObjectsManager : MonoBehaviour
     [SerializeField] GameObject AddMoleculeName;
     [SerializeField] GameObject AddMoleculeFormula;
     [SerializeField] GameObject AddMoleculeList;
+    [SerializeField] GameObject HUD;
     [SerializeField] GameObject PauseMenu;
     [SerializeField] GameObject Spawner;
     [SerializeField] GameObject CompoudEditor; //Prefab Object
+    [SerializeField] GameObject Laser;
     [SerializeField] GameObject CNRLoader;
 
     TextMeshProUGUI Name;
@@ -48,9 +51,11 @@ public class GameObjectsManager : MonoBehaviour
         Pause = false;
         CNR.SetActive(false);
         PauseMenu.SetActive(false);
+        HUD.SetActive(false);
         Name = AddMoleculeName.GetComponentInChildren<TextMeshProUGUI>();
         Formula = AddMoleculeFormula.GetComponentInChildren<TextMeshProUGUI>();
         MList = AddMoleculeList.GetComponentInChildren<TextMeshProUGUI>();
+        CNRLoaderText = CNRLoader.GetComponent<TextMeshProUGUI>();
     }
 
     // Update is called once per frame
@@ -66,10 +71,14 @@ public class GameObjectsManager : MonoBehaviour
             Play();
         }
         CNRbarrel.transform.Rotate(new Vector3(0.0f,0.0f,1.0f), CNRSpeed * Time.deltaTime);
-        if (CNRbarrel.transform.rotation.z > 90 || CNRbarrel.transform.rotation.z < -90)
+        if ((CNRbarrel.transform.rotation.z*360) > 90 || (CNRbarrel.transform.rotation.z * 360) < -90)
         {
             CNRSpeed = -CNRSpeed;
-        } 
+        }
+        if (Input.GetButtonUp("Submit")) 
+        {
+            CheckShoot(CNRLoaderText.text);
+        }
 
     }
 
@@ -87,6 +96,36 @@ public class GameObjectsManager : MonoBehaviour
         UpdateList();
     }
 
+    void CheckShoot(string Word)
+    {
+        foreach (Compound molecule in ActiveMolecules)
+        {
+            if (molecule.name == Word || molecule.formula == Word)
+            {
+                CNRLoaderText.text = "";
+                print(molecule);
+                foreach (GameObject rock in activeObjects)
+                {
+                    if (rock.name == molecule.name)
+                    {
+                        Shoot(rock.transform.position);
+                    }
+                }
+            }
+        }
+    }
+
+    void Shoot(Vector3 Targetposition)
+    {
+        print("Taking the shot");
+        Vector3 LaserDirection = Targetposition - CNR.transform.position; 
+        CNRbarrel.transform.rotation = Quaternion.LookRotation(LaserDirection);
+        GameObject laser = Instantiate(Laser);
+        laser.transform.position = CNRbarrel.transform.position;
+        laser.transform.rotation = CNRbarrel.transform.rotation;
+        laser.GetComponent<Rigidbody2D>().AddForce(LaserDirection);
+    }
+
     void UpdateList()
     {
         print("UpdatingList");
@@ -102,6 +141,7 @@ public class GameObjectsManager : MonoBehaviour
     {
         CNR.SetActive(true);
         AddMoleculePanel.SetActive(false);
+        HUD.SetActive(true);
         Playing = true;
     }
 
@@ -113,7 +153,7 @@ public class GameObjectsManager : MonoBehaviour
         {
             PauseMenu.SetActive(true);
 
-            foreach (GameObject compound in totalObjects)
+            foreach (GameObject compound in activeObjects)
             {
                 compound.transform.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezePosition;
             }
@@ -137,7 +177,7 @@ public class GameObjectsManager : MonoBehaviour
         activeObjects.Add(instance);   
 
         Compound InstanceMolecule = totalMolecules[Random.Range(0, totalMolecules.Count)];
-
+        instance.name = InstanceMolecule.name;
         ActiveMolecules.Add(InstanceMolecule);
         if (0 == Random.Range(0, 2)) {
             instance.GetComponentInChildren<TextMeshPro>().text = InstanceMolecule.name;
