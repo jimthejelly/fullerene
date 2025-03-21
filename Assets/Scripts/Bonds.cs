@@ -14,10 +14,11 @@ public class Bonds : MonoBehaviour
     void Start()
     {
         Material mat = Resources.Load<Material>("BondColor");
-        transform.GetComponent<MeshRenderer>().material = mat;
+        Material invis = Resources.Load<Material>("Transparent");
+        transform.GetComponent<MeshRenderer>().material = invis;
         foreach (Transform child in transform)
         {
-            child.transform.GetChild(0).GetComponent<Renderer>().material = mat; // This needs to loop for all children
+            child.transform.GetComponent<Renderer>().material = mat; // This needs to loop for all children
         }
     }
 

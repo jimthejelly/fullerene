@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEditor;
 
 public class creationMenu : MonoBehaviour
 {
@@ -39,6 +40,9 @@ public class creationMenu : MonoBehaviour
         table_menu.SetActive(false);
         preset_menu.SetActive(false);
 
+        // loads minigame menu from prefab
+        mini_menu = Instantiate(AssetDatabase.LoadAssetAtPath("Assets/Resources/Minigames_Menu.prefab", typeof(GameObject)) as GameObject);
+        (mini_menu.GetComponent<MinigameSelectionButtons>() as MinigameSelectionButtons).previousMenu = pause_menu;
     }
 
     // Update is called once per frame
@@ -93,7 +97,6 @@ public class creationMenu : MonoBehaviour
     }
 
     public void LoadMiniGameMenu() {
-
         mini_menu.SetActive(true);
         pause_menu.SetActive(false);    
         LoadPauseMenu();
