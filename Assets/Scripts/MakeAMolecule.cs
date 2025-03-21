@@ -18,6 +18,8 @@ public class makeAMolecule : MonoBehaviour
 
     private int currMol;
 
+    private Elements currMolRep;
+
     // private int[] usedMols = new int[100];
 
     // Start is called before the first frame update
@@ -78,6 +80,7 @@ public class makeAMolecule : MonoBehaviour
         int index = fullLine.IndexOf(':');
         String displayLine = fullLine.Substring(0, index);
         formula = fullLine.Substring(index, fullLine.Length - index);
+        currMolRep = BuildMol(formula);
 
         myText.text = displayLine;
     }
@@ -88,14 +91,29 @@ public class makeAMolecule : MonoBehaviour
         
     }
 
-    // Recursion helper function
+    private Elements BuildMol(String molName)
+    {
+        Elements root = new Elements();
+
+        return root;
+    }
+
+    // Helper function that tries all starting points
     private bool MolIsCorrect(GameObject molecule){
         // Todo
         Elements[] elements = molecule.GetComponents<Elements>();
+        HashSet<Elements> empty = new HashSet<Elements>();
+        foreach (Elements i in elements)
+        {
+            if (ChildrenAreCorrect(i, currMolRep,empty))
+            {
+                return true;
+            }
+        }
         return false;
         
     }
-    // Recurses through the children from the root
+    // Loops through the children from the root
     private bool ChildrenAreCorrect(Elements root0, Elements root1, HashSet<Elements> alreadyChecked){
 
         ElementsComparer EC = new ElementsComparer();
