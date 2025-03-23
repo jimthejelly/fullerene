@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6700596083157934725}
   - component: {fileID: 6115758108857883344}
   - component: {fileID: 3230073646769789724}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Label
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -181,7 +181,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4687818142641020118}
   - component: {fileID: 2002025000346143492}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Rock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -267,9 +267,9 @@ GameObject:
   - component: {fileID: 7995951994374604263}
   - component: {fileID: -1506124290203938622}
   - component: {fileID: -5443818646557543149}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: MoleculeBody
-  m_TagString: Untagged
+  m_TagString: Rock
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

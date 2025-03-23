@@ -8906,7 +8906,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1605887020}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 43a03f4973aa2534cbf03d2e1963656d, type: 3}
   m_Name: 
@@ -8917,9 +8917,11 @@ MonoBehaviour:
   AddMoleculeName: {fileID: 355307681}
   AddMoleculeFormula: {fileID: 1431091758}
   AddMoleculeList: {fileID: 1928807225}
+  HUD: {fileID: 1011911191}
   PauseMenu: {fileID: 2119574116}
   Spawner: {fileID: 1984000083}
   CompoudEditor: {fileID: 7107512038637325440, guid: bfd3ea85174756243b1806bf493a39e1, type: 3}
+  Laser: {fileID: 2337091315899065975, guid: ac53ed6c9c5875f46bf2cf9da270096f, type: 3}
   CNRLoader: {fileID: 829470501}
   totalObjects: []
   activeObjects: []
@@ -10011,6 +10013,64 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 0
   m_VerticalFit: 1
+--- !u!1 &1960005461
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1960005463}
+  - component: {fileID: 1960005462}
+  m_Layer: 0
+  m_Name: GameObjectManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1960005462
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1960005461}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43a03f4973aa2534cbf03d2e1963656d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CNR: {fileID: 2055952348}
+  CNRbarrel: {fileID: 1238169746}
+  AddMoleculePanel: {fileID: 973456743}
+  AddMoleculeName: {fileID: 355307681}
+  AddMoleculeFormula: {fileID: 1431091758}
+  AddMoleculeList: {fileID: 1928807225}
+  HUD: {fileID: 1011911191}
+  PauseMenu: {fileID: 2119574116}
+  Spawner: {fileID: 1984000083}
+  CompoudEditor: {fileID: 7107512038637325440, guid: bfd3ea85174756243b1806bf493a39e1, type: 3}
+  Laser: {fileID: 2337091315899065975, guid: ac53ed6c9c5875f46bf2cf9da270096f, type: 3}
+  CNRLoader: {fileID: 829470501}
+  totalObjects: []
+  activeObjects: []
+--- !u!4 &1960005463
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1960005461}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 8.61, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1984000083
 GameObject:
   m_ObjectHideFlags: 0
@@ -10079,7 +10139,7 @@ Transform:
   m_GameObject: {fileID: 1984000083}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 8.61, z: 0}
+  m_LocalPosition: {x: 0, y: 8.61, z: 2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -10246,7 +10306,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1605887025}
+      - m_Target: {fileID: 1960005462}
         m_TargetAssemblyTypeName: GameObjectsManager, Assembly-CSharp
         m_MethodName: AddMoleculePair
         m_Mode: 1
@@ -10379,7 +10439,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1605887025}
+      - m_Target: {fileID: 1960005462}
         m_TargetAssemblyTypeName: GameObjectsManager, Assembly-CSharp
         m_MethodName: confirmMolecules
         m_Mode: 1
@@ -10575,3 +10635,4 @@ SceneRoots:
   - {fileID: 1122734740}
   - {fileID: 1631545052}
   - {fileID: 2055952349}
+  - {fileID: 1960005463}

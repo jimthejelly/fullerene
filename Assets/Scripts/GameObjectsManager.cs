@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
 using TMPro;
-using UnityEditor.VersionControl;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -41,7 +40,7 @@ public class GameObjectsManager : MonoBehaviour
 
     bool Playing;
     bool Pause;
-
+    bool reload = true;
     float CNRSpeed = 7.50f;
 
 
@@ -75,11 +74,20 @@ public class GameObjectsManager : MonoBehaviour
         {
             CNRSpeed = -CNRSpeed;
         }
-        if (Input.GetButtonUp("Submit")) 
+
+    }
+
+    private void FixedUpdate()
+    {
+        if (Input.GetButtonDown("Submit") && reload)
         {
             CheckShoot(CNRLoaderText.text);
+            reload = false;
         }
-
+        if (Input.GetButtonUp("Submit"))
+        {
+            reload = true;
+        }
     }
 
     public void AddMoleculePair()  //After intro text can add molecules, maybe create/copy the save system from earlier to save certain molecule lists
@@ -109,6 +117,7 @@ public class GameObjectsManager : MonoBehaviour
                     if (rock.name == molecule.name)
                     {
                         Shoot(rock.transform.position);
+                        return;
                     }
                 }
             }
@@ -118,12 +127,28 @@ public class GameObjectsManager : MonoBehaviour
     void Shoot(Vector3 Targetposition)
     {
         print("Taking the shot");
-        Vector3 LaserDirection = Targetposition - CNR.transform.position; 
+        Vector3 LaserDirection = CNR.transform.position - Targetposition; 
+        print(LaserDirection);
         CNRbarrel.transform.rotation = Quaternion.LookRotation(LaserDirection);
         GameObject laser = Instantiate(Laser);
-        laser.transform.position = CNRbarrel.transform.position;
-        laser.transform.rotation = CNRbarrel.transform.rotation;
-        laser.GetComponent<Rigidbody2D>().AddForce(LaserDirection);
+        Vector3 spawnPos = CNRbarrel.transform.position;
+        laser.transform.position = new Vector3(spawnPos.x, spawnPos.y, spawnPos.z + 2.0f);
+
+        float x = Targetposition.x - laser.transform.position.x;
+        float y = Targetposition.y - laser.transform.position.y;
+
+        laser.transform.Rotate(0, 0, (Mathf.Atan2(y, x) * Mathf.Rad2Deg - 80));
+        print((x, y));
+        print((Mathf.Atan2(y, x)*360));
+        print(laser.transform.rotation);
+        print("Angle should be " + (Mathf.PI/2f - .5f*(Mathf.PI/2 - x/y)));
+        //laser.GetComponent<Rigidbody2D>().AddRelativeForce(new Vector2(0.0f,5.0f), ForceMode2D.Force);
+        //Vector3 localVelocity = laser.transform.InverseTransformDirection(GetComponent<Rigidbody2D>().velocity);
+
+        // Modify the local velocity (e.g., move forward)
+        //localVelocity.z = 5.0f;
+
+        // Convert back to world space and set the velocity
     }
 
     void UpdateList()
@@ -185,6 +210,19 @@ public class GameObjectsManager : MonoBehaviour
         {
             instance.GetComponentInChildren<TextMeshPro>().text = InstanceMolecule.formula;
         }
+    }
+
+    public void RemoveObject(GameObject thing)
+    {
+        for (int i = 0; i < activeObjects.Count; i++) { 
+            if (activeObjects[i] == thing)
+            {
+                ActiveMolecules.Remove(ActiveMolecules[i]);
+                break;
+            }
+        }
+        activeObjects.Remove(thing);
+
     }
 
     public void ExitGame()

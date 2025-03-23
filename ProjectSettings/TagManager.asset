@@ -7,6 +7,7 @@ TagManager:
   - Projectiles
   - elementButton
   - Pivot
+  - Rock
   layers:
   - Default
   - TransparentFX
@@ -15,7 +16,7 @@ TagManager:
   - Water
   - UI
   - Projectiles
-  - 
+  - Rock
   - 
   - 
   - 
