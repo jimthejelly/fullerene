@@ -267,6 +267,7 @@ GameObject:
   - component: {fileID: 7995951994374604263}
   - component: {fileID: -1506124290203938622}
   - component: {fileID: -5443818646557543149}
+  - component: {fileID: 6960129723790574404}
   m_Layer: 6
   m_Name: MoleculeBody
   m_TagString: Rock
@@ -399,3 +400,15 @@ CircleCollider2D:
   m_Offset: {x: 0.028535962, y: 0.03147602}
   serializedVersion: 2
   m_Radius: 1.1139239
+--- !u!114 &6960129723790574404
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7107512038637325440}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 557cdf1c9b8b2e34886858cdc9c27b8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

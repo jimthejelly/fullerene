@@ -8,6 +8,7 @@ public class LaserCollision : MonoBehaviour
 
     [SerializeField] GameObject es;
     bool paused = false;
+    public GameObject target;
 
     // Start is called before the first frame update
     void Start()
@@ -29,12 +30,23 @@ public class LaserCollision : MonoBehaviour
             GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.None;
 
         }
+        if (transform.position.y < -5 || transform.position.y > 7 || transform.position.x < -14 || transform.position.x > 14)
+        {
+            Destroy(gameObject);
+        }
 
     }
 
     private void FixedUpdate()
     {
-        transform.Translate(transform.up);
+        if (target == null)
+        {
+            Destroy(gameObject);
+        }
+        //float x = target.transform.position.x - transform.position.x;
+        //float y = target.transform.position.y - transform.position.y;
+        //transform.Rotate(0f,0f,Mathf.Atan2(y,x)*Mathf.Rad2Deg);
+        transform.Translate(transform.up*0.5f);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -42,7 +54,7 @@ public class LaserCollision : MonoBehaviour
         if (collision.collider.tag == "Rock")
         {
             print("hit");
-            es.GetComponent<GameObjectsManager>().RemoveObject(collision.collider.gameObject);
+            //es.GetComponent<GameObjectsManager>().RemoveObject(collision.collider.gameObject);
             Destroy(collision.collider.gameObject);
             Destroy(gameObject);
 

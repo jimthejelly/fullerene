@@ -114,9 +114,14 @@ public class GameObjectsManager : MonoBehaviour
                 print(molecule);
                 foreach (GameObject rock in activeObjects)
                 {
+                    if (rock == null)
+                    {
+                        activeObjects.Remove(rock);
+                        CheckShoot(Word);
+                    }
                     if (rock.name == molecule.name)
                     {
-                        Shoot(rock.transform.position);
+                        Shoot(rock);
                         return;
                     }
                 }
@@ -124,31 +129,24 @@ public class GameObjectsManager : MonoBehaviour
         }
     }
 
-    void Shoot(Vector3 Targetposition)
-    {
+    void Shoot(GameObject Target)
+    {   
+        Vector3 Targetposition = Target.transform.position;
         print("Taking the shot");
         Vector3 LaserDirection = CNR.transform.position - Targetposition; 
         print(LaserDirection);
         CNRbarrel.transform.rotation = Quaternion.LookRotation(LaserDirection);
         GameObject laser = Instantiate(Laser);
+        laser.GetComponent<LaserCollision>().target = Target;
         Vector3 spawnPos = CNRbarrel.transform.position;
         laser.transform.position = new Vector3(spawnPos.x, spawnPos.y, spawnPos.z + 2.0f);
 
         float x = Targetposition.x - laser.transform.position.x;
-        float y = Targetposition.y - laser.transform.position.y;
+        float y = Targetposition.y - laser.transform.position.y + 8;
+        laser.transform.Rotate(0, 0, (Mathf.Atan2(y, x) * 57.2958f) + 90);
 
-        laser.transform.Rotate(0, 0, (Mathf.Atan2(y, x) * Mathf.Rad2Deg - 80));
-        print((x, y));
-        print((Mathf.Atan2(y, x)*360));
-        print(laser.transform.rotation);
-        print("Angle should be " + (Mathf.PI/2f - .5f*(Mathf.PI/2 - x/y)));
-        //laser.GetComponent<Rigidbody2D>().AddRelativeForce(new Vector2(0.0f,5.0f), ForceMode2D.Force);
-        //Vector3 localVelocity = laser.transform.InverseTransformDirection(GetComponent<Rigidbody2D>().velocity);
-
-        // Modify the local velocity (e.g., move forward)
-        //localVelocity.z = 5.0f;
-
-        // Convert back to world space and set the velocity
+        print(Targetposition);
+        print(laser.transform.position);
     }
 
     void UpdateList()
