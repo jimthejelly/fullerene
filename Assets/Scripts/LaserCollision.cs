@@ -20,11 +20,11 @@ public class LaserCollision : MonoBehaviour
     void Update()
     {
         
-        if (Input.GetButtonDown("Submit") && !paused )
+        if (Input.GetKeyUp(KeyCode.Escape) && !paused )
         {
             paused = true;
             GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezePosition;
-        } else if (Input.GetButtonDown("Submit") && paused)
+        } else if (Input.GetKeyUp(KeyCode.Escape) && paused)
         {
             paused = false;
             GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.None;

@@ -54,7 +54,7 @@ public class GameObjectsManager : MonoBehaviour
         Name = AddMoleculeName.GetComponentInChildren<TextMeshProUGUI>();
         Formula = AddMoleculeFormula.GetComponentInChildren<TextMeshProUGUI>();
         MList = AddMoleculeList.GetComponentInChildren<TextMeshProUGUI>();
-        CNRLoaderText = CNRLoader.GetComponent<TextMeshProUGUI>();
+        CNRLoaderText = CNRLoader.GetComponentInChildren<TextMeshProUGUI>();
     }
 
     // Update is called once per frame
@@ -74,10 +74,31 @@ public class GameObjectsManager : MonoBehaviour
         {
             CNRSpeed = -CNRSpeed;
         }
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            print("trying");
+            print(CNRLoaderText.GetComponent<TextMeshProUGUI>());
+            CNRLoaderText.text = string.Empty;
+            print(CNRLoaderText.text);
+
+
+        }
 
     }
 
-    private void FixedUpdate()
+    IEnumerator ClearText()
+    {
+        while (true)
+        {
+            CNRLoaderText.text = "A line of text.";
+            yield return new WaitForSeconds(1.0f);
+            print("WLANLDLKASMDLKASD");
+            CNRLoaderText.text = string.Empty;
+            yield return new WaitForSeconds(1.0f);
+        }
+    }
+
+        private void FixedUpdate()
     {
         if (Input.GetButtonDown("Submit") && reload)
         {
@@ -110,7 +131,7 @@ public class GameObjectsManager : MonoBehaviour
         {
             if (molecule.name == Word || molecule.formula == Word)
             {
-                CNRLoaderText.text = "";
+                CNRLoaderText.GetComponent<TextMeshProUGUI>().text = "";
                 print(molecule);
                 foreach (GameObject rock in activeObjects)
                 {
@@ -118,6 +139,7 @@ public class GameObjectsManager : MonoBehaviour
                     {
                         activeObjects.Remove(rock);
                         CheckShoot(Word);
+                        return;
                     }
                     if (rock.name == molecule.name)
                     {
@@ -142,7 +164,7 @@ public class GameObjectsManager : MonoBehaviour
         laser.transform.position = new Vector3(spawnPos.x, spawnPos.y, spawnPos.z + 2.0f);
 
         float x = Targetposition.x - laser.transform.position.x;
-        float y = Targetposition.y - laser.transform.position.y + 8;
+        float y = Targetposition.y - laser.transform.position.y + 8.6f;
         laser.transform.Rotate(0, 0, (Mathf.Atan2(y, x) * 57.2958f) + 90);
 
         print(Targetposition);
@@ -176,10 +198,6 @@ public class GameObjectsManager : MonoBehaviour
         {
             PauseMenu.SetActive(true);
 
-            foreach (GameObject compound in activeObjects)
-            {
-                compound.transform.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezePosition;
-            }
         } else
         {
             PauseMenu.SetActive(false);
@@ -194,19 +212,24 @@ public class GameObjectsManager : MonoBehaviour
 
     void LaunchMolecule()
     {
-        GameObject instance = Instantiate(CompoudEditor);
-        instance.transform.position = Spawner.transform.position;
-
-        activeObjects.Add(instance);   
-
-        Compound InstanceMolecule = totalMolecules[Random.Range(0, totalMolecules.Count)];
-        instance.name = InstanceMolecule.name;
-        ActiveMolecules.Add(InstanceMolecule);
-        if (0 == Random.Range(0, 2)) {
-            instance.GetComponentInChildren<TextMeshPro>().text = InstanceMolecule.name;
-        } else
+        if (!Pause)
         {
-            instance.GetComponentInChildren<TextMeshPro>().text = InstanceMolecule.formula;
+            GameObject instance = Instantiate(CompoudEditor);
+            instance.transform.position = Spawner.transform.position;
+
+            activeObjects.Add(instance);
+
+            Compound InstanceMolecule = totalMolecules[Random.Range(0, totalMolecules.Count)];
+            instance.name = InstanceMolecule.name;
+            ActiveMolecules.Add(InstanceMolecule);
+            if (0 == Random.Range(0, 2))
+            {
+                instance.GetComponentInChildren<TextMeshPro>().text = InstanceMolecule.name;
+            }
+            else
+            {
+                instance.GetComponentInChildren<TextMeshPro>().text = InstanceMolecule.formula;
+            }
         }
     }
 
@@ -220,8 +243,48 @@ public class GameObjectsManager : MonoBehaviour
             }
         }
         activeObjects.Remove(thing);
-
     }
+
+    public void ResetList()
+    {
+        EmptyActives();
+        EmptyTotals();
+
+        CNR.SetActive(false);
+        AddMoleculePanel.SetActive(true);
+        HUD.SetActive(false);
+        PauseMenu.SetActive(false);
+
+        UpdateList();
+    }
+
+    void EmptyActives()
+    {
+        if (ActiveMolecules.Count == 0)
+        {
+            return;
+        } else
+        {
+            ActiveMolecules.Remove(ActiveMolecules[0]);
+            activeObjects.Remove(activeObjects[0]);
+            EmptyActives();
+        }
+    }
+
+    void EmptyTotals()
+    {
+        if (totalMolecules.Count == 0)
+        {
+            return;
+        }
+        else
+        {
+            totalMolecules.Remove(totalMolecules[0]);
+            totalObjects.Remove(totalObjects[0]);
+            EmptyTotals();
+        }
+    }
+
 
     public void ExitGame()
     {
