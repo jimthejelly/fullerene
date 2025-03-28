@@ -4,6 +4,15 @@ using UnityEngine;
 
 public class ForPrefabButton : MonoBehaviour
 {
+
+    private int cid;
+    public void SetCID(int cid)
+    {
+        this.cid = cid;
+    }
+
+    public TMPro.TextMeshProUGUI text;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -19,7 +28,9 @@ public class ForPrefabButton : MonoBehaviour
     public void DoSomethingCool()
     {
         GameObject thing = GameObject.Find("WordleManager");
-        Debug.Log(thing);
+        WordleManager wordleManager = thing.GetComponent<WordleManager>();
+        PubChemAPIManager pubChemAPIManager = wordleManager.pubChemAPIManager;
+        wordleManager.set(pubChemAPIManager.generalDataController.GetChemicalWithCID(cid));
     }
 
 }

@@ -8,6 +8,8 @@ using UnityEngine.Networking;
 public class PubChemAPIManager : MonoBehaviour
 {
 
+    public GeneralDataController generalDataController;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -24,60 +26,62 @@ public class PubChemAPIManager : MonoBehaviour
     public void TempOnButtonPush()
     {
         ChemicalData data = new ChemicalData();
-        GetProperty(100, data);
+        // GetProperty(100, data);
     }
 
 
-    // Pulls any property from the API.
-    public async void GetProperty(int id, ChemicalData data)
+    // Performs a PubChem API request.
+    // @param minCID - The minimum CID.
+    // @param maxCID - The maximum CID.
+    // @param dataTypes - which data types to request.
+    public void MakeAPIRequest(int minCID, int maxCID, string[] dataTypes)
     {
 
-        // below is the template API call:
-        // https://pubchem.ncbi.nlm.nih.gov/rest/pug/
-        // <input specification>/<operation specification>/[<output specification>][?<operation_options>]
-        // header / input / operation / output
+        // put all the cids in sequence so information is returned for all of them
+        // ex. if minCID = 1 and maxCID = 5, this will build 1,2,3,4,5
+        string allCIDsRequest = "";
+        for (int cid = minCID; cid <= maxCID; cid++)
+        {
+            allCIDsRequest += cid.ToString();
+            if (cid != maxCID) allCIDsRequest += ",";
+        }
 
-        // do... something with this.
+        // put all the requested data types in sequence for a similar reason
+        string allDataTypesRequest = "";
+        for (int dataTypeIndex = 0; dataTypeIndex < dataTypes.GetLength(0); dataTypeIndex++)
+        {
+            allDataTypesRequest += dataTypes[dataTypeIndex];
+            if (dataTypeIndex != dataTypes.GetLength(0) - 1) allDataTypesRequest += ",";
+        }
 
-        string apiHeader = "https://pubchem.ncbi.nlm.nih.gov/rest/pug/";
-        string apiDetails = "compound/cid/444/property/MolecularFormula,MolecularWeight,Title,Charge/CSV";
-        string apiCall = apiHeader + apiDetails;
+        // API calls are of the form:
+        // <input specification>/<operation specification>/[<output specification>]
+        string apiCall = "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/"
+            + allCIDsRequest + "/property/" + allDataTypesRequest + "/CSV";
 
-        StartCoroutine(GetRequest(apiCall, data));
+        StartCoroutine(GetRequest(apiCall));
 
     }
 
-
-    // copied from https://docs.unity3d.com/6000.0/Documentation/ScriptReference/Networking.UnityWebRequest.Get.html
-    // I'm not totally sure what it does...
-
-    // I fixed it with heresy... do not call this in parallel!
-    private IEnumerator GetRequest(string uri, ChemicalData data)
+    private IEnumerator GetRequest(string uri)
     {
         using (UnityWebRequest webRequest = UnityWebRequest.Get(uri))
         {
             // Request and wait for the desired page.
             yield return webRequest.SendWebRequest();
 
-            string[] pages = uri.Split('/');
-            int page = pages.Length - 1;
-
-            switch (webRequest.result)
+            if (webRequest.result == UnityWebRequest.Result.Success)
             {
-                case UnityWebRequest.Result.ConnectionError:
-                    break;
-                case UnityWebRequest.Result.DataProcessingError:
-                    Debug.LogError(pages[page] + ": Error: " + webRequest.error);
-                    break;
-                case UnityWebRequest.Result.ProtocolError:
-                    Debug.LogError(pages[page] + ": HTTP Error: " + webRequest.error);
-                    break;
-                case UnityWebRequest.Result.Success:
-                    string text = webRequest.downloadHandler.text;
-                    data.SetEverything(text);
-                    later(data);
-                    break;
+                // send the data to the controller to be stored
+                generalDataController.UpdateInternalData(webRequest.downloadHandler.text);
             }
+            else
+            {
+                string[] pages = uri.Split('/');
+                int page = pages.Length - 1;
+                Debug.LogError(pages[page] + ": Web Request Error: " + webRequest.error);
+            }
+
         }
     }
 
@@ -85,7 +89,7 @@ public class PubChemAPIManager : MonoBehaviour
     private void later(ChemicalData data)
     {
 
-        //data.print();
+        // data.print();
 
         Debug.Log("success!");
 
