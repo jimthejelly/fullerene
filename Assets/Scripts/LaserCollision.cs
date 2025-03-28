@@ -6,9 +6,18 @@ using UnityEngine.EventSystems;
 public class LaserCollision : MonoBehaviour
 {
 
-    [SerializeField] GameObject es;
+    [SerializeField] GameObject Manager;
+    GameObjectsManager GOM;
+    ShootMoleculeLives lives;
     bool paused = false;
     public GameObject target;
+
+    private void Awake()
+    {
+        Manager = GameObject.Find("GameObjectManager");
+        GOM = Manager.GetComponent<GameObjectsManager>();
+        lives = Manager.GetComponent<ShootMoleculeLives>();
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -19,6 +28,11 @@ public class LaserCollision : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        if (!lives.Alive)
+        {
+            Destroy(gameObject);
+        }
         
         if (Input.GetKeyUp(KeyCode.Escape) && !paused )
         {
@@ -57,7 +71,7 @@ public class LaserCollision : MonoBehaviour
             //es.GetComponent<GameObjectsManager>().RemoveObject(collision.collider.gameObject);
             Destroy(collision.collider.gameObject);
             Destroy(gameObject);
-
+            GOM.IncreaseScore();
         }
     }
 }

@@ -10053,7 +10053,7 @@ MonoBehaviour:
   Spawner: {fileID: 1984000083}
   CompoudEditor: {fileID: 7107512038637325440, guid: bfd3ea85174756243b1806bf493a39e1, type: 3}
   Laser: {fileID: 2337091315899065975, guid: ac53ed6c9c5875f46bf2cf9da270096f, type: 3}
-  CNRLoader: {fileID: 829470501}
+  CNRLoader: {fileID: 1550292706}
   totalObjects: []
   activeObjects: []
 --- !u!4 &1960005463

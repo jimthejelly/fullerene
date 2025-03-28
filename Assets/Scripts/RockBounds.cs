@@ -5,7 +5,17 @@ using UnityEngine;
 public class RockBounds : MonoBehaviour
 {
 
+    [SerializeField] GameObject GameObjectManager;
+    ShootMoleculeLives lives;
+
     bool paused = false;
+
+    private void Awake()
+    {
+        GameObjectManager = GameObject.Find("GameObjectManager");
+        lives = GameObjectManager.GetComponent<ShootMoleculeLives>();
+
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -15,8 +25,13 @@ public class RockBounds : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!lives.Alive)
+        {
+            Destroy(gameObject);
+        }
         if (transform.position.y < -5)
         {
+            lives.looseLife();
             Destroy(gameObject);
         }
 

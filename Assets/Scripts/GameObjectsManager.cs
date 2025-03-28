@@ -27,21 +27,26 @@ public class GameObjectsManager : MonoBehaviour
     [SerializeField] GameObject CompoudEditor; //Prefab Object
     [SerializeField] GameObject Laser;
     [SerializeField] GameObject CNRLoader;
+    [SerializeField] GameObject ScoreText;
 
     TextMeshProUGUI Name;
     TextMeshProUGUI Formula;
     TextMeshProUGUI MList;
     TextMeshProUGUI CNRLoaderText;
+    TextMeshProUGUI Score;
 
     public List<GameObject> totalObjects = new List<GameObject>(); //to track all the compounds that exist
     public List<Compound> totalMolecules = new List<Compound>(); //to track all the compounds that exist for the sake of the label
+    public List<Compound> yetToSpawn = new List<Compound>();    //so the randomizing agent goes through all the compounds at least once every round
     public List<GameObject> activeObjects = new List<GameObject>();//to track all active compounds that can get shot
     public List<Compound> ActiveMolecules = new List<Compound>();//to track all active compounds names for the sake of the label
 
     bool Playing;
-    bool Pause;
+    public bool Pause;
     bool reload = true;
     float CNRSpeed = 7.50f;
+
+    int score = 10;
 
 
     // Start is called before the first frame update
@@ -55,6 +60,8 @@ public class GameObjectsManager : MonoBehaviour
         Formula = AddMoleculeFormula.GetComponentInChildren<TextMeshProUGUI>();
         MList = AddMoleculeList.GetComponentInChildren<TextMeshProUGUI>();
         CNRLoaderText = CNRLoader.GetComponentInChildren<TextMeshProUGUI>();
+        Score = ScoreText.GetComponent<TextMeshProUGUI>();
+        
     }
 
     // Update is called once per frame
@@ -206,7 +213,12 @@ public class GameObjectsManager : MonoBehaviour
 
     void Play()
     {
+        yetToSpawn = totalMolecules;
         Playing = false;
+        gameObject.GetComponent<ShootMoleculeLives>().SpawnHearts();
+        Pause = false;
+        score = 10;
+        Score.text = "Score: " + score;
         InvokeRepeating("LaunchMolecule", 2.0f, 2.5f);
     }
 
@@ -214,12 +226,44 @@ public class GameObjectsManager : MonoBehaviour
     {
         if (!Pause)
         {
+            
             GameObject instance = Instantiate(CompoudEditor);
             instance.transform.position = Spawner.transform.position;
 
             activeObjects.Add(instance);
 
-            Compound InstanceMolecule = totalMolecules[Random.Range(0, totalMolecules.Count)];
+            int Spawn;
+            if (yetToSpawn.Count > 1)
+            {
+                print("normal Spawning");
+                print(yetToSpawn);
+                print(yetToSpawn.Count);
+                print(yetToSpawn[0]);
+                Spawn = Random.Range(0, yetToSpawn.Count);
+
+            } else
+            {
+                print(yetToSpawn);
+                print(yetToSpawn.Count);
+                if (yetToSpawn.Count == 0)
+                {
+
+                    print("reset List");
+                    
+                    yetToSpawn = totalMolecules;
+                    print(yetToSpawn);
+                    print(yetToSpawn.Count);
+                    Spawn = Random.Range(0, yetToSpawn.Count);
+                    print(Spawn);
+                }
+                else
+                {
+                    print("last item");
+                    Spawn = 0;
+                }
+            }
+            Compound InstanceMolecule = yetToSpawn[Spawn];
+            yetToSpawn.Remove(yetToSpawn[Spawn]);
             instance.name = InstanceMolecule.name;
             ActiveMolecules.Add(InstanceMolecule);
             if (0 == Random.Range(0, 2))
@@ -283,6 +327,24 @@ public class GameObjectsManager : MonoBehaviour
             totalObjects.Remove(totalObjects[0]);
             EmptyTotals();
         }
+    }
+
+    public void IncreaseScore()
+    {
+        score *= 2;
+        score += 5;
+        Score.text = "Score: " + score;
+    }
+
+    public void DecreaseScore()
+    {
+        print(score);
+        if (score <= 0)
+        {
+            score = 1;
+        }
+        score -= (int)(score / 4);
+        Score.text = "Score: " + score;
     }
 
 
