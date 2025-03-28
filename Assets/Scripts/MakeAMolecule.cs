@@ -18,9 +18,11 @@ public class makeAMolecule : MonoBehaviour
 
     private int currMol;
 
+    private GameObject currentMol;
+
     private Elements currMolRep;
 
-    // private int[] usedMols = new int[100];
+    // private int[] usedMols = new int[100]; meant to store which molecules have been prompted before, but maybe unnecessary?
 
     // Start is called before the first frame update
     void Start()
@@ -33,6 +35,7 @@ public class makeAMolecule : MonoBehaviour
         correctMols = 0;
 
         myText.text = displayLine;
+        CreateCheckButton();
     }
 
     // Update is called once per frame
@@ -46,20 +49,14 @@ public class makeAMolecule : MonoBehaviour
         }
 
         GameObject molecule = GameObject.Find("moleculeBody");
+        GameObject currentMol = molecule;
         if(creationMenu.molMini == true) {
             myText.color = Color.white;
         } else {
             // myText.color = Color.black;
         }
-
-        //if(MolIsCorrect(molecule)){
-        //    ShowCorrect();
-        //    NewMol();
-        //    correctMols += 1;
-        //}
     }
-
-
+    
     private String GrabMolecule(String filename) {
         System.Random gen = new System.Random();
         currMol = gen.Next(0, 100);
@@ -83,6 +80,21 @@ public class makeAMolecule : MonoBehaviour
         currMolRep = BuildMol(formula);
 
         myText.text = displayLine;
+    }
+
+    private void CreateCheckButton()
+    {
+        Handles.BeginGUI();
+        if (GUILayout.Button("Check"))
+        {
+            if (MolIsCorrect(currentMol))
+            {
+                ShowCorrect();
+                NewMol();
+                correctMols += 1;
+            }
+        }
+        Handles.EndGUI();
     }
 
     // Changes the screen to show that what was created was correct
