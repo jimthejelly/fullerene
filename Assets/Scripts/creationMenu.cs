@@ -139,9 +139,9 @@ public class creationMenu : MonoBehaviour
         SceneManager.LoadScene("MakeAMolecule", LoadSceneMode.Single);
     }
 
-    public void ShootAMolecule()
+    public void LoadShootAMolecule()
     {
-        SceneManager.LoadScene("ShootAMolecule");
+        SceneManager.LoadScene(4, LoadSceneMode.Single);
     }
 
     public void CameraToggleText() {

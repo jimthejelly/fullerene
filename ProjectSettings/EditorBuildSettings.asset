@@ -17,5 +17,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/MakeAMolecule.unity
     guid: 84e62f15ea258d24aa8b1616c1a382cc
+  - enabled: 1
+    path: Assets/Scenes/ShootAMolecule.unity
+    guid: 02982c406cab6ed4396d2fe14581750f
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 3f58b9ee36c55be4ca71922a2d8c45fb, type: 2}

@@ -37,14 +37,27 @@ public class RockBounds : MonoBehaviour
 
         if (Input.GetKeyUp(KeyCode.Escape) && paused)
         {
-            paused = false;
-            gameObject.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.None;
-            gameObject.GetComponent<Rigidbody2D>().velocity = new Vector3(0, -.02f, 0);
+            unPause();
         }
         else if (Input.GetKeyUp(KeyCode.Escape) && !paused)
         {
-            paused = true;
-            gameObject.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezePosition;
+            Pause();
         }
     }
+
+    public void unPause()
+    {
+        paused = false;
+        gameObject.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.None;
+        gameObject.GetComponent<Rigidbody2D>().velocity = new Vector3(0, -.02f, 0);
+    }
+
+    public void Pause()
+    {
+        paused = true;
+        gameObject.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezePosition;
+    }
+
+
+
 }

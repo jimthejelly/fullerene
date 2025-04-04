@@ -69,7 +69,7 @@ public class LaserCollision : MonoBehaviour
         {
             print("hit");
             //es.GetComponent<GameObjectsManager>().RemoveObject(collision.collider.gameObject);
-            Destroy(collision.collider.gameObject);
+            GOM.targetHit(collision.collider.gameObject);
             Destroy(gameObject);
             GOM.IncreaseScore();
         }

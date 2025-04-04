@@ -199,21 +199,32 @@ public class GameObjectsManager : MonoBehaviour
 
     public void Paused()
     {
-        Pause = !Pause;
         Playing = !Playing;
+        Pause = !Pause;
         if (Pause)
         {
             PauseMenu.SetActive(true);
-
+            for (int i = 0; i < totalMolecules.Count; i++)
+            {
+                activeObjects[i].GetComponent<RockBounds>().Pause();
+            }
         } else
         {
             PauseMenu.SetActive(false);
+            for (int i = 0; i < activeObjects.Count; i++)
+            {
+                activeObjects[i].GetComponent<RockBounds>().unPause();
+                print(activeObjects[i]);
+            }
         }
     }
 
     void Play()
     {
-        yetToSpawn = totalMolecules;
+        for (int i = 0; i < totalMolecules.Count; i++)
+        {
+            yetToSpawn.Add(totalMolecules[i]);
+        }
         Playing = false;
         gameObject.GetComponent<ShootMoleculeLives>().SpawnHearts();
         Pause = false;
@@ -226,42 +237,43 @@ public class GameObjectsManager : MonoBehaviour
     {
         if (!Pause)
         {
-            
-            GameObject instance = Instantiate(CompoudEditor);
-            instance.transform.position = Spawner.transform.position;
-
-            activeObjects.Add(instance);
 
             int Spawn;
             if (yetToSpawn.Count > 1)
             {
                 print("normal Spawning");
-                print(yetToSpawn);
-                print(yetToSpawn.Count);
-                print(yetToSpawn[0]);
                 Spawn = Random.Range(0, yetToSpawn.Count);
 
             } else
             {
-                print(yetToSpawn);
-                print(yetToSpawn.Count);
                 if (yetToSpawn.Count == 0)
                 {
 
                     print("reset List");
                     
-                    yetToSpawn = totalMolecules;
-                    print(yetToSpawn);
-                    print(yetToSpawn.Count);
+                    for (int i = 0; i < totalMolecules.Count; i++)
+                    {
+                        yetToSpawn.Add(totalMolecules[i]);
+                    }
+
                     Spawn = Random.Range(0, yetToSpawn.Count);
-                    print(Spawn);
-                }
+                    }
                 else
                 {
                     print("last item");
                     Spawn = 0;
                 }
             }
+
+
+            GameObject instance = Instantiate(CompoudEditor);
+            instance.transform.position = Spawner.transform.position;
+
+            activeObjects.Add(instance);
+
+            print(yetToSpawn);
+            print(yetToSpawn.Count);
+            print(Spawn);
             Compound InstanceMolecule = yetToSpawn[Spawn];
             yetToSpawn.Remove(yetToSpawn[Spawn]);
             instance.name = InstanceMolecule.name;
@@ -293,7 +305,7 @@ public class GameObjectsManager : MonoBehaviour
     {
         EmptyActives();
         EmptyTotals();
-
+        CancelInvoke("LaunchMolecule");
         CNR.SetActive(false);
         AddMoleculePanel.SetActive(true);
         HUD.SetActive(false);
@@ -304,13 +316,16 @@ public class GameObjectsManager : MonoBehaviour
 
     void EmptyActives()
     {
-        if (ActiveMolecules.Count == 0)
+        if (ActiveMolecules.Count == 0&&activeObjects.Count == 0)
         {
             return;
-        } else
+        } 
+        else 
         {
+            GameObject temp = activeObjects[0];
             ActiveMolecules.Remove(ActiveMolecules[0]);
             activeObjects.Remove(activeObjects[0]);
+            Destroy(temp);
             EmptyActives();
         }
     }
@@ -331,8 +346,7 @@ public class GameObjectsManager : MonoBehaviour
 
     public void IncreaseScore()
     {
-        score *= 2;
-        score += 5;
+        score += 25;
         Score.text = "Score: " + score;
     }
 
@@ -347,6 +361,19 @@ public class GameObjectsManager : MonoBehaviour
         Score.text = "Score: " + score;
     }
 
+    public void targetHit(GameObject target)
+    {
+        for (int i = 0; i < activeObjects.Count; i++)
+        {
+            if (target == activeObjects[i]) 
+            {
+                activeObjects.Remove(target);
+                ActiveMolecules.Remove(ActiveMolecules[i]);
+                Destroy(target);
+            }
+        }
+
+    }
 
     public void ExitGame()
     {
