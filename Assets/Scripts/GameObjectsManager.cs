@@ -29,10 +29,10 @@ public class GameObjectsManager : MonoBehaviour
     [SerializeField] GameObject CNRLoader;
     [SerializeField] GameObject ScoreText;
 
-    TextMeshProUGUI Name;
-    TextMeshProUGUI Formula;
+    [SerializeField] TMP_InputField Name;
+    [SerializeField] TMP_InputField Formula;
     TextMeshProUGUI MList;
-    TextMeshProUGUI CNRLoaderText;
+    [SerializeField] TMP_InputField CNRLoaderText;
     TextMeshProUGUI Score;
 
     public List<GameObject> totalObjects = new List<GameObject>(); //to track all the compounds that exist
@@ -56,10 +56,7 @@ public class GameObjectsManager : MonoBehaviour
         CNR.SetActive(false);
         PauseMenu.SetActive(false);
         HUD.SetActive(false);
-        Name = AddMoleculeName.GetComponentInChildren<TextMeshProUGUI>();
-        Formula = AddMoleculeFormula.GetComponentInChildren<TextMeshProUGUI>();
         MList = AddMoleculeList.GetComponentInChildren<TextMeshProUGUI>();
-        CNRLoaderText = CNRLoader.GetComponentInChildren<TextMeshProUGUI>();
         Score = ScoreText.GetComponent<TextMeshProUGUI>();
         
     }
@@ -84,37 +81,30 @@ public class GameObjectsManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Tab))
         {
             print("trying");
-            print(CNRLoaderText.GetComponent<TextMeshProUGUI>());
-            CNRLoaderText.text = string.Empty;
-            print(CNRLoaderText.text);
-
-
+            ClearText();
         }
 
     }
 
-    IEnumerator ClearText()
+    void ClearText()
     {
-        while (true)
-        {
-            CNRLoaderText.text = "A line of text.";
-            yield return new WaitForSeconds(1.0f);
-            print("WLANLDLKASMDLKASD");
-            CNRLoaderText.text = string.Empty;
-            yield return new WaitForSeconds(1.0f);
-        }
+        print(CNRLoaderText);
+        CNRLoaderText.text = "";
     }
 
-        private void FixedUpdate()
+    private void FixedUpdate()
     {
         if (Input.GetButtonDown("Submit") && reload)
         {
+            print("Firing");
             CheckShoot(CNRLoaderText.text);
             reload = false;
         }
         if (Input.GetButtonUp("Submit"))
         {
             reload = true;
+            CNRLoaderText.Select();
+            CNRLoaderText.ActivateInputField();
         }
     }
 
@@ -123,10 +113,12 @@ public class GameObjectsManager : MonoBehaviour
         GameObject compound = new GameObject();
         compound = CompoudEditor;
         Compound molecule = new Compound();
-        molecule.name = Name.GetComponent<TextMeshProUGUI>().text;
-        Name.GetComponent<TextMeshProUGUI>().text = "";
-        molecule.formula = Formula.GetComponent<TextMeshProUGUI>().text;
-        Formula.GetComponent<TextMeshProUGUI>().text = "";
+        molecule.name = Name.text;
+        Name.text = "";
+        molecule.formula = Formula.text;
+        Formula.text = "";
+        molecule.name.Trim();
+        molecule.formula.Trim();
         totalObjects.Add(compound);
         totalMolecules.Add(molecule);
         UpdateList();
@@ -134,11 +126,17 @@ public class GameObjectsManager : MonoBehaviour
 
     void CheckShoot(string Word)
     {
+        print(Word);
         foreach (Compound molecule in ActiveMolecules)
         {
+            print(molecule.name);
+            print(molecule.formula);
+            print(Word);
+            print(molecule.name == Word);
+
             if (molecule.name == Word || molecule.formula == Word)
             {
-                CNRLoaderText.GetComponent<TextMeshProUGUI>().text = "";
+                print(CNRLoaderText.text);
                 print(molecule);
                 foreach (GameObject rock in activeObjects)
                 {
@@ -173,6 +171,7 @@ public class GameObjectsManager : MonoBehaviour
         float x = Targetposition.x - laser.transform.position.x;
         float y = Targetposition.y - laser.transform.position.y + 8.6f;
         laser.transform.Rotate(0, 0, (Mathf.Atan2(y, x) * 57.2958f) + 90);
+        CNRLoaderText.text = "";
 
         print(Targetposition);
         print(laser.transform.position);
@@ -204,18 +203,9 @@ public class GameObjectsManager : MonoBehaviour
         if (Pause)
         {
             PauseMenu.SetActive(true);
-            for (int i = 0; i < totalMolecules.Count; i++)
-            {
-                activeObjects[i].GetComponent<RockBounds>().Pause();
-            }
         } else
         {
             PauseMenu.SetActive(false);
-            for (int i = 0; i < activeObjects.Count; i++)
-            {
-                activeObjects[i].GetComponent<RockBounds>().unPause();
-                print(activeObjects[i]);
-            }
         }
     }
 
@@ -310,7 +300,7 @@ public class GameObjectsManager : MonoBehaviour
         AddMoleculePanel.SetActive(true);
         HUD.SetActive(false);
         PauseMenu.SetActive(false);
-
+        CNRLoaderText.text = "";
         UpdateList();
     }
 

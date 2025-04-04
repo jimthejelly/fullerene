@@ -780,8 +780,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1849725385}
   - {fileID: 620807142}
+  - {fileID: 1849725385}
   m_Father: {fileID: 832329778}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -8739,8 +8739,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 821152812}
   - {fileID: 501926946}
+  - {fileID: 821152812}
   m_Father: {fileID: 1349427067}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -8925,8 +8925,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 829470502}
   - {fileID: 1632577965}
+  - {fileID: 829470502}
   m_Father: {fileID: 248278852}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -9059,6 +9059,9 @@ MonoBehaviour:
   Laser: {fileID: 2337091315899065975, guid: ac53ed6c9c5875f46bf2cf9da270096f, type: 3}
   CNRLoader: {fileID: 829470501}
   ScoreText: {fileID: 0}
+  Name: {fileID: 0}
+  Formula: {fileID: 0}
+  CNRLoaderText: {fileID: 0}
   totalObjects: []
   activeObjects: []
   Pause: 0
@@ -10193,6 +10196,9 @@ MonoBehaviour:
   Laser: {fileID: 2337091315899065975, guid: ac53ed6c9c5875f46bf2cf9da270096f, type: 3}
   CNRLoader: {fileID: 1550292706}
   ScoreText: {fileID: 913790788}
+  Name: {fileID: 832329779}
+  Formula: {fileID: 1349427068}
+  CNRLoaderText: {fileID: 248278853}
   totalObjects: []
   activeObjects: []
   Pause: 0
