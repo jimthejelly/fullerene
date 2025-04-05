@@ -83,7 +83,24 @@ public class GameObjectsManager : MonoBehaviour
             print("trying");
             ClearText();
         }
+        if (Input.GetKeyDown(KeyCode.LeftAlt) && reload)
+        {
+            print("Firing");
+            CheckShoot(CNRLoaderText.text);
+            reload = false;
+        }
 
+        if (!reload && Input.GetKeyDown(KeyCode.LeftAlt))
+        {
+            print("reloaded");
+            reload = true;
+
+        }
+        if (Playing)
+        {
+            CNRLoaderText.Select();
+            CNRLoaderText.ActivateInputField();
+        }
     }
 
     void ClearText()
@@ -94,24 +111,12 @@ public class GameObjectsManager : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (Input.GetButtonDown("Submit") && reload)
-        {
-            print("Firing");
-            CheckShoot(CNRLoaderText.text);
-            reload = false;
-        }
-        if (Input.GetButtonUp("Submit"))
-        {
-            reload = true;
-            CNRLoaderText.Select();
-            CNRLoaderText.ActivateInputField();
-        }
+
     }
 
     public void AddMoleculePair()  //After intro text can add molecules, maybe create/copy the save system from earlier to save certain molecule lists
     {
-        GameObject compound = new GameObject();
-        compound = CompoudEditor;
+        GameObject compound = CompoudEditor;
         Compound molecule = new Compound();
         molecule.name = Name.text;
         Name.text = "";
@@ -129,15 +134,11 @@ public class GameObjectsManager : MonoBehaviour
         print(Word);
         foreach (Compound molecule in ActiveMolecules)
         {
-            print(molecule.name);
-            print(molecule.formula);
-            print(Word);
-            print(molecule.name == Word);
+
 
             if (molecule.name == Word || molecule.formula == Word)
             {
-                print(CNRLoaderText.text);
-                print(molecule);
+
                 foreach (GameObject rock in activeObjects)
                 {
                     if (rock == null)
@@ -169,7 +170,7 @@ public class GameObjectsManager : MonoBehaviour
         laser.transform.position = new Vector3(spawnPos.x, spawnPos.y, spawnPos.z + 2.0f);
 
         float x = Targetposition.x - laser.transform.position.x;
-        float y = Targetposition.y - laser.transform.position.y + 8.6f;
+        float y = Targetposition.y - laser.transform.position.y + 8.74f;
         laser.transform.Rotate(0, 0, (Mathf.Atan2(y, x) * 57.2958f) + 90);
         CNRLoaderText.text = "";
 
@@ -216,6 +217,8 @@ public class GameObjectsManager : MonoBehaviour
             yetToSpawn.Add(totalMolecules[i]);
         }
         Playing = false;
+        gameObject.GetComponent<ShootMoleculeLives>().Lives = 3;
+        gameObject.GetComponent<ShootMoleculeLives>().Alive = true;
         gameObject.GetComponent<ShootMoleculeLives>().SpawnHearts();
         Pause = false;
         score = 10;
@@ -255,16 +258,15 @@ public class GameObjectsManager : MonoBehaviour
                 }
             }
 
-
+            print(CompoudEditor);
             GameObject instance = Instantiate(CompoudEditor);
             instance.transform.position = Spawner.transform.position;
-
+            print(instance);
             activeObjects.Add(instance);
-
+            Compound InstanceMolecule = yetToSpawn[Spawn];
+            print(yetToSpawn[Spawn].name);
             print(yetToSpawn);
             print(yetToSpawn.Count);
-            print(Spawn);
-            Compound InstanceMolecule = yetToSpawn[Spawn];
             yetToSpawn.Remove(yetToSpawn[Spawn]);
             instance.name = InstanceMolecule.name;
             ActiveMolecules.Add(InstanceMolecule);
@@ -293,6 +295,7 @@ public class GameObjectsManager : MonoBehaviour
 
     public void ResetList()
     {
+        removeYetToSpawn();
         EmptyActives();
         EmptyTotals();
         CancelInvoke("LaunchMolecule");
@@ -306,16 +309,24 @@ public class GameObjectsManager : MonoBehaviour
 
     void EmptyActives()
     {
+        print("Emptying");
         if (ActiveMolecules.Count == 0&&activeObjects.Count == 0)
         {
             return;
         } 
         else 
         {
-            GameObject temp = activeObjects[0];
-            ActiveMolecules.Remove(ActiveMolecules[0]);
-            activeObjects.Remove(activeObjects[0]);
-            Destroy(temp);
+            print(activeObjects.Count);
+            print(ActiveMolecules.Count);
+            if (ActiveMolecules.Count > 0)
+            {
+                ActiveMolecules.Remove(ActiveMolecules[0]);
+            }
+            if (activeObjects.Count > 0)
+            {
+                Destroy(activeObjects[0]);
+                activeObjects.Remove(activeObjects[0]);
+            }
             EmptyActives();
         }
     }
@@ -331,6 +342,17 @@ public class GameObjectsManager : MonoBehaviour
             totalMolecules.Remove(totalMolecules[0]);
             totalObjects.Remove(totalObjects[0]);
             EmptyTotals();
+            print(CompoudEditor);
+        }
+    }
+
+    void removeYetToSpawn()
+    {
+        if (yetToSpawn.Count == 0) { return; }
+        else
+        {
+            yetToSpawn.Remove(yetToSpawn[0]);
+            removeYetToSpawn();
         }
     }
 
@@ -343,6 +365,11 @@ public class GameObjectsManager : MonoBehaviour
     public void DecreaseScore()
     {
         print(score);
+        print(activeObjects[0]);
+        if (activeObjects[0] == null)
+        {
+            activeObjects.Remove(activeObjects[0]);
+        }
         if (score <= 0)
         {
             score = 1;
@@ -363,6 +390,11 @@ public class GameObjectsManager : MonoBehaviour
             }
         }
 
+    }
+
+    public void reloadScene()
+    {
+        SceneManager.LoadScene("ShootAMolecule", LoadSceneMode.Single);
     }
 
     public void ExitGame()

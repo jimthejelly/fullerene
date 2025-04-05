@@ -9,7 +9,7 @@ public class ShootMoleculeLives : MonoBehaviour
     GameObjectsManager Manage;
     GameObject[] Hearts;
 
-    int Lives = 3;
+    public int Lives = 3;
     public bool Alive = true;
     // Start is called before the first frame update
     void Start()
