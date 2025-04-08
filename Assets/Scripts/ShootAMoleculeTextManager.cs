@@ -16,7 +16,7 @@ public class ShootAMoleculeTextManager : MonoBehaviour
 
     int Paragraph = 0;
     string Introparagraph0 = "Welcome to Shoot the Molecule!\r\n\r\nHere you can practice your memory and quick thinking by shooting MoleculeAsteroids before they hit Earth and break the Ozone Layer Even more!";
-    string Introparagraph1 = "When the molecules start falling from the sky, type their name or their makeup into the Compound Neutralizing Ray (CNR).\r\nWhen the CNR is loaded with the proper, press 'Enter' to fire the neutralizing ray!";
+    string Introparagraph1 = "When the molecules start falling from the sky, type their name or their makeup into the Compound Neutralizing Ray (CNR).\r\nWhen the CNR is loaded with the proper, press the Left 'Alt' to fire the neutralizing ray!";
     string Introparagraph2 = "If you think the CNR has been loaded incorrectly, don't panic, you can quickly clear the loaded ray by pressing 'Tab'.";
 
     // Start is called before the first frame update

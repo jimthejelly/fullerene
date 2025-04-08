@@ -22,7 +22,13 @@ public class LaserCollision : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        Vector3 difference = target.transform.position - gameObject.transform.position;
+        //difference = difference.normalized;
+        transform.Rotate(0, 0, 0);
+        print("Laser Targeting");
+        print(difference);
+        print("Laser Shot");
+        transform.rotation = Quaternion.AngleAxis(-Mathf.Atan2(difference.x, (difference.y+2f)*2f) * Mathf.Rad2Deg, Vector3.forward);
     }
 
     // Update is called once per frame

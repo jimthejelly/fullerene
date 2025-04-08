@@ -15,25 +15,25 @@ public class Compound
 
 public class GameObjectsManager : MonoBehaviour
 {
-    [SerializeField] GameObject CNR;
-    [SerializeField] GameObject CNRbarrel;
-    [SerializeField] GameObject AddMoleculePanel;
-    [SerializeField] GameObject AddMoleculeName;
-    [SerializeField] GameObject AddMoleculeFormula;
-    [SerializeField] GameObject AddMoleculeList;
-    [SerializeField] GameObject HUD;
-    [SerializeField] GameObject PauseMenu;
-    [SerializeField] GameObject Spawner;
+    [SerializeField] GameObject CNR;            //turret
+    [SerializeField] GameObject CNRbarrel;      //turret barrel for direction
+    [SerializeField] GameObject AddMoleculePanel;   //canvas panel
+    [SerializeField] GameObject AddMoleculeName;    //||
+    [SerializeField] GameObject AddMoleculeFormula;//||
+    [SerializeField] GameObject AddMoleculeList;    //||
+    [SerializeField] GameObject HUD;                //||
+    [SerializeField] GameObject PauseMenu;          //||
+    [SerializeField] GameObject Spawner;            // invisible object that moves back and forth
     [SerializeField] GameObject CompoudEditor; //Prefab Object
-    [SerializeField] GameObject Laser;
-    [SerializeField] GameObject CNRLoader;
-    [SerializeField] GameObject ScoreText;
+    [SerializeField] GameObject Laser;              //prefab for lasers
+    [SerializeField] GameObject CNRLoader;          //miscelaneous block that serves as a way to know where the canvas item with respect to normal game objects
+    [SerializeField] GameObject ScoreText;          //textbax to display score
 
-    [SerializeField] TMP_InputField Name;
-    [SerializeField] TMP_InputField Formula;
-    TextMeshProUGUI MList;
-    [SerializeField] TMP_InputField CNRLoaderText;
-    TextMeshProUGUI Score;
+    [SerializeField] TMP_InputField Name;           //canvas item
+    [SerializeField] TMP_InputField Formula;        //||
+    [SerializeField] TMP_InputField CNRLoaderText;  //||
+    TextMeshProUGUI MList;                          //text box to display created pairs
+    TextMeshProUGUI Score;                          //text box to display score
 
     public List<GameObject> totalObjects = new List<GameObject>(); //to track all the compounds that exist
     public List<Compound> totalMolecules = new List<Compound>(); //to track all the compounds that exist for the sake of the label
@@ -131,26 +131,29 @@ public class GameObjectsManager : MonoBehaviour
 
     void CheckShoot(string Word)
     {
-        print(Word);
-        foreach (Compound molecule in ActiveMolecules)
+        if (!Pause)
         {
-
-
-            if (molecule.name == Word || molecule.formula == Word)
+            print(Word);
+            foreach (Compound molecule in ActiveMolecules)
             {
 
-                foreach (GameObject rock in activeObjects)
+
+                if (molecule.name == Word || molecule.formula == Word)
                 {
-                    if (rock == null)
+
+                    foreach (GameObject rock in activeObjects)
                     {
-                        activeObjects.Remove(rock);
-                        CheckShoot(Word);
-                        return;
-                    }
-                    if (rock.name == molecule.name)
-                    {
-                        Shoot(rock);
-                        return;
+                        if (rock == null)
+                        {
+                            activeObjects.Remove(rock);
+                            CheckShoot(Word);
+                            return;
+                        }
+                        if (rock.name == molecule.name)
+                        {
+                            Shoot(rock);
+                            return;
+                        }
                     }
                 }
             }
@@ -170,8 +173,10 @@ public class GameObjectsManager : MonoBehaviour
         laser.transform.position = new Vector3(spawnPos.x, spawnPos.y, spawnPos.z + 2.0f);
 
         float x = Targetposition.x - laser.transform.position.x;
-        float y = Targetposition.y - laser.transform.position.y + 8.74f;
-        laser.transform.Rotate(0, 0, (Mathf.Atan2(y, x) * 57.2958f) + 90);
+        float y = Targetposition.y - laser.transform.position.y;
+        laser.transform.Rotate(0, 0, 0);
+        //laser.transform.rotation = Quaternion.AngleAxis(-Mathf.Atan2(x, y) * Mathf.Rad2Deg, Vector3.forward);
+        //laser.transform.Rotate(0, 0, (Mathf.Atan2(y, x) * Mathf.Deg2Rad) + 90);
         CNRLoaderText.text = "";
 
         print(Targetposition);
