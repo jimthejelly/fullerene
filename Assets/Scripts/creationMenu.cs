@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEditor;
 
 public class creationMenu : MonoBehaviour
 {
@@ -15,6 +16,8 @@ public class creationMenu : MonoBehaviour
 
     public GameObject preset_dropdown;
     public bool isPaused;
+
+    public bool isLogic;
     // Start is called before the first frame update
     
     public bool simplified = false;    //simplified version
@@ -32,10 +35,14 @@ public class creationMenu : MonoBehaviour
         // Pauses time and brings up menu
         Time.timeScale = 1;
         isPaused = false;
+        isLogic = true;
         pause_menu.SetActive(false);
         table_menu.SetActive(false);
         preset_menu.SetActive(false);
 
+        // loads minigame menu from prefab
+        mini_menu = Instantiate(AssetDatabase.LoadAssetAtPath("Assets/Resources/Minigames_Menu.prefab", typeof(GameObject)) as GameObject);
+        (mini_menu.GetComponent<MinigameSelectionButtons>() as MinigameSelectionButtons).previousMenu = pause_menu;
     }
 
     // Update is called once per frame
@@ -90,7 +97,6 @@ public class creationMenu : MonoBehaviour
     }
 
     public void LoadMiniGameMenu() {
-
         mini_menu.SetActive(true);
         pause_menu.SetActive(false);    
         LoadPauseMenu();
@@ -136,9 +142,9 @@ public class creationMenu : MonoBehaviour
         SceneManager.LoadScene("MakeAMolecule", LoadSceneMode.Single);
     }
 
-    public void LoadChemicalWordle()
+    public void LoadShootAMolecule()
     {
-        SceneManager.LoadScene("ChemicalWordle", LoadSceneMode.Single);
+        SceneManager.LoadScene(4, LoadSceneMode.Single);
     }
 
     public void CameraToggleText() {
@@ -146,6 +152,11 @@ public class creationMenu : MonoBehaviour
 
         ortho.SetActive(orthographic);
         persp.SetActive(!orthographic);
+    }
+
+    public void LogicActive()
+    {
+        isLogic = !isLogic;
     }
 
      public void LoadReset() {

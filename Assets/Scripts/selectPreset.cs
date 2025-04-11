@@ -12,6 +12,7 @@ using System;
 using System.IO;
 
 
+
 // public static class Globals {
 //     public static GameObject element;
 // }
@@ -36,13 +37,15 @@ public class selectPreset : MonoBehaviour
             Debug.Log("Not here" + path);
         }
         path = AssetDatabase.GenerateUniqueAssetPath(path);
-
         PrefabUtility.SaveAsPrefabAsset(GameObject.Find("moleculeBody"), path, out success);
+
         if (success) {
             Debug.Log("yippe");
         } else {
             Debug.Log("whoops");
         }
+        AssetDatabase.SaveAssets();
+        AssetDatabase.Refresh();
     }
 
     // public void getPreset() {
