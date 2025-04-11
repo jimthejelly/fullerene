@@ -82,12 +82,13 @@ public class makeAMolecule : MonoBehaviour
         myText.text = displayLine;
     }
 
+    // creates a button to check if the molecule is correct(called at Start())
     private void CreateCheckButton()
     {
         Handles.BeginGUI();
         if (GUILayout.Button("Check"))
         {
-            if (MolIsCorrect(currentMol))
+            if (MolIsCorrect(currentMol)) // cannot currently return true;
             {
                 //ShowCorrect();
                 NewMol();
@@ -103,6 +104,7 @@ public class makeAMolecule : MonoBehaviour
         
     }
 
+    // builds the hidden molecule that the checked molecule will compare against (NOT CURRENTLY WORKING)
     private Elements BuildMol(String molName)
     {
         Elements root = new Elements();

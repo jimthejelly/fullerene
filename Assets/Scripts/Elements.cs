@@ -591,6 +591,7 @@ public class Elements : MonoBehaviour
 
     }
 }
+// an element comparer that only checks certain variables of the element and it's children
 public class ElementsComparer : IEqualityComparer<Elements>
 {
     public bool Equals(Elements x, Elements y)
