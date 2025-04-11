@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,6 +7,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using System.IO;
 
 public class Compound
 {
@@ -32,6 +34,7 @@ public class GameObjectsManager : MonoBehaviour
     [SerializeField] TMP_InputField Name;           //canvas item
     [SerializeField] TMP_InputField Formula;        //||
     [SerializeField] TMP_InputField CNRLoaderText;  //||
+    [SerializeField] TMP_InputField FileName;
     TextMeshProUGUI MList;                          //text box to display created pairs
     TextMeshProUGUI Score;                          //text box to display score
 
@@ -395,6 +398,35 @@ public class GameObjectsManager : MonoBehaviour
             }
         }
 
+    }
+
+    public void SaveList()
+    {
+        List<Compound> newList = new List<Compound>();
+        for (int i = 0; i < totalMolecules.Count; i++)
+        {
+            newList.Add(totalMolecules[i]);
+        }
+
+        string json = JsonConvert.SerializeObject(newList);  // Use Newtonsoft.Json for JSON serialization
+        string filePath = Application.persistentDataPath + "/" + FileName + ".json";
+        File.WriteAllText(filePath, json);
+    }
+
+    public void LoadList()
+    {
+        string filePath = Application.persistentDataPath + "/" + FileName + ".json";
+
+        if (File.Exists(filePath))
+        {
+            string json = File.ReadAllText(filePath);
+            //return JsonConvert.DeserializeObject<List<Compound>>(json);
+        }
+        else
+        {
+            Debug.LogWarning("Save file not found: " + FileName);
+            //return null;
+        }
     }
 
     public void reloadScene()
