@@ -89,7 +89,7 @@ public class makeAMolecule : MonoBehaviour
         {
             if (MolIsCorrect(currentMol))
             {
-                ShowCorrect();
+                //ShowCorrect();
                 NewMol();
                 correctMols += 1;
             }
