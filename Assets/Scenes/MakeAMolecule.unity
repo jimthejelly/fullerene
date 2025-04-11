@@ -6461,6 +6461,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   turnSpeed: 500
+  PanSpeed: 50
 --- !u!23 &356859816
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -20190,7 +20191,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 949326393}
         m_TargetAssemblyTypeName: selectPreset, Assembly-CSharp
-        m_MethodName: getPreset
+        m_MethodName: SavePreset
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -26899,6 +26900,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac7200925ea66644ca6f499e946b7c41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Camera: {fileID: 0}
   pause_menu: {fileID: 458891559}
   mini_menu: {fileID: 1866835958}
   table_menu: {fileID: 1312701108}
@@ -26906,6 +26908,7 @@ MonoBehaviour:
   general_info: {fileID: 1614529913}
   preset_dropdown: {fileID: 182613956}
   isPaused: 0
+  isLogic: 0
   simplified: 0
   orthographic: 0
   ortho: {fileID: 2068494941}
@@ -38027,7 +38030,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1975454547}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e5562906daac6ea4d811c3e9baf4fc84, type: 3}
   m_Name: 
