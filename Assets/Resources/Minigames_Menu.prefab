@@ -1425,7 +1425,11 @@ RectTransform:
   m_Children:
   - {fileID: 5106631004788354086}
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   - {fileID: 1648379008776925686}
+=======
+  - {fileID: 1980308830087656906}
+>>>>>>> Stashed changes
 =======
   - {fileID: 1980308830087656906}
 >>>>>>> Stashed changes
