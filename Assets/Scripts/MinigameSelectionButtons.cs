@@ -21,11 +21,16 @@ public class MinigameSelectionButtons : MonoBehaviour
 
     // NOTE: This currently breaks Andrew's code a little, isPaused remains on when exiting the menu so it takes an extra click to do stuff
     public void BackButton() {
-        previousMenu.SetActive(true);
+        previousMenu.SetActive(true);  
         gameObject.SetActive(false);
     }
 
     public void LoadMakeAMolecule() {
         SceneManager.LoadScene("MakeAMolecule", LoadSceneMode.Single);
+    }
+
+    public void LoadShootAMolecule()
+    {
+        SceneManager.LoadScene("ShootAMolecule", LoadSceneMode.Single);
     }
 }
