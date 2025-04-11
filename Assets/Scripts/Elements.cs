@@ -4,127 +4,99 @@ using System.Linq;
 using UnityEngine;
 using UnityEditor;
 
-/// <summary>
-/// Class for representing the internal data of an atom in the main molecule
-/// </summary>
-public class Elements : MonoBehaviour {
+public class Elements : MonoBehaviour
+{
 
     public int electrons;
     public int protons;
     public int neutrons;
-    private List<Tuple<GameObject, GameObject>> neighbors = new List<Tuple<GameObject, GameObject>>();
+    private List<Tuple<GameObject,GameObject>> neighbors = new List<Tuple<GameObject,GameObject>>();
     public int lonePairs;
     public int bondingElectrons;
     public bool expandedOctet;
     public bool physicsOn = false;
 
-    public int bondCount = 0;
-    public int bondOrders = 0;
+    int bondCount = 0;
+    int bondOrders = 0;
     int start = 0;
     // Start is called before the first frame update
     void Start()
     {
-        string name = transform.name;
-        string[] split = name.Split('-');
-        string nameNumber = split[0].Trim();
-        Material mat = null;
-        switch (nameNumber) // Needs cases for every possible color gonna be yikes moment for me 
-        {
-            
-            case "1":
-                mat = Resources.Load<Material>("Materials/Hydrogen");
-                break;
-            case "6":
-                mat = Resources.Load<Material>("Materials/Carbon");
-                break;
-            case "7":
-                mat = Resources.Load<Material>("Materials/Nitrogen");
-                break;
-            case "8":
-                mat = Resources.Load<Material>("Materials/Oxygen");
-                break;
-            case "15":
-                mat = Resources.Load<Material>("Materials/Phosphorus");
-                break;
-            case "16":
-                mat = Resources.Load<Material>("Materials/Sulfur");
-                break;
-            case "9" or "17":
-                mat = Resources.Load<Material>("Materials/Fluorine_Chlorine");
-                break;
-            case "22":
-                mat = Resources.Load<Material>("Materials/Titanium");
-                break;
-            case "26":
-                mat = Resources.Load<Material>("Materials/Iron");
-                break;
-            case "35":
-                mat = Resources.Load<Material>("Materials/Bromine");
-                break;
-            case "53":
-                mat = Resources.Load<Material>("Materials/Iodine");
-                break;
-            case "2" or "10" or "18" or "36" or "54" or "86":
-                mat = Resources.Load<Material>("Materials/Noble_Gases");
-                break;
-            case "3" or "11" or "19" or "37" or "55" or "87":
-                mat = Resources.Load<Material>("Materials/Alkali_Metals");
-                break;
-            case "4" or "12" or "20" or "38" or "56" or "88":
-                mat = Resources.Load<Material>("Materials/Alkaline_Earth_Metals");
-                break;
-            case "5" or "21" or "22" or "23" or "24" or "25" or "26" or "27" or "28" or "29" or "30" or "39" or "40" or "41" or "42" or "44" or "45" or "46" or "47" or "48" or "72" or "73" or "74" or "75" or "76" or "77" or "78" or "79" or "80":
-                // Yeah imma figure out how to make these if statements rn I want all the #s down
-                mat = Resources.Load<Material>("Materials/Boron_Transition_Metals");
-                break;
-            default:
-                mat = Resources.Load<Material>("Materials/Other"); // Probably should make a error material
-                break;
-        }
-        transform.GetComponent<Renderer>().material = mat;
+        
     }
 
     // Update is called once per frame
-    void Update() {
-
+    void Update()
+    {
+        
     }
 
-    /// <summary>
-    /// Finds the construction order of Elements, its main use is finding the parent of an Element
-    /// </summary>
-    /// <returns>The number to the right of the name of the element, or -1 if it's the root</returns>
-    public int getID() {
-        if(name[name.Length - 1] == ')') {
-            return -1;
-        }
-        return Int32.Parse(name.Substring(name.LastIndexOf(' ')));
+    void OnMouseDown() {
+        //SpawnElement();
     }
 
-    /// <summary>
-    /// Determines whether or not this Element can make more bonds
-    /// </summary>
-    /// <returns>True if this Element can make more bonds, or False if it can't</returns>
-    public bool canBondMore() {
-        if(expandedOctet) {
-            return bondingElectrons + 2 * lonePairs > 0;
-        }
-        return bondingElectrons > 0;
+    // returns (a.x*b.x, a.y*b.y, a.z*b.z)
+    Vector3 indivMult(Vector3 a, Vector3 b) {
+        return new Vector3(a.x * b.x, a.y * b.y, a.z * b.z);
     }
-
-    public void updateElectrons(int change) {
-        if(change > 0) {
-            while(bondingElectrons < change) {
-                lonePairs--;
-                bondingElectrons += 2;
+    // Spawns the element prefab contained in the global variable element
+    /*
+    public void SpawnElement(int num) {
+        int bondCount = 0;
+        int bondOrders = 0;
+        foreach(Transform child in transform) {
+            if(child.tag.Equals("Bond")) {
+                bondCount++;
+                foreach(Transform ch in child.transform) {
+                    if(ch.tag.Equals("Bond")) {
+                        bondOrders++;
+                    }
+                }
             }
         }
-        bondingElectrons -= change;
-    }
+        int start = 0;
+        if(transform.parent != null && transform.parent.tag.Equals("Bond")) {
+            bondCount++;
+            start = 1;
+            foreach(Transform ch in transform.parent.parent.transform) {
+                if(ch.tag.Equals("Bond")) {
+                    bondOrders++;
+                }
+            }
+        }
+        // checking if the element can make more bonds
+        if((!expandedOctet && bondOrders == bondingElectrons) || (expandedOctet && bondOrders == bondingElectrons + 2 * lonePairs) || (expandedOctet && bondOrders == 6)) {
+            return;
+        }
 
-    /// <summary>
-    /// Spawns in a new Element instance
-    /// </summary>
-    /// <param name="num">The "construction ID" or number next to the name in the Hierarchy View</param>
+        // checking if the element follows physics:
+        if (physicsOn && transform.parent != null && !validBond(transform.parent.parent.gameObject, selectElement.element)) {
+            return;
+        }
+
+        // making new bond
+        float radius = 3f;
+        GameObject cyl = AssetDatabase.LoadAssetAtPath("Assets/Resources/SingleBond.prefab", typeof(GameObject)) as GameObject;
+        GameObject cylClone = Instantiate(cyl, Vector3.zero, Quaternion.identity);
+        cylClone.transform.localScale = new Vector3(0.3f, radius / 2, 0.3f);
+        cylClone.transform.SetParent(transform, true);
+        GameObject obj = AssetDatabase.LoadAssetAtPath("Assets/ElementsElements/" + selectElement.element + ".prefab", typeof(GameObject)) as GameObject;
+        GameObject clone = Instantiate(obj, Vector3.zero, Quaternion.identity);
+        clone.transform.SetParent(cylClone.transform.GetChild(0), true);
+        clone.name = clone.name + " " + num;
+        cylClone.name = cylClone.name + " " + num;
+        Debug.Log(bondCount);
+        bondCount++;
+
+        resetChildPositions(radius);
+
+        clone.transform.localEulerAngles = cylClone.transform.localEulerAngles + new Vector3(180, 0, 0);
+        clone.transform.localPosition = Vector3.up * -1;
+        
+        moveChildren(bondCount, start);
+    }
+    */
+    
     public void SpawnElement(int num) {
         // int bondCount = 0;
         // int bondOrders = 0;
@@ -132,73 +104,82 @@ public class Elements : MonoBehaviour {
         protons = 16;
         electrons = 16;
         neutrons = 0;
+        
+        bondCount = 0;
+        bondOrders = 0;
 
+        for (int i = 0; i < neighbors.Count(); i++)
+        {
+            bondCount++;
+            bondOrders++;
+        }
+        
+        
+        // int start = 0;
+        /*
+        if(transform.parent != null && transform.parent.tag.Equals("Bond")) {
+            bondCount++;
+            start = 1;
+            foreach(Transform ch in transform.parent.parent.transform) {
+                if(ch.tag.Equals("Bond")) {
+                    bondOrders++;
+                }
+            }
+        }
+        */
         start = 0;
 
-        if(neighbors.Any()) {
-            start = 1;
+        if (neighbors.Any()) {
+           start = 1;
         }
-
+        
         // checking if the element can make more bonds
-        if(!canBondMore()) {
+        if((!expandedOctet && bondOrders == bondingElectrons) || (expandedOctet && bondOrders == bondingElectrons + 2 * lonePairs) || (expandedOctet && bondOrders == 6)) {
             Debug.Log("Not enough space");
             return;
         }
         // making new bond
         float radius = 3f;
-        GameObject obj = AssetDatabase.LoadAssetAtPath("Assets/Elements/" + selectElement.element + ".prefab", typeof(GameObject)) as GameObject;
-        GameObject clone = Instantiate(obj, Vector3.zero, Quaternion.identity);
-        // making sure the newly created atom can bond
-        if(!(clone.GetComponent<Elements>() as Elements).canBondMore()) {
-            Debug.Log(selectElement.element + " is inert!");
-            return;
-        }
         GameObject cyl = AssetDatabase.LoadAssetAtPath("Assets/Resources/SingleBond.prefab", typeof(GameObject)) as GameObject;
         GameObject cylClone = Instantiate(cyl, Vector3.zero, Quaternion.identity);
         cylClone.transform.localScale = new Vector3(0.3f, radius / 2, 0.3f);
         cylClone.transform.SetParent(GameObject.Find("moleculeBody").transform, true);
+        GameObject obj = AssetDatabase.LoadAssetAtPath("Assets/Elements/" + selectElement.element + ".prefab", typeof(GameObject)) as GameObject;
+        GameObject clone = Instantiate(obj, Vector3.zero, Quaternion.identity);
         clone.transform.SetParent(GameObject.Find("moleculeBody").transform, true);
         clone.name = clone.name + " " + num;
         cylClone.name = cylClone.name + " " + num;
         bondCount++;
-        bondOrders++;
-        updateElectrons(1);
-
-        (clone.GetComponent<Elements>() as Elements).bondCount = 1;
-        (clone.GetComponent<Elements>() as Elements).bondOrders = 1;
-        (clone.GetComponent<Elements>() as Elements).updateElectrons(1);
-
-        (cylClone.GetComponent<Bonds>() as Bonds).setElements(this, clone.GetComponent<Elements>() as Elements);
-
         neighbors.Add(new Tuple<GameObject, GameObject>(cylClone, clone));
         clone.GetComponent<Elements>().neighbors.Add(new Tuple<GameObject, GameObject>(cylClone, gameObject));
+        
         resetChildPositions(radius);
 
         clone.transform.localEulerAngles = cylClone.transform.localEulerAngles; //+ this.transform.localEulerAngles;
 
         clone.transform.localPosition = cylClone.transform.localPosition;
-        clone.transform.Translate(0, -radius / 2, 0);
+        clone.transform.Translate(0, -radius/2, 0);
+        
+        moveChildren(bondCount, start);
+            
 
-        moveChildren(start);
-
-        if(!cylClone) {
+        if (!cylClone)
+        {
             Debug.Log("bond breok");
         }
 
-        if(!clone) {
+        if (!clone)
+        {
             Debug.Log("clone breok");
         }
-
+       
     }
 
-    /// <summary>
-    /// Resets the positions of each "child" of this Element to be moved with moveChildren() later
-    /// </summary>
-    /// <param name="radius">The radius of the bonds between Elements</param>
     public void resetChildPositions(float radius) {
 
-        foreach(Tuple<GameObject, GameObject> child in neighbors) {
-            if(gameObject == creationUser.head) {
+        foreach(Tuple<GameObject,GameObject> child in neighbors) {
+            if (gameObject == creationUser.head)
+            {
                 child.Item1.transform.localPosition = transform.position;
                 child.Item1.transform.localEulerAngles = new Vector3(this.transform.localEulerAngles.x,
                     this.transform.localEulerAngles.y, this.transform.localEulerAngles.z);
@@ -208,8 +189,7 @@ public class Elements : MonoBehaviour {
                 child.Item2.transform.localEulerAngles = new Vector3(this.transform.localEulerAngles.x,
                     this.transform.localEulerAngles.y, this.transform.localEulerAngles.z);
                 child.Item2.transform.Translate(0, -1 * (radius), 0);
-            }
-            else if(!Equals(child, neighbors[0])) {
+            } else if (!Equals(child, neighbors[0])) {
 
                 child.Item1.transform.localPosition = transform.position;
                 child.Item1.transform.localEulerAngles = new Vector3(this.transform.localEulerAngles.x,
@@ -229,280 +209,319 @@ public class Elements : MonoBehaviour {
                 // child.Item2.transform.RotateAround(transform.position, transform.up, 180);
                 // child.Item2.transform.RotateAround(transform.position, transform.right, 180);
 
-            }
-            else {
+            } else {
 
             }
-
+            
         }
     }
-
-    /// <summary>
-    /// Moves the "children" of this Element to their proper VSEPR geometrical positions (Does not currently account for lone pairs)
-    /// <br></br>
-    /// NOTE: This does not currently work with cyclic molecules
-    /// </summary>
-    /// <param name="bondCount">The number of bonds the current Element has (does nothing with bonds less than 2 or bonds greater than 6</param>
-    /// <param name="start">An offset variable that ensures moveChildren() will never move the "parent" Element</param>
-    public void moveChildren(int start) {
-        if(bondCount < 2) {
-            return;
-        }
-        int bonds = bondCount + lonePairs;
-        Debug.Log("bonds: " + bonds);
-        if(bonds == 2) {
+    
+    public void moveChildren(int bondCount, int start) {
+        if(bondCount == 2) {
             // if (gameObject == creationUser.head)
             // {
-            neighbors[neighbors.Count() - 1].Item1.transform.RotateAround(transform.position, transform.forward, 180);
-            neighbors[neighbors.Count() - 1].Item2.transform.RotateAround(transform.position, transform.forward, 180);
+                neighbors[neighbors.Count()-1].Item1.transform.RotateAround(transform.position, transform.forward, 180);
+                neighbors[neighbors.Count()-1].Item2.transform.RotateAround(transform.position, transform.forward, 180);
             // }
-
-            Debug.Log("index: " + (1 - start) + "   name: " + neighbors[1 - start].Item2.name);
+            
+            Debug.Log("index: " + (1-start) + "   name: " + neighbors[1-start].Item2.name);
+            moveInnerChildren(neighbors[1-start].Item2);
         }
-        else if(bonds == 3) {
-            if(gameObject == creationUser.head) {
-                for(int i = 1; i < 3 - lonePairs; i++) {
-                    neighbors[i - start].Item1.transform.RotateAround(transform.position, transform.forward, 120 * i);
-                    neighbors[i - start].Item2.transform.RotateAround(transform.position, transform.forward, 120 * i);
+        else if(bondCount == 3) {
+            if (gameObject == creationUser.head) {
+                for(int i = 1; i < 3; i++) {
+                    neighbors[i-start].Item1.transform.RotateAround(transform.position, transform.forward, 120*i);
+                    neighbors[i-start].Item2.transform.RotateAround(transform.position, transform.forward, 120*i);
+                    moveInnerChildren(neighbors[i-start].Item2);
+                }
+            } else {
+                for(int i = 2; i < 4; i++) {
+                     neighbors[i-start].Item1.transform.RotateAround(transform.position, transform.forward, 120*(i-1));
+                     neighbors[i-start].Item2.transform.RotateAround(transform.position, transform.forward, 120*(i-1));
+                     moveInnerChildren(neighbors[i-start].Item2);
                 }
             }
-            else {
-                for(int i = 2; i < 4 - lonePairs; i++) {
-                    neighbors[i - start].Item1.transform.RotateAround(transform.position, transform.forward, 120 * (i - 1));
-                    neighbors[i - start].Item2.transform.RotateAround(transform.position, transform.forward, 120 * (i - 1));
-                }
-            }
-
+            
         }
-        else if(bonds == 4) {
-            if(gameObject == creationUser.head) {
-                for(int i = 1; i < 4 - lonePairs; i++) {
+        else if(bondCount == 4) {
+            if (gameObject == creationUser.head)
+            {
+                for (int i = 1; i < 4; i++)
+                {
                     neighbors[i - start].Item1.transform.RotateAround(transform.position, transform.forward, 120);
                     neighbors[i - start].Item2.transform.RotateAround(transform.position, transform.forward, 120);
 
                     neighbors[i - start].Item1.transform.RotateAround(transform.position, transform.up, 120 * i);
                     neighbors[i - start].Item2.transform.RotateAround(transform.position, transform.up, 120 * i);
+                    moveInnerChildren(neighbors[i-start].Item2);
 
                 }
             }
-            else {
-                for(int i = 1; i < 4 - lonePairs; i++) {
+            else
+            {
+                for (int i = 1; i < 4; i++)
+                {
                     neighbors[i].Item1.transform.RotateAround(transform.position, transform.forward, 120);
                     neighbors[i].Item2.transform.RotateAround(transform.position, transform.forward, 120);
 
                     neighbors[i].Item1.transform.RotateAround(transform.position, transform.up, 120 * i);
                     neighbors[i].Item2.transform.RotateAround(transform.position, transform.up, 120 * i);
+                    moveInnerChildren(neighbors[i].Item2);
 
                 }
             }
         }
-        else if(bonds == 5) {
-            if(gameObject == creationUser.head) {
-                neighbors[1 - start].Item1.transform.RotateAround(transform.position, transform.forward, 180);
-                neighbors[1 - start].Item2.transform.RotateAround(transform.position, transform.forward, 180);
-                for(int i = 2; i < 5 - lonePairs; i++) {
-                    neighbors[i - start].Item1.transform.RotateAround(transform.position, transform.forward, 90);
-                    neighbors[i - start].Item2.transform.RotateAround(transform.position, transform.forward, 90);
+        else if(bondCount == 5) {
+            if (gameObject == creationUser.head)
+            {
+                neighbors[1-start].Item1.transform.RotateAround(transform.position, transform.forward, 180);
+                neighbors[1-start].Item2.transform.RotateAround(transform.position, transform.forward, 180);
+                for(int i = 2; i < 5; i++) {
+                    neighbors[i-start].Item1.transform.RotateAround(transform.position, transform.forward, 90);
+                    neighbors[i-start].Item2.transform.RotateAround(transform.position, transform.forward, 90);
 
-                    neighbors[i - start].Item1.transform.RotateAround(transform.position, transform.up, 120 * i);
-                    neighbors[i - start].Item2.transform.RotateAround(transform.position, transform.up, 120 * i);
+                    neighbors[i-start].Item1.transform.RotateAround(transform.position, transform.up, 120*i);
+                    neighbors[i-start].Item2.transform.RotateAround(transform.position, transform.up, 120*i);
+                    moveInnerChildren(neighbors[i-start].Item2);
 
                 }
             }
-            else {
+            else
+            {
                 neighbors[1].Item1.transform.RotateAround(transform.position, transform.forward, 180);
                 neighbors[1].Item2.transform.RotateAround(transform.position, transform.forward, 180);
-                for(int i = 2; i < 5 - lonePairs; i++) {
+                for(int i = 2; i < 5; i++) {
                     neighbors[i].Item1.transform.RotateAround(transform.position, transform.forward, 90);
                     neighbors[i].Item2.transform.RotateAround(transform.position, transform.forward, 90);
 
-                    neighbors[i].Item1.transform.RotateAround(transform.position, transform.up, 120 * i);
-                    neighbors[i].Item2.transform.RotateAround(transform.position, transform.up, 120 * i);
+                    neighbors[i].Item1.transform.RotateAround(transform.position, transform.up, 120*i);
+                    neighbors[i].Item2.transform.RotateAround(transform.position, transform.up, 120*i);
+                    moveInnerChildren(neighbors[i].Item2);
 
                 }
             }
         }
-        else if(bonds == 6) {
-            if(gameObject == creationUser.head) {
-                neighbors[1 - start].Item1.transform.RotateAround(transform.position, transform.forward, 180);
-                neighbors[1 - start].Item2.transform.RotateAround(transform.position, transform.forward, 180);
-                for(int i = 2; i < 6 - lonePairs; i++) {
-                    neighbors[i - start].Item1.transform.RotateAround(transform.position, transform.forward, 90);
-                    neighbors[i - start].Item2.transform.RotateAround(transform.position, transform.forward, 90);
+        else if(bondCount == 6) {
+            if (gameObject == creationUser.head)
+            {
+                neighbors[1-start].Item1.transform.RotateAround(transform.position, transform.forward, 180);
+                neighbors[1-start].Item2.transform.RotateAround(transform.position, transform.forward, 180);
+                for(int i = 2; i < 6; i++) {
+                    neighbors[i-start].Item1.transform.RotateAround(transform.position, transform.forward, 90);
+                    neighbors[i-start].Item2.transform.RotateAround(transform.position, transform.forward, 90);
 
-                    neighbors[i - start].Item1.transform.RotateAround(transform.position, transform.up, 90 * i);
-                    neighbors[i - start].Item2.transform.RotateAround(transform.position, transform.up, 90 * i);
-                }
-                if(lonePairs == 2) { // fixing square planar geometry
-                    neighbors[2].Item1.transform.RotateAround(transform.position, transform.up, 90);
-                    neighbors[2].Item2.transform.RotateAround(transform.position, transform.up, 90);
+                    neighbors[i-start].Item1.transform.RotateAround(transform.position, transform.up, 90*i);
+                    neighbors[i-start].Item2.transform.RotateAround(transform.position, transform.up, 90*i);
+                    moveInnerChildren(neighbors[i-start].Item2);
+
                 }
             }
-            else {
+            else
+            {
                 neighbors[1].Item1.transform.RotateAround(transform.position, transform.forward, 180);
                 neighbors[1].Item2.transform.RotateAround(transform.position, transform.forward, 180);
-                for(int i = 2; i < 6 - lonePairs; i++) {
+                for(int i = 2; i < 6; i++) {
                     neighbors[i].Item1.transform.RotateAround(transform.position, transform.forward, 90);
                     neighbors[i].Item2.transform.RotateAround(transform.position, transform.forward, 90);
 
-                    neighbors[i].Item1.transform.RotateAround(transform.position, transform.up, 90 * i);
-                    neighbors[i].Item2.transform.RotateAround(transform.position, transform.up, 90 * i);
-                }
-                if(lonePairs == 2) { // fixing square planar geometry
-                    neighbors[3].Item1.transform.RotateAround(transform.position, transform.up, 90);
-                    neighbors[3].Item2.transform.RotateAround(transform.position, transform.up, 90);
-                }
-            }
-        }
-        else if(bonds == 7) {
-            if(gameObject == creationUser.head) {
-                for(int i = 0; i < 6 - lonePairs; i++) {
-                    neighbors[i].Item1.transform.RotateAround(transform.position, transform.forward, 72 * i);
-                    neighbors[i].Item2.transform.RotateAround(transform.position, transform.forward, 72 * i);
-                }
-                if(lonePairs < 2) {
-                    neighbors[5].Item1.transform.RotateAround(transform.position, transform.right, 90);
-                    neighbors[5].Item2.transform.RotateAround(transform.position, transform.right, 90);
-                    if(lonePairs < 1) {
-                        neighbors[6].Item1.transform.RotateAround(transform.position, transform.right, -90);
-                        neighbors[6].Item2.transform.RotateAround(transform.position, transform.right, -90);
-                    }
-                }
-            }
-            else {
-                for(int i = 1; i < 6 - lonePairs; i++) {
-                    neighbors[i].Item1.transform.RotateAround(transform.position, transform.forward, 72 * i);
-                    neighbors[i].Item2.transform.RotateAround(transform.position, transform.forward, 72 * i);
-                }
-                if(lonePairs < 2) {
-                    neighbors[5].Item1.transform.RotateAround(transform.position, transform.right, 90);
-                    neighbors[5].Item2.transform.RotateAround(transform.position, transform.right, 90);
-                    if(lonePairs < 1) {
-                        neighbors[6].Item1.transform.RotateAround(transform.position, transform.right, -90);
-                        neighbors[6].Item2.transform.RotateAround(transform.position, transform.right, -90);
-                    }
-                }
-            }
-        }
-        else if(bonds == 8) {
-            // TODO: should probably fix this, it's eyeballed without proper mathed-out angles (and also is only square antiprismal)
-            // getting an axis for rotating things at a 60 degree offset from transform.right
-            Vector3 newAxis = Vector3.RotateTowards(transform.right, transform.up, Mathf.PI / 6, 0);
-            for(int i = 4; i < 8; i++) {
-                neighbors[i].Item1.transform.RotateAround(transform.position, transform.forward, 60);
-                neighbors[i].Item2.transform.RotateAround(transform.position, transform.forward, 60);
+                    neighbors[i].Item1.transform.RotateAround(transform.position, transform.up, 90*i);
+                    neighbors[i].Item2.transform.RotateAround(transform.position, transform.up, 90*i);
+                    moveInnerChildren(neighbors[i].Item2);
 
-                neighbors[i].Item1.transform.RotateAround(transform.position, newAxis, 45);
-                neighbors[i].Item2.transform.RotateAround(transform.position, newAxis, 45);
+                }
             }
-            for(int i = 0; i < 8; i++) {
-                neighbors[i].Item1.transform.RotateAround(transform.position, newAxis, 90 * i);
-                neighbors[i].Item2.transform.RotateAround(transform.position, newAxis, 90 * i);
-            }
-        }
-        else {
-            // TODO: implement coordination numbers up to 16.
-            // This is way unimportant right now given coordination numbers above 8 aren't possible with just valence electrons/lone pairs
-        }
-        // recursively move all grandchildren
-        foreach(Tuple<GameObject, GameObject> bond in neighbors) {
-            if(gameObject != creationUser.head && Equals(bond, neighbors[0])) {
-                continue;
-            }
-            Elements childElement = bond.Item2.GetComponent<Elements>() as Elements;
-            childElement.resetChildPositions(3f);
-            childElement.moveChildren(1);
         }
     }
 
-    /// <summary>
-    /// Deletes the Element selected in creationUser
-    /// </summary>
-    public void DeleteElement() {
-        if(getID() == -1) {
-            foreach(Transform item in transform.parent) {
-                Destroy(item.gameObject);
-            }
+    public void moveInnerChildren(GameObject parent)
+    {
+        /*
+        List<Tuple<GameObject, GameObject>> children = parent.GetComponent<Elements>().neighbors;
+        for (int i = 1; i < children.Count; i++)
+        {
+            children[i].Item2.GetComponent<Elements>().resetChildPositions(3f);
+            children[i].Item2.GetComponent<Elements>().moveChildren(children[i].Item2.GetComponent<Elements>().bondCount, children[i].Item2.GetComponent<Elements>().start);
         }
-        else {
-            // finding the parent and deleting neighbors' bonds
-            GameObject parent = null;
-            foreach(Tuple<GameObject, GameObject> bond in neighbors) {
-                if((bond.Item2.GetComponent<Elements>() as Elements).getID() == -1
-                    || (bond.Item2.GetComponent<Elements>() as Elements).getID() < this.getID()) {
-                    parent = bond.Item2;
-                }
-                foreach(Tuple<GameObject, GameObject> t in (bond.Item2.GetComponent<Elements>() as Elements).neighbors) {
-                    if(t.Item2.Equals(gameObject)) {
-                        (bond.Item2.GetComponent<Elements>() as Elements).neighbors.Remove(t);
-                        (bond.Item2.GetComponent<Elements>() as Elements).bondCount--;
-                        (bond.Item2.GetComponent<Elements>() as Elements).bondOrders -= (bond.Item1.GetComponent<Bonds>() as Bonds).bondOrder;
-                        (bond.Item2.GetComponent<Elements>() as Elements).bondingElectrons += (bond.Item1.GetComponent<Bonds>() as Bonds).bondOrder;
-                        ;
-                        //Debug.Log("removing " + t.Item1.name);
-                        break;
-                    }
-                }
-            }
-            foreach(Tuple<GameObject, GameObject> t in (parent.gameObject.GetComponent<Elements>() as Elements).neighbors) {
-                Debug.Log("still got " + t.Item1.name);
-            }
-            // pathfinding from parent and adding every object pathed through to found
-            if(parent == null) { // if parent is still null, that means the parent couldn't be found (an error occurred somewhere)
-                Debug.Log("couldn't find parent");
-                return;
-            }
-            HashSet<GameObject> found = new HashSet<GameObject>();
-            deletionDFS(parent, found);
-            // looping through all objects and deleting any that haven't been found
-            foreach(Transform t in transform.parent) {
-                if(!found.Contains(t.gameObject)) {
-                    Destroy(t.gameObject);
-                }
-                else if(t.tag.Equals("Element") && (t.gameObject.GetComponent<Elements>() as Elements).neighbors.Count() > 1) {
-                    (t.gameObject.GetComponent<Elements>() as Elements).resetChildPositions(3f);
-                    (t.gameObject.GetComponent<Elements>() as Elements).moveChildren((t.gameObject.GetComponent<Elements>() as Elements).start);
-                }
-            }
+        */
 
+        // if(bondCount == 2) {
+        //     parent.GetComponent<Elements>().neighbors[1-start].Item1.transform.RotateAround(transform.position, transform.forward, 180);
+        //     neighbors[1-start].Item2.transform.RotateAround(transform.position, transform.forward, 180);
 
+        // }
+        // else if(bondCount == 3) {
+        //     for(int i = 1; i < 3; i++) {
+        //         neighbors[i-start].Item1.transform.RotateAround(transform.position, transform.forward, 120*i);
+        //         neighbors[i-start].Item2.transform.RotateAround(transform.position, transform.forward, 120*i);
+        //     }
+        // }
+        // else if(bondCount == 4) {
+        //     for(int i = 1; i < 4; i++) {
+        //         neighbors[i-start].Item1.transform.RotateAround(transform.position, transform.forward, 120);
+        //         neighbors[i-start].Item2.transform.RotateAround(transform.position, transform.forward, 120);
+
+        //         neighbors[i-start].Item1.transform.RotateAround(transform.position, transform.up, 120*i);
+        //         neighbors[i-start].Item2.transform.RotateAround(transform.position, transform.up, 120*i);
+        //     }
+        // }
+        // else if(bondCount == 5) {
+        //     neighbors[1-start].Item1.transform.RotateAround(transform.position, transform.forward, 180);
+        //     neighbors[1-start].Item2.transform.RotateAround(transform.position, transform.forward, 180);
+        //     for(int i = 2; i < 5; i++) {
+        //         neighbors[i-start].Item1.transform.RotateAround(transform.position, transform.forward, 90);
+        //         neighbors[i-start].Item2.transform.RotateAround(transform.position, transform.forward, 90);
+
+        //         neighbors[i-start].Item1.transform.RotateAround(transform.position, transform.up, 120*i);
+        //         neighbors[i-start].Item2.transform.RotateAround(transform.position, transform.up, 120*i);
+        //     }
+        // }
+        // else if(bondCount == 6) {
+        //     neighbors[1-start].Item1.transform.RotateAround(transform.position, transform.forward, 180);
+        //     neighbors[1-start].Item2.transform.RotateAround(transform.position, transform.forward, 180);
+        //     for(int i = 2; i < 6; i++) {
+        //         neighbors[i-start].Item1.transform.RotateAround(transform.position, transform.forward, 90);
+        //         neighbors[i-start].Item2.transform.RotateAround(transform.position, transform.forward, 90);
+
+        //         neighbors[i-start].Item1.transform.RotateAround(transform.position, transform.up, 90*i);
+        //         neighbors[i-start].Item2.transform.RotateAround(transform.position, transform.up, 90*i);
+        //     }
+        // }
+    }
+
+    public void DeleteElement() {
+        if(!transform.parent.tag.Equals("Bond")) { // if root atom
             Destroy(gameObject);
         }
+        else { // if not root atom
+            // getting parent
+            Elements parent = transform.parent.parent.parent.gameObject.GetComponent(typeof(Elements)) as Elements;
+            // disconnecting this from parent
+            transform.parent.parent.SetParent(null);
+            // getting new bond count of parent
+            int bondCount = 0;
+            foreach(Transform child in parent.transform) {
+                if(child.tag.Equals("Bond")) {
+                    bondCount++;
+                }
+            }
+            int start = 0;
+            if(parent.transform.parent != null && parent.transform.parent.tag.Equals("Bond")) {
+                bondCount++;
+                start = 1;
+            }
+            Debug.Log(bondCount + " " + start);
+            // moving parent's old atoms into place
+            parent.resetChildPositions(3f);
+            parent.moveChildren(bondCount, start);
+            Destroy(transform.parent.parent.gameObject);
+        }
     }
 
-    /// <summary>
-    /// DFS algorithm for marking GameObjects for deletion
-    /// </summary>
-    /// <param name="current">The current GameObject (Element) being checked by the algorithm</param>
-    /// <param name="found">The list of all GameObjects that have been found by the algorithm</param>
-    private void deletionDFS(GameObject current, HashSet<GameObject> found) {
-        if(found.Contains(current)) { // if this element has been visited already, return to the last one
+    public bool validBond(GameObject parent, string child) {
+        
+        return true;
+    }
+
+    public void togglePhysics(){
+        physicsOn = !physicsOn;
+    }
+
+    // Method to change the material's rendering mode to "Fade"
+    void SetMaterialToFadeMode(Material material)
+    {
+        material.SetFloat("_Mode", 2); // Set rendering mode to "Fade"
+        material.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.SrcAlpha);
+        material.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
+        material.SetInt("_ZWrite", 0);
+        material.DisableKeyword("_ALPHATEST_ON");
+        material.EnableKeyword("_ALPHABLEND_ON");
+        material.DisableKeyword("_ALPHAPREMULTIPLY_ON");
+        material.renderQueue = 3000; // Use the transparent render queue
+
+
+        Color color = material.color;
+        color.a = 0.5f;  // Set transparency value
+    }
+
+    // temporarily spawns the element prefab contained in the global variable element when selected
+    public void TempSpawnElement(int num) {
+        int bondCount = 0;
+        int bondOrders = 0;
+        foreach(Transform child in transform) {
+            if(child.tag.Equals("Bond")) {
+                bondCount++;
+                foreach(Transform ch in child.transform) {
+                    if(ch.tag.Equals("Bond")) {
+                        bondOrders++;
+                    }
+                }
+            }
+        }
+        int start = 0;
+        if(transform.parent != null && transform.parent.tag.Equals("Bond")) {
+            bondCount++;
+            start = 1;
+            foreach(Transform ch in transform.parent.parent.transform) {
+                if(ch.tag.Equals("Bond")) {
+                    bondOrders++;
+                }
+            }
+        }
+        // checking if the element can make more bonds
+        if((!expandedOctet && bondOrders == bondingElectrons) || (expandedOctet && bondOrders == bondingElectrons + 2 * lonePairs) || (expandedOctet && bondOrders == 6)) {
             return;
         }
-        Debug.Log("added " + current.name);
-        found.Add(current);
-        foreach(Tuple<GameObject, GameObject> bond in (current.GetComponent<Elements>() as Elements).neighbors) {
-            if(!found.Contains(bond.Item1)) { // if this bond has not been travelled already
-                Debug.Log("added " + bond.Item1.name);
-                found.Add(bond.Item1);
-                deletionDFS(bond.Item2, found);
-            }
-        }
-    }
 
-    /// <summary>
-    /// Updates a bond GameObject being pointed to in neighbors whenever its bond order is cycled
-    /// </summary>
-    /// <param name="newBond">The new bond GameObject to be referenced in neighbors</param>
-    /// <param name="otherElement">The other element the bond connects to - used to find which Tuple to replace</param>
-    public void updateBond(GameObject newBond, GameObject otherElement) {
-        for(int i = 0; i < neighbors.Count; i++) {
-            if(Equals(neighbors[i].Item2, otherElement)) {
-                neighbors.Insert(i, new Tuple<GameObject, GameObject>(newBond, otherElement));
-                neighbors.RemoveAt(i + 1);
-                return;
-            }
+        // checking if the element follows physics:
+        if (physicsOn && transform.parent != null && !validBond(transform.parent.parent.gameObject, selectElement.element)) {
+            return;
         }
+
+        // making new bond
+        float radius = 3f;
+        GameObject cyl = AssetDatabase.LoadAssetAtPath("Assets/Resources/SingleBond.prefab", typeof(GameObject)) as GameObject;
+        GameObject cylClone = Instantiate(cyl, Vector3.zero, Quaternion.identity);
+        cylClone.transform.localScale = new Vector3(0.3f, radius / 2, 0.3f);
+        cylClone.transform.SetParent(transform, true);
+
+
+        GameObject obj = AssetDatabase.LoadAssetAtPath("Assets/Elements/" + selectElement.element + ".prefab", typeof(GameObject)) as GameObject;
+        GameObject clone = Instantiate(obj, Vector3.zero, Quaternion.identity);
+        clone.transform.SetParent(cylClone.transform.GetChild(0), true);
+        clone.name = clone.name + " " + num;
+        cylClone.name = cylClone.name + " " + num;
+        bondCount++;
+
+        resetChildPositions(radius);
+
+        clone.transform.localEulerAngles = cylClone.transform.localEulerAngles + new Vector3(180, 0, 0);
+        clone.transform.localPosition = Vector3.up * -1;
         
+        moveChildren(bondCount, start);
+
+        // obj.GetComponent<Renderer>().material.SetFloat("_Mode", 3);
+        
+        // obj.layer = 2;
+        // SetMaterialToFadeMode(obj.GetComponent<Renderer>().material);
+        // // ChangeAlpha(obj.GetComponent<Renderer>().material, 0.5f);
+        
+        clone.layer = 2;
+        
+        SetMaterialToFadeMode(clone.GetComponent<Renderer>().material);
+        // ChangeAlpha(clone.GetComponent<Renderer>().material, 0f);
+
+        // cyl.layer = 2;
+        // SetMaterialToFadeMode(cyl.GetComponent<Renderer>().material);
+
+        cylClone.layer = 2;
+        SetMaterialToFadeMode(cylClone.GetComponent<Renderer>().material);
+        // ChangeAlpha(cylClone.GetComponent<Renderer>().material, 0.5f);
+
+        cylClone.transform.GetChild(0).gameObject.layer = 2;
+
+        SetMaterialToFadeMode(cylClone.transform.GetChild(0).gameObject.GetComponent<Renderer>().material);
+        // ChangeAlpha(cylClone.transform.GetChild(0).gameObject.GetComponent<Renderer>().material, 0f);
+
     }
 }
+
