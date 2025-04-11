@@ -30,7 +30,7 @@ public class ForPrefabButton : MonoBehaviour
         GameObject thing = GameObject.Find("WordleManager");
         WordleManager wordleManager = thing.GetComponent<WordleManager>();
         PubChemAPIManager pubChemAPIManager = wordleManager.pubChemAPIManager;
-        wordleManager.set(pubChemAPIManager.generalDataController.GetChemicalWithCID(cid));
+        wordleManager.set(pubChemAPIManager.generalDataController.GetChemicalWithProperty("CID", cid.ToString()), true);
     }
 
 }

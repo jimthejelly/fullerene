@@ -36,19 +36,5 @@ public class ChemicalData
             "charge: " + this.GetProperty("Charge") + "]"
         );
     }
-
-
-    /** Opens a single chemical from the database.
-     * @param id The id of the chemical. to open */
-    public static ChemicalData LoadFromPUGREST(PubChemAPIManager pubChemAPIManager, int id)
-    {
-        ChemicalData chemicalData = new ChemicalData();
-
-        string property = "Title";
-        // Debug.Log(pubChemAPIManager);
-        // pubChemAPIManager.GetProperty(id, chemicalData);
-
-        return chemicalData;
-    }
     
 }

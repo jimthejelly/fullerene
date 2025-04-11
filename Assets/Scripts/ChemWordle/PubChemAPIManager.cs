@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
+using System;
 
 /** Handles all interactions with PUG REST, the PubChem API.
  @author Erica Hammersmark */
@@ -9,6 +10,8 @@ public class PubChemAPIManager : MonoBehaviour
 {
 
     public GeneralDataController generalDataController;
+
+    public WordleManager wordleManager;
 
     // Start is called before the first frame update
     void Start()
@@ -23,10 +26,23 @@ public class PubChemAPIManager : MonoBehaviour
     }
 
 
+    int i = 0;
+
     public void TempOnButtonPush()
     {
-        ChemicalData data = new ChemicalData();
-        // GetProperty(100, data);
+        wordleManager.AddGuess(generalDataController.GetChemicalWithProperty("CID", (100 + i++).ToString()));
+    }
+
+    public void RequestChemicalWithProperty(string propertyName, string propertyValue)
+    {
+
+        string apiCall = "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/"
+            + propertyName + "/" + propertyValue + "/cids/TXT?MaxRecords=10";
+
+        // Debug.Log(apiCall);
+
+        StartCoroutine(GetRequest(apiCall, "get_cids"));
+
     }
 
 
@@ -34,17 +50,8 @@ public class PubChemAPIManager : MonoBehaviour
     // @param minCID - The minimum CID.
     // @param maxCID - The maximum CID.
     // @param dataTypes - which data types to request.
-    public void MakeAPIRequest(int minCID, int maxCID, string[] dataTypes)
+    public void MakeAPIRequest(string cids, string[] dataTypes, string purpose = "whatever")
     {
-
-        // put all the cids in sequence so information is returned for all of them
-        // ex. if minCID = 1 and maxCID = 5, this will build 1,2,3,4,5
-        string allCIDsRequest = "";
-        for (int cid = minCID; cid <= maxCID; cid++)
-        {
-            allCIDsRequest += cid.ToString();
-            if (cid != maxCID) allCIDsRequest += ",";
-        }
 
         // put all the requested data types in sequence for a similar reason
         string allDataTypesRequest = "";
@@ -57,13 +64,13 @@ public class PubChemAPIManager : MonoBehaviour
         // API calls are of the form:
         // <input specification>/<operation specification>/[<output specification>]
         string apiCall = "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/"
-            + allCIDsRequest + "/property/" + allDataTypesRequest + "/CSV";
+            + cids + "/property/" + allDataTypesRequest + "/CSV";
 
-        StartCoroutine(GetRequest(apiCall));
+        StartCoroutine(GetRequest(apiCall, purpose, Int32.Parse(cids.Split(",")[0])));
 
     }
 
-    private IEnumerator GetRequest(string uri)
+    private IEnumerator GetRequest(string uri, string purpose, int cid = 0)
     {
         using (UnityWebRequest webRequest = UnityWebRequest.Get(uri))
         {
@@ -72,14 +79,44 @@ public class PubChemAPIManager : MonoBehaviour
 
             if (webRequest.result == UnityWebRequest.Result.Success)
             {
-                // send the data to the controller to be stored
-                generalDataController.UpdateInternalData(webRequest.downloadHandler.text);
+                if (purpose == "get_cids")
+                {
+                    string[] split = webRequest.downloadHandler.text.Split("\n");
+                    string cidsRequest = "";
+                    for (int i = 0; i < split.Length - 1; i++)
+                    {
+                        cidsRequest += split[i];
+                        if (i != split.Length - 2) cidsRequest += ",";
+                    }
+                    // Debug.Log("cids: " + cidsRequest);
+                    MakeAPIRequest(cidsRequest, generalDataController.dataTypes, "set_guessed_chemical");
+                }
+                else if (purpose == "set_guessed_chemical")
+                {
+                    generalDataController.UpdateInternalData(webRequest.downloadHandler.text);
+                    wordleManager.set(generalDataController.GetChemicalWithProperty("CID", cid.ToString()), false);
+                }
+                else if (purpose == "set_mystery_chemical")
+                {
+                    generalDataController.UpdateInternalData(webRequest.downloadHandler.text);
+                    ChemicalData[] data = new ChemicalData[200];
+                    for (int i = 0; i < 200; i++)
+                    {
+                        data[i] = (generalDataController.GetChemicalWithProperty("CID", (cid + i).ToString()));
+                    }
+                    wordleManager.SetMysteryChemical(data);
+                }
+                else
+                {
+                    // send the data to the controller to be stored
+                    generalDataController.UpdateInternalData(webRequest.downloadHandler.text);
+                }
             }
             else
             {
                 string[] pages = uri.Split('/');
                 int page = pages.Length - 1;
-                Debug.LogError(pages[page] + ": Web Request Error: " + webRequest.error);
+                Debug.LogError(pages[page] + ": Web Request Error: " + webRequest.error + "(for request " + uri + ")");
             }
 
         }

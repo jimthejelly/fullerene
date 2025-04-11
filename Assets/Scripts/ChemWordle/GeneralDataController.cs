@@ -1,22 +1,29 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class GeneralDataController : MonoBehaviour
 {
 
     public List<ChemicalData> allData = new List<ChemicalData>();
 
-    public ChemicalData GetChemicalWithCID(int cid)
+    public ChemicalData GetChemicalWithProperty(string propertyName, string propertyValue)
     {
         foreach (ChemicalData data in allData)
         {
-            if (data.GetProperty("CID") == cid.ToString())
+            try {
+                if (data != null && data.GetProperty(propertyName).ToLower() == propertyValue.ToLower())
+                {
+                    return data;
+                }
+            }
+            catch (Exception e)
             {
-                return data;
+                // oh well :)
             }
         }
-        Debug.Log("CID not found: " + cid.ToString());
+        Debug.Log("Could not find a chemical with value '" + propertyValue + "' (for property '" + propertyName + "')");
         return null;
     }
 
@@ -34,13 +41,13 @@ public class GeneralDataController : MonoBehaviour
 
 
     public PubChemAPIManager pubChemAPIManager;
+    public string[] dataTypes = { "Title", "MolecularFormula", "MolecularWeight", "Charge" };
 
     /** Gets a crazy number of chemicals from the PubChem database. */
     public void GetAllChemicals()
     {
-        ChemicalData[] data = new ChemicalData[0];
-        string[] dataTypes = { "Title", "MolecularFormula", "MolecularWeight", "Charge" };
-        pubChemAPIManager.MakeAPIRequest(100, 199, dataTypes);
+        // ChemicalData[] data = new ChemicalData[0];
+        // // pubChemAPIManager.MakeAPIRequest(1, 1000, dataTypes);
     }
 
     public void UpdateInternalData(string text)
@@ -87,7 +94,11 @@ public class GeneralDataController : MonoBehaviour
                 // Debug.Log(dataTypes[dataTypeIndex] + " = " + thisData[dataTypeIndex]);
                 chemicalData.SetProperty(dataTypes[dataTypeIndex], thisData[dataTypeIndex]);
             }
-            allData.Add(chemicalData);
+            if (chemicalData != null && chemicalData.GetProperty("CID") != "")
+            {
+                allData.Add(chemicalData);
+                // chemicalData.print();
+            }
 
         }
     }

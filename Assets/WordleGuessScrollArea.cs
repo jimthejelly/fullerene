@@ -18,11 +18,22 @@ public class WordleGuessScrollArea : MonoBehaviour
 
     public RectTransform rect;
 
+    public GameObject parent;
+    public GameObject actualParent;
+
+    public int spacing;
+
     public void ExpandToAccommodate(int numGuesses)
     {
-        rect.anchorMin = new Vector2(0, -1.75f * numGuesses);
-        rect.anchorMax = new Vector2(1, -0.75f * numGuesses);
-        rect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 120 + 20 * numGuesses);
+        rect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, spacing * numGuesses);
+
+
+        for (int i = 0; i < numGuesses - 1; i++)
+        {
+            parent.transform.GetChild(i).transform.position += new Vector3(0, -spacing, 0);
+        }
+
+        transform.position = new Vector3(transform.position.x, spacing/2.0f * numGuesses, transform.position.z);
     }
 
     public void scroll(Vector2 amt)
