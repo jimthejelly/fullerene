@@ -28,9 +28,9 @@ public class WordleManager : MonoBehaviour
         guessObject.GetComponent<ForPrefabButton>().text.text = guess.GetProperty("Title");
         RectTransform rect2 = guessObject.GetComponent<RectTransform>();
         RectTransform rect3 = guessesListedHere.GetComponent<RectTransform>();
-        rect2.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, rect3.rect.width);
-        rect2.offsetMin = new Vector2(0, 0);
-        rect2.offsetMax = new Vector2(0, 0);
+        //rect2.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, rect3.rect.width);
+        //rect2.offsetMin = new Vector2(0, 0);
+        //rect2.offsetMax = new Vector2(0, 0);
 
         i2++;
 

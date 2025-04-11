@@ -450,7 +450,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 2476.933}
+  m_AnchoredPosition: {x: 0, y: 2120.3442}
   m_SizeDelta: {x: 118, y: 171.99928}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &94229043
@@ -468,7 +468,7 @@ MonoBehaviour:
   rect: {fileID: 94229042}
   parent: {fileID: 94229041}
   actualParent: {fileID: 226482384}
-  spacing: 25
+  spacing: 35
 --- !u!1 &114997322
 GameObject:
   m_ObjectHideFlags: 0
@@ -1331,7 +1331,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 204.65
+  m_fontSize: 204.85
   m_fontSizeBase: 200
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1550,7 +1550,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 373.4
+  m_fontSize: 373.8
   m_fontSizeBase: 200
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1684,7 +1684,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 358.4
+  m_fontSize: 358.75
   m_fontSizeBase: 200
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -3324,7 +3324,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 306.6
+  m_fontSize: 306.9
   m_fontSizeBase: 200
   m_fontWeight: 400
   m_enableAutoSizing: 1
