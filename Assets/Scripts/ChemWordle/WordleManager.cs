@@ -24,8 +24,13 @@ public class WordleManager : MonoBehaviour
 
         // Create a label to represent the guess
         GameObject guessObject = Instantiate(prefab, guessesListedHere.transform.GetChild(0));
-        guessObject.transform.GetChild(0).GetComponent<ForPrefabButton>().SetCID(Int32.Parse(guess.GetProperty("CID")));
-        guessObject.transform.GetChild(0).GetComponent<ForPrefabButton>().text.text = guess.GetProperty("Title");
+        guessObject.GetComponent<ForPrefabButton>().SetCID(Int32.Parse(guess.GetProperty("CID")));
+        guessObject.GetComponent<ForPrefabButton>().text.text = guess.GetProperty("Title");
+        RectTransform rect2 = guessObject.GetComponent<RectTransform>();
+        RectTransform rect3 = guessesListedHere.GetComponent<RectTransform>();
+        rect2.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, rect3.rect.width);
+        rect2.offsetMin = new Vector2(0, 0);
+        rect2.offsetMax = new Vector2(0, 0);
 
         i2++;
 
