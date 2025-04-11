@@ -33,4 +33,5 @@ public class MinigameSelectionButtons : MonoBehaviour
     {
         SceneManager.LoadScene("ShootAMolecule", LoadSceneMode.Single);
     }
+
 }
