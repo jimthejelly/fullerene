@@ -341,14 +341,20 @@ public class GameObjectsManager : MonoBehaviour
 
     void EmptyTotals()
     {
-        if (totalMolecules.Count == 0)
+        if (totalMolecules.Count == 0 && totalObjects.Count == 0)
         {
             return;
         }
         else
         {
-            totalMolecules.Remove(totalMolecules[0]);
-            totalObjects.Remove(totalObjects[0]);
+            if (totalObjects.Count > 0)
+            {
+                totalObjects.Remove(totalObjects[0]);
+            }
+            if (totalMolecules.Count > 0)
+            {
+                totalMolecules.Remove(totalMolecules[0]);
+            }
             EmptyTotals();
             print(CompoudEditor);
         }
@@ -409,22 +415,34 @@ public class GameObjectsManager : MonoBehaviour
         }
 
         string json = JsonConvert.SerializeObject(newList);  // Use Newtonsoft.Json for JSON serialization
-        string filePath = Application.persistentDataPath + "/" + FileName + ".json";
+        string filePath = Application.persistentDataPath + "/" + FileName.text + ".json";
         File.WriteAllText(filePath, json);
+
+        print(filePath);
     }
 
     public void LoadList()
     {
-        string filePath = Application.persistentDataPath + "/" + FileName + ".json";
+
+        ResetList();
+
+
+        string filePath = Application.persistentDataPath + "/" + FileName.text + ".json";
 
         if (File.Exists(filePath))
         {
             string json = File.ReadAllText(filePath);
-            //return JsonConvert.DeserializeObject<List<Compound>>(json);
+            for (int i = 0; i <  JsonConvert.DeserializeObject<List<Compound>>(json).Count; i++)
+            {
+                totalMolecules.Add(JsonConvert.DeserializeObject<List<Compound>>(json)[i]);
+            }
+            UpdateList();
+            print(totalMolecules);
+            FileName.text = "";
         }
         else
         {
-            Debug.LogWarning("Save file not found: " + FileName);
+            Debug.LogWarning("Save file not found: " + FileName.text);
             //return null;
         }
     }
