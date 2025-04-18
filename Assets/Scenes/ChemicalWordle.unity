@@ -450,7 +450,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 2120.3442}
+  m_AnchoredPosition: {x: 0, y: 2011.6683}
   m_SizeDelta: {x: 118, y: 171.99928}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &94229043
@@ -1331,7 +1331,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 204.85
+  m_fontSize: 271.35
   m_fontSizeBase: 200
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1550,7 +1550,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 373.8
+  m_fontSize: 476.1
   m_fontSizeBase: 200
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1684,7 +1684,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 358.75
+  m_fontSize: 475.55
   m_fontSizeBase: 200
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1769,7 +1769,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.016, y: 0.8035594}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -33.400024, y: -23.799316}
+  m_AnchoredPosition: {x: -33.400146, y: -23.799316}
   m_SizeDelta: {x: -92.5, y: -86.80005}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &586724238
@@ -2904,9 +2904,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 58070689}
-        m_TargetAssemblyTypeName: PubChemAPIManager, Assembly-CSharp
-        m_MethodName: TempOnButtonPush
+      - m_Target: {fileID: 58070691}
+        m_TargetAssemblyTypeName: GUIController, Assembly-CSharp
+        m_MethodName: ExitGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3324,7 +3324,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 306.9
+  m_fontSize: 406.25
   m_fontSizeBase: 200
   m_fontWeight: 400
   m_enableAutoSizing: 1

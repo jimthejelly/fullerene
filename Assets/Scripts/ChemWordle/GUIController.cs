@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using UnityEngine.SceneManagement;
+
 public class GUIController : MonoBehaviour
 {
 
@@ -113,4 +115,8 @@ public class GUIController : MonoBehaviour
         feedbackText.text = feedback;
     }
 
+
+    public void ExitGame() {
+        SceneManager.LoadScene("TitleScene", LoadSceneMode.Single);
+    }
 }
