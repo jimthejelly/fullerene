@@ -1,70 +1,76 @@
-const { MongoClient } = require("mongodb");
-const Express = require("express");
-const BodyParser = require('body-parser');
 
-const server = Express();
-const client = new MongoClient(process.env["ATLAS_URI"]);
+//MongoDB
+const { MongoClient } = require("mongodb")
+const uri = require("./atlas_uri")
 
-server.use(BodyParser.json());
-server.use(BodyParser.urlencoded({ extended: true }));
+const client = new MongoClient(uri)
+const dbname = "fullerene"
 
-var collection;
 
-server.post("/fullerene", async (request, response, next) => {
-    try {
-        let result = await collection.insertOne(request.body);
-        response.send(result);
-    } catch (e) {
-        response.status(500).send({ message: e.message });
-    }
-});
-
-server.get("/fullerene", async (request, response, next) => {
-    try {
-      let result = await collection.find({}).toArray();
-      response.send(result);
-    } catch (e) {
-        response.status(500).send({ message: e.message });
-    }
-});
-
-server.get("/fullerene/:username", async (request, response, next) => {
-    console.debug("part 2 baby");
-    try {
-        let result = await collection.findOne({ "username": request.params.username });
-        response.send(result);
-    } catch (e) {
-        response.status(500).send({ message: e.message });
-    }
-});
-
-server.put("/fullerene/:username", async (request, response, next) => {
-    try {
-        let result = await collection.updateOne(
-            { "username": request.params.username },
-            { "$set": request.body }
-        );
-        response.send(result);
-    } catch (e) {
-        response.status(500).send({ message: e.message });
-    }
-});
-
-server.delete("/fullerene/:username", async (request, response, next) => {
-    try {
-        let result = await collection.deleteOne({ "username": request.params.username });
-        response.send(result);
-    } catch (e) {
-        response.status(500).send({ message: e.message });
-    }
-});
-
-server.listen("3000", async () => {
+const connectToDatabase = async () => {
     try {
         await client.connect();
-        collection = client.db("fullerene").collection("fullerene");
-        console.log("Listening at :3000...");
-    } catch (e) {
-        console.error(e);
+        console.log(`Connected to ${dbname} database`);
+
+    } catch (err) {
+        console.error(`error ${err} occured`);
     }
+};
+
+
+
+//Express/NodeJs
+const express = require('express');
+const bodyParser = require('body-parser');
+const app = express();
+const port = 3000;
+const hostname = '127.0.0.1';
+
+
+
+app.use(bodyParser.json());
+
+app.get('/fullerene', async (req, res) => {
+    console.log('Got pinged!');
+    try {
+        let result = await userCollection.find({}).toArray();
+        console.log(result);
+        res.send(result);
+
+    }
+    catch (err) {
+        console.error(`error ${err} occured`);
+    }
+});
+
+app.get('/fullerene/:user', async (req, res) => {
+    console.log(`Got pinged for ${req.params.user}!`);
+    try {
+        let result = await userCollection.findOne({ "username": req.params.user });
+        console.log(result);
+        res.send(result);
+
+    }
+    catch (err) {
+        console.error(`error ${err} occured`);
+    }
+});
+
+var userCollection;
+
+
+app.listen(port, hostname, async () => {
+    try {
+        await client.connect();
+        console.log(`Connected to cluster`);
+        userCollection = client.db("fullerene").collection("users");
+        console.log(`Connected to collection`);
+        let result = await userCollection.find({}).toArray();
+        console.log(result);
+    } catch (err) {
+        console.error(`error ${err} occured`);
+    }
+
+
+    console.log(`Server listening on port ${port}`);
 });

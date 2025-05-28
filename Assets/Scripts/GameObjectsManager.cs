@@ -185,6 +185,8 @@ public class GameObjectsManager : MonoBehaviour
 
     void UpdateList()
     {
+
+        print(start._userData.password);
         print("UpdatingList");
         MList.GetComponent<TextMeshProUGUI>().text = "";
         int x = 0;

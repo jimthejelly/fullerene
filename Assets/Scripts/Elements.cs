@@ -30,8 +30,7 @@ public class Elements : MonoBehaviour
         string nameNumber = split[0].Trim();
         Material mat = null;
         switch (nameNumber) // Needs cases for every possible color gonna be yikes moment for me 
-        {
-
+        {            
             case "1":
                 mat = Resources.Load<Material>("Materials/Hydrogen");
                 break;

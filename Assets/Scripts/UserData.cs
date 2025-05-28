@@ -6,11 +6,12 @@ using UnityEngine;
 using System.Text;
 using UnityEngine.Networking;
 
-
+[System.Serializable]
 public class UserData
 {
-    public string username;
-    public string password;
+    public string _id ;
+    public string username ;
+    public string password ;
 	
     public string Stringify()
     {
@@ -22,15 +23,22 @@ public class UserData
         return JsonUtility.FromJson<UserData>(json);
     }
 
+    public UserData(string json){
+        Parse(json);        
+    }
+
+    public UserData(){
+
+    }
+
 
     public IEnumerator FetchUserData(string id, System.Action<UserData> callback = null)
-    {
-        Debug.Log("Made it");
-        
-        using (UnityWebRequest request = UnityWebRequest.Get("http://localhost:3000/fullerene/"))
+    {        
+        using (UnityWebRequest request = UnityWebRequest.Get("http://localhost:3000/fullerene/sebastien"))
         {
+            
             yield return request.SendWebRequest();
-
+            
             if (request.result == UnityWebRequest.Result.ConnectionError || request.result ==UnityWebRequest.Result.ProtocolError)
             {
                 Debug.Log(request.error);
@@ -41,20 +49,16 @@ public class UserData
             }
             else
             {
-                Debug.Log("got info back");
 
                 //UnityEngine.Networking.UnityWebRequest is the thing i need a JSON from.
-                Debug.Log(request.downloadHandler.text);
-                Debug.Log(request.downloadHandler.text.GetType());
-                
-                
+                Debug.Log(request.downloadHandler.text);                     
 
                 if (callback != null)
                 {
-                    //callback.Invoke(Debug.Log(request.result));
-                    callback.Invoke(UserData.Parse(request.downloadHandler.text));
+                    callback.Invoke(UserData.Parse(request.downloadHandler.text));   
                 }
             }
+            
         }
 
 

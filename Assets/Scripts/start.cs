@@ -8,8 +8,7 @@ using UnityEngine.SceneManagement;
 public class start : MonoBehaviour
 {
     public void Load()
-    {
-        _userData = new UserData();        
+    {      
         SceneManager.LoadScene("CreationScene", LoadSceneMode.Single);
     }
 
@@ -20,15 +19,24 @@ public class start : MonoBehaviour
         Application.Quit();
     }
 
-    private UserData _userData;
+    public static UserData _userData=new UserData();    
 
     public void Login()
     {
-        _userData=new UserData();
-        Debug.Log("Hit Login");  
-        StartCoroutine(_userData.FetchUserData("sebastien",result => {Debug.Log(result); }));      
+                
+        //has to be in a CoRoutine, dont ask why, no call gets made otherwise
+        
+        
+        StartCoroutine(_userData.FetchUserData("sebastien",result => {_userData=result; }));   
+        
     }
 
+    public void Test(){
+        Debug.Log(_userData.password);
+        Debug.Log(_userData.username);
+        Debug.Log(_userData.Stringify());
+        
+    }
     
 
 }
