@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,6 +7,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using System.IO;
 
 public class Compound
 {
@@ -32,6 +34,7 @@ public class GameObjectsManager : MonoBehaviour
     [SerializeField] TMP_InputField Name;           //canvas item
     [SerializeField] TMP_InputField Formula;        //||
     [SerializeField] TMP_InputField CNRLoaderText;  //||
+    [SerializeField] TMP_InputField FileName;
     TextMeshProUGUI MList;                          //text box to display created pairs
     TextMeshProUGUI Score;                          //text box to display score
 
@@ -338,14 +341,20 @@ public class GameObjectsManager : MonoBehaviour
 
     void EmptyTotals()
     {
-        if (totalMolecules.Count == 0)
+        if (totalMolecules.Count == 0 && totalObjects.Count == 0)
         {
             return;
         }
         else
         {
-            totalMolecules.Remove(totalMolecules[0]);
-            totalObjects.Remove(totalObjects[0]);
+            if (totalObjects.Count > 0)
+            {
+                totalObjects.Remove(totalObjects[0]);
+            }
+            if (totalMolecules.Count > 0)
+            {
+                totalMolecules.Remove(totalMolecules[0]);
+            }
             EmptyTotals();
             print(CompoudEditor);
         }
@@ -395,6 +404,46 @@ public class GameObjectsManager : MonoBehaviour
             }
         }
 
+    }
+
+    public void SaveList()
+    {
+        List<Compound> newList = new List<Compound>();
+        for (int i = 0; i < totalMolecules.Count; i++)
+        {
+            newList.Add(totalMolecules[i]);
+        }
+
+        string json = JsonConvert.SerializeObject(newList);  // Use Newtonsoft.Json for JSON serialization
+        string filePath = Application.persistentDataPath + "/" + FileName.text + ".json";
+        File.WriteAllText(filePath, json);
+
+        print(filePath);
+    }
+
+    public void LoadList()
+    {
+
+        ResetList();
+
+        string filePath = Application.persistentDataPath + "/" + FileName.text + ".json";
+
+        if (File.Exists(filePath))
+        {
+            string json = File.ReadAllText(filePath);
+            for (int i = 0; i <  JsonConvert.DeserializeObject<List<Compound>>(json).Count; i++)
+            {
+                totalMolecules.Add(JsonConvert.DeserializeObject<List<Compound>>(json)[i]);
+            }
+            UpdateList();
+            print(totalMolecules);
+            FileName.text = "";
+        }
+        else
+        {
+            Debug.LogWarning("Save file not found: " + FileName.text);
+            //return null;
+        }
     }
 
     public void reloadScene()
