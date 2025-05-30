@@ -426,7 +426,6 @@ public class GameObjectsManager : MonoBehaviour
 
         ResetList();
 
-
         string filePath = Application.persistentDataPath + "/" + FileName.text + ".json";
 
         if (File.Exists(filePath))
