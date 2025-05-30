@@ -4,10 +4,17 @@ using UnityEngine;
 
 public class WordleGuessScrollArea : MonoBehaviour
 {
+    public RectTransform rect;
+
+    public GameObject parent;
+    public GameObject actualParent;
+
+
+    public int spacing;
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -16,12 +23,6 @@ public class WordleGuessScrollArea : MonoBehaviour
 
     }
 
-    public RectTransform rect;
-
-    public GameObject parent;
-    public GameObject actualParent;
-
-    public int spacing;
 
     public void ExpandToAccommodate(int numGuesses)
     {
@@ -34,6 +35,8 @@ public class WordleGuessScrollArea : MonoBehaviour
         }
 
         transform.position = new Vector3(transform.position.x, spacing/2.0f * numGuesses, transform.position.z);
+
+
     }
 
     public void scroll(Vector2 amt)
