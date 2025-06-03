@@ -25,6 +25,8 @@ public class GUIController : MonoBehaviour
 
     public TMPro.TextMeshProUGUI feedbackText;
 
+    private List<string> guesses = new List<string>();
+
 
     private ChemicalData guessingChemical = null;
 
@@ -43,7 +45,7 @@ public class GUIController : MonoBehaviour
         if(data != null)
         {
             guessingChemical = data;
-            set(data, false);
+            set(data, GuessCheck(data));
         }
     }
     public void OnTitleSelect()
@@ -81,6 +83,15 @@ public class GUIController : MonoBehaviour
     }
 
 
+    public bool GuessCheck(ChemicalData guess)
+    {
+        if (guesses.Contains(guess.GetProperty("Title")))
+        {
+            return true;
+        }
+        guesses.Add(guess.GetProperty("Title"));
+        return false;
+    }
 
     public ChemicalData GetGuessingChemical()
     {

@@ -41,7 +41,7 @@ public class GeneralDataController : MonoBehaviour
 
 
     public PubChemAPIManager pubChemAPIManager;
-    public string[] dataTypes = { "Title", "MolecularFormula", "MolecularWeight", "Charge" };
+    public string[] dataTypes = { "Title", "MolecularFormula", "MolecularWeight", "Charge" , "BoilingPoint"};
 
     /** Gets a crazy number of chemicals from the PubChem database. */
     public void GetAllChemicals()
@@ -58,6 +58,7 @@ public class GeneralDataController : MonoBehaviour
         for (int dataTypeIndex = 0; dataTypeIndex < dataTypes.GetLength(0); dataTypeIndex++)
         {
             dataTypes[dataTypeIndex] = dataTypes[dataTypeIndex].Substring(1, dataTypes[dataTypeIndex].Length - 2);
+            //print(dataTypes[dataTypeIndex]);
         }
         for (int dataIndex = 1; dataIndex < textLines.GetLength(0); dataIndex++)
         {
@@ -93,6 +94,7 @@ public class GeneralDataController : MonoBehaviour
             {
                 // Debug.Log(dataTypes[dataTypeIndex] + " = " + thisData[dataTypeIndex]);
                 chemicalData.SetProperty(dataTypes[dataTypeIndex], thisData[dataTypeIndex]);
+                //print(dataTypes[dataTypeIndex]);
             }
             if (chemicalData != null && chemicalData.GetProperty("CID") != "")
             {

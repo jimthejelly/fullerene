@@ -124,6 +124,8 @@ public class WordleManager : MonoBehaviour
 
         string guessingFormula = guessing.GetProperty("MolecularFormula");
         string actualFormula = mysteryChemical.GetProperty("MolecularFormula");
+        print(mysteryChemical.GetProperty("BoilingPoint"));
+        print(mysteryChemical.GetProperty("MolecularFormula"));
 
         for (int i = 0; i < guessingFormula.Length; i++)
         {
