@@ -121,16 +121,43 @@ public class WordleManager : MonoBehaviour
     {
 
         string feedback = "";
-
+        int guessCharge = 0, actualCharge = 0;
         string guessingFormula = guessing.GetProperty("MolecularFormula");
         string actualFormula = mysteryChemical.GetProperty("MolecularFormula");
-        print(mysteryChemical.GetProperty("BoilingPoint"));
+        //print(mysteryChemical.GetProperty("BoilingPoint"));
         print(mysteryChemical.GetProperty("MolecularFormula"));
 
         for (int i = 0; i < guessingFormula.Length; i++)
         {
             char c = guessingFormula[i];
             if (IsNumeric(c) || c == '-' || c == '+' || IsLowercase(c)) continue;
+            if (c == '-' || c == '+')
+            {
+                if (c == guessingFormula[guessingFormula.Length - 1])
+                {
+                    if (c == '-')
+                    {
+                        guessCharge = -1;
+                    }
+                    else
+                    {
+                        guessCharge = 1;
+                    }
+                }
+                else
+                {
+                    if (c == '-')
+                    {
+                        guessCharge = -1;
+                        guessCharge *= Convert.ToInt32(guessingFormula[guessingFormula.Length - 1]);
+                    }
+                    else
+                    {
+                        guessCharge = 1;
+                        guessCharge *= Convert.ToInt32(guessingFormula[guessingFormula.Length - 1]);
+                    }
+                }
+            }
             string elementWordBuilder = "" + c;
             for (int j = i + 1; j < guessingFormula.Length; j++)
             {
@@ -168,13 +195,49 @@ public class WordleManager : MonoBehaviour
         for (int i = 0; i < actualFormula.Length; i++)
         {
             char c = actualFormula[i];
-            if (IsNumeric(c) || c == '-' || c == '+') continue;
+            if (IsNumeric(c) || c == '-' || c == '+')
+            {
+                if ( (c == '-') || (c == '+'))
+                {
+                    if (c == actualFormula[actualFormula.Length - 1])
+                    {
+                        if (c == '-') {
+                            actualCharge = -1;
+                        } else
+                        {
+                            actualCharge = 1;
+                        }
+                    }
+                    else
+                    {
+                        if (c == '-')
+                        {
+                            actualCharge = -1;
+                            actualCharge *= Convert.ToInt32(actualFormula[actualFormula.Length - 1]);
+                        } else
+                        {
+                            actualCharge = 1;
+                            actualCharge *= Convert.ToInt32(actualFormula[actualFormula.Length - 1]);
+                        }
+                    }
+                }
+                continue;
+            }
             if (!guessingFormula.Contains(c))
             {
                 feedback += "An element is missing" + "\n";
             }
         }
 
+        if (actualCharge == guessCharge)
+        {
+            feedback += "You have the correct Charge\n";
+        } else if (actualCharge > guessCharge) {
+            feedback += "You have too little charge\n";
+        } else
+        {
+            feedback += "You have too much charge\n";
+        }
         guiController.SetFeedback(feedback);
 
     }

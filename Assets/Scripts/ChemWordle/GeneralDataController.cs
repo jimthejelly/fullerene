@@ -15,6 +15,7 @@ public class GeneralDataController : MonoBehaviour
             try {
                 if (data != null && data.GetProperty(propertyName).ToLower() == propertyValue.ToLower())
                 {
+                    print(data.GetProperty(propertyValue));
                     return data;
                 }
             }
@@ -41,7 +42,7 @@ public class GeneralDataController : MonoBehaviour
 
 
     public PubChemAPIManager pubChemAPIManager;
-    public string[] dataTypes = { "Title", "MolecularFormula", "MolecularWeight", "Charge" , "BoilingPoint"};
+    public string[] dataTypes = { "Title", "MolecularFormula", "MolecularWeight", "Charge"};
 
     /** Gets a crazy number of chemicals from the PubChem database. */
     public void GetAllChemicals()
@@ -93,7 +94,18 @@ public class GeneralDataController : MonoBehaviour
             for (int dataTypeIndex = 0; dataTypeIndex < dataTypes.GetLength(0); dataTypeIndex++)
             {
                 // Debug.Log(dataTypes[dataTypeIndex] + " = " + thisData[dataTypeIndex]);
-                chemicalData.SetProperty(dataTypes[dataTypeIndex], thisData[dataTypeIndex]);
+                if (dataTypes[dataTypeIndex] == "Charge")
+                {
+                    print(dataTypes[dataTypeIndex] + "\t\t" + thisData[dataTypeIndex]);
+                    if (thisData[dataTypeIndex] == "")
+                    {
+                        chemicalData.SetProperty(dataTypes[dataTypeIndex], "0");
+                    }
+                }
+                else
+                {
+                    chemicalData.SetProperty(dataTypes[dataTypeIndex], thisData[dataTypeIndex]);
+                }
                 //print(dataTypes[dataTypeIndex]);
             }
             if (chemicalData != null && chemicalData.GetProperty("CID") != "")

@@ -60,13 +60,13 @@ public class PubChemAPIManager : MonoBehaviour
             allDataTypesRequest += dataTypes[dataTypeIndex];
             if (dataTypeIndex != dataTypes.GetLength(0) - 1) allDataTypesRequest += ",";
         }
-        print(allDataTypesRequest);
+        //print(allDataTypesRequest);
 
         // API calls are of the form:
         // <input specification>/<operation specification>/[<output specification>]
         string apiCall = "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/"
             + cids + "/property/" + allDataTypesRequest + "/CSV";
-        print(apiCall);
+        //print(apiCall);
         StartCoroutine(GetRequest(apiCall, purpose, Int32.Parse(cids.Split(",")[0])));
 
     }
@@ -77,7 +77,7 @@ public class PubChemAPIManager : MonoBehaviour
         {
             // Request and wait for the desired page.
             yield return webRequest.SendWebRequest();
-
+            
             if (webRequest.result == UnityWebRequest.Result.Success)
             {
                 if (purpose == "get_cids")

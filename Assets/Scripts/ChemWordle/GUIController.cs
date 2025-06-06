@@ -46,6 +46,7 @@ public class GUIController : MonoBehaviour
         {
             guessingChemical = data;
             set(data, GuessCheck(data));
+            print(data);
         }
     }
     public void OnTitleSelect()
@@ -71,6 +72,7 @@ public class GUIController : MonoBehaviour
         {
             guessingChemical = data;
             set(data, false);
+            print(data);
         }
     }
     public void OnFormulaSelect()
@@ -116,6 +118,7 @@ public class GUIController : MonoBehaviour
         formulaText.text = chemicalData.GetProperty("MolecularFormula");
         weightText.text = chemicalData.GetProperty("MolecularWeight");
         chargeText.text = chemicalData.GetProperty("Charge");
+        print(chargeText.text);
 
         if (iGuessedThisAlready) wordleManager.EvaluateGuess(chemicalData);
 
