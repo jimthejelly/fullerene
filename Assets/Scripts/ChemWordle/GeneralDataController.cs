@@ -15,7 +15,6 @@ public class GeneralDataController : MonoBehaviour
             try {
                 if (data != null && data.GetProperty(propertyName).ToLower() == propertyValue.ToLower())
                 {
-                    print(data.GetProperty(propertyValue));
                     return data;
                 }
             }
@@ -76,12 +75,18 @@ public class GeneralDataController : MonoBehaviour
                     inQuotes = !inQuotes;
                 }
                 if ((thisLine[textIndex] != '"' && thisLine[textIndex] == ',')
-                    || textIndex == thisLine.Length - 1)
+                    || textIndex == thisLine.Length-1)
                 {
                     if (!inQuotes)
                     {
-                        // Debug.Log("!!" + word);
+                        //Debug.Log("!!" + word);
+
+                        if (dataTypes[i] == "Charge")
+                        {
+                            word += (thisLine[thisLine.Length - 1]);
+                        }
                         thisData[i] = word;
+                        //Debug.Log(dataTypes[i] + "!!" + word);
                         word = "";
                         i++;
                     }
@@ -96,10 +101,12 @@ public class GeneralDataController : MonoBehaviour
                 // Debug.Log(dataTypes[dataTypeIndex] + " = " + thisData[dataTypeIndex]);
                 if (dataTypes[dataTypeIndex] == "Charge")
                 {
-                    print(dataTypes[dataTypeIndex] + "\t\t" + thisData[dataTypeIndex]);
                     if (thisData[dataTypeIndex] == "")
                     {
                         chemicalData.SetProperty(dataTypes[dataTypeIndex], "0");
+                    } else
+                    {
+                        chemicalData.SetProperty(dataTypes[dataTypeIndex], thisData[dataTypeIndex]);
                     }
                 }
                 else

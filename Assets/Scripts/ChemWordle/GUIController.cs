@@ -19,9 +19,6 @@ public class GUIController : MonoBehaviour
     // Text for the chemical's charge
     public TMPro.TMP_InputField chargeText;
 
-    // Text for the chemical's boiling point
-    public TMPro.TMP_InputField bpText;
-
 
     public TMPro.TextMeshProUGUI feedbackText;
 

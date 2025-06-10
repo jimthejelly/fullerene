@@ -121,7 +121,8 @@ public class WordleManager : MonoBehaviour
     {
 
         string feedback = "";
-        int guessCharge = 0, actualCharge = 0;
+        int guessCharge = Convert.ToInt32(guessing.GetProperty("Charge")), actualCharge = Convert.ToInt32(mysteryChemical.GetProperty("Charge"));
+        double guessWeight = Convert.ToDouble(guessing.GetProperty("MolecularWeight")), actualWeight = Convert.ToDouble(mysteryChemical.GetProperty("MolecularWeight"));
         string guessingFormula = guessing.GetProperty("MolecularFormula");
         string actualFormula = mysteryChemical.GetProperty("MolecularFormula");
         //print(mysteryChemical.GetProperty("BoilingPoint"));
@@ -131,33 +132,6 @@ public class WordleManager : MonoBehaviour
         {
             char c = guessingFormula[i];
             if (IsNumeric(c) || c == '-' || c == '+' || IsLowercase(c)) continue;
-            if (c == '-' || c == '+')
-            {
-                if (c == guessingFormula[guessingFormula.Length - 1])
-                {
-                    if (c == '-')
-                    {
-                        guessCharge = -1;
-                    }
-                    else
-                    {
-                        guessCharge = 1;
-                    }
-                }
-                else
-                {
-                    if (c == '-')
-                    {
-                        guessCharge = -1;
-                        guessCharge *= Convert.ToInt32(guessingFormula[guessingFormula.Length - 1]);
-                    }
-                    else
-                    {
-                        guessCharge = 1;
-                        guessCharge *= Convert.ToInt32(guessingFormula[guessingFormula.Length - 1]);
-                    }
-                }
-            }
             string elementWordBuilder = "" + c;
             for (int j = i + 1; j < guessingFormula.Length; j++)
             {
@@ -195,32 +169,7 @@ public class WordleManager : MonoBehaviour
         for (int i = 0; i < actualFormula.Length; i++)
         {
             char c = actualFormula[i];
-            if (IsNumeric(c) || c == '-' || c == '+')
-            {
-                if ( (c == '-') || (c == '+'))
-                {
-                    if (c == actualFormula[actualFormula.Length - 1])
-                    {
-                        if (c == '-') {
-                            actualCharge = -1;
-                        } else
-                        {
-                            actualCharge = 1;
-                        }
-                    }
-                    else
-                    {
-                        if (c == '-')
-                        {
-                            actualCharge = -1;
-                            actualCharge *= Convert.ToInt32(actualFormula[actualFormula.Length - 1]);
-                        } else
-                        {
-                            actualCharge = 1;
-                            actualCharge *= Convert.ToInt32(actualFormula[actualFormula.Length - 1]);
-                        }
-                    }
-                }
+            if (IsNumeric(c) || c == '-' || c == '+') { 
                 continue;
             }
             if (!guessingFormula.Contains(c))
@@ -228,15 +177,27 @@ public class WordleManager : MonoBehaviour
                 feedback += "An element is missing" + "\n";
             }
         }
-
+        if (actualWeight == guessWeight)
+        {
+            feedback += "You have the correct Weight\n";
+        }
+        else if (actualWeight > guessWeight)
+        {
+            feedback += "You have too little Weight\n";
+        }
+        else
+        {
+            feedback += "You have too much Weight\n";
+        }
+        Debug.Log(actualCharge + "\t" + guessCharge);
         if (actualCharge == guessCharge)
         {
             feedback += "You have the correct Charge\n";
         } else if (actualCharge > guessCharge) {
-            feedback += "You have too little charge\n";
+            feedback += "You have too little Charge\n";
         } else
         {
-            feedback += "You have too much charge\n";
+            feedback += "You have too much Charge\n";
         }
         guiController.SetFeedback(feedback);
 
