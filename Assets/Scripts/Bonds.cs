@@ -7,8 +7,8 @@ using UnityEditor;
 public class Bonds : MonoBehaviour
 {
     public int bondOrder; // 1, 2, or 3 depending on single double or triple bond
-    private Elements parent; // parent element of this bond
-    private Elements child; // child element of this bond
+    public Elements parent; // parent element of this bond
+    public Elements child; // child element of this bond
 
     // Start is called before the first frame update
     void Start()

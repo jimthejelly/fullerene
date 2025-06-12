@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UIElements;
 
+using System.Xml;
+
 public class creationUser : MonoBehaviour
 {
     public static GameObject head; // First element added
@@ -83,9 +85,63 @@ public class creationUser : MonoBehaviour
             // Manages mouse click and hover interaction
             Hovering();
         }
+
+        if(Input.GetKeyDown("s")) {
+            Debug.Log("Saving Molecule");
+            SaveMolecule();
+        }
         
+    }
+
+    void SaveMolecule() {
+        if(molecule.transform.childCount == 0) {
+            Debug.Log("No molecule to save!");
+            return;
+        }
+        XmlTextWriter writer = new XmlTextWriter("./Assets/Resources/molecule.cml", null);
+        writer.WriteStartDocument();
+
+        writer.Formatting = Formatting.Indented;
+        writer.Indentation = 4;
+
+        writer.WriteStartElement("molecule");
+
+        writer.WriteStartElement("atomArray");
+
+        Dictionary<Elements, string> atomIDs = new Dictionary<Elements, string>();
+        int count = 1;
+        foreach(Transform item in molecule.transform) {
+            if(item.tag.Equals("Element")) {
+                atomIDs.Add(item.gameObject.GetComponent<Elements>() as Elements, "a" + count++);
+                writer.WriteStartElement("atom");
+                writer.WriteAttributeString("id", atomIDs[item.gameObject.GetComponent<Elements>() as Elements]);
+                writer.WriteAttributeString("elementType", ((ElementSymbols)((item.gameObject.GetComponent<Elements>() as Elements).protons)).ToString("F"));
+                writer.WriteAttributeString("x3", item.position.x.ToString());
+                writer.WriteAttributeString("y3", item.position.y.ToString());
+                writer.WriteAttributeString("z3", item.position.z.ToString());
+                writer.WriteEndElement(); // end of atom
+            }
+        }
+
+        writer.WriteEndElement(); // end of atomArray
+
+        writer.WriteStartElement("bondArray");
+
+        foreach(Transform item in molecule.transform) {
+            if(item.tag.Equals("Bond")) {
+                writer.WriteStartElement("bond");
+                writer.WriteAttributeString("atomRefs2", atomIDs[(item.gameObject.GetComponent<Bonds>() as Bonds).parent] + " " + atomIDs[(item.gameObject.GetComponent<Bonds>() as Bonds).child]);
+                writer.WriteAttributeString("order", ((item.gameObject.GetComponent<Bonds>() as Bonds).bondOrder).ToString());
+                writer.WriteEndElement(); // end of bond
+            }
+        }
         
-        
+        writer.WriteEndElement(); // end of bondArray
+
+        writer.WriteEndElement(); // end of molecule
+
+        writer.WriteEndDocument();
+        writer.Close();
     }
 
     /*
