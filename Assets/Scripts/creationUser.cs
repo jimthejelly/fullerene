@@ -5,6 +5,8 @@ using UnityEngine.EventSystems;
 using UnityEngine.UIElements;
 
 using System.Xml;
+using System.IO;
+using System;
 
 public class creationUser : MonoBehaviour
 {
@@ -33,8 +35,16 @@ public class creationUser : MonoBehaviour
 
     // GameObject tempHover; // temporary object made by hovering
 
+    private Dictionary<Elements, string> atomIDs = new Dictionary<Elements, string>();
+    private Dictionary<string, Elements> IDToAtom = new Dictionary<string, Elements>();
+
     void Start()
     {
+        // clears the molecule.cml file
+        FileStream stream = File.Open("./Assets/Resources/molecule.cml", FileMode.OpenOrCreate);
+        stream.SetLength(0);
+        stream.Close();
+
         // Initializes variables to effectively nothing
         select = GameObject.Find("Main Camera");
         molecule = GameObject.Find("moleculeBody");
@@ -47,6 +57,11 @@ public class creationUser : MonoBehaviour
 
     public void Restart()
     {
+        // clears the molecule.cml file
+        FileStream stream = File.Open("./Assets/Resources/molecule.cml", FileMode.OpenOrCreate);
+        stream.SetLength(0);
+        stream.Close();
+
         // Initializes variables to effectively nothing
         select = GameObject.Find("Main Camera");
         molecule = GameObject.Find("moleculeBody");
@@ -90,6 +105,11 @@ public class creationUser : MonoBehaviour
             Debug.Log("Saving Molecule");
             SaveMolecule();
         }
+
+        if(Input.GetKeyDown("l")) {
+            Debug.Log("Loading Molecule");
+            LoadMolecule();
+        }
         
     }
 
@@ -108,11 +128,13 @@ public class creationUser : MonoBehaviour
 
         writer.WriteStartElement("atomArray");
 
-        Dictionary<Elements, string> atomIDs = new Dictionary<Elements, string>();
+        atomIDs = new Dictionary<Elements, string>();
+        IDToAtom = new Dictionary<string, Elements>();
         int count = 1;
         foreach(Transform item in molecule.transform) {
             if(item.tag.Equals("Element")) {
-                atomIDs.Add(item.gameObject.GetComponent<Elements>() as Elements, "a" + count++);
+                atomIDs.Add(item.gameObject.GetComponent<Elements>() as Elements, "a" + count);
+                IDToAtom.Add("a" + count++, item.gameObject.GetComponent<Elements>() as Elements);
                 writer.WriteStartElement("atom");
                 writer.WriteAttributeString("id", atomIDs[item.gameObject.GetComponent<Elements>() as Elements]);
                 writer.WriteAttributeString("elementType", ((ElementSymbols)((item.gameObject.GetComponent<Elements>() as Elements).protons)).ToString("F"));
@@ -142,6 +164,43 @@ public class creationUser : MonoBehaviour
 
         writer.WriteEndDocument();
         writer.Close();
+    }
+
+    void LoadMolecule() {
+        if(atomIDs.Count == 0) {
+            Debug.Log("no IDs stored");
+            return;
+        }
+        // move atoms into place
+        XmlTextReader reader = new XmlTextReader("./Assets/Resources/molecule.cml");
+        while(reader.Read()) {
+            if(reader.NodeType == XmlNodeType.Element) {
+                if(reader.Name.Equals("atom")) {
+                    IDToAtom[reader.GetAttribute("id")].transform.position = new Vector3(
+                        float.Parse(reader.GetAttribute("x3")), float.Parse(reader.GetAttribute("y3")), float.Parse(reader.GetAttribute("z3")));
+                }
+            }
+        }
+        reader.Close();
+
+        // move bonds
+        foreach(Transform item in molecule.transform) {
+            if(item.tag.Equals("Bond")) {
+                // setting bond position
+                Vector3 parentPos = (item.gameObject.GetComponent<Bonds>() as Bonds).parent.transform.position;
+                Vector3 childPos = (item.gameObject.GetComponent<Bonds>() as Bonds).child.transform.position;
+                Debug.Log(parentPos + " " + childPos);
+                item.position = new Vector3((parentPos.x + childPos.x) / 2, (parentPos.y + childPos.y) / 2, (parentPos.z + childPos.z) / 2);
+
+                // setting bond rotation
+                item.LookAt(parentPos);
+                item.Rotate(90, 0, 0);
+
+                // setting bond length
+                item.localScale = new Vector3(0.3f, Mathf.Sqrt(
+                    Mathf.Pow(parentPos.x - childPos.x, 2) + Mathf.Pow(parentPos.y - childPos.y, 2) + Mathf.Pow(parentPos.z - childPos.z, 2)) / 2, 0.3f);
+            }
+        }
     }
 
     /*
