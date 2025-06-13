@@ -16,7 +16,11 @@ public class WordleManager : MonoBehaviour
 
     public GameObject prefab;
 
+    public GameObject VictoryPrefab;
+
     public GameObject guessesListedHere;
+
+    public GameObject GUI;
 
     /** Adds the given guess to the list of all guesses. */
     public void AddGuess(ChemicalData guess)
@@ -89,6 +93,14 @@ public class WordleManager : MonoBehaviour
     void Start()
     {
         chooseMysteryChemical();
+    }
+
+    public void VICTORY()
+    {
+        GameObject DoubleU = Instantiate(VictoryPrefab, GUI.transform);
+        
+        DoubleU.transform.localPosition = new Vector3(0, 0, 0);
+        DoubleU.transform.localScale.Set(2, 2, 1);
     }
 
 
@@ -198,6 +210,10 @@ public class WordleManager : MonoBehaviour
         } else
         {
             feedback += "You have too much Charge\n";
+        }
+        if (actualFormula == guessingFormula)
+        {
+            VICTORY();
         }
         guiController.SetFeedback(feedback);
 
