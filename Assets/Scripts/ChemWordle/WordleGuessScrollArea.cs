@@ -26,7 +26,7 @@ public class WordleGuessScrollArea : MonoBehaviour
 
     public void ExpandToAccommodate(int numGuesses)
     {
-        rect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, (numGuesses *spacing ));
+        rect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, (numGuesses *300 ) + 850);
 
 
         for (int i = 0; i < numGuesses - 1; i++)

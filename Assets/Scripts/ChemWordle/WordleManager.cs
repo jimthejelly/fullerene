@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Random = System.Random;
+using System.Linq;
 
 
 /** Handles the main game logic, like making and evaluating guesses. */
@@ -62,8 +64,9 @@ public class WordleManager : MonoBehaviour
     public void SetMysteryChemical(ChemicalData[] mysteryChemicals)
     {
 
-        double minWeight = 9999999;
+        //double minWeight = 9999999;
         ChemicalData minChemical = mysteryChemicals[0];
+        /*
         foreach(ChemicalData data in mysteryChemicals)
         {
             double weight = Double.Parse(data.GetProperty("MolecularWeight"));
@@ -73,8 +76,13 @@ public class WordleManager : MonoBehaviour
                 minChemical = data;
             }
         }
+        */
 
-        this.mysteryChemical = minChemical;
+        Random rng = new Random();
+        
+
+        this.mysteryChemical = mysteryChemicals[rng.Next(mysteryChemicals.Length)];
+        //this.mysteryChemical = minChemical;
     }
 
     public void chooseMysteryChemical()
