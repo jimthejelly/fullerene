@@ -168,7 +168,7 @@ public class Elements : MonoBehaviour
         }
         GameObject cyl = AssetDatabase.LoadAssetAtPath("Assets/Resources/SingleBond.prefab", typeof(GameObject)) as GameObject;
         GameObject cylClone = Instantiate(cyl, Vector3.zero, Quaternion.identity);
-        cylClone.transform.localScale = new Vector3(0.3f, radius / 2, 0.3f);
+        cylClone.transform.localScale = new Vector3(0.15f, radius / 2, 0.15f);
         cylClone.transform.SetParent(GameObject.Find("moleculeBody").transform, true);
         clone.transform.SetParent(GameObject.Find("moleculeBody").transform, true);
         clone.name = clone.name + " " + num;
