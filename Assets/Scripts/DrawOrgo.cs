@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 using UnityEngine;
+using UnityEngine.Networking;
 
 public class DrawOrgo : MonoBehaviour
 {
@@ -14,15 +15,48 @@ public class DrawOrgo : MonoBehaviour
     private string[] halides = {"fluoro", "chloro", "bromo", "iodo"}; // Prefixes for halides
     private string[] alkanePrefixes = {"phenyl", "methyl", "ethyl", "propyl", "butyl", "pentyl", "hexyl", "heptyl", "octyl", "nonyl", "decyl", "undecyl", "duodecyl"};
     public string currentMolecule = "UNDEFINED";
+    public string molecularformula;
+    public string molecularStructure;
 
     // Start is called before the first frame update
     void Start()
     {
         generateRandomMolecule();
+        string apiCall = "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/"        //make api call to figure out how to organize the chemical formula for the molecule.
+            + currentMolecule + "/property/MolecularFormula/CSV";
+
+        StartCoroutine(GetRequest(apiCall, "formula"));
+
+        apiCall = "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/"        //make api call to figure out how to organize the chemical structure for the molecule.
+            + currentMolecule + "/property/Fingerprint2D/CSV";
+
+        StartCoroutine(GetRequest(apiCall, "formula"));
+
+
+
     }
 
-    // Update is called once per frame
-    void Update()
+    private IEnumerator GetRequest(string uri, string purpose)
+    {
+        using (UnityWebRequest webRequest = UnityWebRequest.Get(uri))
+        {
+            yield return webRequest.SendWebRequest();
+
+            string split = webRequest.downloadHandler.text;
+            Debug.Log(split);
+            if (purpose == "formula")
+            {
+                molecularformula = split;
+            } else if (purpose == "structure")
+            {
+                molecularStructure = split;
+            }
+
+        }
+    }
+
+            // Update is called once per frame
+            void Update()
     {
         
     }
