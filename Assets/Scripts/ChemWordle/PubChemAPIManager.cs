@@ -89,7 +89,7 @@ public class PubChemAPIManager : MonoBehaviour
                         cidsRequest += split[i];
                         if (i != split.Length - 2) cidsRequest += ",";
                     }
-                     Debug.Log("cids: " + cidsRequest);
+                    // Debug.Log("cids: " + cidsRequest);
                     MakeAPIRequest(cidsRequest, generalDataController.dataTypes, "set_guessed_chemical");
                 }
                 else if (purpose == "set_guessed_chemical")

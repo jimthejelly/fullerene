@@ -24,6 +24,8 @@ public class WordleManager : MonoBehaviour
 
     public GameObject GUI;
 
+    public double acceptableWeight = 100;
+
     /** Adds the given guess to the list of all guesses. */
     public void AddGuess(ChemicalData guess)
     {
@@ -64,24 +66,22 @@ public class WordleManager : MonoBehaviour
     public void SetMysteryChemical(ChemicalData[] mysteryChemicals)
     {
 
-        //double minWeight = 9999999;
         ChemicalData minChemical = mysteryChemicals[0];
-        /*
+        List<ChemicalData> validChemicals = new List<ChemicalData>();
         foreach(ChemicalData data in mysteryChemicals)
         {
             double weight = Double.Parse(data.GetProperty("MolecularWeight"));
-            if (weight < minWeight)
+            if (weight < acceptableWeight)
             {
-                minWeight = weight;
-                minChemical = data;
+                validChemicals.Add(data);
             }
         }
-        */
+        
 
         Random rng = new Random();
         
 
-        this.mysteryChemical = mysteryChemicals[rng.Next(mysteryChemicals.Length)];
+        this.mysteryChemical = validChemicals[rng.Next(validChemicals.Count)];
         //this.mysteryChemical = minChemical;
     }
 
@@ -155,7 +155,10 @@ public class WordleManager : MonoBehaviour
             string elementWordBuilder = "" + c;
             for (int j = i + 1; j < guessingFormula.Length; j++)
             {
-                if (IsLowercase(guessingFormula[j])) elementWordBuilder += guessingFormula[j];
+                if (IsLowercase(guessingFormula[j]))
+                {
+                    elementWordBuilder += guessingFormula[j];
+                }
                 else break;
             }
             if (actualFormula.Contains(elementWordBuilder))
@@ -192,7 +195,7 @@ public class WordleManager : MonoBehaviour
             if (IsNumeric(c) || c == '-' || c == '+') { 
                 continue;
             }
-            if (!guessingFormula.Contains(c))
+            if (!guessingFormula.Contains(c) && !IsLowercase(c))
             {
                 feedback += "An element is missing" + "\n";
             }
@@ -225,6 +228,12 @@ public class WordleManager : MonoBehaviour
         }
         guiController.SetFeedback(feedback);
 
+    }
+
+    public void clearFeedBackText()
+    {
+        string feedback = "";
+        guiController.SetFeedback(feedback);
     }
 
 }

@@ -30,7 +30,7 @@ public class DrawOrgo : MonoBehaviour
         apiCall = "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/"        //make api call to figure out how to organize the chemical structure for the molecule.
             + currentMolecule + "/property/Fingerprint2D/CSV";
 
-        StartCoroutine(GetRequest(apiCall, "formula"));
+        StartCoroutine(GetRequest(apiCall, "structure"));
 
 
 
@@ -56,7 +56,7 @@ public class DrawOrgo : MonoBehaviour
     }
 
             // Update is called once per frame
-            void Update()
+    void Update()
     {
         
     }

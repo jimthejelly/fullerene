@@ -119,6 +119,7 @@ public class GUIController : MonoBehaviour
         //print(chargeText.text);
 
         if (iGuessedThisAlready) wordleManager.EvaluateGuess(chemicalData);
+        else wordleManager.clearFeedBackText();
 
     }
 
