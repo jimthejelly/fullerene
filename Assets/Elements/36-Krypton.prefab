@@ -121,6 +121,7 @@ MonoBehaviour:
   electrons: 36
   protons: 36
   neutrons: 0
+  defaultLonePairs: 4
   lonePairs: 4
   bondingElectrons: 0
   expandedOctet: 1

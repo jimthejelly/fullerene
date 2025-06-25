@@ -33,6 +33,11 @@ public class creationUser : MonoBehaviour
     Ray ray; // Tracks mouse
 	RaycastHit hit; // Object mouse touches
 
+    public static bool lonePairsVisible = false; // Whether or not lone pairs are currently visible
+
+    private bool moleculeUpdated = false; // used to keep the lone pairs visible even while editing the molecule
+    private int framesSinceMoleculeUpdated = 0; // used to keep the lone pairs visible even while editing the molecule
+
     // GameObject tempHover; // temporary object made by hovering
 
     private Dictionary<Elements, string> atomIDs = new Dictionary<Elements, string>();
@@ -109,8 +114,49 @@ public class creationUser : MonoBehaviour
         if(Input.GetKeyDown("l")) {
             Debug.Log("Loading Molecule");
             LoadMolecule();
+            if(lonePairsVisible) {
+                HideLonePairs();
+                moleculeUpdated = true;
+            }
         }
-        
+
+        if(Input.GetKeyDown("p")) {
+            if(lonePairsVisible) {
+                HideLonePairs();
+            }
+            else {
+                ShowLonePairs();
+            }
+        }
+
+        if(moleculeUpdated) {
+            framesSinceMoleculeUpdated++;
+            if(framesSinceMoleculeUpdated > molecule.transform.childCount) {
+                ShowLonePairs();
+                framesSinceMoleculeUpdated = 0;
+                moleculeUpdated = false;
+            }
+        }
+    }
+
+    void ShowLonePairs() {
+        Debug.Log("Showing Lone Pairs");
+        foreach(Transform item in molecule.transform) {
+            if(item.tag.Equals("Element")) {
+                (item.gameObject.GetComponent<Elements>() as Elements).ShowLonePairs();
+            }
+        }
+        lonePairsVisible = true;
+    }
+
+    void HideLonePairs() {
+        Debug.Log("Hiding Lone Pairs");
+        foreach(Transform item in molecule.transform) {
+            if(item.tag.Equals("Lone Pair")) {
+                Destroy(item.gameObject);
+            }
+        }
+        lonePairsVisible = false;
     }
 
     void SaveMolecule() {
@@ -197,8 +243,8 @@ public class creationUser : MonoBehaviour
                 item.Rotate(90, 0, 0);
 
                 // setting bond length
-                item.localScale = new Vector3(0.3f, Mathf.Sqrt(
-                    Mathf.Pow(parentPos.x - childPos.x, 2) + Mathf.Pow(parentPos.y - childPos.y, 2) + Mathf.Pow(parentPos.z - childPos.z, 2)) / 2, 0.3f);
+                item.localScale = new Vector3(0.15f, Mathf.Sqrt(
+                    Mathf.Pow(parentPos.x - childPos.x, 2) + Mathf.Pow(parentPos.y - childPos.y, 2) + Mathf.Pow(parentPos.z - childPos.z, 2)) / 2, 0.15f);
             }
         }
     }
@@ -431,17 +477,33 @@ public class creationUser : MonoBehaviour
                         Elements script = hit.collider.gameObject.GetComponent<Elements>();
                         script.SpawnElement(elements);
                         elements++;
+                        if(lonePairsVisible) {
+                            HideLonePairs();
+                            moleculeUpdated = true;
+                        }
                     }
                     else if(hit.transform.tag.Equals("Bond")) {
                         Bonds script = hit.collider.gameObject.GetComponent<Bonds>();
                         script.CycleBondOrder(elements);
                         elements++;
                         bondReplace = true;
+                        if(lonePairsVisible) {
+                            HideLonePairs();
+                            moleculeUpdated = true;
+                        }
+                    }
+                    else {
+                        Debug.Log("clicked neither a bond nor an element");
                     }
                 }
                 else if(Input.GetKey(KeyCode.LeftShift)){
                     Elements script = hit.collider.gameObject.GetComponent<Elements>();
                     script.DeleteElement();
+                    Debug.Log(lonePairsVisible);
+                    if(lonePairsVisible) {
+                        HideLonePairs();
+                        moleculeUpdated = true;
+                    }
                 }
             }
         } else if (clicknumber == 2) { // 2 click interaction
