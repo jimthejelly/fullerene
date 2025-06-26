@@ -10,7 +10,9 @@ public class Bonds : MonoBehaviour
     public Elements parent; // parent element of this bond
     public Elements child; // child element of this bond
 
-    // Start is called before the first frame update
+    /// <summary>
+    /// Start is called before the first frame update and initializes the materials of the bond
+    /// </summary>
     void Start()
     {
         Material mat = Resources.Load<Material>("BondColor");
@@ -33,7 +35,7 @@ public class Bonds : MonoBehaviour
     /// </summary>
     /// <param name="p">The parent Element of this Bond</param>
     /// <param name="c">The child Element of this Bond</param>
-    public void setElements(Elements p, Elements c) {
+    public void SetElements(Elements p, Elements c) {
         Debug.Log("parent: " + p.name + "   child: " + c.name);
         parent = p;
         child = c;
@@ -52,7 +54,7 @@ public class Bonds : MonoBehaviour
         }
 
         // checking if upgrade possible
-        if(!parent.canBondMore() || !child.canBondMore()) {
+        if(!parent.CanBondMore() || !child.CanBondMore()) {
             if(bondOrder == 1) { // if current bond order is 1, there's nothing to cycle to
                 return;
             }
@@ -74,20 +76,20 @@ public class Bonds : MonoBehaviour
         GameObject newBond = newBond = Instantiate(obj, transform.position, Quaternion.identity, transform.parent);
         newBond.transform.localScale = transform.localScale;
         newBond.transform.localEulerAngles = transform.localEulerAngles;
-        (newBond.GetComponent<Bonds>() as Bonds).setElements(parent, child);
+        (newBond.GetComponent<Bonds>() as Bonds).SetElements(parent, child);
         newBond.name = newBond.name + " " + num;
 
         // updating parent and child neighbor lists
-        parent.updateBond(newBond, child.gameObject);
-        child.updateBond(newBond, parent.gameObject);
+        parent.UpdateBond(newBond, child.gameObject);
+        child.UpdateBond(newBond, parent.gameObject);
 
         // updating parent and child bond orders
         parent.bondOrders += (newOrder - bondOrder);
         child.bondOrders += (newOrder - bondOrder);
 
         // updating parent and child electron counts
-        parent.updateElectrons(newOrder - bondOrder);
-        child.updateElectrons(newOrder - bondOrder);
+        parent.UpdateElectrons(newOrder - bondOrder);
+        child.UpdateElectrons(newOrder - bondOrder);
 
         // deleting this
         Destroy(gameObject);

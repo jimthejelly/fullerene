@@ -25,7 +25,10 @@ public class Elements : MonoBehaviour
     public int bondOrders = 0;
 
     int start = 0;
-    // Start is called before the first frame update
+
+    /// <summary>
+    /// Start is called before the first frame update and initializes the material of the Element
+    /// </summary>
     void Start()
     {
         string name = transform.name;
@@ -98,7 +101,7 @@ public class Elements : MonoBehaviour
     /// Finds the construction order of Elements, its main use is finding the parent of an Element
     /// </summary>
     /// <returns>The number to the right of the name of the element, or -1 if it's the root</returns>
-    public int getID()
+    public int GetID()
     {
         if (name[name.Length - 1] == ')')
         {
@@ -111,7 +114,7 @@ public class Elements : MonoBehaviour
     /// Determines whether or not this Element can make more bonds
     /// </summary>
     /// <returns>True if this Element can make more bonds, or False if it can't</returns>
-    public bool canBondMore()
+    public bool CanBondMore()
     {
         if (expandedOctet)
         {
@@ -120,7 +123,11 @@ public class Elements : MonoBehaviour
         return bondingElectrons > 0;
     }
 
-    public void updateElectrons(int change)
+    /// <summary>
+    /// Subtracts change from bondingElectrons, converting lone pairs to bonding electrons if necessary
+    /// </summary>
+    /// <param name="change">The change in bonding electrons</param>
+    public void UpdateElectrons(int change)
     {
         if (change > 0)
         {
@@ -154,7 +161,7 @@ public class Elements : MonoBehaviour
         }
 
         // checking if the element can make more bonds
-        if (!canBondMore())
+        if (!CanBondMore())
         {
             Debug.Log("Not enough space");
             return;
@@ -164,7 +171,7 @@ public class Elements : MonoBehaviour
         GameObject obj = AssetDatabase.LoadAssetAtPath("Assets/Elements/" + selectElement.element + ".prefab", typeof(GameObject)) as GameObject;
         GameObject clone = Instantiate(obj, Vector3.zero, Quaternion.identity);
         // making sure the newly created atom can bond
-        if (!(clone.GetComponent<Elements>() as Elements).canBondMore())
+        if (!(clone.GetComponent<Elements>() as Elements).CanBondMore())
         {
             Debug.Log(selectElement.element + " is inert!");
             return;
@@ -178,24 +185,24 @@ public class Elements : MonoBehaviour
         cylClone.name = cylClone.name + " " + num;
         bondCount++;
         bondOrders++;
-        updateElectrons(1);
+        UpdateElectrons(1);
 
         (clone.GetComponent<Elements>() as Elements).bondCount = 1;
         (clone.GetComponent<Elements>() as Elements).bondOrders = 1;
-        (clone.GetComponent<Elements>() as Elements).updateElectrons(1);
+        (clone.GetComponent<Elements>() as Elements).UpdateElectrons(1);
 
-        (cylClone.GetComponent<Bonds>() as Bonds).setElements(this, clone.GetComponent<Elements>() as Elements);
+        (cylClone.GetComponent<Bonds>() as Bonds).SetElements(this, clone.GetComponent<Elements>() as Elements);
 
         neighbors.Add(new Tuple<GameObject, GameObject>(cylClone, clone));
         clone.GetComponent<Elements>().neighbors.Add(new Tuple<GameObject, GameObject>(cylClone, gameObject));
-        resetChildPositions(radius);
+        ResetChildPositions(radius);
 
         clone.transform.localEulerAngles = cylClone.transform.localEulerAngles; //+ this.transform.localEulerAngles;
 
         clone.transform.localPosition = cylClone.transform.localPosition;
         clone.transform.Translate(0, -radius / 2, 0);
 
-        moveChildren(start);
+        MoveChildren(start);
 
         if (!cylClone)
         {
@@ -213,7 +220,7 @@ public class Elements : MonoBehaviour
     /// Resets the positions of each "child" of this Element to be moved with moveChildren() later
     /// </summary>
     /// <param name="radius">The radius of the bonds between Elements</param>
-    public void resetChildPositions(float radius)
+    public void ResetChildPositions(float radius)
     {
 
         foreach (Tuple<GameObject, GameObject> child in neighbors)
@@ -267,7 +274,7 @@ public class Elements : MonoBehaviour
     /// </summary>
     /// <param name="bondCount">The number of bonds the current Element has (does nothing with bonds less than 2 or bonds greater than 6</param>
     /// <param name="start">An offset variable that ensures moveChildren() will never move the "parent" Element</param>
-    public void moveChildren(int start)
+    public void MoveChildren(int start)
     {
         if (bondCount < 2)
         {
@@ -473,8 +480,8 @@ public class Elements : MonoBehaviour
                 continue;
             }
             Elements childElement = bond.Item2.GetComponent<Elements>() as Elements;
-            childElement.resetChildPositions(3f);
-            childElement.moveChildren(1);
+            childElement.ResetChildPositions(3f);
+            childElement.MoveChildren(1);
         }
     }
 
@@ -483,7 +490,7 @@ public class Elements : MonoBehaviour
     /// </summary>
     public void DeleteElement()
     {
-        if (getID() == -1)
+        if (GetID() == -1)
         {
             foreach (Transform item in transform.parent)
             {
@@ -496,8 +503,8 @@ public class Elements : MonoBehaviour
             GameObject parent = null;
             foreach (Tuple<GameObject, GameObject> bond in neighbors)
             {
-                if ((bond.Item2.GetComponent<Elements>() as Elements).getID() == -1
-                    || (bond.Item2.GetComponent<Elements>() as Elements).getID() < this.getID())
+                if ((bond.Item2.GetComponent<Elements>() as Elements).GetID() == -1
+                    || (bond.Item2.GetComponent<Elements>() as Elements).GetID() < this.GetID())
                 {
                     parent = bond.Item2;
                 }
@@ -535,7 +542,7 @@ public class Elements : MonoBehaviour
                 return;
             }
             HashSet<GameObject> found = new HashSet<GameObject>();
-            deletionDFS(parent, found);
+            DeletionDFS(parent, found);
             // looping through all objects and deleting any that haven't been found
             foreach (Transform t in transform.parent)
             {
@@ -545,8 +552,8 @@ public class Elements : MonoBehaviour
                 }
                 else if (t.tag.Equals("Element") && (t.gameObject.GetComponent<Elements>() as Elements).neighbors.Count() > 1)
                 {
-                    (t.gameObject.GetComponent<Elements>() as Elements).resetChildPositions(3f);
-                    (t.gameObject.GetComponent<Elements>() as Elements).moveChildren((t.gameObject.GetComponent<Elements>() as Elements).start);
+                    (t.gameObject.GetComponent<Elements>() as Elements).ResetChildPositions(3f);
+                    (t.gameObject.GetComponent<Elements>() as Elements).MoveChildren((t.gameObject.GetComponent<Elements>() as Elements).start);
                 }
             }
 
@@ -560,7 +567,7 @@ public class Elements : MonoBehaviour
     /// </summary>
     /// <param name="current">The current GameObject (Element) being checked by the algorithm</param>
     /// <param name="found">The list of all GameObjects that have been found by the algorithm</param>
-    private void deletionDFS(GameObject current, HashSet<GameObject> found)
+    private void DeletionDFS(GameObject current, HashSet<GameObject> found)
     {
         if (found.Contains(current))
         { // if this element has been visited already, return to the last one
@@ -574,7 +581,7 @@ public class Elements : MonoBehaviour
             { // if this bond has not been travelled already
                 Debug.Log("added " + bond.Item1.name);
                 found.Add(bond.Item1);
-                deletionDFS(bond.Item2, found);
+                DeletionDFS(bond.Item2, found);
             }
         }
     }
@@ -584,7 +591,7 @@ public class Elements : MonoBehaviour
     /// </summary>
     /// <param name="newBond">The new bond GameObject to be referenced in neighbors</param>
     /// <param name="otherElement">The other element the bond connects to - used to find which Tuple to replace</param>
-    public void updateBond(GameObject newBond, GameObject otherElement)
+    public void UpdateBond(GameObject newBond, GameObject otherElement)
     {
         for (int i = 0; i < neighbors.Count; i++)
         {
@@ -866,6 +873,9 @@ public class ElementsComparer : IEqualityComparer<Elements>
     }
 }
 
+/// <summary>
+/// An enum that converts atomic number to atomic symbol (i.e. 1 = H, 2 = He, etc.)
+/// </summary>
 public enum ElementSymbols {
     H=1, He,
     Li, Be, B, C, N, O, F, Ne,
