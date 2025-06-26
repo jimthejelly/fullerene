@@ -16,12 +16,14 @@ public class ChemicalData
         }
         else
         {
+            print();
             return "<NULL>";
         }
     }
     public void SetProperty(string propertyName, string propertyValue)
     {
         properties[propertyName] = propertyValue;
+
     }
 
 

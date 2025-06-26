@@ -48,4 +48,14 @@ public class ShootMoleculeLives : MonoBehaviour
         }
     }
 
+    public void resetLives()
+    {
+        for (int i = Lives; i > 0; i--)
+        {
+            Destroy(Hearts[Lives - 1]);
+            Lives--;
+        }
+        Lives = 3;
+    }
+
 }

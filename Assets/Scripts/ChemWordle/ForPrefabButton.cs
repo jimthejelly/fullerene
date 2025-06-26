@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ForPrefabButton : MonoBehaviour
 {
@@ -24,7 +25,15 @@ public class ForPrefabButton : MonoBehaviour
     {
         
     }
+    public void PLayAgian()
+    {
+        SceneManager.LoadScene("ChemicalWordle", LoadSceneMode.Single);
+    }
 
+    public void QuitToMain()
+    {
+        SceneManager.LoadScene("TitleScene", LoadSceneMode.Single);
+    }
     public void DoSomethingCool()
     {
         GameObject thing = GameObject.Find("WordleManager");
