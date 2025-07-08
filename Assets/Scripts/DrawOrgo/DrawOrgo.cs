@@ -16,7 +16,8 @@ public class DrawOrgo : MonoBehaviour
     private string[] alkanePrefixes = {"phenyl", "methyl", "ethyl", "propyl", "butyl", "pentyl", "hexyl", "heptyl", "octyl", "nonyl", "decyl", "undecyl", "duodecyl"};
     public string currentMolecule = "UNDEFINED";
     public string molecularformula;
-    public string molecularStructure;
+
+    public int selectedElement = 8;
 
     // Start is called before the first frame update
     void Start()
@@ -26,11 +27,6 @@ public class DrawOrgo : MonoBehaviour
             + currentMolecule + "/property/MolecularFormula/CSV";
 
         StartCoroutine(GetRequest(apiCall, "formula"));
-
-        apiCall = "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/"        //make api call to figure out how to organize the chemical structure for the molecule.
-            + currentMolecule + "/property/Fingerprint2D/CSV";
-
-        StartCoroutine(GetRequest(apiCall, "structure"));
 
 
 
@@ -47,11 +43,7 @@ public class DrawOrgo : MonoBehaviour
             if (purpose == "formula")
             {
                 molecularformula = split;
-            } else if (purpose == "structure")
-            {
-                molecularStructure = split;
             }
-
         }
     }
 
@@ -98,4 +90,11 @@ public class DrawOrgo : MonoBehaviour
 
         Debug.Log("generated: " + currentMolecule);
     }
+
+    void SelectNewElement(int index)
+    {
+        selectedElement = index;
+    }
+
+
 }
