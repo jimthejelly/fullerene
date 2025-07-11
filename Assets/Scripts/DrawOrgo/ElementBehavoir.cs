@@ -5,13 +5,17 @@ using UnityEngine;
 public class ElementBehavoir : MonoBehaviour
 {
 
-    [SerializeField] Color ElementColor = Color.white;
+    [SerializeField] Color ElementColor;
+    private SpriteRenderer elementLooks;
     [SerializeField] Material ElementMaterial = null;
     static string[] possibleElements = { "Hydrogen", "Lithium", "Sodium", "Potassium", "Magnesium", "Boron", "Aluminum", "Carbon", "Nitrogen","Phosphorus", "Oxygen", "Sulfur", "Flourine", "Clorine", "Bromine", "Iodine"};
+
     string Element = "";
+    int startingB = 0;
     int numberOfBonds = 0;
     int MaxBonds = 8;
     bool Active = false;
+    Vector3 mousepos;
 
     [SerializeField] GameObject elementPrefab;
 
@@ -19,14 +23,22 @@ public class ElementBehavoir : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        elementLooks = this.GetComponent<SpriteRenderer>();
+        elementLooks.color = ElementColor;
         mainScript = GameObject.Find("script");
-        ElementMaterial = GetComponent<Material>();
+        ElementMaterial = this.GetComponent<Material>();
+        for (int i = 0; i < 8; i++) {
+            transform.GetChild(i).gameObject.SetActive(false);
+        }
+        setElement(mainScript.GetComponent<DrawOrgo>().selectedElement);
+
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        mousepos = Input.mousePosition;
+        
     }
 
     public void setElement(int index)
@@ -35,34 +47,37 @@ public class ElementBehavoir : MonoBehaviour
         if (index == 0)     //Hydrogen
         {
             MaxBonds = 2;
+            elementLooks.color = Color.gray;
         }
         if (index < 4)  //Lithium, Sodium, Potassium
         {
-            numberOfBonds = 1;
+            startingB = 1;
         }
         else if (index == 4)    //Magnesium
         {
-            numberOfBonds = 2;
+            startingB = 2;
         }
         else if (index <  7)    //Boron, Aluminum
         {
-            numberOfBonds = 3;
+            startingB = 3;
         }
         else if (index == 8)    //Carbon
         {
-            numberOfBonds = 4;
+            startingB = 4;
+            elementLooks.color = Color.black;
+
         }
         else if (index < 11)    //Nitrogen, Phosphorus
         {
-            numberOfBonds = 5;
+            startingB = 5;
         }
         else if (index < 13) // Oxygen, Sulfer
         {
-            numberOfBonds = 6;
+            startingB = 6;
         }
         else                //Florine, Chlorine, Bromine, Iodine
         {
-            numberOfBonds = 7;
+            startingB = 7;
         }
 
         Active = true;
@@ -70,43 +85,27 @@ public class ElementBehavoir : MonoBehaviour
 
     }
 
-    public void forgeBond(int bondType)
+    public void forgeBond(Vector3 bondLocation)
     {
-        if (Active && numberOfBonds + bondType <= MaxBonds)
+        if (numberOfBonds + startingB <= MaxBonds)
         {
             if (mainScript.GetComponent<DrawOrgo>().selectedElement > -1)
             {
-                int eigths = 45;
-                int spawnDegree = eigths * (numberOfBonds);
+
                 float x, y;
-                if (spawnDegree % 2 != 0)
-                {
-                    x = Mathf.Sqrt(2);
-                    y = Mathf.Sqrt(2);
-                }
-                else if (spawnDegree == 0 || spawnDegree == 180)
-                {
-                    x = 1; y = 0;
-                }
-                else
-                {
-                    y = 1; x = 0;
-                }
-
-                if (spawnDegree > 180)
-                {
-                    y *= -1;
-                }
-
-                if (spawnDegree > 90 && spawnDegree < 270)
-                {
-                    x *= -1;
-                }
-                Vector3 newElementLocation = new Vector3(x * 10, y * 10, 0) + GetComponent<Transform>().position;
-
+                x = bondLocation.x;
+                y = bondLocation.y;
+                print(bondLocation);
+                Vector3 newElementLocation = new Vector3(x,y, 0);
+                newElementLocation = newElementLocation.normalized * 3;
+                print(newElementLocation);
                 GameObject newElement = Instantiate(elementPrefab);
-                newElement.GetComponent<Transform>().position = newElementLocation;
-                newElement.GetComponent<ElementBehavoir>().setElement(mainScript.GetComponent<DrawOrgo>().selectedElement);
+                newElement.GetComponent<Transform>().position = newElementLocation + transform.position;
+
+                numberOfBonds++;
+
+                updateBonds();
+                
             }
         }
         else
@@ -116,17 +115,36 @@ public class ElementBehavoir : MonoBehaviour
         
     }
 
+    public void updateBonds()
+    {
+        print("why not????");
+        for (int i = 0; i < 8; i++)
+        {
+            transform.GetChild(i).gameObject.SetActive(false);
+        }
+    }
+
 
     private void OnMouseEnter()
     {
-        if (Active && numberOfBonds <= MaxBonds)
+        if (numberOfBonds + startingB <= MaxBonds)
         {
             for (int i = numberOfBonds; i < MaxBonds+1; i++)
             {
-                                        //create semitransparent spots for new elements
+                //Each element has 8 hidden buttons,
+                //only display as many buttons as available bonds
+
+                ElementMaterial = GetComponent<Material>();
+                for (int j = numberOfBonds + startingB; j < MaxBonds; j++)
+                {
+                    transform.GetChild(j).gameObject.SetActive(true);
+                }
+
+
             }
         }
     }
+
 
 
 
