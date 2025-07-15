@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class ElementBehavoir : MonoBehaviour
 {
-
+    [SerializeField] GameObject bondLine;
     [SerializeField] Color ElementColor;
     private SpriteRenderer elementLooks;
+    private Color invisible = new Color(0, 0, 0, 0);
     [SerializeField] Material ElementMaterial = null;
     static string[] possibleElements = { "Hydrogen", "Lithium", "Sodium", "Potassium", "Magnesium", "Boron", "Aluminum", "Carbon", "Nitrogen","Phosphorus", "Oxygen", "Sulfur", "Flourine", "Clorine", "Bromine", "Iodine"};
 
@@ -38,7 +39,10 @@ public class ElementBehavoir : MonoBehaviour
     void Update()
     {
         mousepos = Input.mousePosition;
-        
+        if (numberOfBonds > 0 && (Element == "Carbon" || Element == "Hydrogen"))
+        {
+            elementLooks.color = invisible;
+        }
     }
 
     public void setElement(int index)
@@ -48,6 +52,7 @@ public class ElementBehavoir : MonoBehaviour
         {
             MaxBonds = 2;
             elementLooks.color = Color.gray;
+            Element = "Hydrogen";
         }
         if (index < 4)  //Lithium, Sodium, Potassium
         {
@@ -56,6 +61,7 @@ public class ElementBehavoir : MonoBehaviour
         else if (index == 4)    //Magnesium
         {
             startingB = 2;
+            Element = "Magnesium";
         }
         else if (index <  7)    //Boron, Aluminum
         {
@@ -64,6 +70,7 @@ public class ElementBehavoir : MonoBehaviour
         else if (index == 8)    //Carbon
         {
             startingB = 4;
+            Element = "Carbon";
             elementLooks.color = Color.black;
 
         }
@@ -97,10 +104,13 @@ public class ElementBehavoir : MonoBehaviour
                 y = bondLocation.y;
                 print(bondLocation);
                 Vector3 newElementLocation = new Vector3(x,y, 0);
-                newElementLocation = newElementLocation.normalized * 3;
+                newElementLocation = newElementLocation.normalized * 2;
                 print(newElementLocation);
                 GameObject newElement = Instantiate(elementPrefab);
                 newElement.GetComponent<Transform>().position = newElementLocation + transform.position;
+                newElement.GetComponent<ElementBehavoir>().incrementBond();
+
+                mainScript.GetComponent<DrawOrgo>().drawBond(gameObject, newElement);
 
                 numberOfBonds++;
 
@@ -117,7 +127,6 @@ public class ElementBehavoir : MonoBehaviour
 
     public void updateBonds()
     {
-        print("why not????");
         for (int i = 0; i < 8; i++)
         {
             transform.GetChild(i).gameObject.SetActive(false);
@@ -146,6 +155,9 @@ public class ElementBehavoir : MonoBehaviour
     }
 
 
-
+    public void incrementBond()
+    {
+        numberOfBonds += 1;
+    }
 
 }

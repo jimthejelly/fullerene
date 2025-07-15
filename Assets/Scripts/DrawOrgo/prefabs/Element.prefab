@@ -106,6 +106,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c31cf4fe298d6e46861d336a09b7b31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bondLine: {fileID: 1142431529926048237, guid: 5f743ea1a78b0664ba4dacfd3c80f537, type: 3}
   ElementColor: {r: 0.7660377, g: 0, b: 0, a: 1}
   ElementMaterial: {fileID: 0}
   elementPrefab: {fileID: 228765377016534870}

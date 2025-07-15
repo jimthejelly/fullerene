@@ -32,6 +32,8 @@ public class TextManager : MonoBehaviour
     void Start()
     {
         canvas = GameObject.Find("Canvas");
+        canvas.transform.GetChild(1).gameObject.SetActive(false);
+        canvas.transform.GetChild(2).gameObject.SetActive(false);
         pt1 = GameObject.Find("PrefixTable1");
         pt2 = GameObject.Find("PrefixTable2");
         pt1.SetActive(false);
@@ -64,7 +66,8 @@ public class TextManager : MonoBehaviour
             Paragraph.text = paragraphs[paragraph];
         }else
         {
-            canvas.SetActive(false);
+            canvas.transform.GetChild(0).gameObject.SetActive(false);
+            canvas.transform.GetChild(1).gameObject.SetActive(true);
         }
         if (paragraph == 5)
         {
@@ -94,7 +97,8 @@ public class TextManager : MonoBehaviour
 
     public void SkipIntro()
     {
-        canvas.SetActive(false);
+        canvas.transform.GetChild(0).gameObject.SetActive(false);
+        canvas.transform.GetChild(1).gameObject.SetActive(true);
         paragraph = -1;
         
     }

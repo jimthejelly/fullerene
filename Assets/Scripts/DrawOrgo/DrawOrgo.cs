@@ -3,9 +3,20 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class DrawOrgo : MonoBehaviour
 {
+    [SerializeField] Camera cam;
+    [SerializeField] GameObject bondLine;
+    [SerializeField] GameObject element;
+    GameObject canvas;
+    GameObject UI;
+    GameObject ElementSelector;
+    Ray ray;
+    string Function = "Place";
+
     private int difficulty = 0; // 0 is easy, 1 is medium, 2 is hard
     private string[] basePrefixes = {"benz", "meth", "eth", "prop", "but", "pent", "hex", "hept", "oct", "non", "dec", "undec", "duodec"}; // 0 is benzene
     private string[] countPrefixes = {"di", "tri", "tetra", "penta", "hexa"}; // I'm not sure how many of these I'll need but they're here
@@ -28,6 +39,9 @@ public class DrawOrgo : MonoBehaviour
 
         StartCoroutine(GetRequest(apiCall, "formula"));
 
+        canvas = GameObject.Find("Canvas");
+        UI = canvas.transform.GetChild(1).gameObject;
+        ElementSelector = canvas.transform.GetChild(2).gameObject;
 
 
     }
@@ -50,8 +64,40 @@ public class DrawOrgo : MonoBehaviour
             // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetMouseButtonDown(0)) { //based on the current function, start interacting with the scree. Place spawns elements, Add will add bonds, Manipulate will move elements/camera
+           ray = cam.ScreenPointToRay(Input.mousePosition);
+            PointerEventData eventDataCurrentPosition = new PointerEventData(EventSystem.current);
+            eventDataCurrentPosition.position = Input.mousePosition;
+            List<RaycastResult> results = new List<RaycastResult>();
+            EventSystem.current.RaycastAll(eventDataCurrentPosition, results);
+
+            if (results.Count > 0)
+            {
+                foreach (RaycastResult result in results)
+                {
+                    // Process the hit UI element (e.g., Button, Image)
+                    Debug.Log("Hit UI Element: " + result.gameObject.name);
+                    // Access the specific component on the hit UI element
+                    // e.g., if (result.gameObject.GetComponent<Button>() != null) { ... }
+
+                    // You can also trigger specific events on the hit element using EventTrigger component
+                    // or by implementing IPointerClickHandler, IPointerEnterHandler, etc.
+                }
+            }
+            else
+            {
+                // No UI element was hit, you can perform other raycasts here
+                // For example, to interact with 3D objects behind the UI
+                GameObject e = Instantiate(element);
+                e.transform.position = eventDataCurrentPosition.position;
+            }
+        }
+
+
     }
+
+
+    
 
     public void generateRandomMolecule() {
         System.Random rand = new System.Random();
@@ -91,9 +137,25 @@ public class DrawOrgo : MonoBehaviour
         Debug.Log("generated: " + currentMolecule);
     }
 
-    void SelectNewElement(int index)
+    public void SelectNewElement(int index)
     {
         selectedElement = index;
+        ElementSelector.SetActive(false);
+        UI.SetActive(true);
+    }
+
+    public void SelectElement()
+    {
+        ElementSelector.SetActive(true);
+        UI.SetActive(false);
+    }
+
+    public void drawBond(GameObject element1, GameObject element2)
+    {
+
+        GameObject line = Instantiate(bondLine);
+
+        line.GetComponent<BondLineBehavoir>().setElements(element1, element2);
     }
 
 
