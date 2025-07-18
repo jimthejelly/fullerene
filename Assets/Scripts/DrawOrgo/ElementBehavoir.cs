@@ -89,7 +89,11 @@ public class ElementBehavoir : MonoBehaviour
 
         Active = true;
 
+    }
 
+    public Color GetColor()
+    {
+        return ElementColor;
     }
 
     public void forgeBond(Vector3 bondLocation)
@@ -104,7 +108,7 @@ public class ElementBehavoir : MonoBehaviour
                 y = bondLocation.y;
                 print(bondLocation);
                 Vector3 newElementLocation = new Vector3(x,y, 0);
-                newElementLocation = newElementLocation.normalized * 2;
+                newElementLocation = newElementLocation.normalized * 15;
                 print(newElementLocation);
                 GameObject newElement = Instantiate(elementPrefab);
                 newElement.GetComponent<Transform>().position = newElementLocation + transform.position;

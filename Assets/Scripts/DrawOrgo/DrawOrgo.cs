@@ -30,6 +30,11 @@ public class DrawOrgo : MonoBehaviour
 
     public int selectedElement = 8;
 
+
+    public GraphicRaycaster raycaster;
+    public EventSystem eventSystem;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -42,8 +47,6 @@ public class DrawOrgo : MonoBehaviour
         canvas = GameObject.Find("Canvas");
         UI = canvas.transform.GetChild(1).gameObject;
         ElementSelector = canvas.transform.GetChild(2).gameObject;
-
-
     }
 
     private IEnumerator GetRequest(string uri, string purpose)
@@ -59,40 +62,85 @@ public class DrawOrgo : MonoBehaviour
                 molecularformula = split;
             }
         }
+
     }
 
             // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0)) { //based on the current function, start interacting with the scree. Place spawns elements, Add will add bonds, Manipulate will move elements/camera
-           ray = cam.ScreenPointToRay(Input.mousePosition);
-            PointerEventData eventDataCurrentPosition = new PointerEventData(EventSystem.current);
-            eventDataCurrentPosition.position = Input.mousePosition;
-            List<RaycastResult> results = new List<RaycastResult>();
-            EventSystem.current.RaycastAll(eventDataCurrentPosition, results);
-
-            if (results.Count > 0)
+        if (Input.GetMouseButtonDown(0))
+        { //based on the current function, start interacting with the scree. Place spawns elements, Add will add bonds, Manipulate will move elements/camera
+            /*
+            ray = new Ray();                    //finding where to spawn the elements, and what element to interact with.
+            ray.direction = cam.transform.position - Input.mousePosition;
+            Physics.Raycast(cam.transform.position, ray.direction, out RaycastHit hf);
+            if (Physics.Raycast(cam.transform.position, ray.direction, out RaycastHit hitInfo))
             {
-                foreach (RaycastResult result in results)
-                {
-                    // Process the hit UI element (e.g., Button, Image)
-                    Debug.Log("Hit UI Element: " + result.gameObject.name);
-                    // Access the specific component on the hit UI element
-                    // e.g., if (result.gameObject.GetComponent<Button>() != null) { ... }
+                print(hf);
+            } else
+            {
+                GameObject g = Instantiate(element);
+                g.transform.position = Input.mousePosition + new Vector3(0, 0, -5);
+            }
+            */
+            {
 
-                    // You can also trigger specific events on the hit element using EventTrigger component
-                    // or by implementing IPointerClickHandler, IPointerEnterHandler, etc.
+                ray = cam.ScreenPointToRay(Input.mousePosition);
+                PointerEventData eventDataCurrentPosition = new PointerEventData(EventSystem.current);
+                eventDataCurrentPosition.position = Input.mousePosition;
+                List<RaycastResult> results = new List<RaycastResult>();
+                EventSystem.current.RaycastAll(eventDataCurrentPosition, results);
+
+
+                
+                if (Input.GetMouseButtonDown(0))
+                {     //based on the current function, start interacting with the scree. Place spawns elements, Add will add bonds, Manipulate will move elements/camera
+                    /*
+                    ray = new Ray();                    //finding where to spawn the elements, and what element to interact with.
+                    ray.direction = cam.transform.position - Input.mousePosition;
+                    Physics.Raycast(cam.transform.position, ray.direction, out RaycastHit hf);
+                    if (Physics.Raycast(cam.transform.position, ray.direction, out RaycastHit hitInfo))
+                    {
+                       print(hf);
+                    } else
+                    {
+                       GameObject g = Instantiate(element);
+                       g.transform.position = Input.mousePosition + new Vector3(0, 0, -5);
+                    }
+                    */
+                    if (Function == "Place")
+                    {
+                        foreach (RaycastResult result in results)
+                        {
+                            // Process the hit UI element (e.g., Button, Image)
+                            // Access the specific component on the hit UI element
+                            // e.g., if (result.gameObject.GetComponent<Button>() != null) { ... }
+
+                            // You can also trigger specific events on the hit element using EventTrigger component
+                            // or by implementing IPointerClickHandler, IPointerEnterHandler, etc.
+                            Debug.Log("Hit: " + result.gameObject.name);
+                            // Process the hit object here
+                        }
+                        // No UI element was hit, you can perform other raycasts here
+                        // For example, to interact with 3D objects behind the UI
+                        if (results.Count == 0)
+                        {
+                            //
+                            if (Physics.Raycast(ray, out RaycastHit hitInfo))
+                            {
+                                print(hitInfo.collider.gameObject.name);
+                            }
+                            else
+                            {
+                                GameObject g = Instantiate(element);
+                                g.transform.position = Input.mousePosition + new Vector3(0, 0, -5);
+                            }
+
+                        }
+                    }
                 }
             }
-            else
-            {
-                // No UI element was hit, you can perform other raycasts here
-                // For example, to interact with 3D objects behind the UI
-                GameObject e = Instantiate(element);
-                e.transform.position = eventDataCurrentPosition.position;
-            }
         }
-
 
     }
 
@@ -139,6 +187,7 @@ public class DrawOrgo : MonoBehaviour
 
     public void SelectNewElement(int index)
     {
+        Function = "Place";
         selectedElement = index;
         ElementSelector.SetActive(false);
         UI.SetActive(true);
@@ -146,8 +195,14 @@ public class DrawOrgo : MonoBehaviour
 
     public void SelectElement()
     {
+        Function = "Place";
         ElementSelector.SetActive(true);
         UI.SetActive(false);
+    }
+
+    public void RemoveElement()
+    {
+        Function = "Remove";
     }
 
     public void drawBond(GameObject element1, GameObject element2)

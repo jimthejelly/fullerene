@@ -12,7 +12,9 @@ public class BondLineBehavoir : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        lr = GetComponent<LineRenderer>();  
+        lr = GetComponent<LineRenderer>();
+        lr.startWidth = 10f;
+        lr.endWidth = 10f;
     }
 
     // Update is called once per frame
@@ -26,7 +28,13 @@ public class BondLineBehavoir : MonoBehaviour
 
     public void setElements(GameObject element1, GameObject element2)
     {
+
+        //use colors of each element to create a color gradient for the line
+        print(element1.GetComponent<ElementBehavoir>().GetColor());
+        print(lr.endColor = element2.GetComponent<ElementBehavoir>().GetColor());
+
         this.element1 = element1;
+        //lr.colorGradient.
         this.element2 = element2;
         set = true;
     }
