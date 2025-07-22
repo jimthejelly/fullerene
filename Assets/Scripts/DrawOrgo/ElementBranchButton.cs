@@ -25,7 +25,7 @@ public class ElementBranchButton : MonoBehaviour
 
     private void OnMouseOver()
     {
-        if (Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButtonDown(0))
         {
             parentScript.forgeBond(transform.localPosition);
         }

@@ -15,7 +15,7 @@ public class DrawOrgo : MonoBehaviour
     GameObject UI;
     GameObject ElementSelector;
     Ray ray;
-    string Function = "Place";
+    public string Function = "Place";
 
     private int difficulty = 0; // 0 is easy, 1 is medium, 2 is hard
     private string[] basePrefixes = {"benz", "meth", "eth", "prop", "but", "pent", "hex", "hept", "oct", "non", "dec", "undec", "duodec"}; // 0 is benzene
@@ -68,8 +68,10 @@ public class DrawOrgo : MonoBehaviour
             // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
-        { //based on the current function, start interacting with the scree. Place spawns elements, Add will add bonds, Manipulate will move elements/camera
+       
+        if (Input.GetMouseButtonDown(1))
+        {
+            //based on the current function, start interacting with the scree. Place spawns elements, Add will add bonds, Manipulate will move elements/camera
             /*
             ray = new Ray();                    //finding where to spawn the elements, and what element to interact with.
             ray.direction = cam.transform.position - Input.mousePosition;
@@ -83,7 +85,7 @@ public class DrawOrgo : MonoBehaviour
                 g.transform.position = Input.mousePosition + new Vector3(0, 0, -5);
             }
             */
-            {
+            
 
                 ray = cam.ScreenPointToRay(Input.mousePosition);
                 PointerEventData eventDataCurrentPosition = new PointerEventData(EventSystem.current);
@@ -93,21 +95,7 @@ public class DrawOrgo : MonoBehaviour
 
 
                 
-                if (Input.GetMouseButtonDown(0))
-                {     //based on the current function, start interacting with the scree. Place spawns elements, Add will add bonds, Manipulate will move elements/camera
-                    /*
-                    ray = new Ray();                    //finding where to spawn the elements, and what element to interact with.
-                    ray.direction = cam.transform.position - Input.mousePosition;
-                    Physics.Raycast(cam.transform.position, ray.direction, out RaycastHit hf);
-                    if (Physics.Raycast(cam.transform.position, ray.direction, out RaycastHit hitInfo))
-                    {
-                       print(hf);
-                    } else
-                    {
-                       GameObject g = Instantiate(element);
-                       g.transform.position = Input.mousePosition + new Vector3(0, 0, -5);
-                    }
-                    */
+
                     if (Function == "Place")
                     {
                         foreach (RaycastResult result in results)
@@ -138,8 +126,8 @@ public class DrawOrgo : MonoBehaviour
 
                         }
                     }
-                }
-            }
+    
+            
         }
 
     }
@@ -209,9 +197,14 @@ public class DrawOrgo : MonoBehaviour
     {
 
         GameObject line = Instantiate(bondLine);
-
         line.GetComponent<BondLineBehavoir>().setElements(element1, element2);
+        element1.GetComponent<ElementBehavoir>().addBond(line);
+        element2.GetComponent<ElementBehavoir>().addBond(line);
     }
 
+    public void ElementLocationManipulation()
+    {
+
+    }
 
 }
