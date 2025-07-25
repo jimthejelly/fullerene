@@ -24,11 +24,18 @@ public class BondLineBehavoir : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (set) { 
+        if (set && element1 != null && element2 != null) { 
             Vector3[] positions = { element1.transform.position, element2.transform.position };
             lr.SetPositions(positions);
         }
+        if (element1 == null || element2 == null)
+        {
+            Destroy(gameObject);
+        }
     }
+
+    public GameObject getElement1() { return element1; }
+    public GameObject getElement2() { return element2; }
 
     public void setElements(GameObject element1, GameObject element2)
     {

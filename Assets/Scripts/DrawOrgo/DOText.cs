@@ -4,12 +4,18 @@ using System.Security.Cryptography;
 using TMPro;
 using UnityEngine;
 
-public class TextManager : MonoBehaviour
+public class DOText : MonoBehaviour
 {
     // Start is called before the first frame update
 
     [SerializeField] GameObject ParagraphObject;
+    [SerializeField] GameObject showElement;
+    [SerializeField] GameObject showFunction;
     TextMeshProUGUI Paragraph;
+    GameObject mainScript;
+    DrawOrgo script;
+
+    static string[] possibleElements = { "Hydrogen", "Lithium", "Sodium", "Potassium", "Magnesium", "Boron", "Aluminum", "Carbon", "Nitrogen", "Phosphorus", "Oxygen", "Sulfur", "Flourine", "Clorine", "Bromine", "Iodine" };
 
     string p1 = "This minigame will help teach the effectivness of IUPAC naming for the Molecules we're gonna throw at you.\n\nBut first, lets go over those naming rules.";
     string p2 = "To start: IUPAC has 3 core tenants:\n\n1) A root or base that indicates the major ring/chain of carbon atoms.\n2) A suffix or element that designates a group that can be present.\n" +
@@ -21,7 +27,18 @@ public class TextManager : MonoBehaviour
     string p6 = "This is a table you can refer to for the whole range.";
     string p7 = "If you ever forget, you can pull up the prefix table again by pressing \'p\'.\n\nNow lets talk about the rest of body of the molecule.";
     string p8 = "The Suffix is just as important in describing the molecule.\n\nThe suffix contains both the highest level of bonds, and the kind of group a molecule belongs to.";
-    string[] paragraphs = new string[8]; 
+    string p9 = "Lets start going over the controls of the game. At the bototm of the screen, you will see 3 buttons";
+    string p10 = "The first button says \"Place Element\". This button allows you to choose any element in Organic Chemistry, and primes the game to let you right click anywhere on the screen.\n\n" +
+                           "This will create a small circle that represents an element.";
+    string p11 = "Each circle will have a set of smaller circles that surround it. These represent available or open bonds\n\nYou can click on them to create a new element and bond it to the original.";
+    string p12 = "If you want to bond different elements, place the first element and then choose another one by pressing on the \"Place Elements\" button.\n\n" +
+                            "This will allow you to change your selected element and now when you add a bond to the original, the new element will be added..";
+    string p13 = "As you create new bonds, the circles will dissapear and will be replaced by lines. These simply represent the bond, as bonds imply elements. \n\nThe smaller circles will still appear.";
+    string p14 = "If you ever feel like you made a mistake or want to remove clutter, you can always press on the \"Delete Elements\" button. This will prime the game to remove any element you click on.";
+    string p15 = "Lastly, if you feel as if the bonds are confusing or are overlaping, you can click on the \"Organize Elements\".\n\n" +
+                                    "This will cause the element to stick to your mouse curser, and you can \'let go\' by right clicking anywhere.";
+    string p16 = "That's it! \n\nYou are now ready to play the game! When you click next, the game will begin and you can try to make any molecule you want! \n\nHave fun!.";
+    string[] paragraphs = new string[16]; 
     int paragraph = -1;
 
     GameObject canvas;
@@ -31,6 +48,8 @@ public class TextManager : MonoBehaviour
     bool PrefixTable = false;
     void Start()
     {
+        mainScript = GameObject.Find("script");
+        script = mainScript.GetComponent<DrawOrgo>();
         canvas = GameObject.Find("Canvas");
         canvas.transform.GetChild(1).gameObject.SetActive(false);
         canvas.transform.GetChild(2).gameObject.SetActive(false);
@@ -38,6 +57,8 @@ public class TextManager : MonoBehaviour
         pt2 = GameObject.Find("PrefixTable2");
         pt1.SetActive(false);
         pt2.SetActive(false);
+        showElement.SetActive(false);
+        showFunction.SetActive(false);
         Paragraph = ParagraphObject.GetComponent<TextMeshProUGUI>();
         paragraphs[0] = p1;
         paragraphs[1] = p2;
@@ -47,6 +68,14 @@ public class TextManager : MonoBehaviour
         paragraphs[5] = p6;
         paragraphs[6] = p7;
         paragraphs[7] = p8;
+        paragraphs[8] = p9;
+        paragraphs[9] = p10;
+        paragraphs[10] = p11;
+        paragraphs[11] = p12;
+        paragraphs[12] = p13;
+        paragraphs[13] = p14;
+        paragraphs[14] = p15;
+        paragraphs[15] = p16;
     }
 
     // Update is called once per frame
@@ -56,8 +85,16 @@ public class TextManager : MonoBehaviour
         {
             DisplayPrefixTable();
         }
+
         
     }
+
+    public void UpdateTextUI()
+    {
+        showElement.GetComponent<TextMeshProUGUI>().text = "Selected Element: " + possibleElements[script.selectedElement];
+        showFunction.GetComponent<TextMeshProUGUI>().text = "Function: " + script.Function;
+    }
+
 
     public void NextParagraph() {
         paragraph++;
@@ -68,6 +105,9 @@ public class TextManager : MonoBehaviour
         {
             canvas.transform.GetChild(0).gameObject.SetActive(false);
             canvas.transform.GetChild(1).gameObject.SetActive(true);
+            showFunction.SetActive(true);
+            showElement.SetActive(true);
+            UpdateTextUI();
         }
         if (paragraph == 5)
         {
@@ -100,7 +140,10 @@ public class TextManager : MonoBehaviour
         canvas.transform.GetChild(0).gameObject.SetActive(false);
         canvas.transform.GetChild(1).gameObject.SetActive(true);
         paragraph = -1;
-        
+        showFunction.SetActive(true);
+        showElement.SetActive(true);
+        UpdateTextUI();
+
     }
 
 

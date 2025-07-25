@@ -11,12 +11,13 @@ public class ElementBehavoir : MonoBehaviour
     [SerializeField] Material ElementMaterial = null;
     static string[] possibleElements = { "Hydrogen", "Lithium", "Sodium", "Potassium", "Magnesium", "Boron", "Aluminum", "Carbon", "Nitrogen","Phosphorus", "Oxygen", "Sulfur", "Flourine", "Clorine", "Bromine", "Iodine"};
 
-    private List<GameObject> bondedElements;
-    private List<GameObject> bonds;
+    public List<GameObject> bondedElements;
+    public List<GameObject> bonds;
+    bool sticky = false;
 
     string Element = "";
     int startingB = 0;
-    int numberOfBonds = 0;
+    public int numberOfBonds = 0;
     int MaxBonds = 8;
     bool Active = false;
     Vector3 mousepos;
@@ -57,6 +58,16 @@ public class ElementBehavoir : MonoBehaviour
         else
         {
             elementLooks.color = ElementColor;
+        }
+        numberOfBonds = bonds.Count;
+        checkBonds();
+        if (sticky)
+        {
+            transform.position = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0.5f);
+        }
+        if (sticky && Input.GetMouseButtonDown(1))
+        {
+            sticky = false;
         }
     }
 
@@ -138,13 +149,11 @@ public class ElementBehavoir : MonoBehaviour
                 GameObject newElement = Instantiate(elementPrefab);
                 newElement.GetComponent<Transform>().position = newElementLocation + transform.position;
                 newElement.GetComponent<ElementBehavoir>().setElement(mainScript.GetComponent<DrawOrgo>().selectedElement);
-                newElement.GetComponent<ElementBehavoir>().incrementBond();
                 
-                bondedElements.Add(newElement);
 
                 mainScript.GetComponent<DrawOrgo>().drawBond(gameObject, newElement);
 
-                numberOfBonds++;
+
 
                 updateBonds();
                 
@@ -160,6 +169,15 @@ public class ElementBehavoir : MonoBehaviour
     public void addBond(GameObject bond)
     {
         bonds.Add(bond);
+        if (gameObject == bond.GetComponent<BondLineBehavoir>().getElement1()) {
+            bondedElements.Add(bond.GetComponent<BondLineBehavoir>().getElement2());
+        }
+        else
+        {
+            bondedElements.Add(bond.GetComponent<BondLineBehavoir>().getElement1());
+        }
+        numberOfBonds++;
+
     }
 
     public void updateBonds()
@@ -173,6 +191,7 @@ public class ElementBehavoir : MonoBehaviour
     
     private void OnMouseEnter()
     {
+
         if (numberOfBonds + startingB <= MaxBonds)
         {
             for (int i = numberOfBonds; i < MaxBonds+1; i++)
@@ -190,8 +209,34 @@ public class ElementBehavoir : MonoBehaviour
             }
         }
 
-        
+    }
 
+    public void checkBonds()
+    {
+        bool removed = false;
+        for (int i = 0; i < bondedElements.Count; i++)
+        {
+            if (bondedElements[i] == null)
+            {
+                bondedElements.Remove(bondedElements[i]);
+                removed = true;
+                break;
+            }
+        }
+        for (int i = 0; i < bonds.Count; i++)
+        {
+            if (bonds[i] == null)
+            {
+                bonds.Remove(bonds[i]);
+                removed = true;
+                break;
+            }
+        }
+        if (removed)
+        {
+            checkBonds();
+        }
+        numberOfBonds = bonds.Count;
     }
 
     private void OnMouseOver()
@@ -200,14 +245,31 @@ public class ElementBehavoir : MonoBehaviour
         {
             if (numberOfBonds > 0)
             {
-                for (int i = 0;i < numberOfBonds; i++)
+                
+                while(bondedElements.Count > 0)
                 {
-                    Destroy(bonds[i].gameObject);
-                    bondedElements[i].GetComponent<ElementBehavoir>().decrementBond();
+                    print(bondedElements.Count);
+                    
+                    if (bondedElements[0] ==  null)
+                    {
+                        bondedElements.Remove(bondedElements[0]);
+                    }
+                    else
+                    {
+                        bondedElements[0].GetComponent<ElementBehavoir>().decrementBond();
+                        bondedElements[0].GetComponent<ElementBehavoir>().checkBonds();
+                        bondedElements.Remove(bondedElements[0]);
+                    }
+                    Destroy(bonds[0].gameObject);
+                    checkBonds();
                     
                 }
             }
             Destroy(gameObject);
+        }
+        if (mainScript.GetComponent<DrawOrgo>().Function == "Location" && (Input.GetMouseButtonDown(0)))
+        {
+            sticky = true;
         }
     }
 

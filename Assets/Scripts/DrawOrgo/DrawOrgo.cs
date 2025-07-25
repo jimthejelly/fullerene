@@ -183,6 +183,7 @@ public class DrawOrgo : MonoBehaviour
 
     public void SelectElement()
     {
+        gameObject.GetComponent<DOText>().UpdateTextUI();
         Function = "Place";
         ElementSelector.SetActive(true);
         UI.SetActive(false);
@@ -190,6 +191,7 @@ public class DrawOrgo : MonoBehaviour
 
     public void RemoveElement()
     {
+        gameObject.GetComponent<DOText>().UpdateTextUI();
         Function = "Remove";
     }
 
@@ -204,7 +206,8 @@ public class DrawOrgo : MonoBehaviour
 
     public void ElementLocationManipulation()
     {
-
+        gameObject.GetComponent<DOText>().UpdateTextUI();
+        Function = "Location";
     }
 
 }
