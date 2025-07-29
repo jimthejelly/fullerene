@@ -25,9 +25,11 @@ public class ElementBehavoir : MonoBehaviour
     [SerializeField] GameObject elementPrefab;
 
     GameObject mainScript;
+    DrawOrgo mScript;
 
     private void Awake()
     {
+
         elementLooks = this.GetComponent<SpriteRenderer>();
         elementLooks.color = ElementColor;
         bondedElements = new List<GameObject>();
@@ -44,7 +46,7 @@ public class ElementBehavoir : MonoBehaviour
             transform.GetChild(i).gameObject.SetActive(false);
         }
         setElement(mainScript.GetComponent<DrawOrgo>().selectedElement);
-
+        mScript = mainScript.GetComponent<DrawOrgo>();
     }
 
     // Update is called once per frame
@@ -94,7 +96,7 @@ public class ElementBehavoir : MonoBehaviour
         {
             startingB = 3;
         }
-        else if (index == 8)    //Carbon
+        else if (index == 7)    //Carbon
         {
             startingB = 4;
             Element = "Carbon";
@@ -111,7 +113,7 @@ public class ElementBehavoir : MonoBehaviour
 
             startingB = 6;
             print(index);
-            if (index == 11) {
+            if (index == 10) {
                 Element = "Oxygen";
                 elementLooks.color = Color.red;
                 ElementColor = Color.red;
@@ -305,6 +307,11 @@ public class ElementBehavoir : MonoBehaviour
     public void decrementBond()
     {
         numberOfBonds -= 1;
+    }
+
+    public string getMainFunction()
+    {
+        return mScript.Function;
     }
 
 }

@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using UnityEngine.Rendering;
 
 public class DrawOrgo : MonoBehaviour
 {
@@ -14,8 +15,12 @@ public class DrawOrgo : MonoBehaviour
     GameObject canvas;
     GameObject UI;
     GameObject ElementSelector;
+    DOText textManager;
     Ray ray;
     public string Function = "Place";
+
+    float maxWidth, maxHeight;
+
 
     private int difficulty = 0; // 0 is easy, 1 is medium, 2 is hard
     private string[] basePrefixes = {"benz", "meth", "eth", "prop", "but", "pent", "hex", "hept", "oct", "non", "dec", "undec", "duodec"}; // 0 is benzene
@@ -38,6 +43,8 @@ public class DrawOrgo : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        maxWidth = 530;
+        maxHeight = 295;
         generateRandomMolecule();
         string apiCall = "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/"        //make api call to figure out how to organize the chemical formula for the molecule.
             + currentMolecule + "/property/MolecularFormula/CSV";
@@ -47,6 +54,7 @@ public class DrawOrgo : MonoBehaviour
         canvas = GameObject.Find("Canvas");
         UI = canvas.transform.GetChild(1).gameObject;
         ElementSelector = canvas.transform.GetChild(2).gameObject;
+        textManager = gameObject.GetComponent<DOText>();
     }
 
     private IEnumerator GetRequest(string uri, string purpose)
@@ -68,7 +76,8 @@ public class DrawOrgo : MonoBehaviour
             // Update is called once per frame
     void Update()
     {
-       
+        textManager.UpdateTextUI();
+
         if (Input.GetMouseButtonDown(1))
         {
             //based on the current function, start interacting with the scree. Place spawns elements, Add will add bonds, Manipulate will move elements/camera
@@ -87,19 +96,22 @@ public class DrawOrgo : MonoBehaviour
             */
             
 
-                ray = cam.ScreenPointToRay(Input.mousePosition);
-                PointerEventData eventDataCurrentPosition = new PointerEventData(EventSystem.current);
-                eventDataCurrentPosition.position = Input.mousePosition;
-                List<RaycastResult> results = new List<RaycastResult>();
-                EventSystem.current.RaycastAll(eventDataCurrentPosition, results);
+            ray = cam.ScreenPointToRay(Input.mousePosition);
+            PointerEventData eventDataCurrentPosition = new PointerEventData(EventSystem.current);
+            eventDataCurrentPosition.position = Input.mousePosition;
+            List<RaycastResult> results = new List<RaycastResult>();
+            EventSystem.current.RaycastAll(eventDataCurrentPosition, results);
+
+            //Vector2 normalizedMousePos = new Vector2(Input.mousePosition.x / Screen.width, Input.mousePosition.y / Screen.height);
 
 
-                
 
-                    if (Function == "Place")
-                    {
-                        foreach (RaycastResult result in results)
-                        {
+
+
+            if (Function == "Place")
+            {
+                foreach (RaycastResult result in results)
+                { 
                             // Process the hit UI element (e.g., Button, Image)
                             // Access the specific component on the hit UI element
                             // e.g., if (result.gameObject.GetComponent<Button>() != null) { ... }
@@ -108,24 +120,25 @@ public class DrawOrgo : MonoBehaviour
                             // or by implementing IPointerClickHandler, IPointerEnterHandler, etc.
                             Debug.Log("Hit: " + result.gameObject.name);
                             // Process the hit object here
-                        }
+                }
                         // No UI element was hit, you can perform other raycasts here
                         // For example, to interact with 3D objects behind the UI
-                        if (results.Count == 0)
-                        {
-                            //
-                            if (Physics.Raycast(ray, out RaycastHit hitInfo))
-                            {
-                                print(hitInfo.collider.gameObject.name);
-                            }
-                            else
-                            {
-                                GameObject g = Instantiate(element);
-                                g.transform.position = Input.mousePosition + new Vector3(0, 0, -5);
-                            }
-
-                        }
+                if (results.Count == 0)
+                {
+                       //
+                    if (Physics.Raycast(ray, out RaycastHit hitInfo))
+                    {
+                         print(hitInfo.collider.gameObject.name);
                     }
+                    else
+                    {
+                        GameObject g = Instantiate(element);
+                        Vector2 normalizedMousePos = new Vector2(Input.mousePosition.x / Screen.width, Input.mousePosition.y / Screen.height);
+                        g.transform.position = new Vector3 (normalizedMousePos.x * maxWidth, normalizedMousePos.y * maxHeight, -0.5f);
+                    }
+
+                 }
+            }
     
             
         }
@@ -183,7 +196,7 @@ public class DrawOrgo : MonoBehaviour
 
     public void SelectElement()
     {
-        gameObject.GetComponent<DOText>().UpdateTextUI();
+        textManager.UpdateTextUI();
         Function = "Place";
         ElementSelector.SetActive(true);
         UI.SetActive(false);
@@ -191,7 +204,7 @@ public class DrawOrgo : MonoBehaviour
 
     public void RemoveElement()
     {
-        gameObject.GetComponent<DOText>().UpdateTextUI();
+        textManager.UpdateTextUI();
         Function = "Remove";
     }
 
@@ -206,7 +219,7 @@ public class DrawOrgo : MonoBehaviour
 
     public void ElementLocationManipulation()
     {
-        gameObject.GetComponent<DOText>().UpdateTextUI();
+        textManager.UpdateTextUI();
         Function = "Location";
     }
 
