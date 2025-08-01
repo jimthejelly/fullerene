@@ -11,6 +11,7 @@ public class DOText : MonoBehaviour
     [SerializeField] GameObject ParagraphObject;
     [SerializeField] GameObject showElement;
     [SerializeField] GameObject showFunction;
+    [SerializeField] GameObject TargetMolecule;
     TextMeshProUGUI Paragraph;
     GameObject mainScript;
     DrawOrgo script;
@@ -59,6 +60,7 @@ public class DOText : MonoBehaviour
         pt2.SetActive(false);
         showElement.SetActive(false);
         showFunction.SetActive(false);
+        TargetMolecule.SetActive(false);
         Paragraph = ParagraphObject.GetComponent<TextMeshProUGUI>();
         paragraphs[0] = p1;
         paragraphs[1] = p2;
@@ -93,6 +95,7 @@ public class DOText : MonoBehaviour
     {
         showElement.GetComponent<TextMeshProUGUI>().text = "Selected Element: " + possibleElements[script.selectedElement];
         showFunction.GetComponent<TextMeshProUGUI>().text = "Function: " + script.Function;
+        TargetMolecule.GetComponent<TextMeshProUGUI>().text = "target: " + script.currentMolecule;
     }
 
 
@@ -107,6 +110,7 @@ public class DOText : MonoBehaviour
             canvas.transform.GetChild(1).gameObject.SetActive(true);
             showFunction.SetActive(true);
             showElement.SetActive(true);
+            TargetMolecule.SetActive(true);
             UpdateTextUI();
         }
         if (paragraph == 5)
@@ -142,6 +146,7 @@ public class DOText : MonoBehaviour
         paragraph = -1;
         showFunction.SetActive(true);
         showElement.SetActive(true);
+        TargetMolecule.SetActive(true);
         UpdateTextUI();
 
     }

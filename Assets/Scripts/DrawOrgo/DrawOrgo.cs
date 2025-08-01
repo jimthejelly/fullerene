@@ -33,7 +33,7 @@ public class DrawOrgo : MonoBehaviour
     public string currentMolecule = "UNDEFINED";
     public string molecularformula;
 
-    public int selectedElement = 8;
+    public int selectedElement = 7;
 
 
     public GraphicRaycaster raycaster;
@@ -190,22 +190,23 @@ public class DrawOrgo : MonoBehaviour
     {
         Function = "Place";
         selectedElement = index;
+        textManager.UpdateTextUI();
         ElementSelector.SetActive(false);
         UI.SetActive(true);
     }
 
     public void SelectElement()
     {
-        textManager.UpdateTextUI();
         Function = "Place";
+        textManager.UpdateTextUI();
         ElementSelector.SetActive(true);
         UI.SetActive(false);
     }
 
     public void RemoveElement()
     {
-        textManager.UpdateTextUI();
         Function = "Remove";
+        textManager.UpdateTextUI();
     }
 
     public void drawBond(GameObject element1, GameObject element2)
@@ -219,8 +220,8 @@ public class DrawOrgo : MonoBehaviour
 
     public void ElementLocationManipulation()
     {
-        textManager.UpdateTextUI();
         Function = "Location";
+        textManager.UpdateTextUI();
     }
 
 }

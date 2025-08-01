@@ -53,7 +53,7 @@ public class ElementBehavoir : MonoBehaviour
     void Update()
     {
         mousepos = Input.mousePosition;
-        if (numberOfBonds > 0 && (Element == "Carbon" || Element == "Hydrogen" || Element == "Oxygen"))
+        if (numberOfBonds > 0)
         {
             elementLooks.color = invisible;
         }
@@ -75,6 +75,8 @@ public class ElementBehavoir : MonoBehaviour
 
     public void setElement(int index)
     {
+        print(index);
+        print(possibleElements[index]);
         Element = possibleElements[index];
         if (index == 0)     //Hydrogen
         {
@@ -86,15 +88,38 @@ public class ElementBehavoir : MonoBehaviour
         if (index < 4)  //Lithium, Sodium, Potassium
         {
             startingB = 1;
+            elementLooks.color = new Color(212, 130, 236);      //Akali Metals Color
+            ElementColor = new Color(212,130,236);
+            if (index == 2)
+            {
+                Element = "Lithium";
+            } else if (index == 3)
+            {
+                Element = "Sodium";
+            } else
+            {
+                Element = "Potassium";
+            }
         }
         else if (index == 4)    //Magnesium
         {
             startingB = 2;
+            elementLooks.color = new Color(56, 100, 11);        //Alkaline Earth Metals color
+            ElementColor = new Color(56, 100, 11);
             Element = "Magnesium";
         }
         else if (index < 7)    //Boron, Aluminum
         {
+            elementLooks.color = new Color(245, 245, 220);        //Boron Group color
+            ElementColor = new Color(245, 245, 220);
             startingB = 3;
+            if (index == 5)
+            {
+                Element = "Boron";
+            } else
+            {
+                Element = "Aluminum";
+            }
         }
         else if (index == 7)    //Carbon
         {
@@ -104,27 +129,47 @@ public class ElementBehavoir : MonoBehaviour
             ElementColor = Color.black;
 
         }
-        else if (index < 11)    //Nitrogen, Phosphorus
+        else if (index < 10)    //Nitrogen, Phosphorus
         {
             startingB = 5;
+
+            if (index == 8)
+            {
+                elementLooks.color = new Color(26,15,253);
+                ElementColor = new Color(26, 15, 253);
+                Element = "Nitrogen";
+            } else
+            {
+                elementLooks.color = new Color(231, 164, 3);
+                ElementColor = new Color(26, 15, 253);
+                Element = "Phosphorus";
+            }
         }
-        else if (index < 13) // Oxygen, Sulfer
+        else if (index < 12) // Oxygen, Sulfer
         {
 
             startingB = 6;
-            print(index);
             if (index == 10) {
                 Element = "Oxygen";
                 elementLooks.color = Color.red;
                 ElementColor = Color.red;
+            } else
+            {
+                Element = "Sulfur";
+                elementLooks.color = new Color(254,254,35);
+                ElementColor = new Color(254, 254, 35);
             }
 
         }
         else                //Florine, Chlorine, Bromine, Iodine
         {
-            print(index);
-            startingB = 7;
+            startingB = 7;                                              //noble gasses color
+            elementLooks.color = new Color(154, 255, 255);
+            ElementColor = new Color(153,255, 255);
         }
+
+        print(ElementColor);
+        print(elementLooks.color);
 
         Active = true;
 
