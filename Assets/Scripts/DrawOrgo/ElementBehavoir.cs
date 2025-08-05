@@ -65,9 +65,14 @@ public class ElementBehavoir : MonoBehaviour
         checkBonds();
         if (sticky)
         {
-            transform.position = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0.5f);
+            transform.position = new Vector3(Input.mousePosition.x/Screen.width * 530, Input.mousePosition.y/Screen.height * 295, 0.5f);
         }
         if (sticky && Input.GetMouseButtonDown(1))
+        {
+            sticky = false;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
             sticky = false;
         }
@@ -75,21 +80,22 @@ public class ElementBehavoir : MonoBehaviour
 
     public void setElement(int index)
     {
-        print(index);
-        print(possibleElements[index]);
+        //print(index);
+        //print(possibleElements[index]);
         Element = possibleElements[index];
         if (index == 0)     //Hydrogen
         {
             MaxBonds = 2;
+            startingB = 1;
             elementLooks.color = Color.gray;
             ElementColor = Color.gray;
             Element = "Hydrogen";
         }
-        if (index < 4)  //Lithium, Sodium, Potassium
+        else if (index < 4)  //Lithium, Sodium, Potassium
         {
             startingB = 1;
-            elementLooks.color = new Color(212, 130, 236);      //Akali Metals Color
-            ElementColor = new Color(212,130,236);
+            elementLooks.color = new Color(212f/255f, 130f/255f, 236f/255f, 1f);      //Akali Metals Color
+            ElementColor = new Color(212f / 255f, 130f / 255f, 236f / 255f, 1f);
             if (index == 2)
             {
                 Element = "Lithium";
@@ -104,14 +110,14 @@ public class ElementBehavoir : MonoBehaviour
         else if (index == 4)    //Magnesium
         {
             startingB = 2;
-            elementLooks.color = new Color(56, 100, 11);        //Alkaline Earth Metals color
-            ElementColor = new Color(56, 100, 11);
+            elementLooks.color = new Color(56f/225f, 100f/255f, 11f/255f, 1f);        //Alkaline Earth Metals color
+            ElementColor = new Color(56f / 225f, 100f / 255f, 11f / 255f, 1f);
             Element = "Magnesium";
         }
         else if (index < 7)    //Boron, Aluminum
         {
-            elementLooks.color = new Color(245, 245, 220);        //Boron Group color
-            ElementColor = new Color(245, 245, 220);
+            elementLooks.color = new Color(245f/255f, 245f/255f, 220f/255f, 1f);        //Boron Group color
+            ElementColor = new Color(245f/255f, 245f/255f, 220f/255f, 1f);
             startingB = 3;
             if (index == 5)
             {
@@ -135,13 +141,13 @@ public class ElementBehavoir : MonoBehaviour
 
             if (index == 8)
             {
-                elementLooks.color = new Color(26,15,253);
-                ElementColor = new Color(26, 15, 253);
+                elementLooks.color = new Color(26f / 255f, 15f / 255f, 253f / 255f,1f);
+                ElementColor = new Color(26f / 255f, 15f / 255f, 253f / 255f,1f);
                 Element = "Nitrogen";
             } else
             {
-                elementLooks.color = new Color(231, 164, 3);
-                ElementColor = new Color(26, 15, 253);
+                elementLooks.color = new Color(231f / 255f, 164f / 255f, 3f / 255f, 1f);
+                ElementColor = new Color(231f / 255f, 164f / 255f, 3f / 255f, 1f);
                 Element = "Phosphorus";
             }
         }
@@ -156,20 +162,23 @@ public class ElementBehavoir : MonoBehaviour
             } else
             {
                 Element = "Sulfur";
-                elementLooks.color = new Color(254,254,35);
-                ElementColor = new Color(254, 254, 35);
+                elementLooks.color = new Color(254f / 255f, 254f / 255f, 35f / 255f, 1f);
+                ElementColor = new Color(254f / 255f, 254f / 255f, 35f / 255f, 1f);
             }
 
         }
         else                //Florine, Chlorine, Bromine, Iodine
         {
             startingB = 7;                                              //noble gasses color
-            elementLooks.color = new Color(154, 255, 255);
-            ElementColor = new Color(153,255, 255);
+            elementLooks.color = new Color(154f / 255f, 255f / 255f, 255f / 255f,1f);
+            ElementColor = new Color(153f / 255f, 255f / 255f, 255f / 255f,1f);
         }
 
-        print(ElementColor);
-        print(elementLooks.color);
+        //print(ElementColor);
+        //print(elementLooks.color);
+        //print(GetComponent<SpriteRenderer>().color);
+        elementLooks.color = ElementColor;
+        //print(GetComponent<SpriteRenderer>().color);
 
         Active = true;
 
@@ -295,7 +304,7 @@ public class ElementBehavoir : MonoBehaviour
                 
                 while(bondedElements.Count > 0)
                 {
-                    print(bondedElements.Count);
+                    //print(bondedElements.Count);
                     
                     if (bondedElements[0] ==  null)
                     {
@@ -318,6 +327,13 @@ public class ElementBehavoir : MonoBehaviour
         {
             sticky = true;
         }
+        if (mainScript.GetComponent<DrawOrgo>().Function == "Connect" && (Input.GetMouseButton(0))) {       //if trying to connect 2 elements, add this gameobject to a list in the main script which every 2 items forges a bond, but only if this element has room
+            if (numberOfBonds + startingB < MaxBonds)
+            {
+                mainScript.GetComponent<DrawOrgo>().addEnd(gameObject);
+            }
+        }
+
     }
 
 
@@ -358,5 +374,6 @@ public class ElementBehavoir : MonoBehaviour
     {
         return mScript.Function;
     }
+
 
 }

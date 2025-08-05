@@ -6,6 +6,8 @@ using UnityEngine.Networking;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.Rendering;
+using UnityEngine.SceneManagement;
+using System.Linq;
 
 public class DrawOrgo : MonoBehaviour
 {
@@ -33,11 +35,14 @@ public class DrawOrgo : MonoBehaviour
     public string currentMolecule = "UNDEFINED";
     public string molecularformula;
 
-    public int selectedElement = 7;
+    public int selectedElement = 8;
 
+    bool escape = false;
 
     public GraphicRaycaster raycaster;
     public EventSystem eventSystem;
+
+    HashSet<GameObject> connection = new HashSet<GameObject>();
 
 
     // Start is called before the first frame update
@@ -77,8 +82,11 @@ public class DrawOrgo : MonoBehaviour
     void Update()
     {
         textManager.UpdateTextUI();
-
-        if (Input.GetMouseButtonDown(1))
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            EscapeMenu();
+        }
+        if (Input.GetMouseButtonDown(1) && !escape)
         {
             //based on the current function, start interacting with the scree. Place spawns elements, Add will add bonds, Manipulate will move elements/camera
             /*
@@ -135,12 +143,28 @@ public class DrawOrgo : MonoBehaviour
                         GameObject g = Instantiate(element);
                         Vector2 normalizedMousePos = new Vector2(Input.mousePosition.x / Screen.width, Input.mousePosition.y / Screen.height);
                         g.transform.position = new Vector3 (normalizedMousePos.x * maxWidth, normalizedMousePos.y * maxHeight, -0.5f);
+                        print(g.transform.position);
                     }
 
-                 }
+                }
             }
     
             
+        }
+
+
+        if (connection.Count == 2 && Input.GetMouseButtonUp(0))
+        {
+            GameObject[] elements = connection.ToArray();
+            drawBond(elements[0], elements[1]);
+            elements[0].GetComponent<ElementBehavoir>().updateBonds();
+            elements[1].GetComponent<ElementBehavoir>().updateBonds();
+            connection.Clear();
+            print(connection.Count);
+        }
+        if (connection.Count == 1)
+        {
+            print("Not yet");
         }
 
     }
@@ -209,6 +233,17 @@ public class DrawOrgo : MonoBehaviour
         textManager.UpdateTextUI();
     }
 
+    public void RemoveBond()
+    {
+        Function = "Trim";
+        textManager.UpdateTextUI(); 
+    }
+
+    public void addEnd(GameObject element)
+    {
+        connection.Add(element);
+    }
+
     public void drawBond(GameObject element1, GameObject element2)
     {
 
@@ -222,6 +257,30 @@ public class DrawOrgo : MonoBehaviour
     {
         Function = "Location";
         textManager.UpdateTextUI();
+    }
+
+    public void Connect2()
+    {
+        Function = "Connect";
+        textManager.UpdateTextUI();
+    }
+
+    public void EscapeMenu()
+    {
+        if (escape)
+        {
+            Function = "Place";
+        } else
+        {
+            Function = "Pause";
+        }
+        //upda
+    }
+
+
+    public void exitMinigame()
+    {
+        SceneManager.LoadScene("TitleScene", LoadSceneMode.Single);
     }
 
 }

@@ -12,9 +12,13 @@ public class DOText : MonoBehaviour
     [SerializeField] GameObject showElement;
     [SerializeField] GameObject showFunction;
     [SerializeField] GameObject TargetMolecule;
+    [SerializeField] GameObject EscapeMenu;
     TextMeshProUGUI Paragraph;
     GameObject mainScript;
     DrawOrgo script;
+    GameObject nextButton;
+    GameObject SkipScienceButton;
+    GameObject SkiptoPlay;
 
     static string[] possibleElements = { "Hydrogen", "Lithium", "Sodium", "Potassium", "Magnesium", "Boron", "Aluminum", "Carbon", "Nitrogen", "Phosphorus", "Oxygen", "Sulfur", "Flourine", "Clorine", "Bromine", "Iodine" };
 
@@ -46,9 +50,13 @@ public class DOText : MonoBehaviour
     GameObject pt1;         //prefixTables
     GameObject pt2;
 
+    bool Escape = false;
     bool PrefixTable = false;
     void Start()
     {
+        SkiptoPlay = GameObject.Find("SkipToPlay");
+        SkipScienceButton = GameObject.Find("SkipToControls");
+        nextButton = GameObject.Find("Next");
         mainScript = GameObject.Find("script");
         script = mainScript.GetComponent<DrawOrgo>();
         canvas = GameObject.Find("Canvas");
@@ -61,6 +69,7 @@ public class DOText : MonoBehaviour
         showElement.SetActive(false);
         showFunction.SetActive(false);
         TargetMolecule.SetActive(false);
+        EscapeMenu.SetActive(false);    
         Paragraph = ParagraphObject.GetComponent<TextMeshProUGUI>();
         paragraphs[0] = p1;
         paragraphs[1] = p2;
@@ -87,6 +96,10 @@ public class DOText : MonoBehaviour
         {
             DisplayPrefixTable();
         }
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            EscapeMenuDisplay();
+        }
 
         
     }
@@ -103,6 +116,7 @@ public class DOText : MonoBehaviour
         paragraph++;
         if (paragraph < paragraphs.Length)
         {
+            nextButton.GetComponentInChildren<TextMeshProUGUI>().text = "Next";
             Paragraph.text = paragraphs[paragraph];
         }else
         {
@@ -121,6 +135,18 @@ public class DOText : MonoBehaviour
         {
             pt1.SetActive (false);
             pt2.SetActive (false);
+        }
+        if (paragraph == 8)
+        {
+            nextButton.GetComponentInChildren<TextMeshProUGUI>().text = "Proceed to Controls";
+            SkipScienceButton.SetActive(false);
+        } else if (paragraph > 8)
+        {
+            nextButton.GetComponentInChildren<TextMeshProUGUI>().text = "Next";
+        }
+        if (paragraph == paragraphs.Length - 1)
+        {
+            SkiptoPlay.SetActive(false);
         }
     }
 
@@ -149,6 +175,25 @@ public class DOText : MonoBehaviour
         TargetMolecule.SetActive(true);
         UpdateTextUI();
 
+    }
+
+    public void SkipScience()
+    {
+        paragraph = 7;
+        NextParagraph();
+    }
+
+
+    public void EscapeMenuDisplay()
+    {
+        if (Escape == false) {
+            Escape = true;
+            EscapeMenu.SetActive(true);
+        } else
+        {
+            Escape = false;
+            EscapeMenu.SetActive(false);
+        }
     }
 
 
