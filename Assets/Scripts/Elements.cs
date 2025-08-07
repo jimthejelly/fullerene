@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
-using UnityEditor;
+using System.Xml.Linq;
 using Unity.Services.Analytics;
+using UnityEditor;
+using UnityEngine;
+using UnityEngine.XR;
 
 /// <summary>
 /// Class for representing the internal data of an atom in the main molecule
@@ -23,6 +25,15 @@ public class Elements : MonoBehaviour
 
     public int bondCount = 0;
     public int bondOrders = 0;
+    
+    public bool hasMoved = false;
+
+    public float covalentRadius;
+    public float epsilon;
+    public float sigma;
+
+    private Vector3 forceVector = Vector3.zero;
+
 
     int start = 0;
 
@@ -94,7 +105,7 @@ public class Elements : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        //Debug.Log(gameObject.name + " " + GetID());
     }
 
     /// <summary>
@@ -167,7 +178,6 @@ public class Elements : MonoBehaviour
             return;
         }
         // making new bond
-        float radius = 3f;
         GameObject obj = AssetDatabase.LoadAssetAtPath("Assets/Elements/" + selectElement.element + ".prefab", typeof(GameObject)) as GameObject;
         GameObject clone = Instantiate(obj, Vector3.zero, Quaternion.identity);
         // making sure the newly created atom can bond
@@ -176,6 +186,7 @@ public class Elements : MonoBehaviour
             Debug.Log(selectElement.element + " is inert!");
             return;
         }
+        float radius = covalentRadius + (clone.GetComponent<Elements>() as Elements).covalentRadius;
         GameObject cyl = AssetDatabase.LoadAssetAtPath("Assets/Resources/SingleBond.prefab", typeof(GameObject)) as GameObject;
         GameObject cylClone = Instantiate(cyl, Vector3.zero, Quaternion.identity);
         cylClone.transform.localScale = new Vector3(0.15f, radius / 2, 0.15f);
@@ -195,7 +206,7 @@ public class Elements : MonoBehaviour
 
         neighbors.Add(new Tuple<GameObject, GameObject>(cylClone, clone));
         clone.GetComponent<Elements>().neighbors.Add(new Tuple<GameObject, GameObject>(cylClone, gameObject));
-        ResetChildPositions(radius);
+        ResetChildPositions();
 
         clone.transform.localEulerAngles = cylClone.transform.localEulerAngles; //+ this.transform.localEulerAngles;
 
@@ -219,14 +230,15 @@ public class Elements : MonoBehaviour
     /// <summary>
     /// Resets the positions of each "child" of this Element to be moved with moveChildren() later
     /// </summary>
-    /// <param name="radius">The radius of the bonds between Elements</param>
-    public void ResetChildPositions(float radius)
+    public void ResetChildPositions()
     {
 
         foreach (Tuple<GameObject, GameObject> child in neighbors)
         {
-            if (gameObject == creationUser.head)
-            {
+            // TODO: make this check ionic vs covalent
+            float radius = covalentRadius + (child.Item2.GetComponent<Elements>() as Elements).covalentRadius;
+            
+            if(gameObject == creationUser.head) {
                 child.Item1.transform.localPosition = transform.position;
                 child.Item1.transform.localEulerAngles = new Vector3(this.transform.localEulerAngles.x,
                     this.transform.localEulerAngles.y, this.transform.localEulerAngles.z);
@@ -237,30 +249,21 @@ public class Elements : MonoBehaviour
                     this.transform.localEulerAngles.y, this.transform.localEulerAngles.z);
                 child.Item2.transform.Translate(0, -1 * (radius), 0);
             }
-            else if (!Equals(child, neighbors[0]))
-            {
+            else if(!Equals(child, neighbors[0])) {
 
                 child.Item1.transform.localPosition = transform.position;
                 child.Item1.transform.localEulerAngles = new Vector3(this.transform.localEulerAngles.x,
                     this.transform.localEulerAngles.y, this.transform.localEulerAngles.z + 180);
                 child.Item1.transform.Translate(0, -1 * (radius / 2), 0);
 
-                // // child.Item1.transform.RotateAround(transform.position, transform.forward, 180);
-                // // child.Item1.transform.RotateAround(transform.position, transform.up, 180);
-                // // child.Item1.transform.RotateAround(transform.position, transform.right, 180);
-
                 child.Item2.transform.localPosition = transform.position;
                 child.Item2.transform.localEulerAngles = new Vector3(this.transform.localEulerAngles.x,
                     this.transform.localEulerAngles.y, this.transform.localEulerAngles.z + 180);
                 child.Item2.transform.Translate(0, -1 * (radius), 0);
 
-                // child.Item2.transform.RotateAround(transform.position, transform.forward, 180);
-                // child.Item2.transform.RotateAround(transform.position, transform.up, 180);
-                // child.Item2.transform.RotateAround(transform.position, transform.right, 180);
 
             }
-            else
-            {
+            else {
 
             }
 
@@ -480,7 +483,7 @@ public class Elements : MonoBehaviour
                 continue;
             }
             Elements childElement = bond.Item2.GetComponent<Elements>() as Elements;
-            childElement.ResetChildPositions(3f);
+            childElement.ResetChildPositions();
             childElement.MoveChildren(1);
         }
     }
@@ -552,7 +555,7 @@ public class Elements : MonoBehaviour
                 }
                 else if (t.tag.Equals("Element") && (t.gameObject.GetComponent<Elements>() as Elements).neighbors.Count() > 1)
                 {
-                    (t.gameObject.GetComponent<Elements>() as Elements).ResetChildPositions(3f);
+                    (t.gameObject.GetComponent<Elements>() as Elements).ResetChildPositions();
                     (t.gameObject.GetComponent<Elements>() as Elements).MoveChildren((t.gameObject.GetComponent<Elements>() as Elements).start);
                 }
             }
@@ -838,6 +841,88 @@ public class Elements : MonoBehaviour
             }
         }
         
+    }
+
+    public void CalculateForceVector() {
+        forceVector = Vector3.zero;
+        int numVectors = 0;
+        foreach(Transform element in transform.parent.transform) { // loops through all elements/bonds/lone pairs
+            if(element.Equals(transform) || element.CompareTag("Bond")) { // if element is this Element or a bond, we don't need to look at interacting forces
+                continue;
+            }
+            bool bonded = false;
+            int bondOrder = 1;
+            foreach(Tuple<GameObject, GameObject> neighbor in neighbors) {
+                if(element.Equals(neighbor.Item2.transform)) {
+                    bonded = true;
+                    bondOrder = (neighbor.Item1.GetComponent<Bonds>() as Bonds).bondOrder;
+                    break;
+                }
+            }
+            if(bonded) { // if element is bonded to this Element, we attract instead of repel
+                float r = Vector3.Distance(transform.position, element.transform.position);
+                float eps = Mathf.Sqrt(epsilon * (element.gameObject.GetComponent<Elements>() as Elements).epsilon);
+                float sig = (sigma + (element.gameObject.GetComponent<Elements>() as Elements).sigma) / 2;
+                float force = 24 * eps * (2 * Mathf.Pow(sig / r, 12) - Mathf.Pow(sig / r, 6)) * (1 / r);
+                
+                // increasing the pulling force if double or triple bonded to element
+                if(bondOrder == 2) {
+                    force = 24 * eps * (0.867f * Mathf.Pow(sig / r, 12) - Mathf.Pow(sig / r, 6)) * (1 / r);
+                }
+                else if(bondOrder == 3) {
+                    force = 24 * eps * (0.45f * Mathf.Pow(sig / r, 12) - Mathf.Pow(sig / r, 6)) * (1 / r);
+                }
+                // capping the force so the elements don't explode out
+                // this wouldn't be as necessary if I were better at math, but I'm not so here we are
+                if(force > 0) {
+                    force = 0.02f;
+                }
+                Vector3 forceDirection = element.transform.position - transform.position;
+                forceDirection.Normalize();
+                forceVector += (forceDirection * force);
+                numVectors++;
+            }
+            else {
+                float r = Vector3.Distance(transform.position, element.transform.position);
+                float eps = Mathf.Sqrt(epsilon * (element.gameObject.GetComponent<Elements>() as Elements).epsilon);
+                float sig = (sigma + (element.gameObject.GetComponent<Elements>() as Elements).sigma) / 2;
+                float force = 24 * eps * (2 * Mathf.Pow(sig / r, 12) - Mathf.Pow(sig / r, 6)) * (1 / r);
+
+                // capping force so molecules don't explode out as much
+                if(force > 2f) {
+                    force = 2f;
+                }
+                else if(force < -2f) {
+                    force = -2f;
+                }
+
+                Vector3 forceDirection = transform.position - element.transform.position;
+                forceDirection.Normalize();
+                forceVector += (forceDirection * force);
+                numVectors++;
+            }
+        }
+        // average the total force vectors by the number of vectors
+        if(numVectors > 0) {
+            forceVector /= numVectors;
+        }
+
+        Vector3 temp = forceVector;
+        temp.Normalize();
+        Debug.DrawRay(transform.position, temp, Color.red);
+    }
+
+    public void UpdatePosition() {
+        if(GetID() != -1) {
+            transform.position = Vector3.MoveTowards(transform.position, transform.position - forceVector, forceVector.magnitude * Time.deltaTime);
+        }
+        hasMoved = true;
+        foreach(Tuple<GameObject, GameObject> neighbor in neighbors) {
+            if(!(neighbor.Item2.GetComponent<Elements>() as Elements).hasMoved) {
+                (neighbor.Item2.GetComponent<Elements>() as Elements).UpdatePosition();
+                (neighbor.Item1.GetComponent<Bonds>() as Bonds).UpdatePosition();
+            }
+        }
     }
 }
 // an element comparer that only checks certain variables of the element and it's children

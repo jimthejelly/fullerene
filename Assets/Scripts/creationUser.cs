@@ -137,6 +137,21 @@ public class creationUser : MonoBehaviour
                 moleculeUpdated = false;
             }
         }
+
+        // exert forces on all the atoms starting at the root and moving out
+        if(head != null) {
+            foreach(Transform element in molecule.transform) {
+                if(element.CompareTag("Element")) {
+                    (element.GetComponent<Elements>() as Elements).CalculateForceVector();
+                }
+            }
+            (head.GetComponent<Elements>() as Elements).UpdatePosition();
+        }
+        foreach(Transform element in molecule.transform) {
+            if(element.CompareTag("Element")) {
+                (element.GetComponent<Elements>() as Elements).hasMoved = false;
+            }
+        }
     }
 
     void ShowLonePairs() {
