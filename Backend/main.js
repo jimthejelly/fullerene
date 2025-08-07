@@ -19,6 +19,8 @@ const connectToDatabase = async () => {
 };
 
 
+
+
 //Needed to determine IP of whatever is being run on
 var os = require('os');
 var networkInterfaces = os.networkInterfaces();
@@ -31,6 +33,29 @@ const app = express();
 const port = 3000;//
 const hostname = networkInterfaces.eth0[0].address;//will have to be changes to something else when not just on my machine
 
+//Express rate limiting for DDoS protection
+const { rateLimit } = require("express-rate-limit");
+const { rateLimit } = require("express-slow-down");
+
+//hard stops after 5 attempts in 5 min
+const blockLimiter = rateLimit({
+  windowMs: 5 * 60 * 1000, // 5 minutes
+  limit: 5, // each IP can make up to 5 requests per `windowsMs` (5 minutes)
+  standardHeaders: true, // add the `RateLimit-*` headers to the response
+  legacyHeaders: false, // remove the `X-RateLimit-*` headers from the response
+});
+
+//slows down reuqests by 200ms after
+const slowLimiter = slowDown({
+  windowMs: 5 * 60 * 1000, // 5 minutes
+  delayAfter: 5, // allow 5 requests per `windowMs` (5 minutes) without slowing them down
+  delayMs: (hits) => hits * 200, // add 200 ms of delay to every request after the 10th
+  maxDelayMs: 5000, // max global delay of 5 seconds
+});
+
+
+
+app.use(blockLimiter);
 
 //nodemailer req's 
 var nodemailer = require('nodemailer');
@@ -287,3 +312,4 @@ function sendEMail(mailOp){
       else { console.log('Email sent: ' + info.response); }
     } );    
 }
+
