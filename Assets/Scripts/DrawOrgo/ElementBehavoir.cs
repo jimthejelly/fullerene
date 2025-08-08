@@ -335,10 +335,8 @@ public class ElementBehavoir : MonoBehaviour
         }
 
     }
-
-
-    /*
-    private void OnMouseExit()
+    
+    /*private void OnMouseExit()
     {
         if (numberOfBonds + startingB <= MaxBonds)
         {
@@ -356,9 +354,15 @@ public class ElementBehavoir : MonoBehaviour
 
             }
         }
-    }
+    }*/
 
-    */
+
+    public void removeBond(GameObject otherElement)
+    {
+        bondedElements.Remove(otherElement);
+        checkBonds();
+    }
+    
 
     public void incrementBond()
     {

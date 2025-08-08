@@ -116,7 +116,7 @@ public class DrawOrgo : MonoBehaviour
 
 
 
-            if (Function == "Place")
+            if (Function == "Place" || Function == "Trim")
             {
                 foreach (RaycastResult result in results)
                 { 

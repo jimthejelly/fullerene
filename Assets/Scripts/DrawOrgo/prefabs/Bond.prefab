@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3793385921142090514}
   - component: {fileID: 9223272054775011026}
   - component: {fileID: -1845937128070054755}
-  - component: {fileID: 8529894505837352983}
+  - component: {fileID: 7471174099879848162}
   m_Layer: 0
   m_Name: Bond
   m_TagString: Untagged
@@ -150,7 +150,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b39edfc7a81d24d4ebe6081b7b930ac9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!68 &8529894505837352983
+--- !u!68 &7471174099879848162
 EdgeCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -183,11 +183,11 @@ EdgeCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  m_EdgeRadius: 0.05
+  m_EdgeRadius: 5
   m_Points:
-  - {x: 0.007989466, y: 0.99109554}
-  - {x: 1.0036141, y: 0.0047115684}
-  m_AdjacentStartPoint: {x: 0, y: 1}
-  m_AdjacentEndPoint: {x: 1, y: 0}
-  m_UseAdjacentStartPoint: 1
-  m_UseAdjacentEndPoint: 1
+  - {x: 1, y: 0}
+  - {x: 0, y: 1}
+  m_AdjacentStartPoint: {x: 0, y: 0}
+  m_AdjacentEndPoint: {x: 0, y: 0}
+  m_UseAdjacentStartPoint: 0
+  m_UseAdjacentEndPoint: 0
