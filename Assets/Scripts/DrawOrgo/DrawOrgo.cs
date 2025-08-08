@@ -48,8 +48,8 @@ public class DrawOrgo : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        maxWidth = 530;
-        maxHeight = 295;
+        maxWidth = 535;
+        maxHeight = 300;
         generateRandomMolecule();
         string apiCall = "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/"        //make api call to figure out how to organize the chemical formula for the molecule.
             + currentMolecule + "/property/MolecularFormula/CSV";

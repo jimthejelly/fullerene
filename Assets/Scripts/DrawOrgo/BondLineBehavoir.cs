@@ -55,22 +55,38 @@ public class BondLineBehavoir : MonoBehaviour
         if (mainScript.GetComponent<DrawOrgo>().Function == "Trim" && Input.GetMouseButtonDown(0))
         {
             Vector2 normalizedMousePos = new Vector2(Input.mousePosition.x / Screen.width, Input.mousePosition.y / Screen.height);
-            Vector3 DirectionFromCameratoMouse = new Vector3(normalizedMousePos.x, normalizedMousePos.y, 0) - cam.transform.position;
+            Vector3 DirectionFromCameratoMouse = cam.transform.position - new Vector3(530 * normalizedMousePos.x, 295 * normalizedMousePos.y, Input.mousePosition.z);
             print(DirectionFromCameratoMouse);
-            RaycastHit hit = new RaycastHit();
-            if (Physics.Raycast(cam.transform.position, DirectionFromCameratoMouse, out hit))
-            {
-                print(hit.collider);
-                if (hit.collider == collision)
+            Vector3 Pressed = new Vector3( 535 * normalizedMousePos.x, 300 * normalizedMousePos.y, 0);
+            //print(normalizedMousePos);
+            //print(cam.GetComponent<Camera>().WorldToScreenPoint(Input.mousePosition * normalizedMousePos));
+            Vector2 slope = element1.transform.position - element2.transform.position;
+            bool withinBounds = false;
+            float minX = Mathf.Min(element1.transform.position.x, element2.transform.position.x);
+            float maxX = Mathf.Max(element1.transform.position.x, element2.transform.position.x);
+
+            float minY = Mathf.Min(element1.transform.position.y, element2.transform.position.y);
+            float maxY = Mathf.Max(element1.transform.position.y, element2.transform.position.y);
+            if (Pressed.x >= minX-5 && Pressed.x <= maxX + 5 && Pressed.y >= minY -5 && Pressed.y <= maxY + 5) {
+                for (float x = minX; x <= maxX; x++)
                 {
-                    element1.GetComponent<ElementBehavoir>().decrementBond();
-                    element1.GetComponent<ElementBehavoir>().removeBond(element2);
-                    element2.GetComponent<ElementBehavoir>().decrementBond();
-                    element2.GetComponent<ElementBehavoir>().removeBond(element1);
-                    element1.GetComponent<ElementBehavoir>().checkBonds();
-                    element2.GetComponent<ElementBehavoir>().checkBonds();
-                    Destroy(gameObject);
+                    float m = slope.y / slope.x;
+                    if ((Pressed.x <= x + 5 + element1.transform.position.x|| Pressed.x >= x - 5 + element1.transform.position.x) && (Pressed.y <= m*x + 5 + element1.transform.position.y || Pressed.y >= m*x - 5+ element1.transform.position.y))
+                    {
+                        withinBounds = true;
+                        break;
+                    }
                 }
+            }
+            if (withinBounds)
+            {
+                element1.GetComponent<ElementBehavoir>().decrementBond();
+                element1.GetComponent<ElementBehavoir>().removeBond(element2);
+                element2.GetComponent<ElementBehavoir>().decrementBond();
+                element2.GetComponent<ElementBehavoir>().removeBond(element1);
+                element1.GetComponent<ElementBehavoir>().checkBonds();
+                element2.GetComponent<ElementBehavoir>().checkBonds();
+                Destroy(gameObject);
             }
         }
 
