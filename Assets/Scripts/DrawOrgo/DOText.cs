@@ -20,7 +20,7 @@ public class DOText : MonoBehaviour
     GameObject SkipScienceButton;
     GameObject SkiptoPlay;
 
-    static string[] possibleElements = { "Hydrogen", "Lithium", "Sodium", "Potassium", "Magnesium", "Boron", "Aluminum", "Carbon", "Nitrogen", "Phosphorus", "Oxygen", "Sulfur", "Flourine", "Clorine", "Bromine", "Iodine" };
+    static string[] possibleElements = { "Hydrogen", "Lithium", "Sodium", "Potassium", "Magnesium", "Boron", "Aluminum", "Carbon", "Nitrogen", "Phosphorus", "Oxygen", "Sulfur", "Flourine", "Chlorine", "Bromine", "Iodine" };
 
     string p1 = "This minigame will help teach the effectivness of IUPAC naming for the Molecules we're gonna throw at you.\n\nBut first, lets go over those naming rules.";
     string p2 = "To start: IUPAC has 3 core tenants:\n\n1) A root or base that indicates the major ring/chain of carbon atoms.\n2) A suffix or element that designates a group that can be present.\n" +
