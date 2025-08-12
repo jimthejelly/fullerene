@@ -8,6 +8,9 @@ TagManager:
   - elementButton
   - Pivot
   - Rock
+  - Element
+  - Bond
+  - Lone Pair
   layers:
   - Default
   - TransparentFX
