@@ -22,30 +22,60 @@ public class selectPreset : MonoBehaviour
     public static string preset;
     public int presetNumber;
     string path;
-    void Start() {
+    void Start()
+    {
         // numberText.text = "Loaded";
     }
 
-    public void SavePreset() {
-        bool success;
+    // public void SavePreset() {
+    //     bool success;
+    //     preset = "Preset " + presetNumber;
+    //     path = "Assets/Resources/Presets/" + preset + ".prefab";
+    //     if (File.Exists("Assets/Resources/Presets/" + preset + ".prefab")) {
+    //         Debug.Log("Here " + path);
+    //         AssetDatabase.DeleteAsset(path);
+    //     } else {
+    //         Debug.Log("Not here" + path);
+    //     }
+    //     path = AssetDatabase.GenerateUniqueAssetPath(path);
+    //     PrefabUtility.SaveAsPrefabAsset(GameObject.Find("moleculeBody"), path, out success);
+
+    //     if (success) {
+    //         Debug.Log("yippe");
+    //     } else {
+    //         Debug.Log("whoops");
+    //     }
+    //     AssetDatabase.SaveAssets();
+    //     AssetDatabase.Refresh();
+    // }
+
+    public void savePreset()
+    {
         preset = "Preset " + presetNumber;
         path = "Assets/Resources/Presets/" + preset + ".prefab";
-        if (File.Exists("Assets/Resources/Presets/" + preset + ".prefab")) {
-            Debug.Log("Here " + path);
+        if (File.Exists("Assets/Resources/Presets/" + preset + ".prefab"))
+        {
+            Debug.Log("Existing Asset Deleted" + path);
             AssetDatabase.DeleteAsset(path);
-        } else {
-            Debug.Log("Not here" + path);
         }
-        path = AssetDatabase.GenerateUniqueAssetPath(path);
-        PrefabUtility.SaveAsPrefabAsset(GameObject.Find("moleculeBody"), path, out success);
-
-        if (success) {
-            Debug.Log("yippe");
+        GameObject obj = GameObject.Find("moleculeBody");
+        if (obj.transform.childCount > 0)
+        {
+            bool success;
+            PrefabUtility.SaveAsPrefabAsset(obj, path, out success);
+            if (success)
+            {
+                Debug.Log("Preset Saved: " + path);
+            }
+            else
+            {
+                Debug.Log("Error Saving Preset");
+            }
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
         } else {
-            Debug.Log("whoops");
+            Debug.Log("No molecule to save");
         }
-        AssetDatabase.SaveAssets();
-        AssetDatabase.Refresh();
     }
 
     // public void getPreset() {
@@ -54,6 +84,6 @@ public class selectPreset : MonoBehaviour
     // //    GameObject clone = GameObject.Find("moleculeBody");
     // //    Instantiate(obj, transform.position, transform.rotation);
     // //    clone = obj;
-    
+
     // }
 }
