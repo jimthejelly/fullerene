@@ -27,28 +27,6 @@ public class selectPreset : MonoBehaviour
         // numberText.text = "Loaded";
     }
 
-    // public void SavePreset() {
-    //     bool success;
-    //     preset = "Preset " + presetNumber;
-    //     path = "Assets/Resources/Presets/" + preset + ".prefab";
-    //     if (File.Exists("Assets/Resources/Presets/" + preset + ".prefab")) {
-    //         Debug.Log("Here " + path);
-    //         AssetDatabase.DeleteAsset(path);
-    //     } else {
-    //         Debug.Log("Not here" + path);
-    //     }
-    //     path = AssetDatabase.GenerateUniqueAssetPath(path);
-    //     PrefabUtility.SaveAsPrefabAsset(GameObject.Find("moleculeBody"), path, out success);
-
-    //     if (success) {
-    //         Debug.Log("yippe");
-    //     } else {
-    //         Debug.Log("whoops");
-    //     }
-    //     AssetDatabase.SaveAssets();
-    //     AssetDatabase.Refresh();
-    // }
-
     public void savePreset()
     {
         preset = "Preset " + presetNumber;
@@ -78,12 +56,11 @@ public class selectPreset : MonoBehaviour
         }
     }
 
-    // public void getPreset() {
-    // //     preset = "Preset " + presetNumber;
-    // //    GameObject obj = PrefabUtility.LoadPrefabContents("Assets/Resources/Presets/" + preset + ".prefab");
-    // //    GameObject clone = GameObject.Find("moleculeBody");
-    // //    Instantiate(obj, transform.position, transform.rotation);
-    // //    clone = obj;
-
-    // }
+    public void getPreset()
+    {
+        preset = "Preset " + presetNumber;
+        GameObject obj = AssetDatabase.LoadAssetAtPath("Assets/Resources/Presets/" + preset + ".prefab", typeof(GameObject)) as GameObject;
+        GameObject clone = Instantiate(obj, Vector3.zero, Quaternion.identity, GameObject.Find("moleculeBody").transform);
+        clone.transform.SetParent(GameObject.Find("moleculeBody").transform, true);
+    }
 }
