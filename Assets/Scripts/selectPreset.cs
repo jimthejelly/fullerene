@@ -61,6 +61,19 @@ public class selectPreset : MonoBehaviour
         preset = "Preset " + presetNumber;
         GameObject obj = AssetDatabase.LoadAssetAtPath("Assets/Resources/Presets/" + preset + ".prefab", typeof(GameObject)) as GameObject;
         GameObject clone = Instantiate(obj, Vector3.zero, Quaternion.identity, GameObject.Find("moleculeBody").transform);
-        clone.transform.SetParent(GameObject.Find("moleculeBody").transform, true);
+        //Deletes the all of the elements in moleculeBody,
+        GameObject body = GameObject.Find("moleculeBody");
+        (creationUser.head.GetComponent<Elements>() as Elements).DeleteElement();
+        //Need to figure out
+        List<Transform> children = new List<Transform>();
+        for (int i = 0; i < clone.transform.childCount; i++)
+        {
+            children.Add(clone.transform.GetChild(i));
+        }
+        foreach (Transform child in children)
+        {
+            child.SetParent(body.transform, false); // keep local transform
+        }
+        //clone.transform.SetParent(GameObject.Find("moleculeBody").transform, true);
     }
 }
