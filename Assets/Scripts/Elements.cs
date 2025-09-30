@@ -93,9 +93,7 @@ public class Elements : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
-
-    }
+    {}
 
     /// <summary>
     /// Finds the construction order of Elements, its main use is finding the parent of an Element
@@ -611,6 +609,7 @@ public class Elements : MonoBehaviour
     /// TODO: Change lone pair position calculation from distance-based to charge-based (using coulomb's law and likely the individual charges of atoms)
     /// </summary>
     public void ShowLonePairs() {
+        Debug.Log("showin");
         if(lonePairs == 0) {
             return;
         }

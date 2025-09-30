@@ -132,15 +132,49 @@ public class creationUser : MonoBehaviour
         if(moleculeUpdated) {
             framesSinceMoleculeUpdated++;
             if(framesSinceMoleculeUpdated > molecule.transform.childCount) {
-                ShowLonePairs();
+                Debug.Log("up");
+                DeleteLonePairs();
+                SpawnLonePairs();
                 framesSinceMoleculeUpdated = 0;
                 moleculeUpdated = false;
             }
         }
+        /*
+        // exert forces on all the atoms starting at the root and moving out
+        if(head != null) {
+            foreach(Transform element in molecule.transform) {
+                if(element.CompareTag("Element")) {
+                    (element.GetComponent<Elements>() as Elements).CalculateForceVector();
+                }
+            }
+            (head.GetComponent<Elements>() as Elements).UpdatePosition();
+        }
+        foreach(Transform element in molecule.transform) {
+            if(element.CompareTag("Element")) {
+                (element.GetComponent<Elements>() as Elements).hasMoved = false;
+            }
+        }*/
     }
 
     void ShowLonePairs() {
-        Debug.Log("Showing Lone Pairs");
+        foreach(Transform item in molecule.transform) {
+            if(item.tag.Equals("Lone Pair")) {
+                item.gameObject.SetActive(true);
+            }
+        }
+        lonePairsVisible = true;
+    }
+
+    void HideLonePairs() {
+        foreach(Transform item in molecule.transform) {
+            if(item.tag.Equals("Lone Pair")) {
+                item.gameObject.SetActive(false);
+            }
+        }
+        lonePairsVisible = false;
+    }
+
+    void SpawnLonePairs() {
         foreach(Transform item in molecule.transform) {
             if(item.tag.Equals("Element")) {
                 (item.gameObject.GetComponent<Elements>() as Elements).ShowLonePairs();
@@ -149,14 +183,13 @@ public class creationUser : MonoBehaviour
         lonePairsVisible = true;
     }
 
-    void HideLonePairs() {
-        Debug.Log("Hiding Lone Pairs");
+    void DeleteLonePairs() {
         foreach(Transform item in molecule.transform) {
             if(item.tag.Equals("Lone Pair")) {
                 Destroy(item.gameObject);
             }
         }
-        lonePairsVisible = false;
+
     }
 
     void SaveMolecule() {
@@ -477,20 +510,14 @@ public class creationUser : MonoBehaviour
                         Elements script = hit.collider.gameObject.GetComponent<Elements>();
                         script.SpawnElement(elements);
                         elements++;
-                        if(lonePairsVisible) {
-                            HideLonePairs();
-                            moleculeUpdated = true;
-                        }
+                        moleculeUpdated = true;
                     }
                     else if(hit.transform.tag.Equals("Bond")) {
                         Bonds script = hit.collider.gameObject.GetComponent<Bonds>();
                         script.CycleBondOrder(elements);
                         elements++;
                         bondReplace = true;
-                        if(lonePairsVisible) {
-                            HideLonePairs();
-                            moleculeUpdated = true;
-                        }
+                        moleculeUpdated = true;
                     }
                     else {
                         Debug.Log("clicked neither a bond nor an element");
@@ -499,11 +526,7 @@ public class creationUser : MonoBehaviour
                 else if(Input.GetKey(KeyCode.LeftShift)){
                     Elements script = hit.collider.gameObject.GetComponent<Elements>();
                     script.DeleteElement();
-                    Debug.Log(lonePairsVisible);
-                    if(lonePairsVisible) {
-                        HideLonePairs();
-                        moleculeUpdated = true;
-                    }
+                    moleculeUpdated = true;
                 }
             }
         } else if (clicknumber == 2) { // 2 click interaction
