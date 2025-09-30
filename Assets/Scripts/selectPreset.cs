@@ -58,12 +58,16 @@ public class selectPreset : MonoBehaviour
 
     public void getPreset()
     {
+         GameObject body = GameObject.Find("moleculeBody");
+        if (body.transform.childCount > 0)
+        {
+            (creationUser.head.GetComponent<Elements>() as Elements).DeleteElement();   
+        }
+
         preset = "Preset " + presetNumber;
         GameObject obj = AssetDatabase.LoadAssetAtPath("Assets/Resources/Presets/" + preset + ".prefab", typeof(GameObject)) as GameObject;
         GameObject clone = Instantiate(obj, Vector3.zero, Quaternion.identity, GameObject.Find("moleculeBody").transform);
-        //Deletes the all of the elements in moleculeBody,
-        GameObject body = GameObject.Find("moleculeBody");
-        (creationUser.head.GetComponent<Elements>() as Elements).DeleteElement();
+
         //Need to figure out
         List<Transform> children = new List<Transform>();
         for (int i = 0; i < clone.transform.childCount; i++)
