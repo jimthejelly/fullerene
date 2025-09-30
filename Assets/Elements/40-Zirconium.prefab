@@ -121,9 +121,14 @@ MonoBehaviour:
   electrons: 40
   protons: 40
   neutrons: 0
+  defaultLonePairs: 0
   lonePairs: 0
   bondingElectrons: 0
   expandedOctet: 0
   physicsOn: 0
   bondCount: 0
   bondOrders: 0
+  hasMoved: 0
+  covalentRadius: 1.75
+  epsilon: 3.05201
+  sigma: 3.11815

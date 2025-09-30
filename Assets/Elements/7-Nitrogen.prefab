@@ -128,3 +128,7 @@ MonoBehaviour:
   physicsOn: 0
   bondCount: 0
   bondOrders: 0
+  hasMoved: 0
+  covalentRadius: 0.71
+  epsilon: 9.75379
+  sigma: 1.26508

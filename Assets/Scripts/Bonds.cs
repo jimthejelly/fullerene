@@ -94,4 +94,19 @@ public class Bonds : MonoBehaviour
         // deleting this
         Destroy(gameObject);
     }
+
+    public void UpdatePosition() {
+        // setting bond position
+        Vector3 parentPos = parent.transform.position;
+        Vector3 childPos = child.transform.position;
+        transform.position = new Vector3((parentPos.x + childPos.x) / 2, (parentPos.y + childPos.y) / 2, (parentPos.z + childPos.z) / 2);
+
+        // setting bond rotation
+        transform.LookAt(parentPos);
+        transform.Rotate(90, 0, 0);
+
+        // setting bond length
+        transform.localScale = new Vector3(0.15f, Mathf.Sqrt(
+            Mathf.Pow(parentPos.x - childPos.x, 2) + Mathf.Pow(parentPos.y - childPos.y, 2) + Mathf.Pow(parentPos.z - childPos.z, 2)) / 2, 0.15f);
+    }
 }
