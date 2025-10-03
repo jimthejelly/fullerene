@@ -134,7 +134,13 @@ public class creationUser : MonoBehaviour
             if(framesSinceMoleculeUpdated > molecule.transform.childCount) {
                 Debug.Log("up");
                 DeleteLonePairs();
-                SpawnLonePairs();
+                if(lonePairsVisible) {
+                    SpawnLonePairs();
+                }
+                else {
+                    SpawnLonePairs();
+                    HideLonePairs();
+                }
                 framesSinceMoleculeUpdated = 0;
                 moleculeUpdated = false;
             }
