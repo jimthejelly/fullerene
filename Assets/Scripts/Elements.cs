@@ -17,6 +17,8 @@ public class Elements : MonoBehaviour
     public int protons;
     public int neutrons;
     private List<Tuple<GameObject, GameObject>> neighbors = new List<Tuple<GameObject, GameObject>>();
+
+    public List<Tuple<String, String>> neighborLoad = new List<Tuple<String, String>>();
     public int defaultLonePairs;
     public int lonePairs;
     public int bondingElectrons;
@@ -206,6 +208,8 @@ public class Elements : MonoBehaviour
 
         neighbors.Add(new Tuple<GameObject, GameObject>(cylClone, clone));
         clone.GetComponent<Elements>().neighbors.Add(new Tuple<GameObject, GameObject>(cylClone, gameObject));
+        //neighborLoad.Add(new Tuple<String, String>(((ElementSymbols)(clone.GetComponent<Elements>() as Elements).protons)).ToString("F"), ((ElementSymbols)(cylClone.GetComponent<Elements>() as Elements).protons)).ToString("F")));
+        //clone.GetComponent<Elements>().neighborLoad.Add(new Tuple<String, String>(((ElementSymbols)(protons)).ToString("F"), ((ElementSymbols)(cylClone.GetComponent<Elements>().protons)).ToString("F")));
         ResetChildPositions();
 
         clone.transform.localEulerAngles = cylClone.transform.localEulerAngles; //+ this.transform.localEulerAngles;

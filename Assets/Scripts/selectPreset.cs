@@ -2,13 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.Serialization.Json;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEditor;
-using UnityEngine.SceneManagement;
-using System.Linq.Expressions;
-using TMPro;
-using System.Diagnostics.Tracing;
-using System;
+using System.Xml;
 using System.IO;
 
 
@@ -27,8 +22,66 @@ public class selectPreset : MonoBehaviour
         // numberText.text = "Loaded";
     }
 
+    private void saveMolecule()
+    {
+        GameObject molecule = GameObject.Find("moleculeBody");
+        if (molecule.transform.childCount == 0)
+        {
+            Debug.Log("No molecule to save!");
+            return;
+        }
+        XmlTextWriter writer = new XmlTextWriter("./Assets/Resources/molecule.cml", null);
+        writer.WriteStartDocument();
+
+        writer.Formatting = Formatting.Indented;
+        writer.Indentation = 4;
+
+        writer.WriteStartElement("molecule");
+
+        writer.WriteStartElement("atomArray");
+
+        Dictionary<Elements, string> atomIDs = new Dictionary<Elements, string>();
+        Dictionary<string, Elements> IDToAtom = new Dictionary<string, Elements>();
+        int count = 1;
+        foreach(Transform item in molecule.transform) {
+            if(item.tag.Equals("Element")) {
+                atomIDs.Add(item.gameObject.GetComponent<Elements>() as Elements, "a" + count);
+                IDToAtom.Add("a" + count++, item.gameObject.GetComponent<Elements>() as Elements);
+                writer.WriteStartElement("atom");
+                writer.WriteAttributeString("id", atomIDs[item.gameObject.GetComponent<Elements>() as Elements]);
+                writer.WriteAttributeString("elementType", ((ElementSymbols)((item.gameObject.GetComponent<Elements>() as Elements).protons)).ToString("F"));
+                writer.WriteAttributeString("x3", item.position.x.ToString());
+                writer.WriteAttributeString("y3", item.position.y.ToString());
+                writer.WriteAttributeString("z3", item.position.z.ToString());
+                writer.WriteEndElement(); // end of atom
+            }
+        }
+
+        writer.WriteEndElement(); // end of atomArray
+
+        writer.WriteStartElement("bondArray");
+
+        foreach(Transform item in molecule.transform) {
+            if(item.tag.Equals("Bond")) {
+                writer.WriteStartElement("bond");
+                writer.WriteAttributeString("atomRefs2", atomIDs[(item.gameObject.GetComponent<Bonds>() as Bonds).parent] + " " + atomIDs[(item.gameObject.GetComponent<Bonds>() as Bonds).child]);
+                writer.WriteAttributeString("order", ((item.gameObject.GetComponent<Bonds>() as Bonds).bondOrder).ToString());
+                writer.WriteEndElement(); // end of bond
+            }
+        }
+        
+        writer.WriteEndElement(); // end of bondArray
+
+        writer.WriteEndElement(); // end of molecule
+
+        writer.WriteEndDocument();
+        writer.Close();
+    }
+
     public void savePreset()
     {
+        saveMolecule();
+         GameObject body = GameObject.Find("moleculeBody");
         preset = "Preset " + presetNumber;
         path = "Assets/Resources/Presets/" + preset + ".prefab";
         if (File.Exists("Assets/Resources/Presets/" + preset + ".prefab"))
@@ -51,17 +104,20 @@ public class selectPreset : MonoBehaviour
             }
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
-        } else {
+        }
+        else
+        {
             Debug.Log("No molecule to save");
         }
     }
 
     public void getPreset()
     {
-         GameObject body = GameObject.Find("moleculeBody");
+        GameObject body = GameObject.Find("moleculeBody");
+        saveMolecule();
         if (body.transform.childCount > 0)
         {
-            (creationUser.head.GetComponent<Elements>() as Elements).DeleteElement();   
+            (creationUser.head.GetComponent<Elements>() as Elements).DeleteElement();
         }
 
         preset = "Preset " + presetNumber;
