@@ -1,11 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Xml.Linq;
-using Unity.Services.Analytics;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.XR;
+using UnityEditor;
+using Unity.Services.Analytics;
 
 /// <summary>
 /// Class for representing the internal data of an atom in the main molecule
@@ -104,9 +102,7 @@ public class Elements : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
-        //Debug.Log(gameObject.name + " " + GetID());
-    }
+    {}
 
     /// <summary>
     /// Finds the construction order of Elements, its main use is finding the parent of an Element
@@ -614,6 +610,7 @@ public class Elements : MonoBehaviour
     /// TODO: Change lone pair position calculation from distance-based to charge-based (using coulomb's law and likely the individual charges of atoms)
     /// </summary>
     public void ShowLonePairs() {
+        Debug.Log("showin");
         if(lonePairs == 0) {
             return;
         }
