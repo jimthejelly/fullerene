@@ -207,9 +207,13 @@ public class Elements : MonoBehaviour
         (cylClone.GetComponent<Bonds>() as Bonds).SetElements(this, clone.GetComponent<Elements>() as Elements);
 
         neighbors.Add(new Tuple<GameObject, GameObject>(cylClone, clone));
+        
         clone.GetComponent<Elements>().neighbors.Add(new Tuple<GameObject, GameObject>(cylClone, gameObject));
-        //neighborLoad.Add(new Tuple<String, String>(((ElementSymbols)(clone.GetComponent<Elements>() as Elements).protons)).ToString("F"), ((ElementSymbols)(cylClone.GetComponent<Elements>() as Elements).protons)).ToString("F")));
-        //clone.GetComponent<Elements>().neighborLoad.Add(new Tuple<String, String>(((ElementSymbols)(protons)).ToString("F"), ((ElementSymbols)(cylClone.GetComponent<Elements>().protons)).ToString("F")));
+        string element1 = ((ElementSymbols)(this.protons)).ToString("F");
+        string element2 = ((ElementSymbols)(clone.GetComponent<Elements>() as Elements).protons).ToString("F");
+        neighborLoad.Add(new Tuple<String, String>(element1, element2));
+        (clone.GetComponent<Elements>() as Elements).neighborLoad.Add(new Tuple<String, String>(element1, element2));
+        //clone.GetComponent<Elements>().neighborLoad.Add(new Tuple<String, String>(element2, element1));
         ResetChildPositions();
 
         clone.transform.localEulerAngles = cylClone.transform.localEulerAngles; //+ this.transform.localEulerAngles;
