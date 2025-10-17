@@ -30,7 +30,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1.2997906, y: 0.705, z: -0.48190537}
-  m_LocalScale: {x: 1.06, y: 1.06, z: 1.06}
+  m_LocalScale: {x: 0.71, y: 0.71, z: 0.71}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
@@ -121,6 +121,14 @@ MonoBehaviour:
   electrons: 18
   protons: 18
   neutrons: 0
+  defaultLonePairs: 4
   lonePairs: 4
   bondingElectrons: 0
   expandedOctet: 1
+  physicsOn: 0
+  bondCount: 0
+  bondOrders: 0
+  hasMoved: 0
+  covalentRadius: 1.06
+  epsilon: 0.0123529
+  sigma: 1.88871

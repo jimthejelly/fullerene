@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using UnityEngine.SceneManagement;
+
 public class GUIController : MonoBehaviour
 {
 
@@ -17,16 +19,16 @@ public class GUIController : MonoBehaviour
     // Text for the chemical's charge
     public TMPro.TMP_InputField chargeText;
 
-    // Text for the chemical's boiling point
-    public TMPro.TMP_InputField bpText;
-
 
     public TMPro.TextMeshProUGUI feedbackText;
+
+    private List<string> guesses = new List<string>();
 
 
     private ChemicalData guessingChemical = null;
 
     public GeneralDataController generalDataController;
+
 
 
     public void OnTitleValueChanged()
@@ -41,7 +43,8 @@ public class GUIController : MonoBehaviour
         if(data != null)
         {
             guessingChemical = data;
-            set(data, false);
+            set(data, GuessCheck(data));
+            //print(data);
         }
     }
     public void OnTitleSelect()
@@ -67,6 +70,7 @@ public class GUIController : MonoBehaviour
         {
             guessingChemical = data;
             set(data, false);
+            //print(data);
         }
     }
     public void OnFormulaSelect()
@@ -79,6 +83,15 @@ public class GUIController : MonoBehaviour
     }
 
 
+    public bool GuessCheck(ChemicalData guess)
+    {
+        if (guesses.Contains(guess.GetProperty("Title")))
+        {
+            return true;
+        }
+        guesses.Add(guess.GetProperty("Title"));
+        return false;
+    }
 
     public ChemicalData GetGuessingChemical()
     {
@@ -103,8 +116,10 @@ public class GUIController : MonoBehaviour
         formulaText.text = chemicalData.GetProperty("MolecularFormula");
         weightText.text = chemicalData.GetProperty("MolecularWeight");
         chargeText.text = chemicalData.GetProperty("Charge");
+        //print(chargeText.text);
 
         if (iGuessedThisAlready) wordleManager.EvaluateGuess(chemicalData);
+        else wordleManager.clearFeedBackText();
 
     }
 
@@ -113,4 +128,8 @@ public class GUIController : MonoBehaviour
         feedbackText.text = feedback;
     }
 
+
+    public void ExitGame() {
+        SceneManager.LoadScene("TitleScene", LoadSceneMode.Single);
+    }
 }

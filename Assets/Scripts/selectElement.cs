@@ -36,6 +36,9 @@ public class selectElement : MonoBehaviour
             GameObject clone = Instantiate(obj, Vector3.zero, Quaternion.identity, GameObject.Find("moleculeBody").transform);
             creationUser.head = clone;
             clone.transform.Rotate(180,0,0);
+            if(creationUser.lonePairsVisible) {
+                (clone.GetComponent<Elements>() as Elements).ShowLonePairs();
+            }
         }
     }
 }

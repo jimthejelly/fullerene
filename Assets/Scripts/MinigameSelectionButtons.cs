@@ -34,4 +34,12 @@ public class MinigameSelectionButtons : MonoBehaviour
         SceneManager.LoadScene("ShootAMolecule", LoadSceneMode.Single);
     }
 
+    public void LoadChemistryWordle() {
+        SceneManager.LoadScene("ChemicalWordle", LoadSceneMode.Single);
+    }
+
+    public void LoadDrawOrgo()
+    {
+        SceneManager.LoadScene("DrawOrgo", LoadSceneMode.Single);
+    }
 }

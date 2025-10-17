@@ -3,7 +3,14 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Projectiles
+  - elementButton
+  - Pivot
+  - Rock
+  - Element
+  - Bond
+  - Lone Pair
   layers:
   - Default
   - TransparentFX
@@ -11,8 +18,8 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
+  - Projectiles
+  - Rock
   - 
   - 
   - 
@@ -40,4 +47,7 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Text
+    uniqueID: 588627721
     locked: 0

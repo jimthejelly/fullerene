@@ -4,6 +4,10 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UIElements;
 
+using System.Xml;
+using System.IO;
+using System;
+
 public class creationUser : MonoBehaviour
 {
     public static GameObject head; // First element added
@@ -29,10 +33,23 @@ public class creationUser : MonoBehaviour
     Ray ray; // Tracks mouse
 	RaycastHit hit; // Object mouse touches
 
+    public static bool lonePairsVisible = false; // Whether or not lone pairs are currently visible
+
+    private bool moleculeUpdated = false; // used to keep the lone pairs visible even while editing the molecule
+    private int framesSinceMoleculeUpdated = 0; // used to keep the lone pairs visible even while editing the molecule
+
     // GameObject tempHover; // temporary object made by hovering
+
+    private Dictionary<Elements, string> atomIDs = new Dictionary<Elements, string>();
+    private Dictionary<string, Elements> IDToAtom = new Dictionary<string, Elements>();
 
     void Start()
     {
+        // clears the molecule.cml file
+        FileStream stream = File.Open("./Assets/Resources/molecule.cml", FileMode.OpenOrCreate);
+        stream.SetLength(0);
+        stream.Close();
+
         // Initializes variables to effectively nothing
         select = GameObject.Find("Main Camera");
         molecule = GameObject.Find("moleculeBody");
@@ -45,6 +62,11 @@ public class creationUser : MonoBehaviour
 
     public void Restart()
     {
+        // clears the molecule.cml file
+        FileStream stream = File.Open("./Assets/Resources/molecule.cml", FileMode.OpenOrCreate);
+        stream.SetLength(0);
+        stream.Close();
+
         // Initializes variables to effectively nothing
         select = GameObject.Find("Main Camera");
         molecule = GameObject.Find("moleculeBody");
@@ -83,9 +105,163 @@ public class creationUser : MonoBehaviour
             // Manages mouse click and hover interaction
             Hovering();
         }
+
+        if(Input.GetKeyDown("s")) {
+            Debug.Log("Saving Molecule");
+            SaveMolecule();
+        }
+
+        if(Input.GetKeyDown("l")) {
+            Debug.Log("Loading Molecule");
+            LoadMolecule();
+            if(lonePairsVisible) {
+                HideLonePairs();
+                moleculeUpdated = true;
+            }
+        }
+
+        if(Input.GetKeyDown("p")) {
+            if(lonePairsVisible) {
+                HideLonePairs();
+            }
+            else {
+                ShowLonePairs();
+            }
+        }
+
+        if(moleculeUpdated) {
+            framesSinceMoleculeUpdated++;
+            if(framesSinceMoleculeUpdated > molecule.transform.childCount) {
+                ShowLonePairs();
+                framesSinceMoleculeUpdated = 0;
+                moleculeUpdated = false;
+            }
+        }
+
+        // exert forces on all the atoms starting at the root and moving out
+        if(head != null) {
+            foreach(Transform element in molecule.transform) {
+                if(element.CompareTag("Element")) {
+                    (element.GetComponent<Elements>() as Elements).CalculateForceVector();
+                }
+            }
+            (head.GetComponent<Elements>() as Elements).UpdatePosition();
+        }
+        foreach(Transform element in molecule.transform) {
+            if(element.CompareTag("Element")) {
+                (element.GetComponent<Elements>() as Elements).hasMoved = false;
+            }
+        }
+    }
+
+    void ShowLonePairs() {
+        Debug.Log("Showing Lone Pairs");
+        foreach(Transform item in molecule.transform) {
+            if(item.tag.Equals("Element")) {
+                (item.gameObject.GetComponent<Elements>() as Elements).ShowLonePairs();
+            }
+        }
+        lonePairsVisible = true;
+    }
+
+    void HideLonePairs() {
+        Debug.Log("Hiding Lone Pairs");
+        foreach(Transform item in molecule.transform) {
+            if(item.tag.Equals("Lone Pair")) {
+                Destroy(item.gameObject);
+            }
+        }
+        lonePairsVisible = false;
+    }
+
+    void SaveMolecule() {
+        if(molecule.transform.childCount == 0) {
+            Debug.Log("No molecule to save!");
+            return;
+        }
+        XmlTextWriter writer = new XmlTextWriter("./Assets/Resources/molecule.cml", null);
+        writer.WriteStartDocument();
+
+        writer.Formatting = Formatting.Indented;
+        writer.Indentation = 4;
+
+        writer.WriteStartElement("molecule");
+
+        writer.WriteStartElement("atomArray");
+
+        atomIDs = new Dictionary<Elements, string>();
+        IDToAtom = new Dictionary<string, Elements>();
+        int count = 1;
+        foreach(Transform item in molecule.transform) {
+            if(item.tag.Equals("Element")) {
+                atomIDs.Add(item.gameObject.GetComponent<Elements>() as Elements, "a" + count);
+                IDToAtom.Add("a" + count++, item.gameObject.GetComponent<Elements>() as Elements);
+                writer.WriteStartElement("atom");
+                writer.WriteAttributeString("id", atomIDs[item.gameObject.GetComponent<Elements>() as Elements]);
+                writer.WriteAttributeString("elementType", ((ElementSymbols)((item.gameObject.GetComponent<Elements>() as Elements).protons)).ToString("F"));
+                writer.WriteAttributeString("x3", item.position.x.ToString());
+                writer.WriteAttributeString("y3", item.position.y.ToString());
+                writer.WriteAttributeString("z3", item.position.z.ToString());
+                writer.WriteEndElement(); // end of atom
+            }
+        }
+
+        writer.WriteEndElement(); // end of atomArray
+
+        writer.WriteStartElement("bondArray");
+
+        foreach(Transform item in molecule.transform) {
+            if(item.tag.Equals("Bond")) {
+                writer.WriteStartElement("bond");
+                writer.WriteAttributeString("atomRefs2", atomIDs[(item.gameObject.GetComponent<Bonds>() as Bonds).parent] + " " + atomIDs[(item.gameObject.GetComponent<Bonds>() as Bonds).child]);
+                writer.WriteAttributeString("order", ((item.gameObject.GetComponent<Bonds>() as Bonds).bondOrder).ToString());
+                writer.WriteEndElement(); // end of bond
+            }
+        }
         
-        
-        
+        writer.WriteEndElement(); // end of bondArray
+
+        writer.WriteEndElement(); // end of molecule
+
+        writer.WriteEndDocument();
+        writer.Close();
+    }
+
+    void LoadMolecule() {
+        if(atomIDs.Count == 0) {
+            Debug.Log("no IDs stored");
+            return;
+        }
+        // move atoms into place
+        XmlTextReader reader = new XmlTextReader("./Assets/Resources/molecule.cml");
+        while(reader.Read()) {
+            if(reader.NodeType == XmlNodeType.Element) {
+                if(reader.Name.Equals("atom")) {
+                    IDToAtom[reader.GetAttribute("id")].transform.position = new Vector3(
+                        float.Parse(reader.GetAttribute("x3")), float.Parse(reader.GetAttribute("y3")), float.Parse(reader.GetAttribute("z3")));
+                }
+            }
+        }
+        reader.Close();
+
+        // move bonds
+        foreach(Transform item in molecule.transform) {
+            if(item.tag.Equals("Bond")) {
+                // setting bond position
+                Vector3 parentPos = (item.gameObject.GetComponent<Bonds>() as Bonds).parent.transform.position;
+                Vector3 childPos = (item.gameObject.GetComponent<Bonds>() as Bonds).child.transform.position;
+                Debug.Log(parentPos + " " + childPos);
+                item.position = new Vector3((parentPos.x + childPos.x) / 2, (parentPos.y + childPos.y) / 2, (parentPos.z + childPos.z) / 2);
+
+                // setting bond rotation
+                item.LookAt(parentPos);
+                item.Rotate(90, 0, 0);
+
+                // setting bond length
+                item.localScale = new Vector3(0.15f, Mathf.Sqrt(
+                    Mathf.Pow(parentPos.x - childPos.x, 2) + Mathf.Pow(parentPos.y - childPos.y, 2) + Mathf.Pow(parentPos.z - childPos.z, 2)) / 2, 0.15f);
+            }
+        }
     }
 
     /*
@@ -316,17 +492,33 @@ public class creationUser : MonoBehaviour
                         Elements script = hit.collider.gameObject.GetComponent<Elements>();
                         script.SpawnElement(elements);
                         elements++;
+                        if(lonePairsVisible) {
+                            HideLonePairs();
+                            moleculeUpdated = true;
+                        }
                     }
                     else if(hit.transform.tag.Equals("Bond")) {
                         Bonds script = hit.collider.gameObject.GetComponent<Bonds>();
                         script.CycleBondOrder(elements);
                         elements++;
                         bondReplace = true;
+                        if(lonePairsVisible) {
+                            HideLonePairs();
+                            moleculeUpdated = true;
+                        }
+                    }
+                    else {
+                        Debug.Log("clicked neither a bond nor an element");
                     }
                 }
                 else if(Input.GetKey(KeyCode.LeftShift)){
                     Elements script = hit.collider.gameObject.GetComponent<Elements>();
                     script.DeleteElement();
+                    Debug.Log(lonePairsVisible);
+                    if(lonePairsVisible) {
+                        HideLonePairs();
+                        moleculeUpdated = true;
+                    }
                 }
             }
         } else if (clicknumber == 2) { // 2 click interaction

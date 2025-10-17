@@ -41,7 +41,7 @@ public class GeneralDataController : MonoBehaviour
 
 
     public PubChemAPIManager pubChemAPIManager;
-    public string[] dataTypes = { "Title", "MolecularFormula", "MolecularWeight", "Charge" };
+    public string[] dataTypes = { "Title", "MolecularFormula", "MolecularWeight", "Charge"};
 
     /** Gets a crazy number of chemicals from the PubChem database. */
     public void GetAllChemicals()
@@ -58,6 +58,7 @@ public class GeneralDataController : MonoBehaviour
         for (int dataTypeIndex = 0; dataTypeIndex < dataTypes.GetLength(0); dataTypeIndex++)
         {
             dataTypes[dataTypeIndex] = dataTypes[dataTypeIndex].Substring(1, dataTypes[dataTypeIndex].Length - 2);
+            //print(dataTypes[dataTypeIndex]);
         }
         for (int dataIndex = 1; dataIndex < textLines.GetLength(0); dataIndex++)
         {
@@ -74,12 +75,18 @@ public class GeneralDataController : MonoBehaviour
                     inQuotes = !inQuotes;
                 }
                 if ((thisLine[textIndex] != '"' && thisLine[textIndex] == ',')
-                    || textIndex == thisLine.Length - 1)
+                    || textIndex == thisLine.Length-1)
                 {
                     if (!inQuotes)
                     {
-                        // Debug.Log("!!" + word);
+                        //Debug.Log("!!" + word);
+
+                        if (dataTypes[i] == "Charge")
+                        {
+                            word += (thisLine[thisLine.Length - 1]);
+                        }
                         thisData[i] = word;
+                        //Debug.Log(dataTypes[i] + "!!" + word);
                         word = "";
                         i++;
                     }
@@ -92,7 +99,21 @@ public class GeneralDataController : MonoBehaviour
             for (int dataTypeIndex = 0; dataTypeIndex < dataTypes.GetLength(0); dataTypeIndex++)
             {
                 // Debug.Log(dataTypes[dataTypeIndex] + " = " + thisData[dataTypeIndex]);
-                chemicalData.SetProperty(dataTypes[dataTypeIndex], thisData[dataTypeIndex]);
+                if (dataTypes[dataTypeIndex] == "Charge")
+                {
+                    if (thisData[dataTypeIndex] == "")
+                    {
+                        chemicalData.SetProperty(dataTypes[dataTypeIndex], "0");
+                    } else
+                    {
+                        chemicalData.SetProperty(dataTypes[dataTypeIndex], thisData[dataTypeIndex]);
+                    }
+                }
+                else
+                {
+                    chemicalData.SetProperty(dataTypes[dataTypeIndex], thisData[dataTypeIndex]);
+                }
+                //print(dataTypes[dataTypeIndex]);
             }
             if (chemicalData != null && chemicalData.GetProperty("CID") != "")
             {
