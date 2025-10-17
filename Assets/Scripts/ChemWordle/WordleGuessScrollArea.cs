@@ -1,47 +1,35 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class WordleGuessScrollArea : MonoBehaviour
+namespace ChemWordle
 {
-    public RectTransform rect;
-
-    public GameObject parent;
-    public GameObject actualParent;
-
-
-    public int spacing;
-    // Start is called before the first frame update
-    void Start()
+    public class WordleGuessScrollArea : MonoBehaviour
     {
+        public RectTransform rect;
 
-    }
+        public GameObject parent;
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
+        public int spacing;
 
 
-    public void ExpandToAccommodate(int numGuesses)
-    {
-        rect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, (numGuesses *300 ) + 850);
-
-
-        for (int i = 0; i < numGuesses - 1; i++)
+        public void ExpandToAccommodate(int numGuesses)
         {
-            parent.transform.GetChild(i).transform.position += new Vector3(0, -spacing, 0);
+            rect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, (numGuesses *300 ) + 850);
+
+
+            for (int i = 0; i < numGuesses - 1; i++)
+            {
+                parent.transform.GetChild(i).transform.position += new Vector3(0, -spacing, 0);
+            }
+
+            transform.position = new Vector3(transform.position.x, spacing/2.0f * numGuesses, transform.position.z);
+
+
         }
 
-        transform.position = new Vector3(transform.position.x, spacing/2.0f * numGuesses, transform.position.z);
+        public void scroll(Vector2 amt)
+        {
 
-
-    }
-
-    public void scroll(Vector2 amt)
-    {
+        }
 
     }
-
 }

@@ -1,127 +1,73 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
 
-public class GeneralDataController : MonoBehaviour
+namespace ChemWordle
 {
 
-    public List<ChemicalData> allData = new List<ChemicalData>();
-
-    public ChemicalData GetChemicalWithProperty(string propertyName, string propertyValue)
+    /** The centralized place where all chemical data is cached and managed. */
+    public class GeneralDataController : MonoBehaviour
     {
-        foreach (ChemicalData data in allData)
+
+        /** An array of all data types desired by the game.
+         * These must match data type names in the PubChem database. */
+        public static readonly List<string> DataTypes = new()
         {
-            try {
-                if (data != null && data.GetProperty(propertyName).ToLower() == propertyValue.ToLower())
-                {
-                    return data;
-                }
-            }
-            catch (Exception e)
+            "Title",
+            "MolecularFormula",
+            "MolecularWeight",
+            "Charge"
+        };
+
+        /** The list itself. You should be honored. */
+        private readonly List<ChemicalData> _allData = new();
+
+        /** Returns a chemical, if any exist, that matches the given value for the given property name.
+         * Returns null otherwise. */
+        public ChemicalData GetChemicalWithProperty(string propertyName, string propertyValue)
+        {
+
+            // TODO: could easily redo this to be more efficient
+            // not sure if there'd be any benefit though
+
+            // make the value case-insensitive beforehand just for convenience
+            var valueLower = propertyValue.ToLower();
+
+            // loop through each chemical
+            foreach (var data in _allData)
             {
-                // oh well :)
-            }
-        }
-        Debug.Log("Could not find a chemical with value '" + propertyValue + "' (for property '" + propertyName + "')");
-        return null;
-    }
+                // excuse me..? why is this possible?
+                if (data == null) continue;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        GetAllChemicals();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-
-    public PubChemAPIManager pubChemAPIManager;
-    public string[] dataTypes = { "Title", "MolecularFormula", "MolecularWeight", "Charge"};
-
-    /** Gets a crazy number of chemicals from the PubChem database. */
-    public void GetAllChemicals()
-    {
-        // ChemicalData[] data = new ChemicalData[0];
-        // // pubChemAPIManager.MakeAPIRequest(1, 1000, dataTypes);
-    }
-
-    public void UpdateInternalData(string text)
-    {
-        // Debug.Log(text);
-        string[] textLines = text.Split('\n');
-        string[] dataTypes = textLines[0].Split(',');
-        for (int dataTypeIndex = 0; dataTypeIndex < dataTypes.GetLength(0); dataTypeIndex++)
-        {
-            dataTypes[dataTypeIndex] = dataTypes[dataTypeIndex].Substring(1, dataTypes[dataTypeIndex].Length - 2);
-            //print(dataTypes[dataTypeIndex]);
-        }
-        for (int dataIndex = 1; dataIndex < textLines.GetLength(0); dataIndex++)
-        {
-            ChemicalData chemicalData = new ChemicalData();
-            string[] thisData = new string[dataTypes.GetLength(0)];
-            string thisLine = textLines[dataIndex];
-            string word = "";
-            bool inQuotes = false;
-            int i = 0;
-            for (int textIndex = 0; textIndex < thisLine.Length; textIndex++)
-            {
-                if (thisLine[textIndex] == '"')
+                try
                 {
-                    inQuotes = !inQuotes;
-                }
-                if ((thisLine[textIndex] != '"' && thisLine[textIndex] == ',')
-                    || textIndex == thisLine.Length-1)
-                {
-                    if (!inQuotes)
+                    if (data.GetProperty(propertyName) == null)
                     {
-                        //Debug.Log("!!" + word);
-
-                        if (dataTypes[i] == "Charge")
-                        {
-                            word += (thisLine[thisLine.Length - 1]);
-                        }
-                        thisData[i] = word;
-                        //Debug.Log(dataTypes[i] + "!!" + word);
-                        word = "";
-                        i++;
+                        Debug.LogError(data);
+                        continue;
                     }
+
+                    // check if this chemical matches the requirements.
+                    // if it does match, return it!
+                    if (data.GetProperty(propertyName).ToLower().Equals(valueLower))
+                        return data;
                 }
-                else if (thisLine[textIndex] != '"')
+                // TODO: Think of a more serious way to handle exceptions.
+                catch (Exception e)
                 {
-                    word += thisLine[textIndex];
+                    // oh well :)
+                    Debug.LogError(e);
                 }
-            }
-            for (int dataTypeIndex = 0; dataTypeIndex < dataTypes.GetLength(0); dataTypeIndex++)
-            {
-                // Debug.Log(dataTypes[dataTypeIndex] + " = " + thisData[dataTypeIndex]);
-                if (dataTypes[dataTypeIndex] == "Charge")
-                {
-                    if (thisData[dataTypeIndex] == "")
-                    {
-                        chemicalData.SetProperty(dataTypes[dataTypeIndex], "0");
-                    } else
-                    {
-                        chemicalData.SetProperty(dataTypes[dataTypeIndex], thisData[dataTypeIndex]);
-                    }
-                }
-                else
-                {
-                    chemicalData.SetProperty(dataTypes[dataTypeIndex], thisData[dataTypeIndex]);
-                }
-                //print(dataTypes[dataTypeIndex]);
-            }
-            if (chemicalData != null && chemicalData.GetProperty("CID") != "")
-            {
-                allData.Add(chemicalData);
-                // chemicalData.print();
             }
 
+            // seems like no chemicals matched. return null
+            return null;
+
         }
+
+        /** Adds the given chemical data to THE list. */
+        public void RegisterChemicalData(ChemicalData chemicalData) => _allData.Add(chemicalData);
+
     }
 
 }
