@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEditor;
 using System.Xml;
 using System.IO;
+using System;
 
 
 
@@ -43,8 +44,10 @@ public class selectPreset : MonoBehaviour
         Dictionary<Elements, string> atomIDs = new Dictionary<Elements, string>();
         Dictionary<string, Elements> IDToAtom = new Dictionary<string, Elements>();
         int count = 1;
-        foreach(Transform item in molecule.transform) {
-            if(item.tag.Equals("Element")) {
+        foreach (Transform item in molecule.transform)
+        {
+            if (item.tag.Equals("Element"))
+            {
                 atomIDs.Add(item.gameObject.GetComponent<Elements>() as Elements, "a" + count);
                 IDToAtom.Add("a" + count++, item.gameObject.GetComponent<Elements>() as Elements);
                 writer.WriteStartElement("atom");
@@ -61,15 +64,17 @@ public class selectPreset : MonoBehaviour
 
         writer.WriteStartElement("bondArray");
 
-        foreach(Transform item in molecule.transform) {
-            if(item.tag.Equals("Bond")) {
+        foreach (Transform item in molecule.transform)
+        {
+            if (item.tag.Equals("Bond"))
+            {
                 writer.WriteStartElement("bond");
                 writer.WriteAttributeString("atomRefs2", atomIDs[(item.gameObject.GetComponent<Bonds>() as Bonds).parent] + " " + atomIDs[(item.gameObject.GetComponent<Bonds>() as Bonds).child]);
                 writer.WriteAttributeString("order", ((item.gameObject.GetComponent<Bonds>() as Bonds).bondOrder).ToString());
                 writer.WriteEndElement(); // end of bond
             }
         }
-        
+
         writer.WriteEndElement(); // end of bondArray
 
         writer.WriteEndElement(); // end of molecule
@@ -78,10 +83,46 @@ public class selectPreset : MonoBehaviour
         writer.Close();
     }
 
+    private void saveNeighbors()
+    {
+        GameObject molecule = GameObject.Find("moleculeBody");
+        if (molecule.transform.childCount == 0)
+        {
+            Debug.Log("No molecule to save!");
+            return;
+        }
+        string path = "Assets/Resources/Presets/template.txt";
+        if (!File.Exists(path))
+        {
+            File.Create(path).Dispose();
+        }
+        else
+        {
+            File.WriteAllText(path, string.Empty);
+        }
+        
+        foreach (Transform item in molecule.transform)
+        {
+            if (item.tag.Equals("Element"))
+            {
+                string line = "";
+                List<Tuple<String, String>> neighbors = (item.gameObject.GetComponent<Elements>() as Elements).GetStringNeighbors();
+                line += neighbors[0].Item1 + ": ";
+                foreach (Tuple<String, String> neighbor in neighbors)
+                {
+                    line += neighbor.Item2 + " ";
+                }
+                line += "\n";
+                File.AppendAllText(path, line);
+            }
+        }
+    }
+
     public void savePreset()
     {
+        saveNeighbors();
         saveMolecule();
-         GameObject body = GameObject.Find("moleculeBody");
+        GameObject body = GameObject.Find("moleculeBody");
         preset = "Preset " + presetNumber;
         path = "Assets/Resources/Presets/" + preset + ".prefab";
         if (File.Exists("Assets/Resources/Presets/" + preset + ".prefab"))

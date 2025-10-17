@@ -153,6 +153,10 @@ public class Elements : MonoBehaviour
         bondingElectrons -= change;
     }
 
+    public List<Tuple<String, String>> GetStringNeighbors() { 
+        return neighborLoad;
+    }
+
     public List<Tuple<GameObject, GameObject>> GetNeighbors()
     {
         return neighbors;
