@@ -257,8 +257,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 4044939098805074390}
-        m_TargetAssemblyTypeName: ForPrefabButton, Assembly-CSharp
-        m_MethodName: DoSomethingCool
+        m_TargetAssemblyTypeName: ChemWordle.ForPrefabButton, Assembly-CSharp
+        m_MethodName: OnPressed
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

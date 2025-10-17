@@ -1,42 +1,28 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
+using System.Linq;
 
-/** Represents all the information associated with one chemical in the PubChem database. */
-public class ChemicalData
+namespace ChemWordle
 {
-
-    private Dictionary<string, string> properties = new Dictionary<string, string>();
-    public string GetProperty(string propertyName)
-    {
-        if (properties.ContainsKey(propertyName))
-        {
-            return properties[propertyName];
-        }
-        else
-        {
-            print();
-            return "<NULL>";
-        }
-    }
-    public void SetProperty(string propertyName, string propertyValue)
-    {
-        properties[propertyName] = propertyValue;
-
-    }
-
-
-    /** Prints this ChemicalData to the console. */
-    public void print()
-    {
-        Debug.Log("Chemical Data[" + 
-            "cid: " + this.GetProperty("CID") + ", " +
-            "molecular formula: " + this.GetProperty("MolecularFormula") + ", " +
-            "molecular weight: " + this.GetProperty("MolecularWeight") + ", " +
-            "title: " + this.GetProperty("Title") + ", " +
-            "charge: " + this.GetProperty("Charge") + "]"
-        );
-    }
     
+    /** Stores all the information for one chemical in the PubChem database. */
+    public class ChemicalData
+    {
+
+        /** Where the data actually lives.
+         * Set up for any number of properties. */
+        private readonly Dictionary<string, string> properties = new();
+        public string GetProperty(string propertyName) =>
+            properties.GetValueOrDefault(propertyName, "<NULL>");
+        public void SetProperty(string propertyName, string propertyValue) =>
+            properties[propertyName] = propertyValue;
+
+        
+        public override string ToString()
+        {
+            return properties.Keys.Aggregate("Chemical Data[",
+                (current, propertyName) =>
+                    current + $"{propertyName}={properties[propertyName]}, ")[..^1] + "]";
+        }
+
+    }
 }

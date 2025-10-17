@@ -1,239 +1,239 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using System;
-using Random = System.Random;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using UnityEngine;
+using Random = System.Random;
 
-
-/** Handles the main game logic, like making and evaluating guesses. */
-public class WordleManager : MonoBehaviour
+namespace ChemWordle
 {
-
-    public PubChemAPIManager pubChemAPIManager;
-
-    public WordleGuessScrollArea wordleGuessScrollArea;
-
-    int i2 = 0;
-
-    public GameObject prefab;
-
-    public GameObject VictoryPrefab;
-
-    public GameObject guessesListedHere;
-
-    public GameObject GUI;
-
-    public double acceptableWeight = 100;
-
-    /** Adds the given guess to the list of all guesses. */
-    public void AddGuess(ChemicalData guess)
+    
+    /** Handles the main game logic, like making and evaluating guesses. */
+    public class WordleManager : MonoBehaviour
     {
 
-        // Create a label to represent the guess
-        GameObject guessObject = Instantiate(prefab, guessesListedHere.transform.GetChild(0));
-        guessObject.GetComponent<ForPrefabButton>().SetCID(Int32.Parse(guess.GetProperty("CID")));
-        guessObject.GetComponent<ForPrefabButton>().text.text = guess.GetProperty("Title");
-        RectTransform rect2 = guessObject.GetComponent<RectTransform>();
-        RectTransform rect3 = guessesListedHere.GetComponent<RectTransform>();
-        //rect2.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, rect3.rect.width);
-        //rect2.offsetMin = new Vector2(0, 0);
-        //rect2.offsetMax = new Vector2(0, 0);
+        /** A reference to the GeneralDataController instance. */
+        private GeneralDataController _generalDataController;
+        
+        /** A reference to the GUIController instance. */
+        private GUIController _guiController;
+        
+        /** A reference to the WordleGuessScrollArea instance. */
+        private WordleGuessScrollArea _wordleGuessScrollArea;
 
-        i2++;
-
-        // Move it to the appropriate position
-        guessObject.transform.position += new Vector3(0, 1, 0) * i2 * wordleGuessScrollArea.spacing;// + new Vector3(0, -2000, 0);
-
-        wordleGuessScrollArea.ExpandToAccommodate(i2);
-
-    }
-
-    public GUIController guiController;
-
-
-    public void set(ChemicalData chemicalData, bool iGuessedThisAlready)
-    {
-        guiController.SetGuessingChemical(chemicalData);
-        guiController.set(chemicalData, iGuessedThisAlready);
-    }
-
-    private ChemicalData mysteryChemical;
-    public ChemicalData GetMysteryChemical()
-    {
-        return mysteryChemical;
-    }
-    public void SetMysteryChemical(ChemicalData[] mysteryChemicals)
-    {
-
-        ChemicalData minChemical = mysteryChemicals[0];
-        List<ChemicalData> validChemicals = new List<ChemicalData>();
-        foreach(ChemicalData data in mysteryChemicals)
+        /** Start is called before the first frame update */
+        private void Start()
         {
-            double weight = Double.Parse(data.GetProperty("MolecularWeight"));
-            if (weight < acceptableWeight)
-            {
-                validChemicals.Add(data);
-            }
+            
+            // initialize script instance references
+            _generalDataController = FindObjectOfType<GeneralDataController>();
+            _guiController = FindObjectOfType<GUIController>();
+            _wordleGuessScrollArea = FindObjectOfType<WordleGuessScrollArea>();
+        
+            // can't await this, i think it'll crash the whole program
+            // btw jetbrains shut up about it please
+            // TODO: find the correct way to run this asynchronously
+#pragma warning disable CS4014
+            chooseMysteryChemical();
+#pragma warning restore CS4014
+        
         }
-        
 
-        Random rng = new Random();
-        
 
-        this.mysteryChemical = validChemicals[rng.Next(validChemicals.Count)];
-        //this.mysteryChemical = minChemical;
-    }
-
-    public void chooseMysteryChemical()
-    {
-        int cidBeginning = UnityEngine.Random.Range(500, 1000);
-        string builder = "";
-        for (int i = cidBeginning; i < cidBeginning + 200; i++)
+        private static bool MysteryChemicalSelectionCriterion(ChemicalData chemical)
         {
-            builder += i.ToString();
-            if (i != cidBeginning + 199) builder += ",";
+            return
+                double.Parse(chemical.GetProperty("MolecularWeight")) < 200 &&
+                chemical.GetProperty("Title").Length > 2 &&
+                chemical.GetProperty("Title").Length < 14 &&
+                chemical.GetProperty("MolecularFormula").Length < 16;
         }
+    
         
-        pubChemAPIManager.MakeAPIRequest(builder, pubChemAPIManager.generalDataController.dataTypes, "set_mystery_chemical");
-    }
+        /** List of all guessed chemicals */
+        private readonly List<string> _guesses = new();
+        public bool AlreadyGuessed(string guess) => _guesses.Contains(guess);
 
-    void Start()
-    {
-        chooseMysteryChemical();
-    }
-
-    public void VICTORY()
-    {
-        GameObject DoubleU = Instantiate(VictoryPrefab, GUI.transform);
-        
-        DoubleU.transform.localPosition = new Vector3(0, 0, 0);
-        DoubleU.transform.localScale.Set(2, 2, 1);
-    }
-
-
-    /** Guesses the currently entered chemical. */
-    public void MakeGuess()
-    {
-
-        ChemicalData guessingChemical = guiController.GetGuessingChemical();
-
-        AddGuess(guessingChemical);
-        EvaluateGuess(guessingChemical);
-
-        // Debug.Log(titleText.text);
-        // Debug.Log(formulaText.text);
-        // Debug.Log(weightText.text);
-        // Debug.Log(chargeText.text);
-        // Debug.Log(bpText.text);
-    }
-
-    private bool IsNumeric(char c)
-    {
-        return "0123456789".Contains(c);
-    }
-    private bool IsLowercase(char c)
-    {
-        return "abcdefghijklmnopqrstuvwxyz".Contains(c);
-    }
-
-    public void EvaluateGuess(ChemicalData guessing)
-    {
-
-        string feedback = "";
-        int guessCharge = Convert.ToInt32(guessing.GetProperty("Charge")), actualCharge = Convert.ToInt32(mysteryChemical.GetProperty("Charge"));
-        double guessWeight = Convert.ToDouble(guessing.GetProperty("MolecularWeight")), actualWeight = Convert.ToDouble(mysteryChemical.GetProperty("MolecularWeight"));
-        string guessingFormula = guessing.GetProperty("MolecularFormula");
-        string actualFormula = mysteryChemical.GetProperty("MolecularFormula");
-        //print(mysteryChemical.GetProperty("BoilingPoint"));
-        print(mysteryChemical.GetProperty("MolecularFormula"));
-
-        for (int i = 0; i < guessingFormula.Length; i++)
+        /** The chemical currently entered into the GUI */
+        private ChemicalData _guessingChemical;
+        public void SetGuessingChemical(ChemicalData chemical)
         {
-            char c = guessingFormula[i];
-            if (IsNumeric(c) || c == '-' || c == '+' || IsLowercase(c)) continue;
-            string elementWordBuilder = "" + c;
-            for (int j = i + 1; j < guessingFormula.Length; j++)
+            _guessingChemical = chemical;
+            _guiController.set(chemical);
+        }
+
+        private ChemicalData _mysteryChemical;
+
+        
+        /** Queries for and selects the mystery chemical. */
+        private async Task chooseMysteryChemical()
+        {
+        
+            // make a list of a bunch of cids
+            List<int> possibleCIDs = new();
+            for (var i = 100; i < 5000; i++)
             {
-                if (IsLowercase(guessingFormula[j]))
-                {
-                    elementWordBuilder += guessingFormula[j];
-                }
-                else break;
+                possibleCIDs.Add(i);
             }
-            if (actualFormula.Contains(elementWordBuilder))
+            List<int> cids = new();
+            for (var i = 0; i < 500; i++)
             {
-                int count1 = 0;
-                for (int j = i + elementWordBuilder.Length; j < guessingFormula.Length; j++)
+                var idx = new Random().Next(0, possibleCIDs.Count);
+                cids.Add(possibleCIDs[idx]);
+                possibleCIDs.RemoveAt(idx);
+            }
+
+            // request and register them!
+            var results = await PubChemAPIManager.RequestChemicals(cids, GeneralDataController.DataTypes);
+            foreach (var data in results) _generalDataController.RegisterChemicalData(data);
+            
+            // and then select a random chemical, below the weight limit, to be the mystery chemical.
+            // TODO: work on the mystery chemical selection function
+            var validChemicals = (
+                from data in results
+                where MysteryChemicalSelectionCriterion(data)
+                select data
+            ).ToList();
+            _mysteryChemical = validChemicals[new Random().Next(validChemicals.Count)];
+            
+            // sneaky debug statement
+            // Debug.Log("mystery chemical: " + _mysteryChemical);
+            
+        }
+
+        private void VICTORY()
+        {
+            var DoubleU = Instantiate(_guiController.victoryPrefab, _guiController.gui.transform);
+        
+            DoubleU.transform.localPosition = new Vector3(0, 0, 0);
+            DoubleU.transform.localScale.Set(2, 2, 1);
+        }
+
+        /** Guesses the currently entered chemical. */
+        public void MakeGuess()
+        {
+
+            // Create a label to represent the guess
+            var guessObject = Instantiate(_guiController.prefab, _guiController.guessesListedHere.transform.GetChild(0));
+            guessObject.GetComponent<ForPrefabButton>().SetCID(int.Parse(_guessingChemical.GetProperty("CID")));
+            guessObject.GetComponent<ForPrefabButton>().SetText(_guessingChemical.GetProperty("Title"));
+
+            
+            _guesses.Add(_guessingChemical.GetProperty("Title"));
+
+            // Move it to the appropriate position
+            guessObject.transform.position +=
+                new Vector3(0, 1, 0) * _guesses.Count * _wordleGuessScrollArea.spacing;
+
+            _wordleGuessScrollArea.ExpandToAccommodate(_guesses.Count);
+            
+            EvaluateGuess(_guessingChemical);
+        
+            _guiController.SetGuessButtonEnabled(false);
+            
+        }
+
+        private static bool IsNumeric(char c)
+        {
+            return "0123456789".Contains(c);
+        }
+        private static bool IsLowercase(char c)
+        {
+            return "abcdefghijklmnopqrstuvwxyz".Contains(c);
+        }
+
+        public void EvaluateGuess(ChemicalData guessing)
+        {
+
+            var feedback = "";
+            int guessCharge = Convert.ToInt32(guessing.GetProperty("Charge")), actualCharge = Convert.ToInt32(_mysteryChemical.GetProperty("Charge"));
+            double guessWeight = Convert.ToDouble(guessing.GetProperty("MolecularWeight")), actualWeight = Convert.ToDouble(_mysteryChemical.GetProperty("MolecularWeight"));
+            var guessingFormula = guessing.GetProperty("MolecularFormula");
+            var actualFormula = _mysteryChemical.GetProperty("MolecularFormula");
+
+            for (var i = 0; i < guessingFormula.Length; i++)
+            {
+                var c = guessingFormula[i];
+                if (IsNumeric(c) || c == '-' || c == '+' || IsLowercase(c)) continue;
+                var elementWordBuilder = "" + c;
+                for (var j = i + 1; j < guessingFormula.Length; j++)
                 {
-                    char c2 = guessingFormula[j];
-                    if (!IsNumeric(c2)) break;
-                    count1 = count1 * 10 + Int32.Parse("" + c2);
+                    if (IsLowercase(guessingFormula[j]))
+                    {
+                        elementWordBuilder += guessingFormula[j];
+                    }
+                    else break;
                 }
-                if (count1 == 0) count1 = 1;
-                int count2 = 0;
-                for (int j = actualFormula.IndexOf(elementWordBuilder) + elementWordBuilder.Length; j < actualFormula.Length; j++)
+                if (actualFormula.Contains(elementWordBuilder))
                 {
-                    char c2 = actualFormula[j];
-                    if (!IsNumeric(c2)) break;
-                    count2 = count2 * 10 + Int32.Parse("" + c2);
+                    var count1 = 0;
+                    for (var j = i + elementWordBuilder.Length; j < guessingFormula.Length; j++)
+                    {
+                        var c2 = guessingFormula[j];
+                        if (!IsNumeric(c2)) break;
+                        count1 = count1 * 10 + int.Parse("" + c2);
+                    }
+                    if (count1 == 0) count1 = 1;
+                    var count2 = 0;
+                    for (var j = actualFormula.IndexOf(elementWordBuilder, StringComparison.Ordinal) + elementWordBuilder.Length; j < actualFormula.Length; j++)
+                    {
+                        var c2 = actualFormula[j];
+                        if (!IsNumeric(c2)) break;
+                        count2 = count2 * 10 + int.Parse("" + c2);
+                    }
+                    if (count2 == 0) count2 = 1;
+                    if (count1 > count2) feedback += "You have too many of " + elementWordBuilder + "\n";
+                    else if (count1 < count2) feedback += "You have too few of " + elementWordBuilder + "\n";
+                    else feedback += "You have the right amount of " + elementWordBuilder + "!" + "\n";
                 }
-                if (count2 == 0) count2 = 1;
-                if (count1 > count2) feedback += "You have too many of " + elementWordBuilder + "\n";
-                else if (count1 < count2) feedback += "You have too few of " + elementWordBuilder + "\n";
-                else feedback += "You have the right amount of " + elementWordBuilder + "!" + "\n";
+                else
+                {
+                    feedback += elementWordBuilder + " shouldn't be present" + "\n";
+                }
+            }
+
+            feedback = actualFormula
+                .Where(c => !IsNumeric(c) && c != '-' && c != '+')
+                .Where(c => !guessingFormula.Contains(c) && !IsLowercase(c))
+                .Aggregate(feedback, (current, _) => current + "An element is missing" + "\n");
+            
+            _guiController.SetFormulaFeedback(feedback);
+            
+            if (Math.Abs(actualWeight - guessWeight) < 0.00001f)
+            {
+                _guiController.SetWeightFeedback("Correct");
+            }
+            else if (actualWeight > guessWeight)
+            {
+                _guiController.SetWeightFeedback("Too Light");
             }
             else
             {
-                feedback += elementWordBuilder + " shouldn't be present" + "\n";
+                _guiController.SetWeightFeedback("Too Heavy");
             }
-        }
-
-        for (int i = 0; i < actualFormula.Length; i++)
-        {
-            char c = actualFormula[i];
-            if (IsNumeric(c) || c == '-' || c == '+') { 
-                continue;
-            }
-            if (!guessingFormula.Contains(c) && !IsLowercase(c))
+            if (actualCharge == guessCharge)
             {
-                feedback += "An element is missing" + "\n";
+                _guiController.SetChargeFeedback("Correct");
+            } else if (actualCharge > guessCharge) {
+                _guiController.SetChargeFeedback("Too Negative");
+            } else
+            {
+                _guiController.SetChargeFeedback("Too Positive");
             }
-        }
-        if (actualWeight == guessWeight)
-        {
-            feedback += "You have the correct Weight\n";
-        }
-        else if (actualWeight > guessWeight)
-        {
-            feedback += "You have too little Weight\n";
-        }
-        else
-        {
-            feedback += "You have too much Weight\n";
-        }
-        Debug.Log(actualCharge + "\t" + guessCharge);
-        if (actualCharge == guessCharge)
-        {
-            feedback += "You have the correct Charge\n";
-        } else if (actualCharge > guessCharge) {
-            feedback += "You have too little Charge\n";
-        } else
-        {
-            feedback += "You have too much Charge\n";
-        }
-        if (actualFormula == guessingFormula)
-        {
-            VICTORY();
-        }
-        guiController.SetFeedback(feedback);
+            if (actualFormula == guessingFormula)
+            {
+                VICTORY();
+            }
 
+        }
+
+        public void clearFeedBackText()
+        {
+            _guiController.SetFormulaFeedback("");
+            _guiController.SetWeightFeedback("");
+            _guiController.SetChargeFeedback("");
+        }
+
+    
     }
-
-    public void clearFeedBackText()
-    {
-        string feedback = "";
-        guiController.SetFeedback(feedback);
-    }
-
 }
