@@ -703,6 +703,9 @@ public class Elements : MonoBehaviour
                 // making lone pair face the atom
                 clone.transform.LookAt(transform);
                 clone.transform.Rotate(0, 90, 0);
+
+                // setting the lone pair's parent element to this element
+                (clone.GetComponent<LonePairs>() as LonePairs).parent = this;
             }
             else if(lonePairs == 2) {
                 // getting the actual axis of rotation
@@ -726,6 +729,9 @@ public class Elements : MonoBehaviour
                 // making lone pair face the atom
                 clone.transform.LookAt(transform);
                 clone.transform.Rotate(0, 90, 0);
+                
+                // setting the lone pair's parent element to this element
+                (clone.GetComponent<LonePairs>() as LonePairs).parent = this;
 
                 // moving the lone pair
                 clone.transform.RotateAround(transform.position, rotationAxis, 60);
@@ -738,6 +744,9 @@ public class Elements : MonoBehaviour
                 // making lone pair face the atom
                 clone.transform.LookAt(transform);
                 clone.transform.Rotate(0, 90, 0);
+
+                // setting the lone pair's parent element to this element
+                (clone.GetComponent<LonePairs>() as LonePairs).parent = this;
 
                 // moving the lone pair
                 clone.transform.RotateAround(transform.position, rotationAxis, -60);
@@ -766,6 +775,9 @@ public class Elements : MonoBehaviour
                     clone.transform.LookAt(transform);
                     clone.transform.Rotate(0, 90, 0);
 
+                    // setting the lone pair's parent element to this element
+                    (clone.GetComponent<LonePairs>() as LonePairs).parent = this;
+
                     // moving the lone pair
                     clone.transform.RotateAround(transform.position, otherAxis, 71);
                     clone.transform.RotateAround(transform.position, rotationAxis, 120 * i);
@@ -786,6 +798,9 @@ public class Elements : MonoBehaviour
                 clone.transform.LookAt(transform);
                 clone.transform.Rotate(0, 90, 0);
 
+                // setting the lone pair's parent element to this element
+                (clone.GetComponent<LonePairs>() as LonePairs).parent = this;
+
                 // moving the lone pair into place
                 clone.transform.RotateAround(transform.position, rotationAxis, i * (360 / lonePairs));
             }
@@ -801,6 +816,9 @@ public class Elements : MonoBehaviour
                 clone.transform.LookAt(transform);
                 clone.transform.Rotate(0, 90, 0);
 
+                // setting the lone pair's parent element to this element
+                (clone.GetComponent<LonePairs>() as LonePairs).parent = this;
+
                 // moving the lone pair
                 clone.transform.RotateAround(transform.position, rotationAxis, lonePairAngle / 2);
 
@@ -812,6 +830,9 @@ public class Elements : MonoBehaviour
                 // making lone pair face the atom
                 clone.transform.LookAt(transform);
                 clone.transform.Rotate(0, 90, 0);
+
+                // setting the lone pair's parent element to this element
+                (clone.GetComponent<LonePairs>() as LonePairs).parent = this;
 
                 // moving the lone pair
                 clone.transform.RotateAround(transform.position, rotationAxis, lonePairAngle / -2);
@@ -826,6 +847,9 @@ public class Elements : MonoBehaviour
                     // making lone pair face the atom
                     clone.transform.LookAt(transform);
                     clone.transform.Rotate(0, 90, 0);
+
+                    // setting the lone pair's parent element to this element
+                    (clone.GetComponent<LonePairs>() as LonePairs).parent = this;
 
                     // moving the lone pair
                     if(i > lonePairs / 2) {
@@ -861,7 +885,7 @@ public class Elements : MonoBehaviour
                 float eps = Mathf.Sqrt(epsilon * (element.gameObject.GetComponent<Elements>() as Elements).epsilon);
                 float sig = (sigma + (element.gameObject.GetComponent<Elements>() as Elements).sigma) / 2;
                 float force = 24 * eps * (2 * Mathf.Pow(sig / r, 12) - Mathf.Pow(sig / r, 6)) * (1 / r);
-                
+
                 // increasing the pulling force if double or triple bonded to element
                 if(bondOrder == 2) {
                     force = 24 * eps * (0.867f * Mathf.Pow(sig / r, 12) - Mathf.Pow(sig / r, 6)) * (1 / r);
@@ -879,10 +903,29 @@ public class Elements : MonoBehaviour
                 forceVector += (forceDirection * force);
                 numVectors++;
             }
-            else {
+            else if(element.CompareTag("Element")) {
                 float r = Vector3.Distance(transform.position, element.transform.position);
                 float eps = Mathf.Sqrt(epsilon * (element.gameObject.GetComponent<Elements>() as Elements).epsilon);
                 float sig = (sigma + (element.gameObject.GetComponent<Elements>() as Elements).sigma) / 2;
+                float force = 24 * eps * (2 * Mathf.Pow(sig / r, 12) - Mathf.Pow(sig / r, 6)) * (1 / r);
+
+                // capping force so molecules don't explode out as much
+                if(force > 2f) {
+                    force = 2f;
+                }
+                else if(force < -2f) {
+                    force = -2f;
+                }
+
+                Vector3 forceDirection = transform.position - element.transform.position;
+                forceDirection.Normalize();
+                forceVector += (forceDirection * force);
+                numVectors++;
+            }
+            else { // if element is a lone pair
+                float r = Vector3.Distance(transform.position, element.transform.position);
+                float eps = Mathf.Sqrt(epsilon * (element.gameObject.GetComponent<LonePairs>() as LonePairs).epsilon);
+                float sig = (sigma + (element.gameObject.GetComponent<LonePairs>() as LonePairs).sigma) / 2;
                 float force = 24 * eps * (2 * Mathf.Pow(sig / r, 12) - Mathf.Pow(sig / r, 6)) * (1 / r);
 
                 // capping force so molecules don't explode out as much
