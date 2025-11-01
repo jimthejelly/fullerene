@@ -6,6 +6,7 @@ using UnityEditor;
 using System.Xml;
 using System.IO;
 using System;
+using System.Linq;
 
 
 
@@ -169,17 +170,23 @@ public class selectPreset : MonoBehaviour
 
         try
         {
-            Dictionary<string, string> elementPairs = new Dictionary<string, string>();
+            Dictionary<string, List<string>> elementPairs = new Dictionary<string, List<String>>();
             string[] lines = File.ReadAllLines(load_elements_path);
             foreach (string line in lines)
             {
                 string[] token = line.Split(": ");
                 string[] elm = token[1].Split(" ");
+                Array.Sort(elm);
                 foreach (string e1 in elm)
                 {
-                    elementPairs.Add(token[0], e1);
+                    if (!elementPairs.ContainsKey(token[0]))
+                    {
+                        elementPairs[token[0]] = new List<string>();
+                    }
+                    elementPairs[token[0]].Add(e1);
                 }
             }
+
         }
          catch (Exception e)
         {
