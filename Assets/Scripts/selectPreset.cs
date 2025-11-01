@@ -100,7 +100,7 @@ public class selectPreset : MonoBehaviour
         {
             File.WriteAllText(path, string.Empty);
         }
-        
+
         foreach (Transform item in molecule.transform)
         {
             if (item.tag.Equals("Element"))
@@ -165,16 +165,36 @@ public class selectPreset : MonoBehaviour
         GameObject obj = AssetDatabase.LoadAssetAtPath("Assets/Resources/Presets/" + preset + ".prefab", typeof(GameObject)) as GameObject;
         GameObject clone = Instantiate(obj, Vector3.zero, Quaternion.identity, GameObject.Find("moleculeBody").transform);
 
-        //Need to figure out
-        List<Transform> children = new List<Transform>();
-        for (int i = 0; i < clone.transform.childCount; i++)
+        string load_elements_path = "Assets/Resources/Presets/template.txt";
+
+        try
         {
-            children.Add(clone.transform.GetChild(i));
+            Dictionary<string, string> elementPairs = new Dictionary<string, string>();
+            string[] lines = File.ReadAllLines(load_elements_path);
+            foreach (string line in lines)
+            {
+                string[] token = line.Split(": ");
+                string[] elm = token[1].Split(" ");
+                foreach (string e1 in elm)
+                {
+                    elementPairs.Add(token[0], e1);
+                }
+            }
         }
-        foreach (Transform child in children)
+         catch (Exception e)
         {
-            child.SetParent(body.transform, false); // keep local transform
+            Console.WriteLine(e);
         }
+
+        // List<Transform> children = new List<Transform>();
+        // for (int i = 0; i < clone.transform.childCount; i++)
+        // {
+        //     children.Add(clone.transform.GetChild(i));
+        // }
+        // foreach (Transform child in children)
+        // {
+        //     child.SetParent(body.transform, false);
+        // }
         //clone.transform.SetParent(GameObject.Find("moleculeBody").transform, true);
     }
 }

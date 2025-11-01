@@ -216,7 +216,7 @@ public class Elements : MonoBehaviour
         string element1 = ((ElementSymbols)(this.protons)).ToString("F");
         string element2 = ((ElementSymbols)(clone.GetComponent<Elements>() as Elements).protons).ToString("F");
         neighborLoad.Add(new Tuple<String, String>(element1, element2));
-        (clone.GetComponent<Elements>() as Elements).neighborLoad.Add(new Tuple<String, String>(element1, element2));
+        (clone.GetComponent<Elements>() as Elements).neighborLoad.Add(new Tuple<String, String>(element2, element1));
         //clone.GetComponent<Elements>().neighborLoad.Add(new Tuple<String, String>(element2, element1));
         ResetChildPositions();
 
