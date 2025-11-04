@@ -156,7 +156,6 @@ public class selectPreset : MonoBehaviour
     public void getPreset()
     {
         GameObject body = GameObject.Find("moleculeBody");
-        saveMolecule();
         if (body.transform.childCount > 0)
         {
             (creationUser.head.GetComponent<Elements>() as Elements).DeleteElement();
@@ -164,12 +163,13 @@ public class selectPreset : MonoBehaviour
 
         preset = "Preset " + presetNumber;
         GameObject obj = AssetDatabase.LoadAssetAtPath("Assets/Resources/Presets/" + preset + ".prefab", typeof(GameObject)) as GameObject;
-        GameObject clone = Instantiate(obj, Vector3.zero, Quaternion.identity, GameObject.Find("moleculeBody").transform);
+        //GameObject clone = Instantiate(obj, Vector3.zero, Quaternion.identity, GameObject.Find("moleculeBody").transform);
 
         string load_elements_path = "Assets/Resources/Presets/template.txt";
 
         try
         {
+            Debug.Log("Test");
             Dictionary<string, List<string>> elementPairs = new Dictionary<string, List<String>>();
             string[] lines = File.ReadAllLines(load_elements_path);
             foreach (string line in lines)
@@ -184,13 +184,14 @@ public class selectPreset : MonoBehaviour
                         elementPairs[token[0]] = new List<string>();
                     }
                     elementPairs[token[0]].Add(e1);
+                    Debug.Log("Element 1: " + token[0] + "\tElement 2: " + elementPairs[token[0]]);
                 }
             }
 
         }
          catch (Exception e)
         {
-            Console.WriteLine(e);
+            Debug.Log(e);
         }
 
         // List<Transform> children = new List<Transform>();
@@ -202,6 +203,6 @@ public class selectPreset : MonoBehaviour
         // {
         //     child.SetParent(body.transform, false);
         // }
-        //clone.transform.SetParent(GameObject.Find("moleculeBody").transform, true);
+        // clone.transform.SetParent(GameObject.Find("moleculeBody").transform, true);
     }
 }
