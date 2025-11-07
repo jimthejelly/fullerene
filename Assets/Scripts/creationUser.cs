@@ -156,7 +156,12 @@ public class creationUser : MonoBehaviour
                     (element.GetComponent<LonePairs>() as LonePairs).CalculateForceVector();
                 }
             }
-            //(head.GetComponent<Elements>() as Elements).UpdatePosition();
+            (head.GetComponent<Elements>() as Elements).UpdatePosition();
+            foreach(Transform element in molecule.transform) {
+                if(element.CompareTag("Lone Pair")) {
+                    (element.GetComponent<LonePairs>() as LonePairs).UpdatePosition();
+                }
+            }
         }
         foreach(Transform element in molecule.transform) {
             if(element.CompareTag("Element")) {

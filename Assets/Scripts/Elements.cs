@@ -31,6 +31,7 @@ public class Elements : MonoBehaviour
     public float sigma;
 
     private Vector3 forceVector = Vector3.zero;
+    private Vector3 oldForceVector = Vector3.zero;
 
 
     int start = 0;
@@ -923,6 +924,10 @@ public class Elements : MonoBehaviour
                 numVectors++;
             }
             else { // if element is a lone pair
+                if((element.GetComponent<LonePairs>() as LonePairs).parent.Equals(this)) {
+                    // if lone pair belongs to this element, there is no force interaction
+                    continue;
+                }
                 float r = Vector3.Distance(transform.position, element.transform.position);
                 float eps = Mathf.Sqrt(epsilon * (element.gameObject.GetComponent<LonePairs>() as LonePairs).epsilon);
                 float sig = (sigma + (element.gameObject.GetComponent<LonePairs>() as LonePairs).sigma) / 2;
@@ -954,7 +959,11 @@ public class Elements : MonoBehaviour
 
     public void UpdatePosition() {
         if(GetID() != -1) {
-            transform.position = Vector3.MoveTowards(transform.position, transform.position - forceVector, forceVector.magnitude * Time.deltaTime);
+            if(forceVector.magnitude > 0.01f) { // if magnitude of force is very small, ignore it
+                Vector3 averageVector = (forceVector + oldForceVector) / 2;
+                transform.position = Vector3.MoveTowards(transform.position, transform.position - averageVector, forceVector.magnitude * Time.deltaTime);
+                oldForceVector = forceVector;
+            }
         }
         hasMoved = true;
         foreach(Tuple<GameObject, GameObject> neighbor in neighbors) {
