@@ -18,7 +18,7 @@ public class Elements : MonoBehaviour
     public int neutrons;
     private List<Tuple<GameObject, GameObject>> neighbors = new List<Tuple<GameObject, GameObject>>();
 
-    public List<Tuple<String, String>> neighborLoad = new List<Tuple<String, String>>();
+    public List<Tuple<int, int>> neighborLoad = new List<Tuple<int, int>>();
     public int defaultLonePairs;
     public int lonePairs;
     public int bondingElectrons;
@@ -153,7 +153,7 @@ public class Elements : MonoBehaviour
         bondingElectrons -= change;
     }
 
-    public List<Tuple<String, String>> GetStringNeighbors() { 
+    public List<Tuple<int, int>> GetStringNeighbors() { 
         return neighborLoad;
     }
 
@@ -213,10 +213,10 @@ public class Elements : MonoBehaviour
         neighbors.Add(new Tuple<GameObject, GameObject>(cylClone, clone));
         
         clone.GetComponent<Elements>().neighbors.Add(new Tuple<GameObject, GameObject>(cylClone, gameObject));
-        string element1 = ((ElementSymbols)(this.protons)).ToString("F");
-        string element2 = ((ElementSymbols)(clone.GetComponent<Elements>() as Elements).protons).ToString("F");
-        neighborLoad.Add(new Tuple<String, String>(element1, element2));
-        (clone.GetComponent<Elements>() as Elements).neighborLoad.Add(new Tuple<String, String>(element2, element1));
+        int element1 = this.protons;
+        int element2 = (clone.GetComponent<Elements>() as Elements).protons;
+        neighborLoad.Add(new Tuple<int, int>(element1, element2));
+        (clone.GetComponent<Elements>() as Elements).neighborLoad.Add(new Tuple<int, int>(element2, element1));
         //clone.GetComponent<Elements>().neighborLoad.Add(new Tuple<String, String>(element2, element1));
         ResetChildPositions();
 

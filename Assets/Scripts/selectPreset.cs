@@ -107,9 +107,9 @@ public class selectPreset : MonoBehaviour
             if (item.tag.Equals("Element"))
             {
                 string line = "";
-                List<Tuple<String, String>> neighbors = (item.gameObject.GetComponent<Elements>() as Elements).GetStringNeighbors();
+                List<Tuple<int, int>> neighbors = (item.gameObject.GetComponent<Elements>() as Elements).GetStringNeighbors();
                 line += neighbors[0].Item1 + ": ";
-                foreach (Tuple<String, String> neighbor in neighbors)
+                foreach (Tuple<int, int> neighbor in neighbors)
                 {
                     line += neighbor.Item2 + " ";
                 }
@@ -170,21 +170,35 @@ public class selectPreset : MonoBehaviour
         try
         {
             Debug.Log("Test");
-            Dictionary<string, List<string>> elementPairs = new Dictionary<string, List<String>>();
+            Dictionary<int, List<int>> elementPairs = new Dictionary<int, List<int>>();
             string[] lines = File.ReadAllLines(load_elements_path);
             foreach (string line in lines)
             {
                 string[] token = line.Split(": ");
                 string[] elm = token[1].Split(" ");
                 Array.Sort(elm);
+
+                if (GameObject.Find("moleculeBody").transform.childCount == 0)
+                {
+                    GameObject obj1 = AssetDatabase.LoadAssetAtPath("Assets/Elements/" + int.Parse(token[0]) + ".prefab", typeof(GameObject)) as GameObject;
+                    GameObject clone = Instantiate(obj1, Vector3.zero, Quaternion.identity, GameObject.Find("moleculeBody").transform);
+                    creationUser.head = clone;
+                    clone.transform.Rotate(180, 0, 0);
+                    if (creationUser.lonePairsVisible)
+                    {
+                        (clone.GetComponent<Elements>() as Elements).ShowLonePairs();
+                    }
+                }
+                
                 foreach (string e1 in elm)
                 {
-                    if (!elementPairs.ContainsKey(token[0]))
+                    int element1 = int.Parse(token[0]);
+                    if (!elementPairs.ContainsKey(element1))
                     {
-                        elementPairs[token[0]] = new List<string>();
+                        elementPairs[element1] = new List<int>();
                     }
-                    elementPairs[token[0]].Add(e1);
-                    Debug.Log("Element 1: " + token[0] + "\tElement 2: " + elementPairs[token[0]]);
+                    elementPairs[element1].Add(int.Parse(token[0]));
+                    Debug.Log("Element 1: " + element1 + "\tElement 2: " + elementPairs[element1]);
                 }
             }
 
