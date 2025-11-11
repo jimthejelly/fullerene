@@ -162,61 +162,61 @@ public class selectPreset : MonoBehaviour
         }
 
         preset = "Preset " + presetNumber;
-        GameObject obj = AssetDatabase.LoadAssetAtPath("Assets/Resources/Presets/" + preset + ".prefab", typeof(GameObject)) as GameObject;
-        //GameObject clone = Instantiate(obj, Vector3.zero, Quaternion.identity, GameObject.Find("moleculeBody").transform);
-
         string load_elements_path = "Assets/Resources/Presets/template.txt";
 
         try
         {
-            Debug.Log("Test");
+            Debug.Log("Loading preset: " + preset);
             Dictionary<int, List<int>> elementPairs = new Dictionary<int, List<int>>();
             string[] lines = File.ReadAllLines(load_elements_path);
+            
             foreach (string line in lines)
             {
+                if (string.IsNullOrWhiteSpace(line)) continue;
+                
                 string[] token = line.Split(": ");
                 string[] elm = token[1].Split(" ");
                 Array.Sort(elm);
 
-                if (GameObject.Find("moleculeBody").transform.childCount == 0)
+                if (body.transform.childCount == 0)
                 {
-                    GameObject obj1 = AssetDatabase.LoadAssetAtPath("Assets/Elements/" + int.Parse(token[0]) + ".prefab", typeof(GameObject)) as GameObject;
-                    GameObject clone = Instantiate(obj1, Vector3.zero, Quaternion.identity, GameObject.Find("moleculeBody").transform);
+                    int elementType = int.Parse(token[0]);
+                    GameObject obj1 = AssetDatabase.LoadAssetAtPath("Assets/Elements/" + elementType + ".prefab", typeof(GameObject)) as GameObject;
+                    
+                    if (obj1 == null)
+                    {
+                        Debug.LogError("Element prefab not found: Assets/Elements/" + elementType + ".prefab");
+                        continue;
+                    }
+                    
+                    GameObject clone = Instantiate(obj1, Vector3.zero, Quaternion.identity, body.transform);
                     creationUser.head = clone;
                     clone.transform.Rotate(180, 0, 0);
+                    
                     if (creationUser.lonePairsVisible)
                     {
                         (clone.GetComponent<Elements>() as Elements).ShowLonePairs();
                     }
+                    // DO NOT destroy clone here - let it stay in the scene
                 }
                 
                 foreach (string e1 in elm)
                 {
                     int element1 = int.Parse(token[0]);
+                    int element2 = int.Parse(e1);
+                    
                     if (!elementPairs.ContainsKey(element1))
                     {
                         elementPairs[element1] = new List<int>();
                     }
-                    elementPairs[element1].Add(int.Parse(token[0]));
-                    Debug.Log("Element 1: " + element1 + "\tElement 2: " + elementPairs[element1]);
+                    elementPairs[element1].Add(element2);
+                    Debug.Log("Element 1: " + element1 + "\tElement 2: " + element2);
                 }
             }
-
         }
-         catch (Exception e)
+        catch (Exception e)
         {
-            Debug.Log(e);
+            Debug.Log("Error loading preset: " + e);
         }
-
-        // List<Transform> children = new List<Transform>();
-        // for (int i = 0; i < clone.transform.childCount; i++)
-        // {
-        //     children.Add(clone.transform.GetChild(i));
-        // }
-        // foreach (Transform child in children)
-        // {
-        //     child.SetParent(body.transform, false);
-        // }
-        // clone.transform.SetParent(GameObject.Find("moleculeBody").transform, true);
     }
 }
