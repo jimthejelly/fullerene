@@ -177,15 +177,16 @@ public class selectPreset : MonoBehaviour
                 string[] token = line.Split(": ");
                 string[] elm = token[1].Split(" ");
                 Array.Sort(elm);
-
+    
                 if (body.transform.childCount == 0)
                 {
-                    int elementType = int.Parse(token[0]);
-                    GameObject obj1 = AssetDatabase.LoadAssetAtPath("Assets/Elements/" + elementType + ".prefab", typeof(GameObject)) as GameObject;
+                    int elementNum = int.Parse(token[0]);
+                    string elementName = ((ElementNames)elementNum).ToString();
+                    GameObject obj1 = AssetDatabase.LoadAssetAtPath("Assets/Elements/" + elementNum + "-" + elementName + ".prefab", typeof(GameObject)) as GameObject;
                     
                     if (obj1 == null)
                     {
-                        Debug.LogError("Element prefab not found: Assets/Elements/" + elementType + ".prefab");
+                        Debug.LogError("Element prefab not found: Assets/Elements/" + elementNum + "-" + elementName + ".prefab");
                         continue;
                     }
                     
@@ -197,7 +198,6 @@ public class selectPreset : MonoBehaviour
                     {
                         (clone.GetComponent<Elements>() as Elements).ShowLonePairs();
                     }
-                    // DO NOT destroy clone here - let it stay in the scene
                 }
                 
                 foreach (string e1 in elm)
