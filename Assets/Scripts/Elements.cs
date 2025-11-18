@@ -611,7 +611,6 @@ public class Elements : MonoBehaviour
     /// TODO: Change lone pair position calculation from distance-based to charge-based (using coulomb's law and likely the individual charges of atoms)
     /// </summary>
     public void ShowLonePairs() {
-        Debug.Log("showin");
         if(lonePairs == 0) {
             return;
         }
@@ -707,6 +706,11 @@ public class Elements : MonoBehaviour
 
                 // setting the lone pair's parent element to this element
                 (clone.GetComponent<LonePairs>() as LonePairs).parent = this;
+
+                // hiding the lone pair if lone pairs are hidden
+                if(!creationUser.lonePairsVisible) {
+                    clone.SetActive(false);
+                }
             }
             else if(lonePairs == 2) {
                 // getting the actual axis of rotation
@@ -737,6 +741,11 @@ public class Elements : MonoBehaviour
                 // moving the lone pair
                 clone.transform.RotateAround(transform.position, rotationAxis, 60);
 
+                // hiding the lone pair if lone pairs are hidden
+                if(!creationUser.lonePairsVisible) {
+                    clone.SetActive(false);
+                }
+
                 // spawning the second lone pair
                 obj = AssetDatabase.LoadAssetAtPath("Assets/Resources/LonePair.prefab", typeof(GameObject)) as GameObject;
                 clone = Instantiate(obj, lonePairCenter, Quaternion.identity);
@@ -751,6 +760,11 @@ public class Elements : MonoBehaviour
 
                 // moving the lone pair
                 clone.transform.RotateAround(transform.position, rotationAxis, -60);
+
+                // hiding the lone pair if lone pairs are hidden
+                if(!creationUser.lonePairsVisible) {
+                    clone.SetActive(false);
+                }
             }
             else if(lonePairs == 3) {
                 // getting the secondary axis of rotation
@@ -782,6 +796,11 @@ public class Elements : MonoBehaviour
                     // moving the lone pair
                     clone.transform.RotateAround(transform.position, otherAxis, 71);
                     clone.transform.RotateAround(transform.position, rotationAxis, 120 * i);
+
+                    // hiding the lone pair if lone pairs are hidden
+                    if(!creationUser.lonePairsVisible) {
+                        clone.SetActive(false);
+                    }
                 }
             }
             else {
@@ -804,6 +823,11 @@ public class Elements : MonoBehaviour
 
                 // moving the lone pair into place
                 clone.transform.RotateAround(transform.position, rotationAxis, i * (360 / lonePairs));
+
+                // hiding the lone pair if lone pairs are hidden
+                if(!creationUser.lonePairsVisible) {
+                    clone.SetActive(false);
+                }
             }
         }
         else {
@@ -823,6 +847,11 @@ public class Elements : MonoBehaviour
                 // moving the lone pair
                 clone.transform.RotateAround(transform.position, rotationAxis, lonePairAngle / 2);
 
+                // hiding the lone pair if lone pairs are hidden
+                if(!creationUser.lonePairsVisible) {
+                    clone.SetActive(false);
+                }
+
                 // spawning the second lone pair
                 obj = AssetDatabase.LoadAssetAtPath("Assets/Resources/LonePair.prefab", typeof(GameObject)) as GameObject;
                 clone = Instantiate(obj, lonePairCenter, Quaternion.identity);
@@ -837,6 +866,11 @@ public class Elements : MonoBehaviour
 
                 // moving the lone pair
                 clone.transform.RotateAround(transform.position, rotationAxis, lonePairAngle / -2);
+
+                // hiding the lone pair if lone pairs are hidden
+                if(!creationUser.lonePairsVisible) {
+                    clone.SetActive(false);
+                }
             }
             else {
                 for(int i = 0; i < lonePairs; i++) {
@@ -858,6 +892,11 @@ public class Elements : MonoBehaviour
                     }
                     else {
                         clone.transform.RotateAround(transform.position, rotationAxis, i * lonePairAngle);
+                    }
+
+                    // hiding the lone pair if lone pairs are hidden
+                    if(!creationUser.lonePairsVisible) {
+                        clone.SetActive(false);
                     }
                 }
             }
@@ -931,7 +970,7 @@ public class Elements : MonoBehaviour
                 float r = Vector3.Distance(transform.position, element.transform.position);
                 float eps = Mathf.Sqrt(epsilon * (element.gameObject.GetComponent<LonePairs>() as LonePairs).epsilon);
                 float sig = (sigma + (element.gameObject.GetComponent<LonePairs>() as LonePairs).sigma) / 2;
-                float force = 24 * eps * (2 * Mathf.Pow(sig / r, 12) - Mathf.Pow(sig / r, 6)) * (1 / r);
+                float force = 12 * eps * (2 * Mathf.Pow(sig / r, 12) - Mathf.Pow(sig / r, 6)) * (1 / r);
 
                 // capping force so molecules don't explode out as much
                 if(force > 2f) {

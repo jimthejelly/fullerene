@@ -122,9 +122,11 @@ public class creationUser : MonoBehaviour
 
         if(Input.GetKeyDown("p")) {
             if(lonePairsVisible) {
+                Debug.Log("hiding");
                 HideLonePairs();
             }
             else {
+                Debug.Log("un-hiding");
                 ShowLonePairs();
             }
         }

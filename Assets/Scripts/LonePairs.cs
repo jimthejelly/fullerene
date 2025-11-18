@@ -9,8 +9,8 @@ public class LonePairs : MonoBehaviour
     private Vector3 oldForceVector = Vector3.zero;
     public Elements parent;
 
-    public float sigma = 0.5f;
-    public float epsilon = 5f;
+    public float sigma = 0.25f;
+    public float epsilon = 2f;
     // Start is called before the first frame update
     void Start()
     {
@@ -53,7 +53,7 @@ public class LonePairs : MonoBehaviour
                 float r = Vector3.Distance(transform.position, element.transform.position);
                 float eps = Mathf.Sqrt(epsilon * (element.gameObject.GetComponent<LonePairs>() as LonePairs).epsilon);
                 float sig = (sigma + (element.gameObject.GetComponent<LonePairs>() as LonePairs).sigma) / 2;
-                float force = 24 * eps * (2 * Mathf.Pow(sig / r, 12) - Mathf.Pow(sig / r, 6)) * (1 / r);
+                float force = 12 * eps * (2 * Mathf.Pow(sig / r, 12) - Mathf.Pow(sig / r, 6)) * (1 / r);
 
                 // capping force so molecules don't explode out as much
                 if(force > 2f) {
@@ -82,8 +82,14 @@ public class LonePairs : MonoBehaviour
     public void UpdatePosition() {
         Vector3 averageVector = (forceVector + oldForceVector) / 2;
         transform.position = Vector3.MoveTowards(transform.position, transform.position - averageVector, averageVector.magnitude * Time.deltaTime);
-        transform.position = Vector3.MoveTowards(transform.position, parent.transform.position,
-            (Vector3.Distance(transform.position, parent.transform.position) + parent.transform.localScale.x + 0.1f) * Time.deltaTime);
-        oldForceVector = forceVector;
+        if(Vector3.Distance(transform.position, parent.transform.position) > parent.transform.localScale.x - 0.1f) {
+            //Debug.Log(Vector3.Distance(transform.position, parent.transform.position) + " " + parent.transform.localScale.x);
+            Debug.Log(Vector3.Distance(transform.position, parent.transform.position) + " " + parent.transform.localScale.x + " " + 
+                Vector3.MoveTowards(transform.position, parent.transform.position,
+                (Vector3.Distance(transform.position, parent.transform.position) + parent.transform.localScale.x) * Time.deltaTime));
+            transform.position = Vector3.MoveTowards(transform.position, parent.transform.position,
+                (Vector3.Distance(transform.position, parent.transform.position) + parent.transform.localScale.x) * Time.deltaTime);
+        }
+            oldForceVector = forceVector;
     }
 }
