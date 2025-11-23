@@ -174,7 +174,6 @@ public class selectPreset : MonoBehaviour
                 
                 string[] token = line.Split(": ");
                 string[] elm = token[1].Split(" ");
-                Array.Sort(elm);
     
                 if (body.transform.childCount == 0)
                 {
@@ -198,20 +197,20 @@ public class selectPreset : MonoBehaviour
                     {
                         (clone.GetComponent<Elements>() as Elements).ShowLonePairs();
                     }
+
+                    foreach (string e1 in elm)
+                    {
+                        Debug.Log(e1);
+                        int element2 = int.Parse(e1);
+                        
+                        if (!elementPairs.ContainsKey(elementNum))
+                        {
+                            elementPairs[elementNum] = new List<int>();
+                        }
+                        elementPairs[elementNum].Add(element2);
+                        Debug.Log("Element 1: " + elementNum + "\tElement 2: " + element2);
+                    } 
                 }
-                
-                // foreach (string e1 in elm)
-                // {
-                //     int element1 = int.Parse(token[0]);
-                //     int element2 = int.Parse(e1);
-                    
-                //     if (!elementPairs.ContainsKey(element1))
-                //     {
-                //         elementPairs[element1] = new List<int>();
-                //     }
-                //     elementPairs[element1].Add(element2);
-                //     Debug.Log("Element 1: " + element1 + "\tElement 2: " + element2);
-                // }
             }
         }
         catch (Exception e)
