@@ -91,5 +91,9 @@ public class LonePairs : MonoBehaviour
                 (Vector3.Distance(transform.position, parent.transform.position) + parent.transform.localScale.x) * Time.deltaTime);
         }
             oldForceVector = forceVector;
+
+        // making lone pair face atom
+        transform.LookAt(parent.transform);
+        transform.Rotate(0, 90, 0);
     }
 }
