@@ -10,31 +10,49 @@ using Unity.Services.Analytics;
 /// </summary>
 public class Elements : MonoBehaviour
 {
-
+    /// <summary> The number of electrons in this <c> Element </c> </summary>
     public int electrons;
+    /// <summary> The number of protons in this <c> Element </c> </summary>
     public int protons;
+    /// <summary> The number of neutrons in this <c> Element </c> </summary>
+    /// <remarks> Will be useful when isotopes come into the mix, currently unused </remarks>
     public int neutrons;
+    /// <summary> A <c> List </c> of <c> Tuple</c>s of <see cref="Bonds"/> and <see cref="Elements"/> storing which atoms are bonded by which bonds to this <c> Element </c></summary>
     private List<Tuple<GameObject, GameObject>> neighbors = new List<Tuple<GameObject, GameObject>>();
+    /// <summary> The number of <see cref="LonePairs"/> this <c> Element </c> started with </summary>
     public int defaultLonePairs;
+    /// <summary> The number of <see cref="LonePairs"/> currently in this <c> Element </c> </summary>
     public int lonePairs;
+    /// <summary> The number of bonding electrons in this <c> Element </c> </summary>
     public int bondingElectrons;
+    /// <summary> Whether or not this <c> Element </c> can expand its octet </summary>
     public bool expandedOctet;
-    public bool physicsOn = false;
 
+    /// <summary> The number of <see cref="Bonds"/> bonded to this <c> Element </c> </summary>
     public int bondCount = 0;
+    /// <summary> The total bond order of <see cref="Bonds"/> bonded to this <c> Element </c> </summary>
     public int bondOrders = 0;
-    
+
+    /// <summary> Whether or not this <c> Element </c> has moved yet this frame </summary>
     public bool hasMoved = false;
 
+    /// <summary> The covalent radius of this <c> Element </c> </summary>
     public float covalentRadius;
+    /// <summary> The epsilon value of this <c> Element </c> </summary>
+    /// <remarks> Used for the Lennard Jones potential equation to approximate force interactions of atoms in the molecule </remarks>
     public float epsilon;
+    /// <summary> The sigma value of this <c> Element </c> </summary>
+    /// <remarks> Used for the Lennard Jones potential equation to approximate force interactions of atoms in the molecule </remarks>
     public float sigma;
 
+    /// <summary> The force vector this <c> Element </c> will feel in the current frame </summary>
     private Vector3 forceVector = Vector3.zero;
+    /// <summary> The force vector this <c> Element </c> felt in the previous frame </summary>
+    /// <remarks> Used to lessen oscillation when approaching equilibrium (doesn't really work yet) </remarks>
     private Vector3 oldForceVector = Vector3.zero;
 
-
-    int start = 0;
+    /// <summary> An offset variable that ensures this <c> Element </c> will never attempt to move its parent </summary>
+    int offset = 0;
 
     /// <summary>
     /// Start is called before the first frame update and initializes the material of the Element
@@ -161,11 +179,11 @@ public class Elements : MonoBehaviour
     {
         Debug.Log("neighbor num: " + neighbors.Count);
 
-        start = 0;
+        offset = 0;
 
         if (neighbors.Any())
         {
-            start = 1;
+            offset = 1;
         }
 
         // checking if the element can make more bonds
@@ -210,7 +228,7 @@ public class Elements : MonoBehaviour
         clone.transform.localPosition = cylClone.transform.localPosition;
         clone.transform.Translate(0, -radius / 2, 0);
 
-        MoveChildren(start);
+        MoveChildren();
 
         if (!cylClone)
         {
@@ -268,13 +286,13 @@ public class Elements : MonoBehaviour
     }
 
     /// <summary>
-    /// Moves the "children" of this Element to their proper VSEPR geometrical positions (Does not currently account for lone pairs)
-    /// <br></br>
-    /// NOTE: This does not currently work with cyclic molecules
+    /// Moves the "children" of this Element to their proper VSEPR geometrical positions
     /// </summary>
-    /// <param name="bondCount">The number of bonds the current Element has (does nothing with bonds less than 2 or bonds greater than 6</param>
-    /// <param name="start">An offset variable that ensures moveChildren() will never move the "parent" Element</param>
-    public void MoveChildren(int start)
+    /// <remarks>
+    /// NOTE: This does not currently work with cyclic molecules
+    /// </remarks>
+    /// <param name="offset">Ensures this <c> Element </c> will never try to move its parent</param>
+    public void MoveChildren(int offset)
     {
         if (bondCount < 2)
         {
@@ -290,7 +308,7 @@ public class Elements : MonoBehaviour
             neighbors[neighbors.Count() - 1].Item2.transform.RotateAround(transform.position, transform.forward, 180);
             // }
 
-            Debug.Log("index: " + (1 - start) + "   name: " + neighbors[1 - start].Item2.name);
+            Debug.Log("index: " + (1 - offset) + "   name: " + neighbors[1 - offset].Item2.name);
         }
         else if (bonds == 3)
         {
@@ -298,16 +316,16 @@ public class Elements : MonoBehaviour
             {
                 for (int i = 1; i < 3 - lonePairs; i++)
                 {
-                    neighbors[i - start].Item1.transform.RotateAround(transform.position, transform.forward, 120 * i);
-                    neighbors[i - start].Item2.transform.RotateAround(transform.position, transform.forward, 120 * i);
+                    neighbors[i - offset].Item1.transform.RotateAround(transform.position, transform.forward, 120 * i);
+                    neighbors[i - offset].Item2.transform.RotateAround(transform.position, transform.forward, 120 * i);
                 }
             }
             else
             {
                 for (int i = 2; i < 4 - lonePairs; i++)
                 {
-                    neighbors[i - start].Item1.transform.RotateAround(transform.position, transform.forward, 120 * (i - 1));
-                    neighbors[i - start].Item2.transform.RotateAround(transform.position, transform.forward, 120 * (i - 1));
+                    neighbors[i - offset].Item1.transform.RotateAround(transform.position, transform.forward, 120 * (i - 1));
+                    neighbors[i - offset].Item2.transform.RotateAround(transform.position, transform.forward, 120 * (i - 1));
                 }
             }
 
@@ -318,11 +336,11 @@ public class Elements : MonoBehaviour
             {
                 for (int i = 1; i < 4 - lonePairs; i++)
                 {
-                    neighbors[i - start].Item1.transform.RotateAround(transform.position, transform.forward, 120);
-                    neighbors[i - start].Item2.transform.RotateAround(transform.position, transform.forward, 120);
+                    neighbors[i - offset].Item1.transform.RotateAround(transform.position, transform.forward, 120);
+                    neighbors[i - offset].Item2.transform.RotateAround(transform.position, transform.forward, 120);
 
-                    neighbors[i - start].Item1.transform.RotateAround(transform.position, transform.up, 120 * i);
-                    neighbors[i - start].Item2.transform.RotateAround(transform.position, transform.up, 120 * i);
+                    neighbors[i - offset].Item1.transform.RotateAround(transform.position, transform.up, 120 * i);
+                    neighbors[i - offset].Item2.transform.RotateAround(transform.position, transform.up, 120 * i);
 
                 }
             }
@@ -343,15 +361,15 @@ public class Elements : MonoBehaviour
         {
             if (gameObject == creationUser.head)
             {
-                neighbors[1 - start].Item1.transform.RotateAround(transform.position, transform.forward, 180);
-                neighbors[1 - start].Item2.transform.RotateAround(transform.position, transform.forward, 180);
+                neighbors[1 - offset].Item1.transform.RotateAround(transform.position, transform.forward, 180);
+                neighbors[1 - offset].Item2.transform.RotateAround(transform.position, transform.forward, 180);
                 for (int i = 2; i < 5 - lonePairs; i++)
                 {
-                    neighbors[i - start].Item1.transform.RotateAround(transform.position, transform.forward, 90);
-                    neighbors[i - start].Item2.transform.RotateAround(transform.position, transform.forward, 90);
+                    neighbors[i - offset].Item1.transform.RotateAround(transform.position, transform.forward, 90);
+                    neighbors[i - offset].Item2.transform.RotateAround(transform.position, transform.forward, 90);
 
-                    neighbors[i - start].Item1.transform.RotateAround(transform.position, transform.up, 120 * i);
-                    neighbors[i - start].Item2.transform.RotateAround(transform.position, transform.up, 120 * i);
+                    neighbors[i - offset].Item1.transform.RotateAround(transform.position, transform.up, 120 * i);
+                    neighbors[i - offset].Item2.transform.RotateAround(transform.position, transform.up, 120 * i);
 
                 }
             }
@@ -374,15 +392,15 @@ public class Elements : MonoBehaviour
         {
             if (gameObject == creationUser.head)
             {
-                neighbors[1 - start].Item1.transform.RotateAround(transform.position, transform.forward, 180);
-                neighbors[1 - start].Item2.transform.RotateAround(transform.position, transform.forward, 180);
+                neighbors[1 - offset].Item1.transform.RotateAround(transform.position, transform.forward, 180);
+                neighbors[1 - offset].Item2.transform.RotateAround(transform.position, transform.forward, 180);
                 for (int i = 2; i < 6 - lonePairs; i++)
                 {
-                    neighbors[i - start].Item1.transform.RotateAround(transform.position, transform.forward, 90);
-                    neighbors[i - start].Item2.transform.RotateAround(transform.position, transform.forward, 90);
+                    neighbors[i - offset].Item1.transform.RotateAround(transform.position, transform.forward, 90);
+                    neighbors[i - offset].Item2.transform.RotateAround(transform.position, transform.forward, 90);
 
-                    neighbors[i - start].Item1.transform.RotateAround(transform.position, transform.up, 90 * i);
-                    neighbors[i - start].Item2.transform.RotateAround(transform.position, transform.up, 90 * i);
+                    neighbors[i - offset].Item1.transform.RotateAround(transform.position, transform.up, 90 * i);
+                    neighbors[i - offset].Item2.transform.RotateAround(transform.position, transform.up, 90 * i);
                 }
                 if (lonePairs == 2)
                 { // fixing square planar geometry
@@ -553,7 +571,7 @@ public class Elements : MonoBehaviour
                 else if (t.tag.Equals("Element") && (t.gameObject.GetComponent<Elements>() as Elements).neighbors.Count() > 1)
                 {
                     (t.gameObject.GetComponent<Elements>() as Elements).ResetChildPositions();
-                    (t.gameObject.GetComponent<Elements>() as Elements).MoveChildren((t.gameObject.GetComponent<Elements>() as Elements).start);
+                    (t.gameObject.GetComponent<Elements>() as Elements).MoveChildren((t.gameObject.GetComponent<Elements>() as Elements).offset);
                 }
             }
 
