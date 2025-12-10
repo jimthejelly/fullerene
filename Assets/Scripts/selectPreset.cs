@@ -166,7 +166,7 @@ public class selectPreset : MonoBehaviour
         }
 
         //Load CML
-        string cmlPath = "./Assets/Resources/preset" + presetNumber + ".cml";
+        string cmlPath = "./Assets/Resources/molecule.cml";
         if (!File.Exists(cmlPath))
         {
             Debug.LogError("CML file not found at: " + cmlPath);
@@ -190,6 +190,136 @@ public class selectPreset : MonoBehaviour
             Debug.LogError("CML has no <molecule> root.");
             return;
         }
+
+        XmlNode atomArrayNode = moleculeNode.SelectSingleNode("atomArray");
+        XmlNode bondArrayNode = moleculeNode.SelectSingleNode("bondArray");
+
+        if (atomArrayNode == null || bondArrayNode == null)
+        {
+            Debug.LogError("CML missing atomArray or bondArray.");
+            return;
+        }
+
+        var idToElement = new Dictionary<string, Elements>();
+
+        foreach (XmlNode atomNode in atomArrayNode.ChildNodes)
+        {
+            if (atomNode.Name != "atom") continue;
+
+            string id = atomNode.Attributes["id"].Value;
+            string symbol = atomNode.Attributes["elementType"].Value;
+
+            float x = float.Parse(atomNode.Attributes["x3"].Value, CultureInfo.InvariantCulture);
+            float y = float.Parse(atomNode.Attributes["y3"].Value, CultureInfo.InvariantCulture);
+            float z = float.Parse(atomNode.Attributes["z3"].Value, CultureInfo.InvariantCulture);
+            Vector3 pos = new Vector3(x, y, z);
+
+            int atomicNumber = (int)(ElementSymbols)Enum.Parse(typeof(ElementSymbols), symbol);
+
+            string elementPrefabPath = $"Assets/Elements/{atomicNumber}.prefab";
+            GameObject elementPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(elementPrefabPath);
+
+            if (elementPrefab == null)
+            {
+                Debug.LogError($"Could not load element prefab for {symbol} at {elementPrefabPath}");
+                continue;
+            }
+
+            GameObject elementGO = PrefabUtility.InstantiatePrefab(elementPrefab) as GameObject;
+            if (elementGO == null)
+            {
+                Debug.LogError("Failed to instantiate element prefab: " + elementPrefabPath);
+                continue;
+            }
+
+            elementGO.transform.SetParent(body.transform, true);
+            elementGO.transform.position = pos;
+
+            Elements elementComp = elementGO.GetComponent<Elements>();
+            if (elementComp == null)
+            {
+                Debug.LogError("Element prefab has no Elements component: " + elementPrefabPath);
+                continue;
+            }
+
+            elementComp.protons = atomicNumber;
+
+            idToElement[id] = elementComp;
+        }
+
+        foreach (XmlNode bondNode in bondArrayNode.ChildNodes)
+        {
+            if (bondNode.Name != "bond") continue;
+
+            string atomRefs = bondNode.Attributes["atomRefs2"].Value;
+            string[] parts = atomRefs.Split(' ');
+            if (parts.Length != 2)
+            {
+                Debug.LogWarning("bond atomRefs2 malformed: " + atomRefs);
+                continue;
+            }
+
+            string id1 = parts[0];
+            string id2 = parts[1];
+
+            if (!idToElement.TryGetValue(id1, out Elements e1) ||
+                !idToElement.TryGetValue(id2, out Elements e2))
+            {
+                Debug.LogWarning($"Bond refers to unknown atom ids: {id1}, {id2}");
+                continue;
+            }
+
+            int order = int.Parse(bondNode.Attributes["order"].Value, CultureInfo.InvariantCulture);
+
+            string bondPrefabPath = "Assets/Resources/SingleBond.prefab";
+            GameObject bondPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(bondPrefabPath);
+            if (bondPrefab == null)
+            {
+                Debug.LogError("Could not load bond prefab at: " + bondPrefabPath);
+                continue;
+            }
+
+            GameObject bondGO = PrefabUtility.InstantiatePrefab(bondPrefab) as GameObject;
+            bondGO.transform.SetParent(body.transform, true);
+
+            Bonds b = bondGO.GetComponent<Bonds>();
+            if (b == null)
+            {
+                Debug.LogError("Bond prefab has no Bonds component.");
+                continue;
+            }
+
+            b.SetElements(e1, e2);
+            b.bondOrder = order;
+
+            e1.bondCount++;
+            e1.bondOrders += order;
+            e1.UpdateElectrons(order);
+
+            e2.bondCount++;
+            e2.bondOrders += order;
+            e2.UpdateElectrons(order);
+
+            e1.GetNeighbors().Add(new Tuple<GameObject, GameObject>(bondGO, e2.gameObject));
+            e2.GetNeighbors().Add(new Tuple<GameObject, GameObject>(bondGO, e1.gameObject));
+
+            int element1 = e1.protons;
+            int element2 = e2.protons;
+            e1.neighborLoad.Add(new Tuple<int, int>(element1, element2));
+            e2.neighborLoad.Add(new Tuple<int, int>(element2, element1));
+        }
+
+        foreach (Transform child in body.transform)
+        {
+            if (!child.CompareTag("Element")) continue;
+            Elements el = child.GetComponent<Elements>();
+            if (el == null) continue;
+
+            el.ResetChildPositions();
+            el.MoveChildren(el == creationUser.head ? 0 : 1);
+        }
+
+        Debug.Log("Preset rebuilt from CML.");
     }
 }
 
