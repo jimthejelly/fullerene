@@ -1,5 +1,6 @@
 
 using System.Collections.Generic;
+using System.Globalization;
 using UnityEngine;
 using UnityEditor;
 using System.Xml;
@@ -154,68 +155,40 @@ public class selectPreset : MonoBehaviour
     public void getPreset()
     {
         GameObject body = GameObject.Find("moleculeBody");
-        if (body.transform.childCount > 0)
+        if (body == null)
         {
-            (creationUser.head.GetComponent<Elements>() as Elements).DeleteElement();
+            Debug.LogError("No moleculeBody object in scene.");
+            return;
+        }
+        foreach (Transform child in body.transform)
+        {
+            DestroyImmediate(child.gameObject);
         }
 
-        preset = "Preset " + presetNumber;
-        string load_elements_path = "Assets/Resources/Presets/template.txt";
+        //Load CML
+        string cmlPath = "./Assets/Resources/molecule.cml";
+        if (!File.Exists(cmlPath))
+        {
+            Debug.LogError("CML file not found at: " + cmlPath);
+            return;
+        }
 
+        XmlDocument doc = new XmlDocument();
         try
         {
-            Debug.Log("Loading preset: " + preset);
-            Dictionary<int, List<int>> elementPairs = new Dictionary<int, List<int>>();
-            string[] lines = File.ReadAllLines(load_elements_path);
-            
-            foreach (string line in lines)
-            {
-                if (string.IsNullOrWhiteSpace(line)) continue;
-                
-                string[] token = line.Split(": ");
-                string[] elm = token[1].Split(" ");
-    
-                if (body.transform.childCount == 0)
-                {
-                    int elementNum = int.Parse(token[0]);
-                    string elementName = ((ElementNames)elementNum).ToString();
-                    string path = "Assets/Elements/" + elementNum + "-" + elementName + ".prefab";
-                    Debug.Log(path);
-                    GameObject obj1 = AssetDatabase.LoadAssetAtPath(path, typeof(GameObject)) as GameObject;
-                    
-                    if (obj1 == null)
-                    {
-                        Debug.LogError("Element prefab not found: " + path);
-                        continue;
-                    }
-                    
-                    GameObject clone = Instantiate(obj1, Vector3.zero, Quaternion.identity, body.transform);
-                    creationUser.head = clone;
-                    clone.transform.Rotate(180, 0, 0);
-                    
-                    if (creationUser.lonePairsVisible)
-                    {
-                        (clone.GetComponent<Elements>() as Elements).ShowLonePairs();
-                    }
-
-                    foreach (string e1 in elm)
-                    {
-                        Debug.Log(e1);
-                        int element2 = int.Parse(e1);
-                        
-                        if (!elementPairs.ContainsKey(elementNum))
-                        {
-                            elementPairs[elementNum] = new List<int>();
-                        }
-                        elementPairs[elementNum].Add(element2);
-                        Debug.Log("Element 1: " + elementNum + "\tElement 2: " + element2);
-                    } 
-                }
-            }
+            doc.Load(cmlPath);
         }
         catch (Exception e)
         {
-            Debug.Log("Error loading preset: " + e);
+            Debug.LogError("Failed to load CML: " + e);
+            return;
+        }
+
+        XmlNode moleculeNode = doc.SelectSingleNode("/molecule");
+        if (moleculeNode == null)
+        {
+            Debug.LogError("CML has no <molecule> root.");
+            return;
         }
     }
 }
