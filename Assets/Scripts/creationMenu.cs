@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEditor;
+using System.IO;
 
 public class creationMenu : MonoBehaviour
 {
@@ -32,6 +33,10 @@ public class creationMenu : MonoBehaviour
 
     void Start()
     {
+        //Restart the molecule.cml file
+        FileStream stream = File.Open("./Assets/Resources/molecule.cml", FileMode.OpenOrCreate);
+        stream.SetLength(0);
+        stream.Close();
         // Pauses time and brings up menu
         Time.timeScale = 1;
         isPaused = false;

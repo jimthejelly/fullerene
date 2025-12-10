@@ -31,7 +31,7 @@ public class selectPreset : MonoBehaviour
             Debug.Log("No molecule to save!");
             return;
         }
-        XmlTextWriter writer = new XmlTextWriter("./Assets/Resources/molecule.cml", null);
+        XmlTextWriter writer = new XmlTextWriter("./Assets/Resources/preset" + presetNumber + ".cml", null);
         writer.WriteStartDocument();
 
         writer.Formatting = Formatting.Indented;
@@ -166,7 +166,7 @@ public class selectPreset : MonoBehaviour
         }
 
         //Load CML
-        string cmlPath = "./Assets/Resources/molecule.cml";
+        string cmlPath = "./Assets/Resources/preset" + presetNumber + ".cml";
         if (!File.Exists(cmlPath))
         {
             Debug.LogError("CML file not found at: " + cmlPath);
