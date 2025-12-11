@@ -6,9 +6,12 @@ using UnityEditor;
 
 public class Bonds : MonoBehaviour
 {
-    public int bondOrder; // 1, 2, or 3 depending on single double or triple bond
-    public Elements parent; // parent element of this bond
-    public Elements child; // child element of this bond
+    /// <summary> 1, 2, or 3 depending on if this <c> Bond </c> is a single, double, or triple bond respectively</summary>
+    public int bondOrder;
+    /// <summary> The parent <see cref="Elements"/> of this <c> Bond </c></summary>
+    public Elements parent;
+    /// <summary> The child <see cref="Elements"/> of this <c> Bond </c></summary>
+    public Elements child;
 
     /// <summary>
     /// Start is called before the first frame update and initializes the materials of the bond
@@ -26,15 +29,13 @@ public class Bonds : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
-        
-    }
+    {}
 
     /// <summary>
-    /// Sets the parent and child Elements this Bond connects
+    /// Sets the parent and child <see cref="Elements"/> this Bond connects
     /// </summary>
-    /// <param name="p">The parent Element of this Bond</param>
-    /// <param name="c">The child Element of this Bond</param>
+    /// <param name="p">The parent <see cref="Elements"/> of this <c> Bond </c></param>
+    /// <param name="c">The child <see cref="Elements"/> of this <c> Bond </c></param>
     public void SetElements(Elements p, Elements c) {
         Debug.Log("parent: " + p.name + "   child: " + c.name);
         parent = p;
@@ -42,9 +43,9 @@ public class Bonds : MonoBehaviour
     }
 
     /// <summary>
-    /// Cycles the bond order of this Bond (i.e. 1 goes to 2, 2 goes to 3, and 3 goes back to 1)
+    /// Cycles the bond order of this <c> Bond </c> (i.e. 1 goes to 2, 2 goes to 3, and 3 goes back to 1)
     /// <br></br>
-    /// If either the parent or child Element cannot support an increase in bond order, this method cycles back to 1
+    /// If either the parent or child <c> Element </c> cannot support an increase in bond order, this method cycles back to 1
     /// </summary>
     /// <param name="num">The "construction ID" or number next to the name in the Hierarchy View</param>
     public void CycleBondOrder(int num) {
@@ -95,6 +96,9 @@ public class Bonds : MonoBehaviour
         Destroy(gameObject);
     }
 
+    /// <summary>
+    /// Updates the position and length of this <c> Bond </c> based on the locations of <see cref="parent"/> and <see cref="child"/> this frame
+    /// </summary>
     public void UpdatePosition() {
         // setting bond position
         Vector3 parentPos = parent.transform.position;
