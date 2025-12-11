@@ -124,7 +124,7 @@ public class Elements : MonoBehaviour
     {}
 
     /// <summary>
-    /// Finds the construction order of Elements, its main use is finding the parent of an Element
+    /// Finds the construction order of <c> Element </c>s, its main use is finding the parent of an <c> Element </c>
     /// </summary>
     /// <returns>The number to the right of the name of the element, or -1 if it's the root</returns>
     public int GetID()
@@ -137,9 +137,9 @@ public class Elements : MonoBehaviour
     }
 
     /// <summary>
-    /// Determines whether or not this Element can make more bonds
+    /// Determines whether or not this <c> Element </c> can make more bonds
     /// </summary>
-    /// <returns>True if this Element can make more bonds, or False if it can't</returns>
+    /// <returns>True if this <c> Element </c> can make more bonds, or False if it can't</returns>
     public bool CanBondMore()
     {
         if (expandedOctet)
@@ -150,7 +150,7 @@ public class Elements : MonoBehaviour
     }
 
     /// <summary>
-    /// Subtracts change from bondingElectrons, converting lone pairs to bonding electrons if necessary
+    /// Subtracts <c> change </c> from <see cref="bondingElectrons"/>, converting lone pairs to bonding electrons if necessary
     /// </summary>
     /// <param name="change">The change in bonding electrons</param>
     public void UpdateElectrons(int change)
@@ -166,13 +166,17 @@ public class Elements : MonoBehaviour
         bondingElectrons -= change;
     }
 
+    /// <summary>
+    /// Accessor method for <see cref="neighbors"/>
+    /// </summary>
+    /// <returns><see cref="neighbors"/></returns>
     public List<Tuple<GameObject, GameObject>> GetNeighbors()
     {
         return neighbors;
     }
 
     /// <summary>
-    /// Spawns in a new Element instance
+    /// Spawns in a new <see cref="Elements"/> instance
     /// </summary>
     /// <param name="num">The "construction ID" or number next to the name in the Hierarchy View</param>
     public void SpawnElement(int num)
@@ -228,7 +232,7 @@ public class Elements : MonoBehaviour
         clone.transform.localPosition = cylClone.transform.localPosition;
         clone.transform.Translate(0, -radius / 2, 0);
 
-        MoveChildren();
+        MoveChildren(offset);
 
         if (!cylClone)
         {
@@ -243,14 +247,13 @@ public class Elements : MonoBehaviour
     }
 
     /// <summary>
-    /// Resets the positions of each "child" of this Element to be moved with moveChildren() later
+    /// Resets the positions of each "child" of this <c> Element </c> to be moved with <see cref="MoveChildren(int)"/> later
     /// </summary>
     public void ResetChildPositions()
     {
 
         foreach (Tuple<GameObject, GameObject> child in neighbors)
         {
-            // TODO: make this check ionic vs covalent
             float radius = covalentRadius + (child.Item2.GetComponent<Elements>() as Elements).covalentRadius;
             
             if(gameObject == creationUser.head) {
@@ -286,7 +289,7 @@ public class Elements : MonoBehaviour
     }
 
     /// <summary>
-    /// Moves the "children" of this Element to their proper VSEPR geometrical positions
+    /// Moves the "children" of this <c> Element </c> to their proper VSEPR geometrical positions
     /// </summary>
     /// <remarks>
     /// NOTE: This does not currently work with cyclic molecules
@@ -504,10 +507,14 @@ public class Elements : MonoBehaviour
     }
 
     /// <summary>
-    /// Deletes the Element selected in creationUser
+    /// Deletes the <c> Element </c> selected in creationUser
     /// </summary>
+    /// <remarks>
+    /// NOTE: Doesn't work with cyclic molecules
+    /// </remarks>
     public void DeleteElement()
     {
+        // If molecule head, just delete everything
         if (GetID() == -1)
         {
             foreach (Transform item in transform.parent)
@@ -583,8 +590,8 @@ public class Elements : MonoBehaviour
     /// <summary>
     /// DFS algorithm for marking GameObjects for deletion
     /// </summary>
-    /// <param name="current">The current GameObject (Element) being checked by the algorithm</param>
-    /// <param name="found">The list of all GameObjects that have been found by the algorithm</param>
+    /// <param name="current">The current <see cref="GameObject"/> (<see cref="Elements"/>) being checked by the algorithm</param>
+    /// <param name="found">The list of all <see cref="GameObject"/> that have been found by the algorithm</param>
     private void DeletionDFS(GameObject current, HashSet<GameObject> found)
     {
         if (found.Contains(current))
@@ -605,10 +612,10 @@ public class Elements : MonoBehaviour
     }
 
     /// <summary>
-    /// Updates a bond GameObject being pointed to in neighbors whenever its bond order is cycled
+    /// Updates a bond <see cref="GameObject"/> being pointed to in neighbors whenever its bond order is cycled
     /// </summary>
-    /// <param name="newBond">The new bond GameObject to be referenced in neighbors</param>
-    /// <param name="otherElement">The other element the bond connects to - used to find which Tuple to replace</param>
+    /// <param name="newBond">The new bond <see cref="GameObject"/> to be referenced in neighbors</param>
+    /// <param name="otherElement">The other element the bond connects to - used to find which <c> Tuple </c> to replace</param>
     public void UpdateBond(GameObject newBond, GameObject otherElement)
     {
         for (int i = 0; i < neighbors.Count; i++)
@@ -624,9 +631,7 @@ public class Elements : MonoBehaviour
     }
 
     /// <summary>
-    /// Calculates the positions of the lone pairs of this atom and displays them
-    /// <br></br>
-    /// TODO: Change lone pair position calculation from distance-based to charge-based (using coulomb's law and likely the individual charges of atoms)
+    /// Calculates the positions of the <see cref="LonePairs"/> of this atom and spawns them
     /// </summary>
     public void ShowLonePairs() {
         if(lonePairs == 0) {
@@ -922,6 +927,9 @@ public class Elements : MonoBehaviour
         
     }
 
+    /// <summary>
+    /// Sets <see cref="forceVector"/> to the force this <c> Element </c> will experience this frame
+    /// </summary>
     public void CalculateForceVector() {
         forceVector = Vector3.zero;
         int numVectors = 0;
@@ -1014,6 +1022,9 @@ public class Elements : MonoBehaviour
         Debug.DrawRay(transform.position, temp, Color.red);
     }
 
+    /// <summary>
+    /// Updates the position of this <c> Element </c> based on its <see cref="forceVector"/> for this frame
+    /// </summary>
     public void UpdatePosition() {
         if(GetID() != -1) {
             if(forceVector.magnitude > 0.01f) { // if magnitude of force is very small, ignore it
@@ -1031,9 +1042,22 @@ public class Elements : MonoBehaviour
         }
     }
 }
-// an element comparer that only checks certain variables of the element and it's children
+
+/// <summary>
+/// A comparer for <see cref="Elements"/> that only checks certain variables of the <c> Element </c> and its children
+/// </summary>
 public class ElementsComparer : IEqualityComparer<Elements>
 {
+    /// <summary>
+    /// Equals override for <see cref="Elements"/>
+    /// </summary>
+    /// <param name="x"> The first <c> Element </c> to compare </param>
+    /// <param name="y"> The second <c> Element </c> to compare </param>
+    /// <returns> True if <see cref="Elements.electrons"/>, <see cref="Elements.protons"/>, <see cref="Elements.neutrons"/>, and <see cref="Elements.bondOrders"/>
+    /// are equal for <c> x</c>, <c> y</c>, and all <see cref="Elements"/> connected to them.</returns>
+    /// <remarks>
+    /// NOTE: Does not work with cyclic molecules, a check must be implemented to ensure molecules are only checked once
+    /// </remarks>
     public bool Equals(Elements x, Elements y)
     {
         if (x.electrons != y.electrons) return false;
@@ -1058,6 +1082,11 @@ public class ElementsComparer : IEqualityComparer<Elements>
         return true;
     }
 
+    /// <summary>
+    /// GetHashCode override for <see cref="Elements"/>
+    /// </summary>
+    /// <param name="obj"> the <see cref="Elements"/> to get the Hash Code of</param>
+    /// <returns></returns>
     public int GetHashCode(Elements obj)
     {
         return obj.GetHashCode();
