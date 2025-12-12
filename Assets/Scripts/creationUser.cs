@@ -1,12 +1,13 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Net;
+using System.Xml;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UIElements;
-
-using System.Xml;
-using System.IO;
-using System;
 
 public class creationUser : MonoBehaviour
 {
@@ -32,8 +33,8 @@ public class creationUser : MonoBehaviour
 
     /// <summary> Whether or not a <c> Bond </c> has been updated this frame </summary>
     bool bondReplace = false;
-    /// <summary> The number of <c> Elements </c> currently in the molecule </summary>
-    int elementCount = 0;
+    /// <summary> The number of times that <c> Elements </c> or <c> Bonds </c> have been spawned in the molecule </summary>
+    int spawnCount = 0;
 
     /// <summary> Last object hovered over </summary>
     string check;
@@ -64,6 +65,9 @@ public class creationUser : MonoBehaviour
     private Dictionary<Elements, string> atomIDs = new Dictionary<Elements, string>();
     /// <summary> Dictionary for converting ids to <see cref="Elements"/> for saving and loading </summary>
     private Dictionary<string, Elements> IDToAtom = new Dictionary<string, Elements>();
+
+    /// <summary> The first <c> Element </c> to be connected with a new <c> Bond </c> </summary>
+    private Elements bondParent;
 
     /// <summary>
     /// Initializes molecule.cml, <see cref="select"/>, and camera position
@@ -136,11 +140,14 @@ public class creationUser : MonoBehaviour
         // Manages mouse click and hover interaction
         Hovering();
 
+        // NOTE: All of these keybinds can be subject to change, they are mostly here to test functionality
+        // If "s" key is pressed, save molecule
         if(Input.GetKeyDown("s")) {
             Debug.Log("Saving Molecule");
             SaveMolecule();
         }
 
+        // If "l" key is pressed, load molecule
         if(Input.GetKeyDown("l")) {
             Debug.Log("Loading Molecule");
             LoadMolecule();
@@ -150,6 +157,7 @@ public class creationUser : MonoBehaviour
             }
         }
 
+        // if "p" key is pressed, toggle whether or not lone pairs are shown
         if(Input.GetKeyDown("p")) {
             if(lonePairsVisible) {
                 Debug.Log("hiding");
@@ -161,6 +169,7 @@ public class creationUser : MonoBehaviour
             }
         }
 
+        // if molecule was updated recently, wait a bit to give everything time to update and then respawn lone pairs
         if(moleculeUpdated) {
             framesSinceMoleculeUpdated++;
             if(framesSinceMoleculeUpdated > molecule.transform.childCount) {
@@ -426,7 +435,57 @@ public class creationUser : MonoBehaviour
     void Hovering() {
         ray = Camera.main.ScreenPointToRay(Input.mousePosition);	
         if (Physics.Raycast(ray, out hit)) { // Hovering over object 
-            // Debug.Log("Hovering");
+            // If "b" key is pressed, try and make a new bond
+            if(Input.GetKeyDown("b")) {
+                Debug.Log("b");
+                // If hovered object is an Element, keep going
+                if(select.CompareTag("Element")) {
+                    // If bondParent is null, set it
+                    if(bondParent == null) {
+                        bondParent = (select.GetComponent<Elements>() as Elements);
+                        Debug.Log("bonding " + bondParent.name);
+                    }
+                    else if((select.GetComponent<Elements>() as Elements).Equals(bondParent)) { // If bondParent == select, cancel bonding
+                        bondParent = null;
+                        Debug.Log("cancelling bond");
+                    }
+                    else { // else make the bond between bondParent and select
+                           // If bondParent and select can bond more, bond them
+                        if((select.GetComponent<Elements>() as Elements).CanBondMore() && bondParent.CanBondMore()) {
+                            bool bonded = false;
+                            foreach(Tuple<GameObject, GameObject> neighbor in (select.GetComponent<Elements>() as Elements).GetNeighbors()) {
+                                if((neighbor.Item2.GetComponent<Elements>() as Elements).Equals(bondParent)) {
+                                    bonded = true;
+                                }
+                            }
+                            if(!bonded) { // if select and bondParent are not already bonded
+                                float radius = bondParent.covalentRadius + (select.GetComponent<Elements>() as Elements).covalentRadius;
+                                GameObject cyl = AssetDatabase.LoadAssetAtPath("Assets/Resources/SingleBond.prefab", typeof(GameObject)) as GameObject;
+                                GameObject cylClone = Instantiate(cyl, Vector3.zero, Quaternion.identity);
+                                cylClone.transform.localScale = new Vector3(0.15f, radius / 2, 0.15f);
+                                cylClone.transform.SetParent(GameObject.Find("moleculeBody").transform, true);
+                                cylClone.name = cylClone.name + " " + spawnCount;
+                                spawnCount++;
+
+                                (select.GetComponent<Elements>() as Elements).UpdateElectrons(1);
+                                bondParent.UpdateElectrons(1);
+                                (select.GetComponent<Elements>() as Elements).bondCount++;
+                                (select.GetComponent<Elements>() as Elements).bondOrders++;
+                                bondParent.bondCount++;
+                                bondParent.bondOrders++;
+
+                                (cylClone.GetComponent<Bonds>() as Bonds).SetElements(bondParent, select.GetComponent<Elements>() as Elements);
+                                (cylClone.GetComponent<Bonds>() as Bonds).UpdatePosition();
+
+                                bondParent.GetNeighbors().Add(new Tuple<GameObject, GameObject>(cylClone, select));
+                                select.GetComponent<Elements>().GetNeighbors().Add(new Tuple<GameObject, GameObject>(cylClone, bondParent.gameObject));
+
+                                bondParent = null;
+                            }
+                        }
+                    }
+                }
+            }
             if (select != null && check != hit.collider.gameObject.name) { // Don't check if already hovering this object
                 // Swaps current color and highlight
                 select.GetComponent<Renderer>().material.color = focusMaterial;
@@ -456,7 +515,7 @@ public class creationUser : MonoBehaviour
                 }
                 
                 bondReplace = false;
-                
+
                 // If left clicks object
                 if (Input.GetMouseButtonUp(0)) {
                     Clicking();
@@ -519,14 +578,14 @@ public class creationUser : MonoBehaviour
                 if(!Input.GetKey(KeyCode.LeftControl) && !Input.GetKey(KeyCode.LeftShift)) {
                     if(hit.transform.tag.Equals("Element")) {
                         Elements script = hit.collider.gameObject.GetComponent<Elements>();
-                        script.SpawnElement(elementCount);
-                        elementCount++;
+                        script.SpawnElement(spawnCount);
+                        spawnCount++;
                         moleculeUpdated = true;
                     }
                     else if(hit.transform.tag.Equals("Bond")) {
                         Bonds script = hit.collider.gameObject.GetComponent<Bonds>();
-                        script.CycleBondOrder(elementCount);
-                        elementCount++;
+                        script.CycleBondOrder(spawnCount);
+                        spawnCount++;
                         bondReplace = true;
                         moleculeUpdated = true;
                     }
