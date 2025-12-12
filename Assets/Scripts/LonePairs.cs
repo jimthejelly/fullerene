@@ -41,8 +41,8 @@ public class LonePairs : MonoBehaviour
             }
             if(element.CompareTag("Element") && !element.Equals(parent.transform)) { // if element is an element and not the parent element
                 float r = Vector3.Distance(transform.position, element.transform.position);
-                float eps = Mathf.Sqrt(epsilon * (element.gameObject.GetComponent<Elements>() as Elements).epsilon);
-                float sig = (sigma + (element.gameObject.GetComponent<Elements>() as Elements).sigma) / 2;
+                float eps = Mathf.Sqrt(epsilon * element.gameObject.GetComponent<Elements>().epsilon);
+                float sig = (sigma + element.gameObject.GetComponent<Elements>().sigma) / 2;
                 float force = 24 * eps * (2 * Mathf.Pow(sig / r, 12) - Mathf.Pow(sig / r, 6)) * (1 / r);
 
                 // capping force so molecules don't explode out as much
@@ -60,8 +60,8 @@ public class LonePairs : MonoBehaviour
             }
             else if(element.CompareTag("Lone Pair") && !element.Equals(transform)) { // if element is a lone pair and not this lone pair
                 float r = Vector3.Distance(transform.position, element.transform.position);
-                float eps = Mathf.Sqrt(epsilon * (element.gameObject.GetComponent<LonePairs>() as LonePairs).epsilon);
-                float sig = (sigma + (element.gameObject.GetComponent<LonePairs>() as LonePairs).sigma) / 2;
+                float eps = Mathf.Sqrt(epsilon * element.gameObject.GetComponent<LonePairs>().epsilon);
+                float sig = (sigma + element.gameObject.GetComponent<LonePairs>().sigma) / 2;
                 float force = 12 * eps * (2 * Mathf.Pow(sig / r, 12) - Mathf.Pow(sig / r, 6)) * (1 / r);
 
                 // capping force so molecules don't explode out as much

@@ -191,22 +191,26 @@ public class creationUser : MonoBehaviour
         if(head != null) {
             foreach(Transform element in molecule.transform) {
                 if(element.CompareTag("Element")) {
-                    (element.GetComponent<Elements>() as Elements).CalculateForceVector();
+                    element.GetComponent<Elements>().CalculateForceVector();
                 }
                 else if(element.CompareTag("Lone Pair")) {
-                    (element.GetComponent<LonePairs>() as LonePairs).CalculateForceVector();
+                    element.GetComponent<LonePairs>().CalculateForceVector();
                 }
             }
-            (head.GetComponent<Elements>() as Elements).UpdatePosition();
+            head.GetComponent<Elements>().UpdatePosition();
             foreach(Transform element in molecule.transform) {
                 if(element.CompareTag("Lone Pair")) {
-                    (element.GetComponent<LonePairs>() as LonePairs).UpdatePosition();
+                    element.GetComponent<LonePairs>().UpdatePosition();
+                }
+                else if(element.CompareTag("Bond")) {
+                    element.GetComponent<Bonds>().UpdatePosition();
                 }
             }
         }
+        // reset hasMoved for the next frame
         foreach(Transform element in molecule.transform) {
             if(element.CompareTag("Element")) {
-                (element.GetComponent<Elements>() as Elements).hasMoved = false;
+                element.GetComponent<Elements>().hasMoved = false;
             }
         }
     }
@@ -241,7 +245,7 @@ public class creationUser : MonoBehaviour
     void SpawnLonePairs() {
         foreach(Transform item in molecule.transform) {
             if(item.tag.Equals("Element")) {
-                (item.gameObject.GetComponent<Elements>() as Elements).ShowLonePairs();
+                item.gameObject.GetComponent<Elements>().ShowLonePairs();
             }
         }
         lonePairsVisible = true;
@@ -282,11 +286,11 @@ public class creationUser : MonoBehaviour
         int count = 1;
         foreach(Transform item in molecule.transform) {
             if(item.tag.Equals("Element")) {
-                atomIDs.Add(item.gameObject.GetComponent<Elements>() as Elements, "a" + count);
-                IDToAtom.Add("a" + count++, item.gameObject.GetComponent<Elements>() as Elements);
+                atomIDs.Add(item.gameObject.GetComponent<Elements>(), "a" + count);
+                IDToAtom.Add("a" + count++, item.gameObject.GetComponent<Elements>());
                 writer.WriteStartElement("atom");
-                writer.WriteAttributeString("id", atomIDs[item.gameObject.GetComponent<Elements>() as Elements]);
-                writer.WriteAttributeString("elementType", ((ElementSymbols)((item.gameObject.GetComponent<Elements>() as Elements).protons)).ToString("F"));
+                writer.WriteAttributeString("id", atomIDs[item.gameObject.GetComponent<Elements>()]);
+                writer.WriteAttributeString("elementType", ((ElementSymbols)(item.gameObject.GetComponent<Elements>().protons)).ToString("F"));
                 writer.WriteAttributeString("x3", item.position.x.ToString());
                 writer.WriteAttributeString("y3", item.position.y.ToString());
                 writer.WriteAttributeString("z3", item.position.z.ToString());
@@ -301,8 +305,8 @@ public class creationUser : MonoBehaviour
         foreach(Transform item in molecule.transform) {
             if(item.tag.Equals("Bond")) {
                 writer.WriteStartElement("bond");
-                writer.WriteAttributeString("atomRefs2", atomIDs[(item.gameObject.GetComponent<Bonds>() as Bonds).parent] + " " + atomIDs[(item.gameObject.GetComponent<Bonds>() as Bonds).child]);
-                writer.WriteAttributeString("order", ((item.gameObject.GetComponent<Bonds>() as Bonds).bondOrder).ToString());
+                writer.WriteAttributeString("atomRefs2", atomIDs[item.gameObject.GetComponent<Bonds>().parent] + " " + atomIDs[item.gameObject.GetComponent<Bonds>().child]);
+                writer.WriteAttributeString("order", (item.gameObject.GetComponent<Bonds>().bondOrder).ToString());
                 writer.WriteEndElement(); // end of bond
             }
         }
@@ -342,8 +346,8 @@ public class creationUser : MonoBehaviour
         foreach(Transform item in molecule.transform) {
             if(item.tag.Equals("Bond")) {
                 // setting bond position
-                Vector3 parentPos = (item.gameObject.GetComponent<Bonds>() as Bonds).parent.transform.position;
-                Vector3 childPos = (item.gameObject.GetComponent<Bonds>() as Bonds).child.transform.position;
+                Vector3 parentPos = item.gameObject.GetComponent<Bonds>().parent.transform.position;
+                Vector3 childPos = item.gameObject.GetComponent<Bonds>().child.transform.position;
                 Debug.Log(parentPos + " " + childPos);
                 item.position = new Vector3((parentPos.x + childPos.x) / 2, (parentPos.y + childPos.y) / 2, (parentPos.z + childPos.z) / 2);
 
@@ -442,24 +446,24 @@ public class creationUser : MonoBehaviour
                 if(select.CompareTag("Element")) {
                     // If bondParent is null, set it
                     if(bondParent == null) {
-                        bondParent = (select.GetComponent<Elements>() as Elements);
+                        bondParent = select.GetComponent<Elements>();
                         Debug.Log("bonding " + bondParent.name);
                     }
-                    else if((select.GetComponent<Elements>() as Elements).Equals(bondParent)) { // If bondParent == select, cancel bonding
+                    else if(select.GetComponent<Elements>().Equals(bondParent)) { // If bondParent == select, cancel bonding
                         bondParent = null;
                         Debug.Log("cancelling bond");
                     }
                     else { // else make the bond between bondParent and select
                            // If bondParent and select can bond more, bond them
-                        if((select.GetComponent<Elements>() as Elements).CanBondMore() && bondParent.CanBondMore()) {
+                        if(select.GetComponent<Elements>().CanBondMore() && bondParent.CanBondMore()) {
                             bool bonded = false;
-                            foreach(Tuple<GameObject, GameObject> neighbor in (select.GetComponent<Elements>() as Elements).GetNeighbors()) {
-                                if((neighbor.Item2.GetComponent<Elements>() as Elements).Equals(bondParent)) {
+                            foreach(Tuple<GameObject, GameObject> neighbor in select.GetComponent<Elements>().GetNeighbors()) {
+                                if(neighbor.Item2.GetComponent<Elements>().Equals(bondParent)) {
                                     bonded = true;
                                 }
                             }
                             if(!bonded) { // if select and bondParent are not already bonded
-                                float radius = bondParent.covalentRadius + (select.GetComponent<Elements>() as Elements).covalentRadius;
+                                float radius = bondParent.covalentRadius + select.GetComponent<Elements>().covalentRadius;
                                 GameObject cyl = AssetDatabase.LoadAssetAtPath("Assets/Resources/SingleBond.prefab", typeof(GameObject)) as GameObject;
                                 GameObject cylClone = Instantiate(cyl, Vector3.zero, Quaternion.identity);
                                 cylClone.transform.localScale = new Vector3(0.15f, radius / 2, 0.15f);
@@ -467,15 +471,15 @@ public class creationUser : MonoBehaviour
                                 cylClone.name = cylClone.name + " " + spawnCount;
                                 spawnCount++;
 
-                                (select.GetComponent<Elements>() as Elements).UpdateElectrons(1);
+                                select.GetComponent<Elements>().UpdateElectrons(1);
                                 bondParent.UpdateElectrons(1);
-                                (select.GetComponent<Elements>() as Elements).bondCount++;
-                                (select.GetComponent<Elements>() as Elements).bondOrders++;
+                                select.GetComponent<Elements>().bondCount++;
+                                select.GetComponent<Elements>() .bondOrders++;
                                 bondParent.bondCount++;
                                 bondParent.bondOrders++;
 
-                                (cylClone.GetComponent<Bonds>() as Bonds).SetElements(bondParent, select.GetComponent<Elements>() as Elements);
-                                (cylClone.GetComponent<Bonds>() as Bonds).UpdatePosition();
+                                cylClone.GetComponent<Bonds>().SetElements(bondParent, select.GetComponent<Elements>());
+                                cylClone.GetComponent<Bonds>().UpdatePosition();
 
                                 bondParent.GetNeighbors().Add(new Tuple<GameObject, GameObject>(cylClone, select));
                                 select.GetComponent<Elements>().GetNeighbors().Add(new Tuple<GameObject, GameObject>(cylClone, bondParent.gameObject));

@@ -77,7 +77,7 @@ public class Bonds : MonoBehaviour
         GameObject newBond = newBond = Instantiate(obj, transform.position, Quaternion.identity, transform.parent);
         newBond.transform.localScale = transform.localScale;
         newBond.transform.localEulerAngles = transform.localEulerAngles;
-        (newBond.GetComponent<Bonds>() as Bonds).SetElements(parent, child);
+        newBond.GetComponent<Bonds>().SetElements(parent, child);
         newBond.name = newBond.name + " " + num;
 
         // updating parent and child neighbor lists
