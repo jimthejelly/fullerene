@@ -20,6 +20,7 @@ var class_elements =
     [ "electrons", "class_elements.html#ac04a54df29f779d0a351635a033d74df", null ],
     [ "epsilon", "class_elements.html#a4362ad20aeaf42f6f7f188c6354b603a", null ],
     [ "expandedOctet", "class_elements.html#af807ce7786da2588168a8e2a0eae51f0", null ],
+    [ "forceVector", "class_elements.html#a08385d35f2c62b653d5f00c7bb77b51f", null ],
     [ "hasMoved", "class_elements.html#a0369cdaaea9b678e132d2496dfa3bfe1", null ],
     [ "lonePairs", "class_elements.html#a78d0fb544dce69aa6c3b94e4cf522253", null ],
     [ "neutrons", "class_elements.html#a52259c03356df900b3912bdb7087584f", null ],

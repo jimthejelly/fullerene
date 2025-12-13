@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['turnspeed_0',['turnSpeed',['../classcreation_user.html#a23d190c31397e0f53a09b668be1ebda9',1,'creationUser']]]
+  ['sigma_0',['sigma',['../class_elements.html#a83f530f3abe71bb05984ca27c07054b8',1,'Elements.sigma'],['../class_lone_pairs.html#ab5a334f693808a73f7fda136098b6801',1,'LonePairs.sigma']]]
 ];

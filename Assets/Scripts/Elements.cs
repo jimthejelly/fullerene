@@ -46,7 +46,7 @@ public class Elements : MonoBehaviour
     public float sigma;
 
     /// <summary> The force vector this <c> Element </c> will feel in the current frame </summary>
-    private Vector3 forceVector = Vector3.zero;
+    public Vector3 forceVector = Vector3.zero;
     /// <summary> The force vector this <c> Element </c> felt in the previous frame </summary>
     /// <remarks> Used to lessen oscillation when approaching equilibrium (doesn't really work yet) </remarks>
     private Vector3 oldForceVector = Vector3.zero;
@@ -205,9 +205,12 @@ public class Elements : MonoBehaviour
             Debug.Log(selectElement.element + " is inert!");
             return;
         }
+        // setting initial (theoretical) length of bond
         float radius = covalentRadius + clone.GetComponent<Elements>().covalentRadius;
+        // creating bond and element objects
         GameObject cyl = AssetDatabase.LoadAssetAtPath("Assets/Resources/SingleBond.prefab", typeof(GameObject)) as GameObject;
         GameObject cylClone = Instantiate(cyl, Vector3.zero, Quaternion.identity);
+        // setting bond and element parameters
         cylClone.transform.localScale = new Vector3(0.15f, radius / 2, 0.15f);
         cylClone.transform.SetParent(GameObject.Find("moleculeBody").transform, true);
         clone.transform.SetParent(GameObject.Find("moleculeBody").transform, true);
@@ -226,8 +229,8 @@ public class Elements : MonoBehaviour
         neighbors.Add(new Tuple<GameObject, GameObject>(cylClone, clone));
         clone.GetComponent<Elements>().neighbors.Add(new Tuple<GameObject, GameObject>(cylClone, gameObject));
         ResetChildPositions();
-
-        clone.transform.localEulerAngles = cylClone.transform.localEulerAngles; //+ this.transform.localEulerAngles;
+        // setting element and bond positions and angles
+        clone.transform.localEulerAngles = cylClone.transform.localEulerAngles;
 
         clone.transform.localPosition = cylClone.transform.localPosition;
         clone.transform.Translate(0, -radius / 2, 0);
@@ -305,12 +308,9 @@ public class Elements : MonoBehaviour
         Debug.Log("bonds: " + bonds);
         if (bonds == 2)
         {
-            // if (gameObject == creationUser.head)
-            // {
             neighbors[neighbors.Count() - 1].Item1.transform.RotateAround(transform.position, transform.forward, 180);
             neighbors[neighbors.Count() - 1].Item2.transform.RotateAround(transform.position, transform.forward, 180);
-            // }
-
+      
             Debug.Log("index: " + (1 - offset) + "   name: " + neighbors[1 - offset].Item2.name);
         }
         else if (bonds == 3)
@@ -1020,6 +1020,7 @@ public class Elements : MonoBehaviour
         Vector3 temp = forceVector;
         temp.Normalize();
         Debug.DrawRay(transform.position, temp, Color.red);
+        //Debug.Log(forceVector.magnitude);
     }
 
     /// <summary>
@@ -1027,7 +1028,14 @@ public class Elements : MonoBehaviour
     /// </summary>
     public void UpdatePosition() {
         if(GetID() != -1) {
-            if(forceVector.magnitude > 0.01f) { // if magnitude of force is very small, ignore it
+            foreach(Tuple<GameObject, GameObject> neighbor in neighbors) { // if any bonds are too long, shorten them
+                if(Vector3.Distance(transform.position, neighbor.Item2.transform.position) > 1.5 * (covalentRadius + neighbor.Item2.GetComponent<Elements>().covalentRadius)) {
+                    transform.position = Vector3.MoveTowards(transform.position, transform.position - neighbor.Item2.transform.position,
+                        -0.1f * Vector3.Distance(transform.position, neighbor.Item2.transform.position) * Time.deltaTime);
+                    break;
+                }
+            }
+            if(forceVector.magnitude >= 0.01f) { // if magnitude of force is not very small, move along forceVector
                 Vector3 averageVector = (forceVector + oldForceVector) / 2;
                 transform.position = Vector3.MoveTowards(transform.position, transform.position - averageVector, forceVector.magnitude * Time.deltaTime);
                 oldForceVector = forceVector;

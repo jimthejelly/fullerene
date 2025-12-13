@@ -38,10 +38,10 @@ void {\bfseries Show\+Lone\+Pairs} ()
 \begin{DoxyCompactList}\small\item\em Calculates the positions of the \doxylink{class_lone_pairs}{Lone\+Pairs} of this atom and spawns them. \end{DoxyCompactList}\item 
 \Hypertarget{class_elements_a943b82bd94007d7ce4bc1f6c802b8e15}\label{class_elements_a943b82bd94007d7ce4bc1f6c802b8e15} 
 void {\bfseries Calculate\+Force\+Vector} ()
-\begin{DoxyCompactList}\small\item\em Sets force\+Vector to the force this {\ttfamily  Element } will experience this frame. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Sets \doxylink{class_elements_a08385d35f2c62b653d5f00c7bb77b51f}{force\+Vector} to the force this {\ttfamily  Element } will experience this frame. \end{DoxyCompactList}\item 
 \Hypertarget{class_elements_ae55176f31fe0695f469203f7717c6b3f}\label{class_elements_ae55176f31fe0695f469203f7717c6b3f} 
 void {\bfseries Update\+Position} ()
-\begin{DoxyCompactList}\small\item\em Updates the position of this {\ttfamily  Element } based on its force\+Vector for this frame. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Updates the position of this {\ttfamily  Element } based on its \doxylink{class_elements_a08385d35f2c62b653d5f00c7bb77b51f}{force\+Vector} for this frame. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsubsection*{Public Attributes}
 \begin{DoxyCompactItemize}
 \item 
@@ -80,7 +80,10 @@ float {\bfseries covalent\+Radius}
 float \mbox{\hyperlink{class_elements_a4362ad20aeaf42f6f7f188c6354b603a}{epsilon}}
 \begin{DoxyCompactList}\small\item\em The epsilon value of this {\ttfamily  Element }. \end{DoxyCompactList}\item 
 float \mbox{\hyperlink{class_elements_a83f530f3abe71bb05984ca27c07054b8}{sigma}}
-\begin{DoxyCompactList}\small\item\em The sigma value of this {\ttfamily  Element }. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em The sigma value of this {\ttfamily  Element }. \end{DoxyCompactList}\item 
+\Hypertarget{class_elements_a08385d35f2c62b653d5f00c7bb77b51f}\label{class_elements_a08385d35f2c62b653d5f00c7bb77b51f} 
+Vector3 {\bfseries force\+Vector} = Vector3.\+zero
+\begin{DoxyCompactList}\small\item\em The force vector this {\ttfamily  Element } will feel in the current frame. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}

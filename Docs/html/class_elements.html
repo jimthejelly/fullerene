@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.15.0"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Fullerene: Elements Class Reference</title>
+<title>My Project: Elements Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Fullerene
+   <div id="projectname">My Project
    </div>
   </td>
  </tr>
@@ -127,10 +127,10 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>ShowLonePairs</b> ()<
 <tr class="memdesc:aa1f19a2656767528a2ac326247912786"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculates the positions of the <a class="el" href="class_lone_pairs.html">LonePairs</a> of this atom and spawns them. <br /></td></tr>
 <tr class="memitem:a943b82bd94007d7ce4bc1f6c802b8e15" id="r_a943b82bd94007d7ce4bc1f6c802b8e15"><td class="memItemLeft" align="right" valign="top"><a id="a943b82bd94007d7ce4bc1f6c802b8e15" name="a943b82bd94007d7ce4bc1f6c802b8e15"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>CalculateForceVector</b> ()</td></tr>
-<tr class="memdesc:a943b82bd94007d7ce4bc1f6c802b8e15"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets forceVector to the force this <code> Element </code> will experience this frame. <br /></td></tr>
+<tr class="memdesc:a943b82bd94007d7ce4bc1f6c802b8e15"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets <a class="el" href="#a08385d35f2c62b653d5f00c7bb77b51f" title="The force vector this  Element  will feel in the current frame.">forceVector</a> to the force this <code> Element </code> will experience this frame. <br /></td></tr>
 <tr class="memitem:ae55176f31fe0695f469203f7717c6b3f" id="r_ae55176f31fe0695f469203f7717c6b3f"><td class="memItemLeft" align="right" valign="top"><a id="ae55176f31fe0695f469203f7717c6b3f" name="ae55176f31fe0695f469203f7717c6b3f"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>UpdatePosition</b> ()</td></tr>
-<tr class="memdesc:ae55176f31fe0695f469203f7717c6b3f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Updates the position of this <code> Element </code> based on its forceVector for this frame. <br /></td></tr>
+<tr class="memdesc:ae55176f31fe0695f469203f7717c6b3f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Updates the position of this <code> Element </code> based on its <a class="el" href="#a08385d35f2c62b653d5f00c7bb77b51f" title="The force vector this  Element  will feel in the current frame.">forceVector</a> for this frame. <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-attribs" class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -170,6 +170,9 @@ float&#160;</td><td class="memItemRight" valign="bottom"><b>covalentRadius</b></
 <tr class="memdesc:a4362ad20aeaf42f6f7f188c6354b603a"><td class="mdescLeft">&#160;</td><td class="mdescRight">The epsilon value of this <code> Element </code>.  <br /></td></tr>
 <tr class="memitem:a83f530f3abe71bb05984ca27c07054b8" id="r_a83f530f3abe71bb05984ca27c07054b8"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a83f530f3abe71bb05984ca27c07054b8">sigma</a></td></tr>
 <tr class="memdesc:a83f530f3abe71bb05984ca27c07054b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">The sigma value of this <code> Element </code>.  <br /></td></tr>
+<tr class="memitem:a08385d35f2c62b653d5f00c7bb77b51f" id="r_a08385d35f2c62b653d5f00c7bb77b51f"><td class="memItemLeft" align="right" valign="top"><a id="a08385d35f2c62b653d5f00c7bb77b51f" name="a08385d35f2c62b653d5f00c7bb77b51f"></a>
+Vector3&#160;</td><td class="memItemRight" valign="bottom"><b>forceVector</b> = Vector3.zero</td></tr>
+<tr class="memdesc:a08385d35f2c62b653d5f00c7bb77b51f"><td class="mdescLeft">&#160;</td><td class="mdescRight">The force vector this <code> Element </code> will feel in the current frame. <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Class for representing the internal data of an atom in the main molecule. </p>
