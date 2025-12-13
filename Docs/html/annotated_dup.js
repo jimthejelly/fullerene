@@ -1,0 +1,27 @@
+var annotated_dup =
+[
+    [ "Bonds", "class_bonds.html", "class_bonds" ],
+    [ "Compound", "class_compound.html", null ],
+    [ "creationMenu", "classcreation_menu.html", null ],
+    [ "creationUser", "classcreation_user.html", "classcreation_user" ],
+    [ "DrawOrgo", "class_draw_orgo.html", null ],
+    [ "Elements", "class_elements.html", "class_elements" ],
+    [ "ElementsComparer", "class_elements_comparer.html", "class_elements_comparer" ],
+    [ "explorationMenu", "classexploration_menu.html", null ],
+    [ "explorationUser", "classexploration_user.html", null ],
+    [ "GameObjectsManager", "class_game_objects_manager.html", null ],
+    [ "keepMolecule", "classkeep_molecule.html", null ],
+    [ "Label", "class_label.html", null ],
+    [ "LaserCollision", "class_laser_collision.html", null ],
+    [ "LonePairs", "class_lone_pairs.html", "class_lone_pairs" ],
+    [ "makeAMolecule", "classmake_a_molecule.html", null ],
+    [ "MinigameSelectionButtons", "class_minigame_selection_buttons.html", null ],
+    [ "moleculeSingleton", "classmolecule_singleton.html", null ],
+    [ "MoleculeSpawnerMover", "class_molecule_spawner_mover.html", null ],
+    [ "RockBounds", "class_rock_bounds.html", null ],
+    [ "selectElement", "classselect_element.html", null ],
+    [ "selectPreset", "classselect_preset.html", null ],
+    [ "ShootAMoleculeTextManager", "class_shoot_a_molecule_text_manager.html", null ],
+    [ "ShootMoleculeLives", "class_shoot_molecule_lives.html", null ],
+    [ "start", "classstart.html", null ]
+];
