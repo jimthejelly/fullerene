@@ -54,7 +54,12 @@ public class DrawOrgo : MonoBehaviour
         string apiCall = "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/"        //make api call to figure out how to organize the chemical formula for the molecule.
             + currentMolecule + "/property/MolecularFormula/CSV";
 
-        StartCoroutine(GetRequest(apiCall, "formula"));
+        // TODO: might not be the right place for this?
+            
+        // send the data to the controller to be stored
+        // generalDataController.UpdateInternalData(result);
+        // Debug.Log(result);
+        StartCoroutine(GetRequest(apiCall, "result"));
 
         canvas = GameObject.Find("Canvas");
         UI = canvas.transform.GetChild(1).gameObject;
