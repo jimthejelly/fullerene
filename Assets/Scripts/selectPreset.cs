@@ -9,18 +9,23 @@ using System;
 
 
 
-// public static class Globals {
-//     public static GameObject element;
-// }
-
+/// <summary>
+    /// A class for saving and loading presets of molecules. Currently saves and loads from a CML file, but requires more work to rebuild the molecule fully from the CML file. 
+    /// Also saves a prefab of the molecule, but this is currently unused and may end up being scrapped depending on how we decide to implement presets in the future.
+/// </summary>
 public class selectPreset : MonoBehaviour
 {
+    /// <summary> The name of the preset to save or load. </summary>
     public static string preset;
+    /// <summary> The number of the preset </summary>
     public int presetNumber;
+    /// <summary> The path to the preset file</summary>
     string path;
+    /// <summary>
+    /// Start is called before the first frame update and initializes the preset </summary>
     void Start()
     {
-        // numberText.text = "Loaded";
+        
     }
 
     private void saveMolecule()
