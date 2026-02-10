@@ -1,94 +1,70 @@
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.Networking;
 
 namespace ChemWordle
 {
-    /// <summary>
-    /// Handles all interactions with PUG REST, the PubChem API.
-    /// </summary>
+    
+    /** Handles all interactions with PUG REST, the PubChem API. */
     public class PubChemAPIManager : MonoBehaviour
     {
         
-        /// <summary>
-        /// The longest tolerable delay on a web request before it just times out.
-        /// </summary>
+        /** The longest tolerable delay on a web request before it just times out. */
         private const int MAX_REQUEST_DELAY_MS = 1500;
-        
-        /// <summary>
-        /// The time to wait when periodically checking a request's status.
-        /// </summary>
+        /** How often to ask the request if it's done. */
         private const int REQUEST_CHECK_INTERVAL_MS = 50;
 
-        /// <summary>
-        /// Begins every API call.
-        /// </summary>
+		/** Goes at the beginning of every API request. */
         private const string API_CALL_HEADER = "https://pubchem.ncbi.nlm.nih.gov/rest/pug/";
 
-        /// <summary>
-        /// Identifies chemicals in the PubChem database with the given property.
-        /// </summary>
-        /// <param name="propertyName"> The name of the property to find. </param>
-        /// <param name="propertyValue"> The value of the property to find. </param>
-        /// <param name="maxAllowed"> The maximum number of chemicals to be returned. </param>
-        /// <returns> A list of CIDs of chemicals with the property, or <c>null</c> if an error occurs. </returns>
-        [CanBeNull] public static async Task<List<int>> requestCIDsWithProperty(
+		/** Finds the CIDs of a number of chemicals with the specified property.
+		 * Can return less chemicals than requested if not enough match, or null if an exception occurs. */
+        public static async Task<List<int>> requestCIDsWithProperty(
             string propertyName,
             string propertyValue,
-            int maxAllowed
+            int max
         ) {
 
             // put together a request to get the CIDs of all chemicals with the specified property
-            // ex. for propertyName=Title, propertyValue=Hydrogen, maxAllowed = 10:
-            // https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/Title/Hydrogen/cids/TXT?MaxRecords=10
             var apiCall = API_CALL_HEADER + "compound/" +
-                          propertyName + "/" + propertyValue +
-                          "/cids/TXT?MaxRecords=" + maxAllowed;
+                          propertyName + "/" + propertyValue + // e.g. name/Water
+                          "/cids/TXT?MaxRecords=" + max;
             
             // make the request!
             var result = await MakeAPIRequest(apiCall);
+            if (result == null) return null;
             
-            // parse all the entries in the list as numbers
-            // (skip the last one because each entry ends in \n and so
-            // there's an empty string at the very end)
-            return result == null ? null :
-                (from r in result.Split("\n").SkipLast(1) select int.Parse(r)).ToList();
+            // process the result into a list of numbers and return it
+            var resultArray = result.Split("\n");
+            List<int> cidsList = new();
+            for (var i = 0; i < resultArray.Length - 1; i++)
+            {
+                cidsList.Add(int.Parse(resultArray[i]));
+            }
+            return cidsList;
             
         }
 
-        /// <summary>
-        /// Given a list of CIDs and attributes, looks up and returns <see cref="ChemicalData">ChemicalData</see>
-        /// objects with all the given attributes for all the given CIDs.
-        /// </summary>
-        /// <param name="cids"> The list of CIDs. </param>
-        /// <param name="dataTypes"> The list of attributes. </param>
-        /// <returns> A list of ChemicalData objects with the requested attributes. </returns>
-        [CanBeNull] public static async Task<List<ChemicalData>> RequestChemicals(
+        /** Retrieves chemical data objects for the given CIDs. */
+        public static async Task<List<ChemicalData>> RequestChemicals(
             List<int> cids,
             List<string> dataTypes
-        )
-        {
-
-            var apiCall = API_CALL_HEADER +
-                          "compound/cid/" + string.Join(",", cids) +
-                          "/property/" + string.Join(",", dataTypes) +
-                          "/CSV";
-            
+        ) {
             // put the cids and datatypes together into one big request
-            var result = await MakeAPIRequest(apiCall);
-            
-            return ParseStringData(result);
+            var callResult = await MakeAPIRequest(
+                API_CALL_HEADER +
+                "compound/cid/" + string.Join(",", cids) +
+                "/property/" + string.Join(",", dataTypes) +
+                "/CSV"
+            );
+            return ParseStringData(callResult);
         }
-        
-        /// <summary>
-        /// Performs a PubChem API request.
-        /// </summary>
-        /// <param name="apiCall"> The request which should be sent. </param>
-        /// <returns> The result of the request, or <c>null</c> if something went wrong. </returns>
-        [ItemCanBeNull] private static async Task<string> MakeAPIRequest(string apiCall)
+
+        /** Performs a PubChem API request.
+         * 'apiCall' is the specific request to send.
+         * Returns the result of the request, or null if something went wrong. */
+        private static async Task<string> MakeAPIRequest(string apiCall)
         {
             
             // create and send the web request
@@ -126,13 +102,7 @@ namespace ChemWordle
             
         }
 
-        /// <summary>
-        /// Parses the given string and returns the resultant chemical data.
-        /// </summary>
-        /// <param name="text"> The data to parse. Intended to be
-        /// the direct result of a PubChem API call.</param>
-        /// <returns> A list of ChemicalData objects with
-        /// all the attributes that were given in the input text. </returns>
+        /** Parses the given string and returns the resultant chemical data. */
         private static List<ChemicalData> ParseStringData(string text)
         {
             
@@ -184,7 +154,7 @@ namespace ChemWordle
                     
                     // if the parser hits a " symbol,
                     // flip the current quote status.
-                    // HOPEFULLY there's no random " in any
+                    // HOPEFULLY theres no random " in any
                     // chemical name in the database.
                     if (thisLine[textIndex] == '"') inQuotes = !inQuotes;
                     
