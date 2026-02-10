@@ -340,8 +340,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c162b83cd9cb8d34b98e9175e382d9f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  generalDataController: {fileID: 58070690}
-  wordleManager: {fileID: 1769683057}
 --- !u!114 &58070690
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -354,12 +352,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b32b28e335175434e8e0587813f2dbe1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pubChemAPIManager: {fileID: 58070689}
-  dataTypes:
-  - Title
-  - MolecularFormula
-  - MolecularWeight
-  - Charge
 --- !u!114 &58070691
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -376,9 +368,14 @@ MonoBehaviour:
   formulaText: {fileID: 171727036}
   weightText: {fileID: 2013346815}
   chargeText: {fileID: 643017227}
-  feedbackText: {fileID: 1491604467}
-  generalDataController: {fileID: 58070690}
-  wordleManager: {fileID: 1769683057}
+  guessButton: {fileID: 1692229693}
+  formulaFeedback: {fileID: 1491604467}
+  weightFeedback: {fileID: 1491604467}
+  chargeFeedback: {fileID: 1491604467}
+  prefab: {fileID: 7828926465075557587, guid: 80753e80987d4d84a969933d60813e91, type: 3}
+  victoryPrefab: {fileID: 7828926465075557587, guid: 6fac6dfe012081c418bf989895ccd3bd, type: 3}
+  guessesListedHere: {fileID: 226482384}
+  gui: {fileID: 58070683}
 --- !u!114 &58070692
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -450,7 +447,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 464.8917}
+  m_AnchoredPosition: {x: 0, y: 401.75128}
   m_SizeDelta: {x: 118, y: 171.99928}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &94229043
@@ -467,7 +464,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rect: {fileID: 94229042}
   parent: {fileID: 94229041}
-  actualParent: {fileID: 226482384}
   spacing: 50
 --- !u!1 &114997322
 GameObject:
@@ -1679,7 +1675,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 84.7
+  m_fontSize: 62.8
   m_fontSizeBase: 50
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2329,12 +2325,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b32b28e335175434e8e0587813f2dbe1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pubChemAPIManager: {fileID: 58070689}
-  dataTypes:
-  - Title
-  - MolecularFormula
-  - MolecularWeight
-  - Charge
 --- !u!114 &1271190151
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2481,12 +2471,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b32b28e335175434e8e0587813f2dbe1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pubChemAPIManager: {fileID: 58070689}
-  dataTypes:
-  - Title
-  - MolecularFormula
-  - MolecularWeight
-  - Charge
 --- !u!114 &1410219433
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2767,12 +2751,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b32b28e335175434e8e0587813f2dbe1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pubChemAPIManager: {fileID: 58070689}
-  dataTypes:
-  - Title
-  - MolecularFormula
-  - MolecularWeight
-  - Charge
 --- !u!114 &1692229693
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3030,14 +3008,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b624b8b2862b8524bb2fd4de913f2af4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pubChemAPIManager: {fileID: 58070689}
-  wordleGuessScrollArea: {fileID: 94229043}
-  prefab: {fileID: 7828926465075557587, guid: 80753e80987d4d84a969933d60813e91, type: 3}
-  VictoryPrefab: {fileID: 7828926465075557587, guid: 6fac6dfe012081c418bf989895ccd3bd, type: 3}
-  guessesListedHere: {fileID: 226482384}
-  GUI: {fileID: 58070683}
-  acceptableWeight: 99.7
-  guiController: {fileID: 58070691}
 --- !u!4 &1769683058
 Transform:
   m_ObjectHideFlags: 0
