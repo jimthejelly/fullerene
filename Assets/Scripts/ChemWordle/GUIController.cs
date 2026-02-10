@@ -6,11 +6,20 @@ using UnityEngine.UI;
 namespace ChemWordle
 {
     
-    /** Handles most of the GUI code. */
+    /// <summary>
+    /// Handles most of the GUI code.
+    /// </summary>
     public class GUIController : MonoBehaviour
     {
         
+        /// <summary>
+        /// A reference to the <see cref="GeneralDataController">GeneralDataController</see>.
+        /// </summary>
         private GeneralDataController _generalDataController;
+        
+        /// <summary>
+        /// A reference to the <see cref="WordleManager">WordleManager</see>.
+        /// </summary>
         private WordleManager _wordleManager;
 
         private void Start()
@@ -20,67 +29,118 @@ namespace ChemWordle
             guessButton.enabled = false;
         }
 
-        /** Text for the chemical's title. */
+        /// <summary>
+        /// Text for the chemical's title.
+        /// </summary>
         public TMPro.TMP_InputField titleText;
 
-        /** Text for the chemical's molecular formula. */
+        /// <summary>
+        /// Text for the chemical's molecular formula.
+        /// </summary>
         public TMPro.TMP_InputField formulaText;
 
-        /** Text for the chemical's molecular weight. */
+        /// <summary>
+        /// Text for the chemical's molecular weight.
+        /// </summary>
         public TMPro.TMP_InputField weightText;
 
-        /** Text for the chemical's charge. */
+        /// <summary>
+        /// Text for the chemical's charge.
+        /// </summary>
         public TMPro.TMP_InputField chargeText;
 
-        /** The guess button. :p */
+        /// <summary>
+        /// The guess button. :p
+        /// </summary>
         public Button guessButton;
+        
+        /// <summary>
+        /// Enables or disables the guess button.
+        /// The button should only be enabled when pressing it
+        /// would actually guess a new chemical.
+        /// </summary>
+        /// <param name="_enabled"> Whether the button should be enabled.
+        /// For the avoidance of all doubt, <c>true</c> => enabled,
+        /// and <c>false</c> => disabled. </param>
         public void SetGuessButtonEnabled(bool _enabled) => guessButton.enabled = _enabled;
 
-        /** The text that tells you how close your formula was. */
+        /// <summary>
+        /// Displays molecular formula feedback when a guess is made.
+        /// </summary>
         public TMPro.TextMeshProUGUI formulaFeedback;
         public void SetFormulaFeedback(string feedback) => formulaFeedback.text = feedback;
 
-        /** The text that tells you how close your weight was. */
+        /// <summary>
+        /// Displays molecular weight feedback when a guess is made.
+        /// </summary>
         public TMPro.TextMeshProUGUI weightFeedback;
         public void SetWeightFeedback(string feedback) => weightFeedback.text = feedback;
 
-        /** The text that tells you how close your charge was. */
+        /// <summary>
+        /// Displays charge feedback when a guess is made.
+        /// </summary>
         public TMPro.TextMeshProUGUI chargeFeedback;
         public void SetChargeFeedback(string feedback) => chargeFeedback.text = feedback;
 
 
+        /// <summary>
+        /// A reference to the <see cref="ForPrefabButton">guess label prefab</see>.
+        /// </summary>
+        public GameObject guessObjectPrefab;
 
-        public GameObject prefab;
-
+        /// <summary>
+        /// A reference to the victory prefab.
+        /// </summary>
         public GameObject victoryPrefab;
 
+        /// <summary>
+        /// The vertical scroll box holding all the guess objects.
+        /// </summary>
         public GameObject guessesListedHere;
 
+        /// <summary>
+        /// The top-level GUI. Everything except the menu is descended from here.
+        /// </summary>
         public GameObject gui;
+
         
-
-
-
+        // Functions corresponding directly to Unity text field actions
+        // TODO: understand the cursed async behavior here
+        
         public void OnTitleValueChanged() { }
-        public void OnTitleEndEdit() => _ = 
-            GuiChemicalTask("Title", "name",titleText.text);
+        public void OnTitleEndEdit() => _ = FindAndSelectChemicalWithProperty(
+            "Title", "name",titleText.text);
         public void OnTitleSelect() { }
         public void OnTitleDeselect() { }
-        
 
-        /** Look for a chemical with 'wordlePropertyName'/'pubchemPropertyName' set to 'propertyValue',
-         * and get it from online if it's not cached right now. */
-        private async Task GuiChemicalTask(
+
+        public void OnFormulaValueChanged() { }
+        public void OnFormulaEndEdit() => _ = FindAndSelectChemicalWithProperty(
+            "MolecularFormula", "fastformula",formulaText.text);
+        public void OnFormulaSelect() { }
+        public void OnFormulaDeselect() { }
+        
+        
+        /// <summary>
+        /// Searches for a chemical with the given property,
+        /// and sets it as the currently selected chemical if successful.
+        /// </summary>
+        /// <param name="wordlePropertyName"></param>
+        /// <param name="pubchemPropertyName"></param>
+        /// <param name="propertyValue"></param>
+        private async Task FindAndSelectChemicalWithProperty(
             string wordlePropertyName,
             string pubchemPropertyName,
             string propertyValue
         ) {
-            var data = _generalDataController.GetChemicalWithProperty(wordlePropertyName, titleText.text);
+            var data = _generalDataController.GetChemicalWithProperty(
+                wordlePropertyName, titleText.text);
             if (data == null)
             {
+                // guess we're looking online
                 var cids = await PubChemAPIManager.requestCIDsWithProperty(
-                   pubchemPropertyName, propertyValue, 1);
-                data = (await PubChemAPIManager.RequestChemicals(cids, GeneralDataController.DataTypes))[0];
+                    pubchemPropertyName, propertyValue, 1);
+                data = (await PubChemAPIManager.RequestChemicals(cids, GeneralDataController.DataTypes))?[0];
                 if (data != null) _generalDataController.RegisterChemicalData(data);
             }
 
@@ -88,13 +148,10 @@ namespace ChemWordle
             _wordleManager.SetGuessingChemical(data);
         }
 
-
-        public void OnFormulaValueChanged() { }
-        public void OnFormulaEndEdit() => _ = 
-            GuiChemicalTask("MolecularFormula", "fastformula",formulaText.text);
-        public void OnFormulaSelect() { }
-        public void OnFormulaDeselect() { }
-
+        /// <summary>
+        /// Updates all the text displays to reflect the given chemical.
+        /// </summary>
+        /// <param name="chemicalData"> The chemical to display. </param>
         public void set(ChemicalData chemicalData)
         {
 
@@ -112,7 +169,9 @@ namespace ChemWordle
 
         }
 
-        /** Called when the "Exit" button is pressed, probably. */
+        /// <summary>
+        /// Exits the minigame and returns the user to the main menu.
+        /// </summary>
         public void ExitGame() {
             SceneManager.LoadScene("TitleScene", LoadSceneMode.Single);
         }

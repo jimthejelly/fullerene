@@ -114,7 +114,7 @@ namespace ChemWordle
         {
 
             // Create a label to represent the guess
-            var guessObject = Instantiate(_guiController.prefab, _guiController.guessesListedHere.transform.GetChild(0));
+            var guessObject = Instantiate(_guiController.guessObjectPrefab, _guiController.guessesListedHere.transform.GetChild(0));
             guessObject.GetComponent<ForPrefabButton>().SetCID(int.Parse(_guessingChemical.GetProperty("CID")));
             guessObject.GetComponent<ForPrefabButton>().SetText(_guessingChemical.GetProperty("Title"));
 
