@@ -28,8 +28,13 @@ public class selectPreset : MonoBehaviour
         
     }
 
+    /// <summary>
+    /// saveMolecule saves the current molecule in the scene to a CML file and a prefab. The CML file is used to rebuild the molecule when loading the preset, 
+    /// and the prefab is currently unused but may end up being scrapped depending on how we decide to implement presets in the future.
+    /// </summary>
     private void saveMolecule()
     {
+        // Saving molecule to CML file
         GameObject molecule = GameObject.Find("moleculeBody");
         if (molecule.transform.childCount == 0)
         {
@@ -46,9 +51,13 @@ public class selectPreset : MonoBehaviour
 
         writer.WriteStartElement("atomArray");
 
+        // Saves atomIds and their corresponding elements in a dictionary so we can reference them when saving bonds
+        // Saves IDtoAtom and their corresponding atomIds in a dictionary so we can reference then when saving atoms
         Dictionary<Elements, string> atomIDs = new Dictionary<Elements, string>();
         Dictionary<string, Elements> IDToAtom = new Dictionary<string, Elements>();
         int count = 1;
+
+        // Loops through all elements in the molecule and saves their properties to the CML file
         foreach (Transform item in molecule.transform)
         {
             if (item.tag.Equals("Element"))
@@ -88,6 +97,9 @@ public class selectPreset : MonoBehaviour
         writer.Close();
     }
 
+    /// <summary>
+    /// saveNeighbors saves the neighbors of each element in the molecule to a text file.
+    /// </summary>
     private void saveNeighbors()
     {
         GameObject molecule = GameObject.Find("moleculeBody");
