@@ -135,6 +135,9 @@ public class selectPreset : MonoBehaviour
         }
     }
 
+/// <summary>
+///  savePreset saves the current molecule in the scene to a CML file and a prefab. The CML file is used to rebuild the molecule when loading the preset,
+/// </summary>
     public void savePreset()
     {
         saveNeighbors();
@@ -168,7 +171,9 @@ public class selectPreset : MonoBehaviour
             Debug.Log("No molecule to save");
         }
     }
-
+/// <summary>
+/// getPreset loads the molecule from the CML file and prefab saved by savePreset.
+/// </summary>
     public void getPreset()
     {
         GameObject body = GameObject.Find("moleculeBody");
