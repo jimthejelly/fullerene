@@ -182,6 +182,8 @@ public class selectPreset : MonoBehaviour
             Debug.LogError("No moleculeBody object in scene.");
             return;
         }
+
+        ///Goes through all children of moleculeBody and destroys them to clear the scene before loading the new molecule.
         foreach (Transform child in body.transform)
         {
             DestroyImmediate(child.gameObject);
@@ -206,13 +208,15 @@ public class selectPreset : MonoBehaviour
             return;
         }
 
+        ///Parses the CML file for atoms and bonds, instantiates the corresponding prefabs, and sets their properties based on the CML data. Also builds the neighbor lists for each element based on the bonds.
         XmlNode moleculeNode = doc.SelectSingleNode("/molecule");
         if (moleculeNode == null)
         {
-            Debug.LogError("CML has no <molecule> root.");
+            Debug.LogError("CML has no molecule root.");
             return;
         }
 
+        ///Selects the atomArray and bondArray nodes from the CML file, which contain the information about the atoms and bonds in the molecule. If either of these nodes is missing, it logs an error and returns.
         XmlNode atomArrayNode = moleculeNode.SelectSingleNode("atomArray");
         XmlNode bondArrayNode = moleculeNode.SelectSingleNode("bondArray");
 
@@ -222,12 +226,14 @@ public class selectPreset : MonoBehaviour
             return;
         }
 
+        ///Creates a dictionary to map atom IDs from the CML file to their corresponding Elements components in the scene. This is used to set up the bonds between elements after all the atoms have been instantiated.
         var idToElement = new Dictionary<string, Elements>();
 
         foreach (XmlNode atomNode in atomArrayNode.ChildNodes)
         {
             if (atomNode.Name != "atom") continue;
 
+            ///Parses the attributes of each atom node in the CML file to get the atom's ID, element type, and 3D coordinates. It then instantiates the corresponding element prefab based on the element type, sets its position, and adds it to the scene. It also updates the idToElement dictionary to map the atom ID to the instantiated Elements component for later reference when setting up bonds.
             string id = atomNode.Attributes["id"].Value;
             string symbol = atomNode.Attributes["elementType"].Value;
 
@@ -238,9 +244,12 @@ public class selectPreset : MonoBehaviour
 
             int atomicNumber = (int)(ElementSymbols)Enum.Parse(typeof(ElementSymbols), symbol);
 
+            ///Constructs the path to the element prefab based on the atomic number, loads the prefab, and instantiates it in the scene at the specified position. It also sets the protons property of the Elements component to the atomic number for later reference when setting up bonds.
             string elementPrefabPath = $"Assets/Elements/{atomicNumber}.prefab";
             GameObject elementPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(elementPrefabPath);
 
+
+            ///Tries to load the element prefab from the specified path. If the prefab cannot be loaded, it logs an error and continues to the next atom node without instantiating anything for this atom.
             if (elementPrefab == null)
             {
                 Debug.LogError($"Could not load element prefab for {symbol} at {elementPrefabPath}");
@@ -254,6 +263,8 @@ public class selectPreset : MonoBehaviour
                 continue;
             }
 
+
+            ///Selects the instantiated element GameObject, sets its parent to the moleculeBody, and positions it according to the coordinates specified in the CML file. It also retrieves the Elements component from the instantiated GameObject, checks if it exists, and sets its protons property to the atomic number for later reference when setting up bonds. Finally, it updates the idToElement dictionary to map the atom ID from the CML file to the instantiated Elements component for later reference when setting up bonds.
             elementGO.transform.SetParent(body.transform, true);
             elementGO.transform.position = pos;
 
@@ -269,6 +280,7 @@ public class selectPreset : MonoBehaviour
             idToElement[id] = elementComp;
         }
 
+        ///Loops through all the bond nodes in the bondArray from the CML file, parses the atomRefs2 attribute to get the IDs of the two atoms that are bonded, looks up the corresponding Elements components from the idToElement dictionary, and instantiates a bond prefab to represent the bond between them. It also sets the bond order based on the order attribute in the CML file and updates the neighbor lists for each element based on the bonds.
         foreach (XmlNode bondNode in bondArrayNode.ChildNodes)
         {
             if (bondNode.Name != "bond") continue;
