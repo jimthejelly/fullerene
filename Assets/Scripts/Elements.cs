@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
-using UnityEditor;
+using System.Xml.Linq;
 using Unity.Services.Analytics;
+using UnityEditor;
+using UnityEngine;
+using UnityEngine.UIElements;
 
 /// <summary>
 /// Class for representing the internal data of an atom in the main molecule
@@ -33,8 +35,10 @@ public class Elements : MonoBehaviour
     /// <summary> The total bond order of <see cref="Bonds"/> bonded to this <c> Element </c> </summary>
     public int bondOrders = 0;
 
-    /// <summary> Whether or not this <c> Element </c> has moved yet this frame </summary>
-    public bool hasMoved = false;
+    /// <summary> Whether or not this <c> Element </c> has been moved with <see cref="UpdatePosition"/> yet this frame </summary>
+    public bool hasBeenForced = false;
+    /// <summary> Whether or not this <c> Element </c> has been moved with <see cref="MoveChildren(int)"/> yet this frame </summary>
+    public bool hasBeenMoved = false;
 
     /// <summary> The covalent radius of this <c> Element </c> </summary>
     public float covalentRadius;
@@ -52,7 +56,7 @@ public class Elements : MonoBehaviour
     private Vector3 oldForceVector = Vector3.zero;
 
     /// <summary> An offset variable that ensures this <c> Element </c> will never attempt to move its parent </summary>
-    int offset = 0;
+    public int offset = 0;
 
     /// <summary>
     /// Start is called before the first frame update and initializes the material of the Element
@@ -119,9 +123,14 @@ public class Elements : MonoBehaviour
         transform.GetComponent<Renderer>().material = mat;
     }
 
-    // Update is called once per frame
+    /// <summary>
+    /// Resets <see cref="hasBeenForced"/> and <see cref="hasBeenMoved"/> each frame
+    /// </summary>
     void Update()
-    {}
+    {
+        hasBeenMoved = false;
+        hasBeenForced = false;
+    }
 
     /// <summary>
     /// Finds the construction order of <c> Element </c>s, its main use is finding the parent of an <c> Element </c>
@@ -493,6 +502,8 @@ public class Elements : MonoBehaviour
             // TODO: implement coordination numbers up to 16.
             // This is way unimportant right now given coordination numbers above 8 aren't possible with just valence electrons/lone pairs
         }
+        // update hasBeenMoved so cyclic molecules don't infinite loop
+        hasBeenMoved = true;
         // recursively move all grandchildren
         foreach (Tuple<GameObject, GameObject> bond in neighbors)
         {
@@ -501,17 +512,16 @@ public class Elements : MonoBehaviour
                 continue;
             }
             Elements childElement = bond.Item2.GetComponent<Elements>();
-            childElement.ResetChildPositions();
-            childElement.MoveChildren(1);
+            if(!childElement.hasBeenMoved) {
+                childElement.ResetChildPositions();
+                childElement.MoveChildren(1);
+            }
         }
     }
 
     /// <summary>
     /// Deletes the <c> Element </c> selected in creationUser
     /// </summary>
-    /// <remarks>
-    /// NOTE: Doesn't work with cyclic molecules
-    /// </remarks>
     public void DeleteElement()
     {
         // If molecule head, just delete everything
@@ -555,10 +565,6 @@ public class Elements : MonoBehaviour
                         break;
                     }
                 }
-            }
-            foreach (Tuple<GameObject, GameObject> t in parent.gameObject.GetComponent<Elements>().neighbors)
-            {
-                Debug.Log("still got " + t.Item1.name);
             }
             // pathfinding from parent and adding every object pathed through to found
             if (parent == null)
@@ -1016,7 +1022,17 @@ public class Elements : MonoBehaviour
         if(numVectors > 0) {
             forceVector /= numVectors;
         }
+        // if bond length is too long, go towards bond instead (this is a bandaid solution, I'm not sure why the math breaks
+        foreach(Tuple<GameObject, GameObject> neighbor in neighbors) {
+            if(Vector3.Distance(neighbor.Item2.transform.position, transform.position) > 2) {
+                Vector3 alongBond = transform.position - neighbor.Item2.transform.position;
+                alongBond.Normalize();
+                forceVector = forceVector.magnitude * alongBond;
+                break;
+            }
+        }
 
+        // drawing ray in the direction opposite force
         Vector3 temp = forceVector;
         temp.Normalize();
         Debug.DrawRay(transform.position, temp, Color.red);
@@ -1041,9 +1057,9 @@ public class Elements : MonoBehaviour
                 oldForceVector = forceVector;
             }
         }
-        hasMoved = true;
+        hasBeenForced = true;
         foreach(Tuple<GameObject, GameObject> neighbor in neighbors) {
-            if(!neighbor.Item2.GetComponent<Elements>().hasMoved) {
+            if(!neighbor.Item2.GetComponent<Elements>().hasBeenForced) {
                 neighbor.Item2.GetComponent<Elements>().UpdatePosition();
             }
         }

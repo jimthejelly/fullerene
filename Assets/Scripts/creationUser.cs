@@ -207,12 +207,6 @@ public class creationUser : MonoBehaviour
                 }
             }
         }
-        // reset hasMoved for the next frame
-        foreach(Transform element in molecule.transform) {
-            if(element.CompareTag("Element")) {
-                element.GetComponent<Elements>().hasMoved = false;
-            }
-        }
     }
 
     /// <summary>
