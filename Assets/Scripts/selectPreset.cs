@@ -285,8 +285,10 @@ public class selectPreset : MonoBehaviour
         {
             if (bondNode.Name != "bond") continue;
 
+            //Parses the atoms involved in the bond from the atomRefs2 attribute, which contains the IDs of the two atoms that are bonded. It splits the atomRefs2 string to get the individual atom IDs and checks if they are valid.
             string atomRefs = bondNode.Attributes["atomRefs2"].Value;
             string[] parts = atomRefs.Split(' ');
+            //If the atomRefs2 attribute does not contain exactly two atom IDs, it logs a warning and skips this bond node.
             if (parts.Length != 2)
             {
                 Debug.LogWarning("bond atomRefs2 malformed: " + atomRefs);
@@ -296,6 +298,7 @@ public class selectPreset : MonoBehaviour
             string id1 = parts[0];
             string id2 = parts[1];
 
+            //If either of the atom IDs from the bond node cannot be found in the idToElement dictionary (which means that one of the atoms involved in the bond was not successfully instantiated), it logs a warning and skips this bond node.
             if (!idToElement.TryGetValue(id1, out Elements e1) ||
                 !idToElement.TryGetValue(id2, out Elements e2))
             {
@@ -305,6 +308,7 @@ public class selectPreset : MonoBehaviour
 
             int order = int.Parse(bondNode.Attributes["order"].Value, CultureInfo.InvariantCulture);
 
+            //Loads the bond prefab from a specified path, instantiates it in the scene, and sets its parent to the moleculeBody.
             string bondPrefabPath = "Assets/Resources/SingleBond.prefab";
             GameObject bondPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(bondPrefabPath);
             if (bondPrefab == null)
@@ -313,6 +317,7 @@ public class selectPreset : MonoBehaviour
                 continue;
             }
 
+            //Loads the bond prefab from the specified path. If the prefab cannot be loaded, it logs an error and continues to the next bond node without instantiating anything for this bond.
             GameObject bondGO = PrefabUtility.InstantiatePrefab(bondPrefab) as GameObject;
             bondGO.transform.SetParent(body.transform, true);
 
@@ -323,6 +328,8 @@ public class selectPreset : MonoBehaviour
                 continue;
             }
 
+
+            //Sets the elements involved in the bond and the bond order based on the information from the CML file. It also updates the bond count, bond orders, and electron counts for each element based on the bond order.
             b.SetElements(e1, e2);
             b.bondOrder = order;
 
@@ -357,6 +364,9 @@ public class selectPreset : MonoBehaviour
     }
 }
 
+/// <summary>
+/// An enum for the element symbols, which is used to convert between the element type specified in the CML file and the corresponding atomic number for loading the correct element prefab.
+/// </summary>
  public enum ElementNames
     {
         Hydrogen = 1,
