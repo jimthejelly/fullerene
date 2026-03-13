@@ -242,10 +242,10 @@ public class selectPreset : MonoBehaviour
             float z = float.Parse(atomNode.Attributes["z3"].Value, CultureInfo.InvariantCulture);
             Vector3 pos = new Vector3(x, y, z);
 
-            int atomicNumber = (int)(ElementSymbols)Enum.Parse(typeof(ElementSymbols), symbol);
-
             ///Constructs the path to the element prefab based on the atomic number, loads the prefab, and instantiates it in the scene at the specified position. It also sets the protons property of the Elements component to the atomic number for later reference when setting up bonds.
-            string elementPrefabPath = $"Assets/Elements/{atomicNumber}-{}prefab";
+            int atomicNumber = (int)(ElementSymbols)Enum.Parse(typeof(ElementSymbols), symbol);
+            string elementName = ((ElementNames)atomicNumber).ToString().ToLower();
+            string elementPrefabPath = $"Assets/Elements/{atomicNumber}-{elementName}.prefab";
             GameObject elementPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(elementPrefabPath);
 
 
