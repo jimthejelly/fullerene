@@ -190,7 +190,7 @@ public class selectPreset : MonoBehaviour
         }
 
         //Load CML
-        string cmlPath = "./Assets/Resources/molecule.cml";
+        string cmlPath = $"Assets/Resources/preset{presetNumber}.cml";
         if (!File.Exists(cmlPath))
         {
             Debug.LogError("CML file not found at: " + cmlPath);
@@ -245,7 +245,7 @@ public class selectPreset : MonoBehaviour
             int atomicNumber = (int)(ElementSymbols)Enum.Parse(typeof(ElementSymbols), symbol);
 
             ///Constructs the path to the element prefab based on the atomic number, loads the prefab, and instantiates it in the scene at the specified position. It also sets the protons property of the Elements component to the atomic number for later reference when setting up bonds.
-            string elementPrefabPath = $"Assets/Elements/{atomicNumber}.prefab";
+            string elementPrefabPath = $"Assets/Elements/{atomicNumber}-{}prefab";
             GameObject elementPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(elementPrefabPath);
 
 

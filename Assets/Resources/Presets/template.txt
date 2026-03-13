@@ -1,6 +1,3 @@
-N Br Br Br Br Br 
-N Br 
-N Br 
-N Br 
-N Br 
-N Br 
+9: 16 
+16: 9 16 
+16: 16 

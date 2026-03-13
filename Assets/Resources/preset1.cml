@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<molecule>
+    <atomArray>
+        <atom id="a1" elementType="F" x3="0" y3="0" z3="0" />
+        <atom id="a2" elementType="S" x3="0.01320614" y3="1.65402" z3="-0.02294344" />
+        <atom id="a3" elementType="S" x3="0.91561" y3="2.730025" z3="-1.589513" />
+    </atomArray>
+    <bondArray>
+        <bond atomRefs2="a1 a2" order="1" />
+        <bond atomRefs2="a2 a3" order="1" />
+    </bondArray>
+</molecule>
