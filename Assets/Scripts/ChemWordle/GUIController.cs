@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -13,18 +12,12 @@ namespace ChemWordle
     {
         
         /// <summary>
-        /// A reference to the <see cref="GeneralDataController">GeneralDataController</see>.
-        /// </summary>
-        private GeneralDataController _generalDataController;
-        
-        /// <summary>
         /// A reference to the <see cref="WordleManager">WordleManager</see>.
         /// </summary>
         private WordleManager _wordleManager;
 
-        private void Start()
+        void Start()
         {
-            _generalDataController = FindObjectOfType<GeneralDataController>();
             _wordleManager = FindObjectOfType<WordleManager>();
             guessButton.enabled = false;
         }
@@ -108,45 +101,17 @@ namespace ChemWordle
         // TODO: understand the cursed async behavior here
         
         public void OnTitleValueChanged() { }
-        public void OnTitleEndEdit() => _ = FindAndSelectChemicalWithProperty(
-            "Title", "name",titleText.text);
+        public void OnTitleEndEdit() => _ = _wordleManager.FindAndSelectChemicalWithProperty(
+            "Title", "name", titleText.text);
         public void OnTitleSelect() { }
         public void OnTitleDeselect() { }
 
 
         public void OnFormulaValueChanged() { }
-        public void OnFormulaEndEdit() => _ = FindAndSelectChemicalWithProperty(
-            "MolecularFormula", "fastformula",formulaText.text);
+        public void OnFormulaEndEdit() => _ = _wordleManager.FindAndSelectChemicalWithProperty(
+            "MolecularFormula", "fastformula", formulaText.text);
         public void OnFormulaSelect() { }
         public void OnFormulaDeselect() { }
-        
-        
-        /// <summary>
-        /// Searches for a chemical with the given property,
-        /// and sets it as the currently selected chemical if successful.
-        /// </summary>
-        /// <param name="wordlePropertyName"></param>
-        /// <param name="pubchemPropertyName"></param>
-        /// <param name="propertyValue"></param>
-        private async Task FindAndSelectChemicalWithProperty(
-            string wordlePropertyName,
-            string pubchemPropertyName,
-            string propertyValue
-        ) {
-            var data = _generalDataController.GetChemicalWithProperty(
-                wordlePropertyName, titleText.text);
-            if (data == null)
-            {
-                // guess we're looking online
-                var cids = await PubChemAPIManager.requestCIDsWithProperty(
-                    pubchemPropertyName, propertyValue, 1);
-                data = (await PubChemAPIManager.RequestChemicals(cids, GeneralDataController.DataTypes))?[0];
-                if (data != null) _generalDataController.RegisterChemicalData(data);
-            }
-
-            if (data == null) return;
-            _wordleManager.SetGuessingChemical(data);
-        }
 
         /// <summary>
         /// Updates all the text displays to reflect the given chemical.

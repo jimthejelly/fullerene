@@ -1,16 +1,21 @@
 using System;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using UnityEngine;
 
 namespace ChemWordle
 {
-
-    /** The centralized place where all chemical data is cached and managed. */
+    
+    /// <summary>
+    /// This is where all chemical data is cached and managed.
+    /// </summary>
     public class GeneralDataController : MonoBehaviour
     {
 
-        /** An array of all data types desired by the game.
-         * These must match data type names in the PubChem database. */
+        /// <summary>
+        /// A list of all data types the game requests by default when looking up a chemical online (plus the CID).
+        /// These must exactly match the names of data types in the PubChem database.
+        /// </summary>
         public static readonly List<string> DataTypes = new()
         {
             "Title",
@@ -19,12 +24,21 @@ namespace ChemWordle
             "Charge"
         };
 
-        /** The list itself. You should be honored. */
+        /// <summary>
+        /// This is where all the chemical data objects are stored.
+        /// Any retrieved chemicals from online should be cached here!
+        /// </summary>
         private readonly List<ChemicalData> _allData = new();
 
-        /** Returns a chemical, if any exist, that matches the given value for the given property name.
-         * Returns null otherwise. */
-        public ChemicalData GetChemicalWithProperty(string propertyName, string propertyValue)
+        /// <summary>
+        /// Looks up the given property name/value in the list of known chemicals.
+        /// Does *not* query the PubChem database if nothing is found.
+        /// </summary>
+        /// <param name="propertyName"> The name of the property to look for (ex. "Title"). </param>
+        /// <param name="propertyValue"> The value to look for (ex. "Water"). </param>
+        /// <returns> The first chemical found that matches the given value for the given property,
+        /// or <c>null</c> if no such chemical is found. </returns>
+        [CanBeNull] public ChemicalData GetChemicalWithProperty(string propertyName, string propertyValue)
         {
 
             // TODO: could easily redo this to be more efficient
@@ -49,7 +63,8 @@ namespace ChemWordle
 
                     // check if this chemical matches the requirements.
                     // if it does match, return it!
-                    if (data.GetProperty(propertyName).ToLower().Equals(valueLower))
+                    var dataValue = data.GetProperty(propertyName);
+                    if (dataValue != null && dataValue.ToLower().Equals(valueLower))
                         return data;
                 }
                 // TODO: Think of a more serious way to handle exceptions.
@@ -65,7 +80,11 @@ namespace ChemWordle
 
         }
 
-        /** Adds the given chemical data to THE list. */
+        /// <summary>
+        /// Adds the given chemical data object to the internal list.
+        /// This should be called for every new chemical retrieved from PubChem.
+        /// </summary>
+        /// <param name="chemicalData"> The data to add. </param>
         public void RegisterChemicalData(ChemicalData chemicalData) => _allData.Add(chemicalData);
 
     }

@@ -4,29 +4,38 @@ using UnityEngine.SceneManagement;
 
 namespace ChemWordle
 {
-    
-    /** Controls the dynamically spawned buttons which
-     * represent any previously guessed chemicals.  */
+
+    /// <summary>
+    /// Controls the dynamically spawned buttons which represent any previously guessed chemicals.
+    /// These currently live on the right side of the screen in that big scrolling list.
+    /// </summary>
     public class ForPrefabButton : MonoBehaviour
     {
 
         private GeneralDataController _generalDataController;
 
-        private void Start()
+        void Start()
         {
             _generalDataController = FindObjectOfType<GeneralDataController>();
         }
 
-        /** Holds the CID of the chemical this button corresponds to. */
+        /// <summary>
+        /// Holds the CID of the chemical this button corresponds to.
+        /// </summary>
         private int _cid;
         public void SetCID(int cid) => _cid = cid;
 
-        /** Sets the text displayed on the button. */
+        /// <summary>
+        /// Sets the text displayed on the button.
+        /// This will probably just be the title of whatever chemical the button is for.
+        /// </summary>
         public void SetText(string text) =>
             GetComponentInChildren<TextMeshProUGUI>().text = text;
         
-        /** Called when this button is pressed.
-         * Restores the associated chemical to the main interface. */
+        /// <summary>
+        /// Called when this button is pressed.
+        /// Puts this button's associated chemical back onto the main interface.
+        /// </summary>
         public void OnPressed()
         {
             
@@ -41,8 +50,11 @@ namespace ChemWordle
             
         }
     
-        /** Called when the "Play Again" button is pressed in the victory menu.
-         * It's very important that the method stays spelled this way. */
+        /// <summary>
+        /// Called when the "Play Again" button is pressed in the victory menu.
+        /// Restarts the minigame by reloading the Unity scene.
+        /// It's very important that the method stays spelled this way.
+        /// </summary>
         public void PLayAgian()
         {
             // TODO: move this method elsewhere
@@ -51,10 +63,14 @@ namespace ChemWordle
             SceneManager.LoadScene("ChemicalWordle", LoadSceneMode.Single);
         }
 
-        /** Called when the "Quit to Main" button is pressed in the victory menu. */
+        /// <summary>
+        /// Called when the "Quit to Main" button is pressed in the victory menu.
+        /// Sends the user back to the main menu.
+        /// </summary>
         public void QuitToMain()
         {
             // TODO: move this method elsewhere
+            // also why are there two methods to quit to main??
             SceneManager.LoadScene("TitleScene", LoadSceneMode.Single);
         }
 
