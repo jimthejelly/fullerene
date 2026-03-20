@@ -198,10 +198,7 @@ public class selectPreset : MonoBehaviour
         }
 
         XmlDocument doc = new XmlDocument();
-        try
-        {
-            doc.Load(cmlPath);
-        }
+        try { doc.Load(cmlPath); }
         catch (Exception e)
         {
             Debug.LogError("Failed to load CML: " + e);
@@ -330,8 +327,26 @@ public class selectPreset : MonoBehaviour
 
 
             //Sets the elements involved in the bond and the bond order based on the information from the CML file. It also updates the bond count, bond orders, and electron counts for each element based on the bond order.
-            b.SetElements(e1, e2);
+            b.parent = e1;
+            b.child = e2;
             b.bondOrder = order;
+
+            Vector3 midpoint = (e1.transform.position + e2.transform.position) / 2f;
+            Vector3 dir = e2.transform.position - e1.transform.position;
+            bondGO.transform.position = midpoint;
+
+            if (dir != Vector3.zero)
+                bondGO.transform.rotation = Quaternion.LookRotation(dir);
+
+            float thickness = 0.1f;
+            Vector3 scale = bondGO.transform.localScale;
+            scale.x = thickness;
+            scale.y = thickness;
+            scale.z = dir.magnitude / 2f;
+            bondGO.transform.localScale = scale;
+
+            e1.GetNeighbors().Add(new Tuple<GameObject, GameObject>(bondGO, e2.gameObject));
+            e2.GetNeighbors().Add(new Tuple<GameObject, GameObject>(bondGO, e1.gameObject));
 
             e1.bondCount++;
             e1.bondOrders += order;
@@ -340,9 +355,6 @@ public class selectPreset : MonoBehaviour
             e2.bondCount++;
             e2.bondOrders += order;
             e2.UpdateElectrons(order);
-
-            e1.GetNeighbors().Add(new Tuple<GameObject, GameObject>(bondGO, e2.gameObject));
-            e2.GetNeighbors().Add(new Tuple<GameObject, GameObject>(bondGO, e1.gameObject));
 
             int element1 = e1.protons;
             int element2 = e2.protons;
