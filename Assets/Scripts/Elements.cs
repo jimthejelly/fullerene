@@ -967,13 +967,23 @@ public class Elements : MonoBehaviour
                 }
                 // capping the force so the elements don't explode out
                 // this wouldn't be as necessary if I were better at math, but I'm not so here we are
-                if(force > 0) {
-                    force = 0.02f;
+                if(force > 2) {
+                    force = 2f;
                 }
                 Vector3 forceDirection = element.transform.position - transform.position;
                 forceDirection.Normalize();
                 forceVector += (forceDirection * force);
                 numVectors++;
+
+                if(force > 0) {
+                    Debug.DrawRay(transform.position, forceDirection, Color.gray);
+                }
+                else {
+                    Debug.DrawRay(transform.position, forceDirection, Color.magenta);
+                }
+                if(!creationMenu.isPaused) {
+                    Debug.Log(name + " bonded to " + element.name + ": " + force);
+                }
             }
             else if(element.CompareTag("Element")) {
                 float r = Vector3.Distance(transform.position, element.transform.position);
@@ -982,17 +992,27 @@ public class Elements : MonoBehaviour
                 float force = 24 * eps * (2 * Mathf.Pow(sig / r, 12) - Mathf.Pow(sig / r, 6)) * (1 / r);
 
                 // capping force so molecules don't explode out as much
-                if(force > 2f) {
-                    force = 2f;
+                if(force > 10f) {
+                    force = 10f;
                 }
-                else if(force < -2f) {
-                    force = -2f;
+                else if(force < -10f) {
+                    force = -10f;
                 }
 
                 Vector3 forceDirection = transform.position - element.transform.position;
                 forceDirection.Normalize();
                 forceVector += (forceDirection * force);
                 numVectors++;
+
+                if(force > 0) {
+                    Debug.DrawRay(transform.position, forceDirection, Color.magenta);
+                }
+                else {
+                    Debug.DrawRay(transform.position, forceDirection, Color.blue);
+                }
+                if(!creationMenu.isPaused) {
+                    Debug.Log(name + " not bonded to " + element.name + ": " + force);
+                }
             }
             else { // if element is a lone pair
                 if(element.GetComponent<LonePairs>().parent.Equals(this)) {
