@@ -314,36 +314,13 @@ public class selectPreset : MonoBehaviour
                 continue;
             }
 
-            //Loads the bond prefab from the specified path. If the prefab cannot be loaded, it logs an error and continues to the next bond node without instantiating anything for this bond.
             GameObject bondGO = PrefabUtility.InstantiatePrefab(bondPrefab) as GameObject;
             bondGO.transform.SetParent(body.transform, true);
 
             Bonds b = bondGO.GetComponent<Bonds>();
-            if (b == null)
-            {
-                Debug.LogError("Bond prefab has no Bonds component.");
-                continue;
-            }
 
-
-            //Sets the elements involved in the bond and the bond order based on the information from the CML file. It also updates the bond count, bond orders, and electron counts for each element based on the bond order.
-            b.parent = e1;
-            b.child = e2;
+            b.SetElements(e1, e2);
             b.bondOrder = order;
-
-            Vector3 midpoint = (e1.transform.position + e2.transform.position) / 2f;
-            Vector3 dir = e2.transform.position - e1.transform.position;
-            bondGO.transform.position = midpoint;
-
-            if (dir != Vector3.zero)
-                bondGO.transform.rotation = Quaternion.LookRotation(dir);
-
-            float thickness = 0.1f;
-            Vector3 scale = bondGO.transform.localScale;
-            scale.x = thickness;
-            scale.y = thickness;
-            scale.z = dir.magnitude / 2f;
-            bondGO.transform.localScale = scale;
 
             e1.GetNeighbors().Add(new Tuple<GameObject, GameObject>(bondGO, e2.gameObject));
             e2.GetNeighbors().Add(new Tuple<GameObject, GameObject>(bondGO, e1.gameObject));
@@ -356,25 +333,25 @@ public class selectPreset : MonoBehaviour
             e2.bondOrders += order;
             e2.UpdateElectrons(order);
 
-            int element1 = e1.protons;
-            int element2 = e2.protons;
-            e1.neighborLoad.Add(new Tuple<int, int>(element1, element2));
-            e2.neighborLoad.Add(new Tuple<int, int>(element2, element1));
+            foreach (Transform child in body.transform)
+            {
+                if (!child.CompareTag("Element")) continue;
+
+                Elements el = child.GetComponent<Elements>();
+                el.ResetChildPositions();
+            }
+
+            foreach (Transform child in body.transform)
+            {
+                if (!child.CompareTag("Element")) continue;
+
+                Elements el = child.GetComponent<Elements>();
+                el.MoveChildren(el == creationUser.head ? 0 : 1);
+            }
+
+            Debug.Log("Preset rebuilt from CML.");
         }
-
-        foreach (Transform child in body.transform)
-        {
-            if (!child.CompareTag("Element")) continue;
-            Elements el = child.GetComponent<Elements>();
-            if (el == null) continue;
-
-            el.ResetChildPositions();
-            el.MoveChildren(el == creationUser.head ? 0 : 1);
-        }
-
-        Debug.Log("Preset rebuilt from CML.");
     }
-}
 
 /// <summary>
 /// An enum for the element symbols, which is used to convert between the element type specified in the CML file and the corresponding atomic number for loading the correct element prefab.
@@ -500,3 +477,4 @@ public class selectPreset : MonoBehaviour
         Tennessine = 117,
         Oganesson = 118
     }
+}
