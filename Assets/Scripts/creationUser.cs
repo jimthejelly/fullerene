@@ -1,77 +1,48 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
-using System.Net;
-using System.Xml;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UIElements;
 
+using System.Xml;
+using System.IO;
+using System;
+
 public class creationUser : MonoBehaviour
 {
-    /// <summary> First element added </summary>
-    public static GameObject head;
-    /// <summary> Current object the camera is rotated around </summary>
-    GameObject molecule;
-    /// <summary> Current object mouse is interacting with </summary>
-    GameObject select;
-    /// <summary> <see cref="select"/>'s transform properties </summary>
-    Transform focus;
-    /// <summary> <see cref="select"/>'s color properties </summary>
-    Color focusMaterial;
-    /// <summary> Helper list to change color of all <c> Bond </c> sub-objects </summary>
+    public static GameObject head; // First element added
+    GameObject molecule; // Current object the camera is rotated around
+    GameObject select; // Current object mouse is interacting with
+    private GameObject palm;
+    Transform focus; // select object's transform properties
+    Color focusMaterial; // select object's color properties
     List<Component> bondSiblings = new List<Component>();
+    public float turnSpeed; // Look speed modifier
 
-    /// <summary> Look speed modifier </summary>
-    public float turnSpeed;
-    /// <summary> Panning speed </summary>
-    public float PanSpeed = 50f;
-    /// <summary> Cumulative pan offset </summary>
-    Vector3 panOffset = Vector3.zero;
+    public float PanSpeed = 50f; //panning speed
+    Vector3 panOffset = Vector3.zero;  // To store cumulative pan offset
 
-    /// <summary> Whether or not a <c> Bond </c> has been updated this frame </summary>
     bool bondReplace = false;
-    /// <summary> The number of times that <c> Elements </c> or <c> Bonds </c> have been spawned in the molecule </summary>
-    int spawnCount = 0;
+    private bool hold = false;
+    int elements = 0;
+    string check; // Last object hovered over
+    float zoom = 12; // Distance from camera to molecule
+    float click = 0; // Number of clicks during clickdelay
+    float clickdelay = 0.2f; // Time limit for doubleclick to register
+    float clicktime = 0; // Current time between two clicks
+    Ray ray; // Tracks mouse
+	RaycastHit hit; // Object mouse touches
 
-    /// <summary> Last object hovered over </summary>
-    string check;
-    /// <summary> Distance from camera to molecule </summary>
-    float zoom = 12;
-    /// <summary> Number of clicks during <see cref="clickdelay"/> </summary>
-    float click = 0;
-    /// <summary> Time limit for a double click to register </summary>
-    float clickdelay = 0.2f;
-    /// <summary> Current time between two clicks </summary>
-    float clicktime = 0;
-    /// <summary> Tracks mouse </summary>
-    Ray ray;
-    /// <summary> Object mouse touches </summary>
-	RaycastHit hit;
-
-    /// <summary> Whether or not lone pairs are currently visible </summary>
     public static bool lonePairsVisible = false; // Whether or not lone pairs are currently visible
 
-    /// <summary> Whether or not the molecule has been updated recently </summary>
-    /// <remarks>Used to keep the lone pairs visible even while editing the molecule </remarks>
-    private bool moleculeUpdated = false;
-    /// <summary> How many frames have passed since the last time the molecule was updated
-    /// <remarks>Used to keep the lone pairs visible even while editing the molecule </remarks>
+    private bool moleculeUpdated = false; // used to keep the lone pairs visible even while editing the molecule
     private int framesSinceMoleculeUpdated = 0; // used to keep the lone pairs visible even while editing the molecule
 
-    /// <summary> Dictionary for converting <see cref="Elements"/> to ids for saving and loading </summary>
+    // GameObject tempHover; // temporary object made by hovering
+
     private Dictionary<Elements, string> atomIDs = new Dictionary<Elements, string>();
-    /// <summary> Dictionary for converting ids to <see cref="Elements"/> for saving and loading </summary>
     private Dictionary<string, Elements> IDToAtom = new Dictionary<string, Elements>();
 
-    /// <summary> The first <c> Element </c> to be connected with a new <c> Bond </c> </summary>
-    private Elements bondParent;
-
-    /// <summary>
-    /// Initializes molecule.cml, <see cref="select"/>, and camera position
-    /// </summary>
     void Start()
     {
         // clears the molecule.cml file
@@ -89,9 +60,6 @@ public class creationUser : MonoBehaviour
         transform.eulerAngles = new Vector3(0,0,0);
     }
 
-    /// <summary>
-    /// Restarts <see cref="creationUser"/> and re-initializes all variables initialized in <see cref="Start"/>
-    /// </summary>
     public void Restart()
     {
         // clears the molecule.cml file
@@ -109,12 +77,7 @@ public class creationUser : MonoBehaviour
         transform.eulerAngles = new Vector3(0,0,0);
     }
 
-    /// <summary>
-    /// Manages user input and molecule force interactions each frame update
-    /// </summary>
-    /// <remarks>
-    /// Force interactions should probably be moved elsewhere, it's bad code design. Works for now though!
-    /// </remarks>
+    // Update is called once per frame
     void Update()
     { 
         // Camera movement
@@ -137,17 +100,17 @@ public class creationUser : MonoBehaviour
         // Uses number bar to reset camera position
         ResetCamera();
 
-        // Manages mouse click and hover interaction
-        Hovering();
+        if (!hold)
+        {
+            // Manages mouse click and hover interaction
+            Hovering();
+        }
 
-        // NOTE: All of these keybinds can be subject to change, they are mostly here to test functionality
-        // If "s" key is pressed, save molecule
         if(Input.GetKeyDown("s")) {
             Debug.Log("Saving Molecule");
             SaveMolecule();
         }
 
-        // If "l" key is pressed, load molecule
         if(Input.GetKeyDown("l")) {
             Debug.Log("Loading Molecule");
             LoadMolecule();
@@ -157,19 +120,15 @@ public class creationUser : MonoBehaviour
             }
         }
 
-        // if "p" key is pressed, toggle whether or not lone pairs are shown
         if(Input.GetKeyDown("p")) {
             if(lonePairsVisible) {
-                Debug.Log("hiding");
                 HideLonePairs();
             }
             else {
-                Debug.Log("un-hiding");
                 ShowLonePairs();
             }
         }
 
-        // if molecule was updated recently, wait a bit to give everything time to update and then respawn lone pairs
         if(moleculeUpdated) {
             framesSinceMoleculeUpdated++;
             if(framesSinceMoleculeUpdated > molecule.transform.childCount) {
@@ -186,33 +145,23 @@ public class creationUser : MonoBehaviour
                 moleculeUpdated = false;
             }
         }
-        
+        /*
         // exert forces on all the atoms starting at the root and moving out
         if(head != null) {
             foreach(Transform element in molecule.transform) {
                 if(element.CompareTag("Element")) {
-                    element.GetComponent<Elements>().CalculateForceVector();
-                }
-                else if(element.CompareTag("Lone Pair")) {
-                    element.GetComponent<LonePairs>().CalculateForceVector();
-                }
-                
-            }
-            head.GetComponent<Elements>().UpdatePosition();
-            foreach(Transform element in molecule.transform) {
-                if(element.CompareTag("Lone Pair")) {
-                    element.GetComponent<LonePairs>().UpdatePosition();
-                }
-                else if(element.CompareTag("Bond")) {
-                    element.GetComponent<Bonds>().UpdatePosition();
+                    (element.GetComponent<Elements>() as Elements).CalculateForceVector();
                 }
             }
+            (head.GetComponent<Elements>() as Elements).UpdatePosition();
         }
+        foreach(Transform element in molecule.transform) {
+            if(element.CompareTag("Element")) {
+                (element.GetComponent<Elements>() as Elements).hasMoved = false;
+            }
+        }*/
     }
 
-    /// <summary>
-    /// Makes all <see cref="LonePairs"/> in the molecule visible
-    /// </summary>
     void ShowLonePairs() {
         foreach(Transform item in molecule.transform) {
             if(item.tag.Equals("Lone Pair")) {
@@ -222,9 +171,6 @@ public class creationUser : MonoBehaviour
         lonePairsVisible = true;
     }
 
-    /// <summary>
-    /// Hides all <see cref="LonePairs"/> in the molecule
-    /// </summary>
     void HideLonePairs() {
         foreach(Transform item in molecule.transform) {
             if(item.tag.Equals("Lone Pair")) {
@@ -234,21 +180,15 @@ public class creationUser : MonoBehaviour
         lonePairsVisible = false;
     }
 
-    /// <summary>
-    /// Spawns <see cref="LonePairs"/> around each <see cref="Elements"/>
-    /// </summary>
     void SpawnLonePairs() {
         foreach(Transform item in molecule.transform) {
             if(item.tag.Equals("Element")) {
-                item.gameObject.GetComponent<Elements>().ShowLonePairs();
+                (item.gameObject.GetComponent<Elements>() as Elements).ShowLonePairs();
             }
         }
         lonePairsVisible = true;
     }
 
-    /// <summary>
-    /// Deletes all <see cref="LonePairs"/> in the molecule
-    /// </summary>
     void DeleteLonePairs() {
         foreach(Transform item in molecule.transform) {
             if(item.tag.Equals("Lone Pair")) {
@@ -258,9 +198,6 @@ public class creationUser : MonoBehaviour
 
     }
 
-    /// <summary>
-    /// Saves the molecule into <c>./Assets/Resources/molecule.cml</c>
-    /// </summary>
     void SaveMolecule() {
         if(molecule.transform.childCount == 0) {
             Debug.Log("No molecule to save!");
@@ -281,11 +218,11 @@ public class creationUser : MonoBehaviour
         int count = 1;
         foreach(Transform item in molecule.transform) {
             if(item.tag.Equals("Element")) {
-                atomIDs.Add(item.gameObject.GetComponent<Elements>(), "a" + count);
-                IDToAtom.Add("a" + count++, item.gameObject.GetComponent<Elements>());
+                atomIDs.Add(item.gameObject.GetComponent<Elements>() as Elements, "a" + count);
+                IDToAtom.Add("a" + count++, item.gameObject.GetComponent<Elements>() as Elements);
                 writer.WriteStartElement("atom");
-                writer.WriteAttributeString("id", atomIDs[item.gameObject.GetComponent<Elements>()]);
-                writer.WriteAttributeString("elementType", ((ElementSymbols)(item.gameObject.GetComponent<Elements>().protons)).ToString("F"));
+                writer.WriteAttributeString("id", atomIDs[item.gameObject.GetComponent<Elements>() as Elements]);
+                writer.WriteAttributeString("elementType", ((ElementSymbols)((item.gameObject.GetComponent<Elements>() as Elements).protons)).ToString("F"));
                 writer.WriteAttributeString("x3", item.position.x.ToString());
                 writer.WriteAttributeString("y3", item.position.y.ToString());
                 writer.WriteAttributeString("z3", item.position.z.ToString());
@@ -300,8 +237,8 @@ public class creationUser : MonoBehaviour
         foreach(Transform item in molecule.transform) {
             if(item.tag.Equals("Bond")) {
                 writer.WriteStartElement("bond");
-                writer.WriteAttributeString("atomRefs2", atomIDs[item.gameObject.GetComponent<Bonds>().parent] + " " + atomIDs[item.gameObject.GetComponent<Bonds>().child]);
-                writer.WriteAttributeString("order", (item.gameObject.GetComponent<Bonds>().bondOrder).ToString());
+                writer.WriteAttributeString("atomRefs2", atomIDs[(item.gameObject.GetComponent<Bonds>() as Bonds).parent] + " " + atomIDs[(item.gameObject.GetComponent<Bonds>() as Bonds).child]);
+                writer.WriteAttributeString("order", ((item.gameObject.GetComponent<Bonds>() as Bonds).bondOrder).ToString());
                 writer.WriteEndElement(); // end of bond
             }
         }
@@ -314,12 +251,6 @@ public class creationUser : MonoBehaviour
         writer.Close();
     }
 
-    /// <summary>
-    /// Loads a molecule from <c>./Assets/Resources/molecule.cml</c>
-    /// </summary>
-    /// <remarks>
-    /// Only works if the molecule hasn't changed since loading into the file as all it does is move the <see cref="Elements"/> around
-    /// </remarks>
     void LoadMolecule() {
         if(atomIDs.Count == 0) {
             Debug.Log("no IDs stored");
@@ -341,8 +272,8 @@ public class creationUser : MonoBehaviour
         foreach(Transform item in molecule.transform) {
             if(item.tag.Equals("Bond")) {
                 // setting bond position
-                Vector3 parentPos = item.gameObject.GetComponent<Bonds>().parent.transform.position;
-                Vector3 childPos = item.gameObject.GetComponent<Bonds>().child.transform.position;
+                Vector3 parentPos = (item.gameObject.GetComponent<Bonds>() as Bonds).parent.transform.position;
+                Vector3 childPos = (item.gameObject.GetComponent<Bonds>() as Bonds).child.transform.position;
                 Debug.Log(parentPos + " " + childPos);
                 item.position = new Vector3((parentPos.x + childPos.x) / 2, (parentPos.y + childPos.y) / 2, (parentPos.z + childPos.z) / 2);
 
@@ -356,9 +287,24 @@ public class creationUser : MonoBehaviour
             }
         }
     }
-    /// <summary>
-    /// Uses the number bar to reset the camera position
-    /// </summary>
+
+    /*
+    void Holding()
+    {
+        Vector3 mouse = Input.mousePosition;
+        if (Camera.main != null)
+        {
+            Vector3 castPoint = Input.mousePosition);
+            palm.transform.position = castPoint + (Vector3.forward * 10);;
+        }
+        Debug.Log("Holding " + mouse);
+        if (Input.GetMouseButtonDown(0))
+        {
+            hold = false;
+        }
+    }
+    */
+
     void ResetCamera() {
 
         if (Input.GetKeyDown(KeyCode.Alpha1)) {
@@ -383,11 +329,7 @@ public class creationUser : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Rotates the camera around the center point
-    /// </summary>
     void Turning() {
-        Debug.Log("turn");
         float xChange = Input.GetAxis("Mouse X") * turnSpeed * Time.deltaTime;
         float yChange = Input.GetAxis("Mouse Y") * turnSpeed * Time.deltaTime;
 
@@ -396,11 +338,7 @@ public class creationUser : MonoBehaviour
         transform.RotateAround(focus.position, transform.right, -yChange);
     }
 
-    /// <summary>
-    /// Pans the camera
-    /// </summary>
     void Panning() {
-        Debug.Log("pan");
         // Get the mouse movement deltas in screen space
         float xChange = Input.GetAxis("Mouse X") * PanSpeed * Time.deltaTime;
         float yChange = Input.GetAxis("Mouse Y") * PanSpeed * Time.deltaTime;
@@ -417,9 +355,6 @@ public class creationUser : MonoBehaviour
         Debug.Log("Camera Position: " + transform.position);  // Debug to track camera position changes
     }
 
-    /// <summary>
-    /// Zooms in and out of the focus point
-    /// </summary>
     void HandleZoom() {
         // Changes distance of camera with scroll wheel input
         zoom -= (Input.mouseScrollDelta.y * 1);
@@ -428,82 +363,60 @@ public class creationUser : MonoBehaviour
 
     }
 
-    /// <summary>
-    /// Master function for handling what happens when the mouse is hovering over a <see cref="GameObject"/>
-    /// </summary>
     void Hovering() {
         ray = Camera.main.ScreenPointToRay(Input.mousePosition);	
         if (Physics.Raycast(ray, out hit)) { // Hovering over object 
-            // If "b" key is pressed, try and make a new bond
-            if(Input.GetKeyDown("b")) {
-                Debug.Log("b");
-                // If hovered object is an Element, keep going
-                if(select.CompareTag("Element")) {
-                    // If bondParent is null, set it
-                    if(bondParent == null) {
-                        bondParent = select.GetComponent<Elements>();
-                        Debug.Log("bonding " + bondParent.name);
-                    }
-                    else if(select.GetComponent<Elements>().Equals(bondParent)) { // If bondParent == select, cancel bonding
-                        bondParent = null;
-                        Debug.Log("cancelling bond");
-                    }
-                    else { // else make the bond between bondParent and select
-                           // If bondParent and select can bond more, bond them
-                        if(select.GetComponent<Elements>().CanBondMore() && bondParent.CanBondMore()) {
-                            // If select and bondParent are already bonded, skip bonding
-                            bool bonded = false;
-                            foreach(Tuple<GameObject, GameObject> neighbor in select.GetComponent<Elements>().GetNeighbors()) {
-                                if(neighbor.Item2.GetComponent<Elements>().Equals(bondParent)) {
-                                    bonded = true;
-                                }
-                            }
-                            if(!bonded) { // if select and bondParent are not already bonded
-                                float radius = bondParent.covalentRadius + select.GetComponent<Elements>().covalentRadius;
-                                GameObject cyl = AssetDatabase.LoadAssetAtPath("Assets/Resources/SingleBond.prefab", typeof(GameObject)) as GameObject;
-                                GameObject cylClone = Instantiate(cyl, Vector3.zero, Quaternion.identity);
-                                cylClone.transform.localScale = new Vector3(0.15f, radius / 2, 0.15f);
-                                cylClone.transform.SetParent(GameObject.Find("moleculeBody").transform, true);
-                                cylClone.name = cylClone.name + " " + spawnCount;
-                                spawnCount++;
-
-                                select.GetComponent<Elements>().UpdateElectrons(1);
-                                bondParent.UpdateElectrons(1);
-                                select.GetComponent<Elements>().bondCount++;
-                                select.GetComponent<Elements>() .bondOrders++;
-                                bondParent.bondCount++;
-                                bondParent.bondOrders++;
-
-                                cylClone.GetComponent<Bonds>().SetElements(bondParent, select.GetComponent<Elements>());
-                                cylClone.GetComponent<Bonds>().UpdatePosition();
-
-                                bondParent.GetNeighbors().Add(new Tuple<GameObject, GameObject>(cylClone, select));
-                                select.GetComponent<Elements>().GetNeighbors().Add(new Tuple<GameObject, GameObject>(cylClone, bondParent.gameObject));
-
-                                bondParent = null;
-                            }
-                        }
-                    }
-                }
-            }
+            // Debug.Log("Hovering");
             if (select != null && check != hit.collider.gameObject.name) { // Don't check if already hovering this object
+
+                
+
                 // Swaps current color and highlight
                 select.GetComponent<Renderer>().material.color = focusMaterial;
                 if (select.tag == "Bond" && bondSiblings != null)   {
-                    foreach(Renderer bond in bondSiblings) {
+                    foreach (Renderer bond in bondSiblings) {
                         bond.material.color = focusMaterial;
                     }
+
+                } else {
+
                 }
 
+            
+                // if(!Input.GetKey(KeyCode.LeftControl) && !Input.GetKey(KeyCode.LeftShift)) {
+                //     if(hit.transform.tag.Equals("Element")) {
+                //         Elements script = hit.collider.gameObject.GetComponent<Elements>();
+                //         script.SpawnElement(elements);
+                //         elements++;
+                //     }
+                //     else if(hit.transform.tag.Equals("Bond")) {
+                //         Bonds script = hit.collider.gameObject.GetComponent<Bonds>();
+                //         script.CycleBondOrder(elements);
+                //         elements++;
+                //         bondReplace = true;
+                //     }
+                // }
+                // else if(Input.GetKey(KeyCode.LeftShift)){
+                //     Elements script = hit.collider.gameObject.GetComponent<Elements>();
+                //     script.DeleteElement();
+                // }
+
+
                 select = GameObject.Find(hit.collider.gameObject.name);
+
+
+                
 
                 bondSiblings.Clear();
                 foreach (Transform bond in hit.collider.transform) {
                     if (bond.tag == "Bond") {
                         bondSiblings.Add(bond.gameObject.GetComponent<Renderer>());
                     }
+                    
                 }
 
+                
+                
                 focusMaterial = select.GetComponent<Renderer>().material.color;
                 if (select.tag == "Bond" && bondSiblings != null)   {
                     foreach (Renderer bond in bondSiblings) {
@@ -514,7 +427,11 @@ public class creationUser : MonoBehaviour
                     select.GetComponent<Renderer>().material.color = new Color(1.75f, 1.75f, 1.75f, 0f);
                 }
                 
+
+                
+
                 bondReplace = false;
+                
 
                 // If left clicks object
                 if (Input.GetMouseButtonUp(0)) {
@@ -525,6 +442,8 @@ public class creationUser : MonoBehaviour
                     select = GameObject.Find("Main Camera");
                 }
 
+
+
             } else { // Only allow click interaction after initial hover
                 if (Input.GetMouseButtonUp(0)) {
                     Clicking();
@@ -532,7 +451,26 @@ public class creationUser : MonoBehaviour
                 if (bondReplace) {
                     select = GameObject.Find("Main Camera");
                 }
+                
+                // if(select.tag == "Bond") {
+                //     /*
+                //     //bond creation script
+                //     Bonds script = hit.collider.gameObject.GetComponent<Bonds>();
+                //     script.CycleBondOrder(elements);
+                //     elements++;
+                //     bondReplace = true;
+                //     */
+                // } else {
+                //     // element creation script
+                //     Elements script = hit.collider.gameObject.GetComponent<Elements>();
+                //     script.TempSpawnElement(elements);
+                //     elements++;
+
+                // }
             }
+            
+            // tempHover = hit.collider.gameObject;
+
         } else { // No hovering
             // Debug.Log("Not Hovering");
             if (select != null && select.name != "Main Camera") {
@@ -540,14 +478,16 @@ public class creationUser : MonoBehaviour
                 foreach (Renderer bond in bondSiblings) {
                         bond.material.color = focusMaterial;
                 }
+
+                // Elements preview = select.transform.GetChild(select.transform.childCount-1).GetChild(0).GetChild(0).gameObject.GetComponent<Elements>();
+                // preview.DeleteElement();
+
             }
             select = GameObject.Find("Main Camera");
             check = "";
         }
     }
-    /// <summary>
-    /// Determines single click vs double click and calls <see cref="Interacting"/> accordingly
-    /// </summary>
+
     void Clicking() {
         click++;
         if (click == 1) { // If 1 clikc run 1 click interaction
@@ -567,10 +507,6 @@ public class creationUser : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Master function for handling what happens when a <see cref="GameObject"/> is clicked
-    /// </summary>
-    /// <param name="clicknumber"> The number of clicks (one or two) </param>
     void Interacting(int clicknumber) {
         ray = GetComponent<Camera>().ScreenPointToRay(Input.mousePosition);
         if (clicknumber == 1) { // 1 click interaction
@@ -578,14 +514,14 @@ public class creationUser : MonoBehaviour
                 if(!Input.GetKey(KeyCode.LeftControl) && !Input.GetKey(KeyCode.LeftShift)) {
                     if(hit.transform.tag.Equals("Element")) {
                         Elements script = hit.collider.gameObject.GetComponent<Elements>();
-                        script.SpawnElement(spawnCount);
-                        spawnCount++;
+                        script.SpawnElement(elements);
+                        elements++;
                         moleculeUpdated = true;
                     }
                     else if(hit.transform.tag.Equals("Bond")) {
                         Bonds script = hit.collider.gameObject.GetComponent<Bonds>();
-                        script.CycleBondOrder(spawnCount);
-                        spawnCount++;
+                        script.CycleBondOrder(elements);
+                        elements++;
                         bondReplace = true;
                         moleculeUpdated = true;
                     }
