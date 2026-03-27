@@ -292,6 +292,7 @@ public class selectPreset : MonoBehaviour
                 continue;
             }
 
+            
             string id1 = parts[0];
             string id2 = parts[1];
 
@@ -321,6 +322,7 @@ public class selectPreset : MonoBehaviour
 
             b.SetElements(e1, e2);
             b.bondOrder = order;
+            b.UpdatePosition();
 
             e1.GetNeighbors().Add(new Tuple<GameObject, GameObject>(bondGO, e2.gameObject));
             e2.GetNeighbors().Add(new Tuple<GameObject, GameObject>(bondGO, e1.gameObject));
@@ -332,25 +334,25 @@ public class selectPreset : MonoBehaviour
             e2.bondCount++;
             e2.bondOrders += order;
             e2.UpdateElectrons(order);
-
-            foreach (Transform child in body.transform)
-            {
-                if (!child.CompareTag("Element")) continue;
-
-                Elements el = child.GetComponent<Elements>();
-                el.ResetChildPositions();
-            }
-
-            foreach (Transform child in body.transform)
-            {
-                if (!child.CompareTag("Element")) continue;
-
-                Elements el = child.GetComponent<Elements>();
-                el.MoveChildren(el == creationUser.head ? 0 : 1);
-            }
-
-            Debug.Log("Preset rebuilt from CML.");
         }
+
+        foreach (Transform child in body.transform)
+        {
+            if (!child.CompareTag("Element")) continue;
+
+            Elements el = child.GetComponent<Elements>();
+            el.ResetChildPositions();
+        }
+
+        foreach (Transform child in body.transform)
+        {
+            if (!child.CompareTag("Element")) continue;
+
+            Elements el = child.GetComponent<Elements>();
+            el.MoveChildren(el == creationUser.head ? 0 : 1);
+        }
+
+        Debug.Log("Preset rebuilt from CML.");
     }
 
 /// <summary>
