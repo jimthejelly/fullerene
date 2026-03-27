@@ -12,6 +12,11 @@ namespace ChemWordle
     {
         
         /// <summary>
+        /// A reference to the <see cref="ForPrefabButton">guess object prefab</see>.
+        /// </summary>
+        private ForPrefabButton _guessObject;
+        
+        /// <summary>
         /// The layout bounds of this GUI object.
         /// This class needs access to its bounds because it
         /// programmatically resizes itself.
@@ -20,9 +25,24 @@ namespace ChemWordle
 
         /// <summary>
         /// The vertical spacing between guess objects.
+        /// Measured as a fraction of the guess object size,
+        /// since that varies with screen size.
         /// This is set in-engine.
         /// </summary>
-        public int spacing;
+        public float spacing;
+
+        /// <summary>
+        /// Stores where the object's parent transform was originally located.
+        /// Used in expanding calculations to avoid the transform drifting over time.
+        /// </summary>
+        private Vector3 initialParentPosition;
+
+        void Start()
+        {
+            _guessObject = FindObjectOfType<GUIController>().guessObjectPrefab.GetComponent<ForPrefabButton>();
+            initialParentPosition = rect.position;
+        }
+        
 
         /// <summary>
         /// Does a bunch of unintuitive math to resize enough to fit the given number of guesses.
@@ -30,13 +50,15 @@ namespace ChemWordle
         /// <param name="numGuesses"> How many guesses are going to be in the scroll area. </param>
         public void ExpandToAccommodate(int numGuesses)
         {
-            rect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, numGuesses * 300 + 850);
-    
 
-            for (int i = 0; i < numGuesses - 1; i++)
-            {
-                rect.parent.position += new Vector3(0, -spacing, 0);
-            }
+            // TODO: guess object is created in the wrong position based on monitor size
+            
+            double guessObjectHeight = 400;
+            Debug.Log(guessObjectHeight);
+            
+            rect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, (int)(numGuesses * (guessObjectHeight + spacing)) + 850);
+
+            rect.position = initialParentPosition + new Vector3(0, -spacing/2.0f * numGuesses, 0);
 
             transform.position = new Vector3(transform.position.x, spacing/2.0f * numGuesses, transform.position.z);
 

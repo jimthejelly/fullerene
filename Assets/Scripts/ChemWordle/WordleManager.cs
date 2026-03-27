@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Random = System.Random;
 
 namespace ChemWordle
@@ -39,15 +40,27 @@ namespace ChemWordle
             _guiController = FindObjectOfType<GUIController>();
             _wordleGuessScrollArea = FindObjectOfType<WordleGuessScrollArea>();
         
-            // can't await this, i think it'll crash the whole program
-            // btw jetbrains shut up about it please
-            // TODO: find the correct way to run this asynchronously
-#pragma warning disable CS4014
-            chooseMysteryChemical();
-#pragma warning restore CS4014
-        
+            // _ = chooseMysteryChemical();
+
+            cba();
+
         }
 
+        async void cba()
+        {
+            for (int i = 0; i < 20; i++)
+            {
+                try
+                {
+                    await chooseMysteryChemical();
+                    Debug.Log(_mysteryChemical);
+                }
+                catch (Exception)
+                {
+                    // ignored
+                }
+            }
+        }
 
         /// <summary>
         /// Given a random chemical, determine if it's reasonable to make this the mystery chemical.
@@ -59,10 +72,56 @@ namespace ChemWordle
             var molecularWeight = double.Parse(RequireProperty(chemical, "MolecularWeight"));
             var title = RequireProperty(chemical, "Title");
             var molecularFormula = RequireProperty(chemical, "MolecularFormula");
+            var charge = int.Parse(RequireProperty(chemical, "Charge"));
+            
+            // roughly parse formula for total amount elements occur
+            // just sum all numbers present in string -
+            // will misrepresent some chemicals but should be good enough
+            var totalNumberOfAtoms = 0;
+            var intermediateString = ""; // add digits to this to build large numbers
+            foreach (var c in molecularFormula)
+            {
+                if (IsNumeric(c))
+                {
+                    intermediateString += c;
+                }
+                else
+                {
+                    // register built string as number
+                    if (intermediateString.Any(IsNumeric) &&
+                        int.TryParse(intermediateString, out var intermediateValue))
+                    {
+                        totalNumberOfAtoms += intermediateValue;
+                    }
+
+                    // reset the string
+                    intermediateString = "";
+                }
+            }
+
+            var longestWordInTitle = 0;
+            var wordTracker = 0;
+            foreach (var c in title)
+            {
+                if (c == ' ')
+                {
+                    wordTracker = 0;
+                }
+                else
+                {
+                    wordTracker++;
+                    if (wordTracker > longestWordInTitle)
+                    {
+                        longestWordInTitle = wordTracker;
+                    }
+                }
+            }
+
             return
-                molecularWeight < 200 &&
-                title.Length is > 2 and < 14 &&
-                molecularFormula.Length < 16;
+                molecularWeight < 160 &&
+                longestWordInTitle is > 2 and < 10 &&
+                totalNumberOfAtoms < 10 &&
+                totalNumberOfAtoms > 1;
         }
     
 		/// <summary>
@@ -102,21 +161,45 @@ namespace ChemWordle
         
             // make a list of a bunch of cids
             List<int> possibleCIDs = new();
-            for (var i = 100; i < 5000; i++)
+            for (var i = 1; i < 5000; i++)
             {
                 possibleCIDs.Add(i);
             }
-            List<int> cids = new();
-            for (var i = 0; i < 500; i++)
+            
+            // break query into multiple small queries so each one fits in an http header
+            // TODO: put all of the desired CIDs in the body of one request instead
+            List<List<int>> cids = new();
+            List<int> smallCIDs = new();
+            int i2 = 0;
+            for (var i = 0; i < 2000; i++)
             {
                 var idx = new Random().Next(0, possibleCIDs.Count);
-                cids.Add(possibleCIDs[idx]);
+                smallCIDs.Add(possibleCIDs[idx]);
                 possibleCIDs.RemoveAt(idx);
+                i2++;
+                if (i2 > 500)
+                {
+                    cids.Add(smallCIDs);
+                    smallCIDs = new List<int>();
+                    i2 -= 500;
+                }
             }
 
+            List<ChemicalData> results = new();
             // request and register them!
-            var results = await PubChemAPIManager.RequestChemicals(cids, GeneralDataController.DataTypes);
-            if (results == null) throw new Exception("Failed to find mystery chemical");
+            foreach (var smallCIDsAgain in cids)
+            {
+                var theseResults = await PubChemAPIManager.RequestChemicals(smallCIDsAgain, GeneralDataController.DataTypes);
+                if (theseResults == null)
+                {
+                    // TODO: remember how to print a list properly
+                    Debug.LogError("Failed request for mystery chemical: " + smallCIDs);
+                    continue;
+                }
+                results.AddRange(theseResults);
+            }
+            
+            // cache everything found
             foreach (var data in results) _generalDataController.RegisterChemicalData(data);
             
             // and then select a random chemical, below the weight limit, to be the mystery chemical.
@@ -126,8 +209,18 @@ namespace ChemWordle
                 where MysteryChemicalSelectionCriterion(data)
                 select data
             ).ToList();
+            if (validChemicals.Count == 0)
+            {
+                // no valid chemicals! abort
+                _mysteryChemical = null;
+                throw new Exception("No valid mystery chemical found");
+            }
             _mysteryChemical = validChemicals[new Random().Next(validChemicals.Count)];
             
+            foreach (var data in validChemicals)
+            {
+                Debug.Log(data);
+            }
             // sneaky debug statement
             // Debug.Log("mystery chemical: " + _mysteryChemical);
             
@@ -313,8 +406,32 @@ namespace ChemWordle
         public void clearFeedBackText()
         {
             _guiController.SetFormulaFeedback("");
-            _guiController.SetWeightFeedback("");
-            _guiController.SetChargeFeedback("");
+            // _guiController.SetWeightFeedback("");
+            // _guiController.SetChargeFeedback("");
+        }
+    
+        /// <summary>
+        /// Called when the "Play Again" button is pressed in the victory menu.
+        /// Restarts the minigame by reloading the Unity scene.
+        /// It's very important that the method stays spelled this way.
+        /// </summary>
+        public static void PLayAgian()
+        {
+            // TODO: move this method elsewhere
+            
+            // just reload the scene :)
+            SceneManager.LoadScene("ChemicalWordle", LoadSceneMode.Single);
+        }
+
+        /// <summary>
+        /// Called when the "Quit to Main" button is pressed in the victory menu.
+        /// Sends the user back to the main menu.
+        /// </summary>
+        public static void QuitToMain()
+        {
+            // TODO: move this method elsewhere
+            // also why are there two methods to quit to main??
+            SceneManager.LoadScene("TitleScene", LoadSceneMode.Single);
         }
 
     

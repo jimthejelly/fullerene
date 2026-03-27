@@ -49,30 +49,6 @@ namespace ChemWordle
             wordleManager.SetGuessingChemical(data);
             
         }
-    
-        /// <summary>
-        /// Called when the "Play Again" button is pressed in the victory menu.
-        /// Restarts the minigame by reloading the Unity scene.
-        /// It's very important that the method stays spelled this way.
-        /// </summary>
-        public void PLayAgian()
-        {
-            // TODO: move this method elsewhere
-            
-            // just reload the scene :)
-            SceneManager.LoadScene("ChemicalWordle", LoadSceneMode.Single);
-        }
-
-        /// <summary>
-        /// Called when the "Quit to Main" button is pressed in the victory menu.
-        /// Sends the user back to the main menu.
-        /// </summary>
-        public void QuitToMain()
-        {
-            // TODO: move this method elsewhere
-            // also why are there two methods to quit to main??
-            SceneManager.LoadScene("TitleScene", LoadSceneMode.Single);
-        }
 
     }
     
