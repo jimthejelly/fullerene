@@ -3659,7 +3659,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 170684244}
         m_TargetAssemblyTypeName: selectPreset, Assembly-CSharp
-        m_MethodName: SavePreset
+        m_MethodName: savePreset
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7503,7 +7503,7 @@ GameObject:
   - component: {fileID: 418000100}
   - component: {fileID: 418000099}
   m_Layer: 5
-  m_Name: GetPreset2 (1)
+  m_Name: GetPreset3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -38204,7 +38204,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1975454552}
         m_TargetAssemblyTypeName: selectPreset, Assembly-CSharp
-        m_MethodName: SavePreset
+        m_MethodName: savePreset
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -38634,7 +38634,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2001584414}
         m_TargetAssemblyTypeName: selectPreset, Assembly-CSharp
-        m_MethodName: SavePreset
+        m_MethodName: savePreset
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
