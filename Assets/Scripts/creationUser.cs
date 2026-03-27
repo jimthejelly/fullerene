@@ -196,6 +196,7 @@ public class creationUser : MonoBehaviour
                 else if(element.CompareTag("Lone Pair")) {
                     element.GetComponent<LonePairs>().CalculateForceVector();
                 }
+                
             }
             head.GetComponent<Elements>().UpdatePosition();
             foreach(Transform element in molecule.transform) {
@@ -205,12 +206,6 @@ public class creationUser : MonoBehaviour
                 else if(element.CompareTag("Bond")) {
                     element.GetComponent<Bonds>().UpdatePosition();
                 }
-            }
-        }
-        // reset hasMoved for the next frame
-        foreach(Transform element in molecule.transform) {
-            if(element.CompareTag("Element")) {
-                element.GetComponent<Elements>().hasMoved = false;
             }
         }
     }
@@ -456,6 +451,7 @@ public class creationUser : MonoBehaviour
                     else { // else make the bond between bondParent and select
                            // If bondParent and select can bond more, bond them
                         if(select.GetComponent<Elements>().CanBondMore() && bondParent.CanBondMore()) {
+                            // If select and bondParent are already bonded, skip bonding
                             bool bonded = false;
                             foreach(Tuple<GameObject, GameObject> neighbor in select.GetComponent<Elements>().GetNeighbors()) {
                                 if(neighbor.Item2.GetComponent<Elements>().Equals(bondParent)) {

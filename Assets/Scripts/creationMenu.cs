@@ -15,7 +15,7 @@ public class creationMenu : MonoBehaviour
     public GameObject general_info;
 
     public GameObject preset_dropdown;
-    public bool isPaused;
+    public static bool isPaused;
 
     public bool isLogic;
     // Start is called before the first frame update
