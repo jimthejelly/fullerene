@@ -260,11 +260,9 @@ public class selectPreset : MonoBehaviour
                 continue;
             }
 
-
-            ///Selects the instantiated element GameObject, sets its parent to the moleculeBody, and positions it according to the coordinates specified in the CML file. It also retrieves the Elements component from the instantiated GameObject, checks if it exists, and sets its protons property to the atomic number for later reference when setting up bonds. Finally, it updates the idToElement dictionary to map the atom ID from the CML file to the instantiated Elements component for later reference when setting up bonds.
             elementGO.transform.SetParent(body.transform, true);
             elementGO.transform.position = pos;
-            elementGO.name = "Element " + id.Substring(1);
+            elementGO.name = $"{atomicNumber}-{elementName} {id.Substring(1)}";
 
             Elements elementComp = elementGO.GetComponent<Elements>();
             if (elementComp == null)
@@ -318,22 +316,15 @@ public class selectPreset : MonoBehaviour
             int order = int.Parse(bondNode.Attributes["order"].Value, CultureInfo.InvariantCulture);
 
             //Loads the bond prefab from a specified path, instantiates it in the scene, and sets its parent to the moleculeBody.
-            //string bondPrefabPath = "Assets/Resources/SingleBond.prefab";
-            //GameObject bondPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(bondPrefabPath);
-            //if (bondPrefab == null)
-            //{
-            //    Debug.LogError("Could not load bond prefab at: " + bondPrefabPath);
-            //    continue;
-            //}
-
-            //GameObject bondGO = PrefabUtility.InstantiatePrefab(bondPrefab) as GameObject;
-            GameObject bondGO = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
-            bondGO.AddComponent<Bonds>();
-            Material bondMat = Resources.Load<Material>("BondColor");
-            if (bondMat != null)
+            string bondPrefabPath = "Assets/Resources/SingleBond.prefab";
+            GameObject bondPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(bondPrefabPath);
+            if (bondPrefab == null)
             {
-                bondGO.GetComponent<Renderer>().material = bondMat;
+                Debug.LogError("Could not load bond prefab at: " + bondPrefabPath);
+                continue;
             }
+
+            GameObject bondGO = PrefabUtility.InstantiatePrefab(bondPrefab) as GameObject;
             bondGO.transform.SetParent(body.transform, true);
 
             Bonds b = bondGO.GetComponent<Bonds>();
