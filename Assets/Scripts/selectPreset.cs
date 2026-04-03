@@ -241,7 +241,7 @@ public class selectPreset : MonoBehaviour
 
             ///Constructs the path to the element prefab based on the atomic number, loads the prefab, and instantiates it in the scene at the specified position. It also sets the protons property of the Elements component to the atomic number for later reference when setting up bonds.
             int atomicNumber = (int)(ElementSymbols)Enum.Parse(typeof(ElementSymbols), symbol);
-            string elementName = ((ElementNames)atomicNumber).ToString().ToLower();
+            string elementName = ((ElementNames)atomicNumber).ToString();
             string elementPrefabPath = $"Assets/Elements/{atomicNumber}-{elementName}.prefab";
             GameObject elementPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(elementPrefabPath);
 
@@ -264,6 +264,7 @@ public class selectPreset : MonoBehaviour
             ///Selects the instantiated element GameObject, sets its parent to the moleculeBody, and positions it according to the coordinates specified in the CML file. It also retrieves the Elements component from the instantiated GameObject, checks if it exists, and sets its protons property to the atomic number for later reference when setting up bonds. Finally, it updates the idToElement dictionary to map the atom ID from the CML file to the instantiated Elements component for later reference when setting up bonds.
             elementGO.transform.SetParent(body.transform, true);
             elementGO.transform.position = pos;
+            elementGO.name = "Element " + id.Substring(1);
 
             Elements elementComp = elementGO.GetComponent<Elements>();
             if (elementComp == null)
@@ -275,6 +276,16 @@ public class selectPreset : MonoBehaviour
             elementComp.protons = atomicNumber;
 
             idToElement[id] = elementComp;
+        }
+
+        // Ensure the loaded molecule has a root element for physics, motion, and element geometry updates.
+        if (idToElement.Count > 0)
+        {
+            foreach (var elementEntry in idToElement)
+            {
+                creationUser.head = elementEntry.Value.gameObject;
+                break;
+            }
         }
 
         ///Loops through all the bond nodes in the bondArray from the CML file, parses the atomRefs2 attribute to get the IDs of the two atoms that are bonded, looks up the corresponding Elements components from the idToElement dictionary, and instantiates a bond prefab to represent the bond between them. It also sets the bond order based on the order attribute in the CML file and updates the neighbor lists for each element based on the bonds.
@@ -307,15 +318,22 @@ public class selectPreset : MonoBehaviour
             int order = int.Parse(bondNode.Attributes["order"].Value, CultureInfo.InvariantCulture);
 
             //Loads the bond prefab from a specified path, instantiates it in the scene, and sets its parent to the moleculeBody.
-            string bondPrefabPath = "Assets/Resources/SingleBond.prefab";
-            GameObject bondPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(bondPrefabPath);
-            if (bondPrefab == null)
-            {
-                Debug.LogError("Could not load bond prefab at: " + bondPrefabPath);
-                continue;
-            }
+            //string bondPrefabPath = "Assets/Resources/SingleBond.prefab";
+            //GameObject bondPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(bondPrefabPath);
+            //if (bondPrefab == null)
+            //{
+            //    Debug.LogError("Could not load bond prefab at: " + bondPrefabPath);
+            //    continue;
+            //}
 
-            GameObject bondGO = PrefabUtility.InstantiatePrefab(bondPrefab) as GameObject;
+            //GameObject bondGO = PrefabUtility.InstantiatePrefab(bondPrefab) as GameObject;
+            GameObject bondGO = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
+            bondGO.AddComponent<Bonds>();
+            Material bondMat = Resources.Load<Material>("BondColor");
+            if (bondMat != null)
+            {
+                bondGO.GetComponent<Renderer>().material = bondMat;
+            }
             bondGO.transform.SetParent(body.transform, true);
 
             Bonds b = bondGO.GetComponent<Bonds>();
