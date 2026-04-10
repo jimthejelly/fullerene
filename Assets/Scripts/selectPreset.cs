@@ -260,10 +260,12 @@ public class selectPreset : MonoBehaviour
                 continue;
             }
 
+            //Sets the parent of the element to moleculeBody, and sets its position based on the CML file
             elementGO.transform.SetParent(body.transform, true);
             elementGO.transform.position = pos;
             elementGO.name = $"{atomicNumber}-{elementName} {id.Substring(1)}";
 
+            //Gets the Elements component from the GameObject.
             Elements elementComp = elementGO.GetComponent<Elements>();
             if (elementComp == null)
             {
@@ -313,6 +315,7 @@ public class selectPreset : MonoBehaviour
                 continue;
             }
 
+            //Parses for the type of bond between elements
             int order = int.Parse(bondNode.Attributes["order"].Value, CultureInfo.InvariantCulture);
 
             //Loads the bond prefab from a specified path, instantiates it in the scene, and sets its parent to the moleculeBody.
@@ -324,18 +327,23 @@ public class selectPreset : MonoBehaviour
                 continue;
             }
 
+            //Tries to instantiate the bond prefab. If it fails, it logs an error and skips setting up this bond.
             GameObject bondGO = PrefabUtility.InstantiatePrefab(bondPrefab) as GameObject;
             bondGO.transform.SetParent(body.transform, true);
 
             Bonds b = bondGO.GetComponent<Bonds>();
 
+            //Sets the elements involved in the bond, the bond order, and updates the position of the bond based on the positions of the two elements. 
+            //Updates the neighbor lists for each element to include this new bond and increments their bond counts and bond orders accordingly.
             b.SetElements(e1, e2);
             b.bondOrder = order;
             b.UpdatePosition();
 
+            //Adds the bond and the other element as a neighbor to each element's neighbor list.
             e1.GetNeighbors().Add(new Tuple<GameObject, GameObject>(bondGO, e2.gameObject));
             e2.GetNeighbors().Add(new Tuple<GameObject, GameObject>(bondGO, e1.gameObject));
 
+            //Increments the bond count and bond orders for each element based on the bond order of this bond, and updates their electrons accordingly.
             e1.bondCount++;
             e1.bondOrders += order;
             e1.UpdateElectrons(order);
@@ -345,6 +353,7 @@ public class selectPreset : MonoBehaviour
             e2.UpdateElectrons(order);
         }
 
+        //Goes through each element in the molecule and calls ResetChildPositions() to reset the positions of any child objects (such as lone pairs) based on the new structure of the molecule
         foreach (Transform child in body.transform)
         {
             if (!child.CompareTag("Element")) continue;
@@ -353,6 +362,7 @@ public class selectPreset : MonoBehaviour
             el.ResetChildPositions();
         }
 
+        //Goes through each element in the molecule and calls MoveChildren() to move any child objects
         foreach (Transform child in body.transform)
         {
             if (!child.CompareTag("Element")) continue;
