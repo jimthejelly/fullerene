@@ -40,9 +40,6 @@ public class creationUser : MonoBehaviour
 
     // GameObject tempHover; // temporary object made by hovering
 
-    private Dictionary<Elements, string> atomIDs = new Dictionary<Elements, string>();
-    private Dictionary<string, Elements> IDToAtom = new Dictionary<string, Elements>();
-
     void Start()
     {
         // clears the molecule.cml file
@@ -108,12 +105,14 @@ public class creationUser : MonoBehaviour
 
         if(Input.GetKeyDown("s")) {
             Debug.Log("Saving Molecule");
-            SaveMolecule();
+            FileInfo file = new("./Assets/Resources/molecule.cml");
+            MoleculeFileIO.SaveMolecule(file, molecule);
         }
 
         if(Input.GetKeyDown("l")) {
             Debug.Log("Loading Molecule");
-            LoadMolecule();
+            FileInfo file = new("./Assets/Resources/molecule.cml");
+            molecule = MoleculeFileIO.LoadMolecule(file);
             if(lonePairsVisible) {
                 HideLonePairs();
                 moleculeUpdated = true;
@@ -196,96 +195,6 @@ public class creationUser : MonoBehaviour
             }
         }
 
-    }
-
-    void SaveMolecule() {
-        if(molecule.transform.childCount == 0) {
-            Debug.Log("No molecule to save!");
-            return;
-        }
-        XmlTextWriter writer = new XmlTextWriter("./Assets/Resources/molecule.cml", null);
-        writer.WriteStartDocument();
-
-        writer.Formatting = Formatting.Indented;
-        writer.Indentation = 4;
-
-        writer.WriteStartElement("molecule");
-
-        writer.WriteStartElement("atomArray");
-
-        atomIDs = new Dictionary<Elements, string>();
-        IDToAtom = new Dictionary<string, Elements>();
-        int count = 1;
-        foreach(Transform item in molecule.transform) {
-            if(item.tag.Equals("Element")) {
-                atomIDs.Add(item.gameObject.GetComponent<Elements>() as Elements, "a" + count);
-                IDToAtom.Add("a" + count++, item.gameObject.GetComponent<Elements>() as Elements);
-                writer.WriteStartElement("atom");
-                writer.WriteAttributeString("id", atomIDs[item.gameObject.GetComponent<Elements>() as Elements]);
-                writer.WriteAttributeString("elementType", ((ElementSymbols)((item.gameObject.GetComponent<Elements>() as Elements).protons)).ToString("F"));
-                writer.WriteAttributeString("x3", item.position.x.ToString());
-                writer.WriteAttributeString("y3", item.position.y.ToString());
-                writer.WriteAttributeString("z3", item.position.z.ToString());
-                writer.WriteEndElement(); // end of atom
-            }
-        }
-
-        writer.WriteEndElement(); // end of atomArray
-
-        writer.WriteStartElement("bondArray");
-
-        foreach(Transform item in molecule.transform) {
-            if(item.tag.Equals("Bond")) {
-                writer.WriteStartElement("bond");
-                writer.WriteAttributeString("atomRefs2", atomIDs[(item.gameObject.GetComponent<Bonds>() as Bonds).parent] + " " + atomIDs[(item.gameObject.GetComponent<Bonds>() as Bonds).child]);
-                writer.WriteAttributeString("order", ((item.gameObject.GetComponent<Bonds>() as Bonds).bondOrder).ToString());
-                writer.WriteEndElement(); // end of bond
-            }
-        }
-        
-        writer.WriteEndElement(); // end of bondArray
-
-        writer.WriteEndElement(); // end of molecule
-
-        writer.WriteEndDocument();
-        writer.Close();
-    }
-
-    void LoadMolecule() {
-        if(atomIDs.Count == 0) {
-            Debug.Log("no IDs stored");
-            return;
-        }
-        // move atoms into place
-        XmlTextReader reader = new XmlTextReader("./Assets/Resources/molecule.cml");
-        while(reader.Read()) {
-            if(reader.NodeType == XmlNodeType.Element) {
-                if(reader.Name.Equals("atom")) {
-                    IDToAtom[reader.GetAttribute("id")].transform.position = new Vector3(
-                        float.Parse(reader.GetAttribute("x3")), float.Parse(reader.GetAttribute("y3")), float.Parse(reader.GetAttribute("z3")));
-                }
-            }
-        }
-        reader.Close();
-
-        // move bonds
-        foreach(Transform item in molecule.transform) {
-            if(item.tag.Equals("Bond")) {
-                // setting bond position
-                Vector3 parentPos = (item.gameObject.GetComponent<Bonds>() as Bonds).parent.transform.position;
-                Vector3 childPos = (item.gameObject.GetComponent<Bonds>() as Bonds).child.transform.position;
-                Debug.Log(parentPos + " " + childPos);
-                item.position = new Vector3((parentPos.x + childPos.x) / 2, (parentPos.y + childPos.y) / 2, (parentPos.z + childPos.z) / 2);
-
-                // setting bond rotation
-                item.LookAt(parentPos);
-                item.Rotate(90, 0, 0);
-
-                // setting bond length
-                item.localScale = new Vector3(0.15f, Mathf.Sqrt(
-                    Mathf.Pow(parentPos.x - childPos.x, 2) + Mathf.Pow(parentPos.y - childPos.y, 2) + Mathf.Pow(parentPos.z - childPos.z, 2)) / 2, 0.15f);
-            }
-        }
     }
 
     /*
@@ -514,7 +423,8 @@ public class creationUser : MonoBehaviour
                 if(!Input.GetKey(KeyCode.LeftControl) && !Input.GetKey(KeyCode.LeftShift)) {
                     if(hit.transform.tag.Equals("Element")) {
                         Elements script = hit.collider.gameObject.GetComponent<Elements>();
-                        script.SpawnElement(elements);
+                        // mess to extract atomic number from element string
+                        script.SpawnElement(int.Parse(selectElement.element[..selectElement.element.IndexOf("-")]), 1, elements);
                         elements++;
                         moleculeUpdated = true;
                     }

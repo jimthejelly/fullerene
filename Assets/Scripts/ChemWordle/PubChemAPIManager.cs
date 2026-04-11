@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -35,14 +34,14 @@ namespace ChemWordle
         /// <param name="propertyValue"> The value of the property to find. </param>
         /// <param name="maxAllowed"> The maximum number of chemicals to be returned. </param>
         /// <returns> A list of CIDs of chemicals with the property, or <c>null</c> if an error occurs. </returns>
-        [ItemCanBeNull] public static async Task<List<int>> requestCIDsWithProperty(
+        public static async Task<List<int>> requestCIDsWithProperty(
             string propertyName,
             string propertyValue,
             int maxAllowed
         ) {
 
             // put together a request to get the CIDs of all chemicals with the specified property
-            // ex. for propertyName=Title, propertyValue=Hydrogen, maxAllowed = 10:
+            // i.e. for propertyName=Title, propertyValue=Hydrogen, maxAllowed = 10:
             // https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/Title/Hydrogen/cids/TXT?MaxRecords=10
             var apiCall = API_CALL_HEADER + "compound/" +
                           propertyName + "/" + propertyValue +
@@ -66,7 +65,7 @@ namespace ChemWordle
         /// <param name="cids"> The list of CIDs. </param>
         /// <param name="dataTypes"> The list of attributes. </param>
         /// <returns> A list of ChemicalData objects with the requested attributes. </returns>
-        [ItemCanBeNull] public static async Task<List<ChemicalData>> RequestChemicals(
+        public static async Task<List<ChemicalData>> RequestChemicals(
             List<int> cids,
             List<string> dataTypes
         )
@@ -88,7 +87,7 @@ namespace ChemWordle
         /// </summary>
         /// <param name="apiCall"> The request which should be sent. </param>
         /// <returns> The result of the request, or <c>null</c> if something went wrong. </returns>
-        [ItemCanBeNull] private static async Task<string> MakeAPIRequest(string apiCall)
+        private static async Task<string> MakeAPIRequest(string apiCall)
         {
             
             // create and send the web request

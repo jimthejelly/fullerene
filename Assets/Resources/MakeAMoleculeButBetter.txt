@@ -1,0 +1,3 @@
+Water;O.H.H;0,1;0,2
+Carbon Dioxide;C.O.O;0,,1;0,,2
+Methane;C.H.H.H.H;0,1;0,2;0,3;0,4

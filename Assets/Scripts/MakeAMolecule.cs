@@ -5,6 +5,8 @@ using UnityEditor;
 using TMPro;
 using UnityEngine.SceneManagement;
 using System;
+using System.IO;
+using System.Linq;
 using System.Xml.Linq;
 
 public class makeAMolecule : MonoBehaviour
@@ -36,6 +38,7 @@ public class makeAMolecule : MonoBehaviour
 
         myText.text = displayLine;
         CreateCheckButton();
+        NewMol();
     }
 
     // Update is called once per frame
@@ -49,7 +52,7 @@ public class makeAMolecule : MonoBehaviour
         }
 
         GameObject molecule = GameObject.Find("moleculeBody");
-        GameObject currentMol = molecule;
+        currentMol = molecule;
         if(creationMenu.molMini == true) {
             myText.color = Color.white;
         } else {
@@ -73,17 +76,27 @@ public class makeAMolecule : MonoBehaviour
 
     private void NewMol()
     {
-        String fullLine = GrabMolecule("Assets/Resources/MakeAMolecule.txt");
-        int index = fullLine.IndexOf(':');
-        String displayLine = fullLine.Substring(0, index);
-        formula = fullLine.Substring(index, fullLine.Length - index);
-        currMolRep = BuildMol(formula);
+        // String fullLine = GrabMolecule("Assets/Resources/MakeAMolecule.txt");
+        // int index = fullLine.IndexOf(':');
+        // String displayLine = fullLine.Substring(0, index);
+        // formula = fullLine.Substring(index, fullLine.Length - index);
+        // currMolRep = BuildMol(formula);
 
-        myText.text = displayLine;
+        // myText.text = displayLine;
+        
+        FileInfo file = new("./Assets/Resources/MoleculeTemplates/Carbon Dioxide.cml");
+
+        GameObject molecule = MoleculeFileIO.LoadMolecule(file);
+        
+        FileInfo file2 = new("./Assets/TEST.cml");
+        MoleculeFileIO.SaveMolecule(file2, molecule);
+
+
+        currMolRep = molecule.GetComponent<Elements>();
+
     }
 
-    // creates a button to check if the molecule is correct(called at Start())
-    private void CreateCheckButton()
+    void OnGUI()
     {
         Handles.BeginGUI();
         if (GUILayout.Button("Check"))
@@ -98,32 +111,33 @@ public class makeAMolecule : MonoBehaviour
         Handles.EndGUI();
     }
 
+    // creates a button to check if the molecule is correct(called at Start())
+    private void CreateCheckButton()
+    {
+        
+    }
+
     // Changes the screen to show that what was created was correct
     private void ShowCorrect(){
         // Todo
         
     }
 
-    // builds the hidden molecule that the checked molecule will compare against (NOT CURRENTLY WORKING)
-    private Elements BuildMol(String molName)
-    {
-        Elements root = new Elements();
-
-        return root;
-    }
-
     // Helper function that tries all starting points
     private bool MolIsCorrect(GameObject molecule){
         // Todo
+        Debug.Log("entered method!");
         Elements[] elements = molecule.GetComponents<Elements>();
         HashSet<Elements> empty = new HashSet<Elements>();
         foreach (Elements i in elements)
         {
             if (ChildrenAreCorrect(i, currMolRep,empty))
             {
+                Debug.Log("true");
                 return true;
             }
         }
+        Debug.Log("false");
         return false;
         
     }
@@ -160,6 +174,7 @@ public class makeAMolecule : MonoBehaviour
         foreach (Elements x in set)
         { 
             if (EC.Equals(x, element) == true) {
+                Debug.Log("any true");
                 allEqual = true;
             }
             

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using JetBrains.Annotations;
 using UnityEngine;
 
 namespace ChemWordle
@@ -34,11 +33,11 @@ namespace ChemWordle
         /// Looks up the given property name/value in the list of known chemicals.
         /// Does *not* query the PubChem database if nothing is found.
         /// </summary>
-        /// <param name="propertyName"> The name of the property to look for (ex. "Title"). </param>
-        /// <param name="propertyValue"> The value to look for (ex. "Water"). </param>
+        /// <param name="propertyName"> The name of the property to look for (i.e. "Title"). </param>
+        /// <param name="propertyValue"> The value to look for (i.e. "Water"). </param>
         /// <returns> The first chemical found that matches the given value for the given property,
         /// or <c>null</c> if no such chemical is found. </returns>
-        [CanBeNull] public ChemicalData GetChemicalWithProperty(string propertyName, string propertyValue)
+        public ChemicalData GetChemicalWithProperty(string propertyName, string propertyValue)
         {
 
             // TODO: could easily redo this to be more efficient

@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using JetBrains.Annotations;
 
 namespace ChemWordle
 {
@@ -14,7 +13,7 @@ namespace ChemWordle
 
         /// <summary>
         /// The field where all chemical properties are stored.
-        /// Keys correspond to property names (ex. Title) and values correspond to property values.
+        /// Keys correspond to property names (i.e. Title) and values correspond to property values.
         /// Note that no property, except the CID (internal pubchem id for this chemical),
         /// is guaranteed to be present!
         /// </summary>
@@ -26,7 +25,7 @@ namespace ChemWordle
         /// <param name="propertyName"> The name of the property to be retrieved. </param>
         /// <returns> The value of the property, or <c>null</c> if this chemical
         /// does not have the desired property set. </returns>
-        [CanBeNull] public string GetProperty(string propertyName) =>
+        public string GetProperty(string propertyName) =>
             properties.GetValueOrDefault(propertyName, null);
         
         /// <summary>

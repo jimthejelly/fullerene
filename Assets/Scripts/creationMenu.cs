@@ -52,6 +52,7 @@ public class creationMenu : MonoBehaviour
 
     void Start()
     {
+        
         // Pauses time and brings up menu
         Time.timeScale = 1;
         isPaused = false;

@@ -1,15 +1,33 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.IO;
 using System.Linq;
 using UnityEngine;
 using UnityEditor;
-using Unity.Services.Analytics;
 
 /// <summary>
 /// Class for representing the internal data of an atom in the main molecule
 /// </summary>
 public class Elements : MonoBehaviour
 {
+
+    /// <summary>
+    /// Retrieves the element prefab with the given atomic number.
+    /// </summary>
+    public static GameObject GetElementPrefab(int atomicNumber)
+    {
+        foreach (string prefabPath in Directory.EnumerateFiles("Assets/Elements")
+                     .Where(prefabPath => prefabPath.EndsWith(".prefab")))
+        {
+            GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
+            Elements elements = prefab.GetComponent<Elements>();
+            if (!elements) continue;
+            if (elements.protons == atomicNumber)
+                return prefab;
+        }
+        throw new Exception("No element prefab found for \"" + atomicNumber + "\"");
+    }
 
     public int electrons;
     public int protons;
@@ -21,6 +39,17 @@ public class Elements : MonoBehaviour
     public bool expandedOctet;
     public bool physicsOn = false;
 
+    /// <summary>
+    /// A reference to the molecule containing this element.
+    /// Initialized when the element is created.
+    /// </summary>
+    private GameObject molecule;
+
+    /// <summary>
+    /// Should be called immediately after creating this element, and never again.
+    /// </summary>
+    public void SetMolecule(GameObject _molecule) => molecule = _molecule;
+    
     public int bondCount = 0;
     public int bondOrders = 0;
 
@@ -31,12 +60,13 @@ public class Elements : MonoBehaviour
     /// </summary>
     void Start()
     {
+        
         // get atomic number from object name
-        var numberString = transform.name.Split('-')[0].Trim();
-        if (!int.TryParse(numberString, out var numberValue))
+        string numberString = transform.name.Split('-')[0].Trim();
+        if (!int.TryParse(numberString, out int numberValue))
             Debug.LogWarning("Failed to parse atomic number: \"" + numberString + "\"");
         // use that number to set this element's material!
-        var materialName = GameObject.Find("moleculeBody")
+        string materialName = GameObject.Find("moleculeBody")
             .GetComponent<creationMenu>().GetElementMaterial(numberValue);
         transform.GetComponent<Renderer>().material =
             Resources.Load<Material>("Materials/" + materialName);;
@@ -97,8 +127,10 @@ public class Elements : MonoBehaviour
     /// <summary>
     /// Spawns in a new Element instance
     /// </summary>
+    /// <param name="element"> The atomic number of the new element. </param>
+    /// <param name="order"> The order of the bond to the new element. </param>
     /// <param name="num">The "construction ID" or number next to the name in the Hierarchy View</param>
-    public void SpawnElement(int num)
+    public void SpawnElement(int element, int order, int num)
     {
         Debug.Log("neighbor num: " + neighbors.Count);
 
@@ -117,20 +149,31 @@ public class Elements : MonoBehaviour
         }
         // making new bond
         float radius = 3f;
-        GameObject obj = AssetDatabase.LoadAssetAtPath("Assets/Elements/" + selectElement.element + ".prefab", typeof(GameObject)) as GameObject;
+        GameObject obj = GetElementPrefab(element);
         GameObject clone = Instantiate(obj, Vector3.zero, Quaternion.identity);
         // making sure the newly created atom can bond
         if (!(clone.GetComponent<Elements>() as Elements).CanBondMore())
         {
-            Debug.Log(selectElement.element + " is inert!");
+            Debug.Log(element + " is inert!");
             return;
         }
-        GameObject cyl = AssetDatabase.LoadAssetAtPath("Assets/Resources/SingleBond.prefab", typeof(GameObject)) as GameObject;
+        string bondTitle = order switch
+        {
+            1 => "SingleBond",
+            2 => "DoubleBond",
+            3 => "TripleBond",
+            _ => throw new Exception("invalid bond order (" + order + ")")
+        };
+        string bondPath = "Assets/Resources/" + bondTitle + ".prefab";
+        GameObject cyl = AssetDatabase.LoadAssetAtPath(bondPath, typeof(GameObject)) as GameObject;
         GameObject cylClone = Instantiate(cyl, Vector3.zero, Quaternion.identity);
         cylClone.transform.localScale = new Vector3(0.15f, radius / 2, 0.15f);
-        cylClone.transform.SetParent(GameObject.Find("moleculeBody").transform, true);
-        clone.transform.SetParent(GameObject.Find("moleculeBody").transform, true);
-        clone.name = clone.name + " " + num;
+        // parent of new element should be the same parent as this element
+        if (!molecule) throw new Exception("Element has no parent molecule; unable to create new neighbor");
+        clone.GetComponent<Elements>().molecule = molecule;
+        cylClone.transform.SetParent(molecule.transform, true);
+        clone.transform.SetParent(molecule.transform, true);
+        clone.name = clone + " " + num;
         cylClone.name = cylClone.name + " " + num;
         bondCount++;
         bondOrders++;
