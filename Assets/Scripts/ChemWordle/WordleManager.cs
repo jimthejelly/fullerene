@@ -40,26 +40,9 @@ namespace ChemWordle
             _guiController = FindObjectOfType<GUIController>();
             _wordleGuessScrollArea = FindObjectOfType<WordleGuessScrollArea>();
         
-            // _ = chooseMysteryChemical();
+            // runs asynchronously; user could act before chemical is chosen
+            chooseMysteryChemical();
 
-            cba();
-
-        }
-
-        async void cba()
-        {
-            for (int i = 0; i < 20; i++)
-            {
-                try
-                {
-                    await chooseMysteryChemical();
-                    Debug.Log(_mysteryChemical);
-                }
-                catch (Exception)
-                {
-                    // ignored
-                }
-            }
         }
 
         /// <summary>
@@ -217,10 +200,10 @@ namespace ChemWordle
             }
             _mysteryChemical = validChemicals[new Random().Next(validChemicals.Count)];
             
-            foreach (var data in validChemicals)
-            {
-                Debug.Log(data);
-            }
+            // foreach (var data in validChemicals)
+            // {
+            //     Debug.Log(data);
+            // }
             // sneaky debug statement
             // Debug.Log("mystery chemical: " + _mysteryChemical);
             
