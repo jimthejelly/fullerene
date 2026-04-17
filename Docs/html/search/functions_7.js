@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['updatebond_0',['UpdateBond',['../class_elements.html#a118ef83f5fe8e8cc115ecac1af5df955',1,'Elements']]],
-  ['updateelectrons_1',['UpdateElectrons',['../class_elements.html#a7a8939039a50be3d144e0f6b0687ce82',1,'Elements']]],
-  ['updateposition_2',['UpdatePosition',['../class_bonds.html#a1de72f41a1729b5176761d3901f59736',1,'Bonds.UpdatePosition()'],['../class_elements.html#ae55176f31fe0695f469203f7717c6b3f',1,'Elements.UpdatePosition()'],['../class_lone_pairs.html#a8cd2bc86606d850aa3e962460c69acf4',1,'LonePairs.UpdatePosition()']]]
+  ['onplayagain_0',['OnPlayAgain',['../class_chem_wordle_1_1_victory_notice_script.html#a66ce38774d288d16e66f80b3dc479aa1',1,'ChemWordle::VictoryNoticeScript']]],
+  ['onpressed_1',['OnPressed',['../class_chem_wordle_1_1_for_prefab_button.html#a6df0585a66dee92cb6b954c2b860c116',1,'ChemWordle::ForPrefabButton']]],
+  ['onquittomain_2',['OnQuitToMain',['../class_chem_wordle_1_1_victory_notice_script.html#a726e8c80bfa590d3ac3c3291640f555f',1,'ChemWordle::VictoryNoticeScript']]]
 ];

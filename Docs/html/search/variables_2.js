@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['defaultlonepairs_0',['defaultLonePairs',['../class_elements.html#aa8d39966b85ba332ebc66f3d2dfc0a4e',1,'Elements']]]
+  ['datatypes_0',['DataTypes',['../class_chem_wordle_1_1_general_data_controller.html#ae52bc7653ebdce5388c27ef6cbf3f891',1,'ChemWordle::GeneralDataController']]]
 ];

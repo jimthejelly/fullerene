@@ -103,23 +103,29 @@ Inheritance diagram for Elements:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
+<tr class="memitem:abf88e31d675f4f3b9ff7417dc282f3bd" id="r_abf88e31d675f4f3b9ff7417dc282f3bd"><td class="memItemLeft" align="right" valign="top"><a id="abf88e31d675f4f3b9ff7417dc282f3bd" name="abf88e31d675f4f3b9ff7417dc282f3bd"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>SetMolecule</b> (GameObject _molecule)</td></tr>
+<tr class="memdesc:abf88e31d675f4f3b9ff7417dc282f3bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Should be called immediately after creating this element, and never again. <br /></td></tr>
 <tr class="memitem:a223e6c36700f4370e6f18da496f252b0" id="r_a223e6c36700f4370e6f18da496f252b0"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a223e6c36700f4370e6f18da496f252b0">GetID</a> ()</td></tr>
 <tr class="memdesc:a223e6c36700f4370e6f18da496f252b0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Finds the construction order of <code> Element </code>s, its main use is finding the parent of an <code> Element </code>.  <br /></td></tr>
 <tr class="memitem:aded50f2b1809ec1cd9df0b23ff92efb2" id="r_aded50f2b1809ec1cd9df0b23ff92efb2"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aded50f2b1809ec1cd9df0b23ff92efb2">CanBondMore</a> ()</td></tr>
 <tr class="memdesc:aded50f2b1809ec1cd9df0b23ff92efb2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines whether or not this <code> Element </code> can make more bonds.  <br /></td></tr>
 <tr class="memitem:a7a8939039a50be3d144e0f6b0687ce82" id="r_a7a8939039a50be3d144e0f6b0687ce82"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7a8939039a50be3d144e0f6b0687ce82">UpdateElectrons</a> (int change)</td></tr>
 <tr class="memdesc:a7a8939039a50be3d144e0f6b0687ce82"><td class="mdescLeft">&#160;</td><td class="mdescRight">Subtracts <code> change </code> from <a class="el" href="#a0c925ad711f4b50748253f66931b9636" title="The number of bonding electrons in this  Element .">bondingElectrons</a>, converting lone pairs to bonding electrons if necessary.  <br /></td></tr>
-<tr class="memitem:ad6173893e18b9eb3a1ac7b4b4c10e64a" id="r_ad6173893e18b9eb3a1ac7b4b4c10e64a"><td class="memItemLeft" align="right" valign="top">List&lt; Tuple&lt; GameObject, GameObject &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad6173893e18b9eb3a1ac7b4b4c10e64a">GetNeighbors</a> ()</td></tr>
-<tr class="memdesc:ad6173893e18b9eb3a1ac7b4b4c10e64a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Accessor method for neighbors.  <br /></td></tr>
-<tr class="memitem:a1665a81ae3bcb31bddb64df509b535db" id="r_a1665a81ae3bcb31bddb64df509b535db"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1665a81ae3bcb31bddb64df509b535db">SpawnElement</a> (int num)</td></tr>
-<tr class="memdesc:a1665a81ae3bcb31bddb64df509b535db"><td class="mdescLeft">&#160;</td><td class="mdescRight">Spawns in a new <a class="el" href="class_elements.html" title="Class for representing the internal data of an atom in the main molecule.">Elements</a> instance.  <br /></td></tr>
+<tr class="memitem:a50aa18e6d767e9fddc562697169c88a5" id="r_a50aa18e6d767e9fddc562697169c88a5"><td class="memItemLeft" align="right" valign="top"><a id="a50aa18e6d767e9fddc562697169c88a5" name="a50aa18e6d767e9fddc562697169c88a5"></a>
+List&lt; Tuple&lt; int, int &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>GetStringNeighbors</b> ()</td></tr>
+<tr class="memitem:ad6173893e18b9eb3a1ac7b4b4c10e64a" id="r_ad6173893e18b9eb3a1ac7b4b4c10e64a"><td class="memItemLeft" align="right" valign="top"><a id="ad6173893e18b9eb3a1ac7b4b4c10e64a" name="ad6173893e18b9eb3a1ac7b4b4c10e64a"></a>
+List&lt; Tuple&lt; GameObject, GameObject &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>GetNeighbors</b> ()</td></tr>
+<tr class="memitem:aab8e2a4460583232a5054f975b199b9e" id="r_aab8e2a4460583232a5054f975b199b9e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aab8e2a4460583232a5054f975b199b9e">SpawnElement</a> (int element, int order, int num)</td></tr>
+<tr class="memdesc:aab8e2a4460583232a5054f975b199b9e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Spawns in a new Element instance.  <br /></td></tr>
 <tr class="memitem:a9065ddac34b0d198cab4b202354190b3" id="r_a9065ddac34b0d198cab4b202354190b3"><td class="memItemLeft" align="right" valign="top"><a id="a9065ddac34b0d198cab4b202354190b3" name="a9065ddac34b0d198cab4b202354190b3"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>ResetChildPositions</b> ()</td></tr>
 <tr class="memdesc:a9065ddac34b0d198cab4b202354190b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resets the positions of each "child" of this <code> Element </code> to be moved with <a class="el" href="#a8e32fd9938ab7ad21957a38a5f1f242a" title="Moves the &quot;children&quot; of this  Element  to their proper VSEPR geometrical positions.">MoveChildren(int)</a> later. <br /></td></tr>
-<tr class="memitem:a8e32fd9938ab7ad21957a38a5f1f242a" id="r_a8e32fd9938ab7ad21957a38a5f1f242a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8e32fd9938ab7ad21957a38a5f1f242a">MoveChildren</a> (int offset)</td></tr>
+<tr class="memitem:a8e32fd9938ab7ad21957a38a5f1f242a" id="r_a8e32fd9938ab7ad21957a38a5f1f242a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8e32fd9938ab7ad21957a38a5f1f242a">MoveChildren</a> (int <a class="el" href="#a6a81927a4e2ef745bb8a2afb8b10cee7">offset</a>)</td></tr>
 <tr class="memdesc:a8e32fd9938ab7ad21957a38a5f1f242a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Moves the "children" of this <code> Element </code> to their proper VSEPR geometrical positions.  <br /></td></tr>
-<tr class="memitem:a4a82ceffcffd5aac0e9add485ea845e1" id="r_a4a82ceffcffd5aac0e9add485ea845e1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4a82ceffcffd5aac0e9add485ea845e1">DeleteElement</a> ()</td></tr>
-<tr class="memdesc:a4a82ceffcffd5aac0e9add485ea845e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deletes the <code> Element </code> selected in <a class="el" href="classcreation_user.html">creationUser</a>.  <br /></td></tr>
+<tr class="memitem:a4a82ceffcffd5aac0e9add485ea845e1" id="r_a4a82ceffcffd5aac0e9add485ea845e1"><td class="memItemLeft" align="right" valign="top"><a id="a4a82ceffcffd5aac0e9add485ea845e1" name="a4a82ceffcffd5aac0e9add485ea845e1"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>DeleteElement</b> ()</td></tr>
+<tr class="memdesc:a4a82ceffcffd5aac0e9add485ea845e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deletes the <code> Element </code> selected in <a class="el" href="classcreation_user.html">creationUser</a>. <br /></td></tr>
 <tr class="memitem:a118ef83f5fe8e8cc115ecac1af5df955" id="r_a118ef83f5fe8e8cc115ecac1af5df955"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a118ef83f5fe8e8cc115ecac1af5df955">UpdateBond</a> (GameObject newBond, GameObject otherElement)</td></tr>
 <tr class="memdesc:a118ef83f5fe8e8cc115ecac1af5df955"><td class="mdescLeft">&#160;</td><td class="mdescRight">Updates a bond GameObject being pointed to in neighbors whenever its bond order is cycled.  <br /></td></tr>
 <tr class="memitem:aa1f19a2656767528a2ac326247912786" id="r_aa1f19a2656767528a2ac326247912786"><td class="memItemLeft" align="right" valign="top"><a id="aa1f19a2656767528a2ac326247912786" name="aa1f19a2656767528a2ac326247912786"></a>
@@ -132,6 +138,12 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>CalculateForceVector<
 void&#160;</td><td class="memItemRight" valign="bottom"><b>UpdatePosition</b> ()</td></tr>
 <tr class="memdesc:ae55176f31fe0695f469203f7717c6b3f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Updates the position of this <code> Element </code> based on its <a class="el" href="#a08385d35f2c62b653d5f00c7bb77b51f" title="The force vector this  Element  will feel in the current frame.">forceVector</a> for this frame. <br /></td></tr>
 </table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-pub-static-methods" class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
+Static Public Member Functions</h2></td></tr>
+<tr class="memitem:a4ed5ead675a7526d606332a0b55f44be" id="r_a4ed5ead675a7526d606332a0b55f44be"><td class="memItemLeft" align="right" valign="top"><a id="a4ed5ead675a7526d606332a0b55f44be" name="a4ed5ead675a7526d606332a0b55f44be"></a>
+static GameObject&#160;</td><td class="memItemRight" valign="bottom"><b>GetElementPrefab</b> (int atomicNumber)</td></tr>
+<tr class="memdesc:a4ed5ead675a7526d606332a0b55f44be"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves the element prefab with the given atomic number. <br /></td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-attribs" class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
 <tr class="memitem:ac04a54df29f779d0a351635a033d74df" id="r_ac04a54df29f779d0a351635a033d74df"><td class="memItemLeft" align="right" valign="top"><a id="ac04a54df29f779d0a351635a033d74df" name="ac04a54df29f779d0a351635a033d74df"></a>
@@ -142,9 +154,10 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>protons</b></td></tr>
 <tr class="memdesc:a1b512c5fd46cbbab9d936ab4778453fe"><td class="mdescLeft">&#160;</td><td class="mdescRight">The number of protons in this <code> Element </code>. <br /></td></tr>
 <tr class="memitem:a52259c03356df900b3912bdb7087584f" id="r_a52259c03356df900b3912bdb7087584f"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a52259c03356df900b3912bdb7087584f">neutrons</a></td></tr>
 <tr class="memdesc:a52259c03356df900b3912bdb7087584f"><td class="mdescLeft">&#160;</td><td class="mdescRight">The number of neutrons in this <code> Element </code>.  <br /></td></tr>
+<tr class="memitem:a940db11ea61b7c14dc85dbbc7adb5b90" id="r_a940db11ea61b7c14dc85dbbc7adb5b90"><td class="memItemLeft" align="right" valign="top"><a id="a940db11ea61b7c14dc85dbbc7adb5b90" name="a940db11ea61b7c14dc85dbbc7adb5b90"></a>
+List&lt; Tuple&lt; int, int &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>neighborLoad</b> = new List&lt;Tuple&lt;int, int&gt;&gt;()</td></tr>
 <tr class="memitem:aa8d39966b85ba332ebc66f3d2dfc0a4e" id="r_aa8d39966b85ba332ebc66f3d2dfc0a4e"><td class="memItemLeft" align="right" valign="top"><a id="aa8d39966b85ba332ebc66f3d2dfc0a4e" name="aa8d39966b85ba332ebc66f3d2dfc0a4e"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>defaultLonePairs</b></td></tr>
-<tr class="memdesc:aa8d39966b85ba332ebc66f3d2dfc0a4e"><td class="mdescLeft">&#160;</td><td class="mdescRight">The number of <a class="el" href="class_lone_pairs.html">LonePairs</a> this <code> Element </code> started with. <br /></td></tr>
 <tr class="memitem:a78d0fb544dce69aa6c3b94e4cf522253" id="r_a78d0fb544dce69aa6c3b94e4cf522253"><td class="memItemLeft" align="right" valign="top"><a id="a78d0fb544dce69aa6c3b94e4cf522253" name="a78d0fb544dce69aa6c3b94e4cf522253"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>lonePairs</b></td></tr>
 <tr class="memdesc:a78d0fb544dce69aa6c3b94e4cf522253"><td class="mdescLeft">&#160;</td><td class="mdescRight">The number of <a class="el" href="class_lone_pairs.html">LonePairs</a> currently in this <code> Element </code>. <br /></td></tr>
@@ -160,9 +173,12 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>bondCount</b> = 0</td>
 <tr class="memitem:a20133d3a07b2a7f24a3c7bd86db7f645" id="r_a20133d3a07b2a7f24a3c7bd86db7f645"><td class="memItemLeft" align="right" valign="top"><a id="a20133d3a07b2a7f24a3c7bd86db7f645" name="a20133d3a07b2a7f24a3c7bd86db7f645"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>bondOrders</b> = 0</td></tr>
 <tr class="memdesc:a20133d3a07b2a7f24a3c7bd86db7f645"><td class="mdescLeft">&#160;</td><td class="mdescRight">The total bond order of <a class="el" href="class_bonds.html">Bonds</a> bonded to this <code> Element </code>. <br /></td></tr>
-<tr class="memitem:a0369cdaaea9b678e132d2496dfa3bfe1" id="r_a0369cdaaea9b678e132d2496dfa3bfe1"><td class="memItemLeft" align="right" valign="top"><a id="a0369cdaaea9b678e132d2496dfa3bfe1" name="a0369cdaaea9b678e132d2496dfa3bfe1"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>hasMoved</b> = false</td></tr>
-<tr class="memdesc:a0369cdaaea9b678e132d2496dfa3bfe1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Whether or not this <code> Element </code> has moved yet this frame. <br /></td></tr>
+<tr class="memitem:a95e7d773fc5a4affbeed3aee747ccf21" id="r_a95e7d773fc5a4affbeed3aee747ccf21"><td class="memItemLeft" align="right" valign="top"><a id="a95e7d773fc5a4affbeed3aee747ccf21" name="a95e7d773fc5a4affbeed3aee747ccf21"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>hasBeenForced</b> = false</td></tr>
+<tr class="memdesc:a95e7d773fc5a4affbeed3aee747ccf21"><td class="mdescLeft">&#160;</td><td class="mdescRight">Whether or not this <code> Element </code> has been moved with <a class="el" href="#ae55176f31fe0695f469203f7717c6b3f" title="Updates the position of this  Element  based on its forceVector for this frame.">UpdatePosition</a> yet this frame. <br /></td></tr>
+<tr class="memitem:aa94fc9f55b1d870babea98d4a49fe8cc" id="r_aa94fc9f55b1d870babea98d4a49fe8cc"><td class="memItemLeft" align="right" valign="top"><a id="aa94fc9f55b1d870babea98d4a49fe8cc" name="aa94fc9f55b1d870babea98d4a49fe8cc"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>hasBeenMoved</b> = false</td></tr>
+<tr class="memdesc:aa94fc9f55b1d870babea98d4a49fe8cc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Whether or not this <code> Element </code> has been moved with <a class="el" href="#a8e32fd9938ab7ad21957a38a5f1f242a" title="Moves the &quot;children&quot; of this  Element  to their proper VSEPR geometrical positions.">MoveChildren(int)</a> yet this frame. <br /></td></tr>
 <tr class="memitem:a64a43e80bd4824839b15cd658ab69276" id="r_a64a43e80bd4824839b15cd658ab69276"><td class="memItemLeft" align="right" valign="top"><a id="a64a43e80bd4824839b15cd658ab69276" name="a64a43e80bd4824839b15cd658ab69276"></a>
 float&#160;</td><td class="memItemRight" valign="bottom"><b>covalentRadius</b></td></tr>
 <tr class="memdesc:a64a43e80bd4824839b15cd658ab69276"><td class="mdescLeft">&#160;</td><td class="mdescRight">The covalent radius of this <code> Element </code>. <br /></td></tr>
@@ -173,6 +189,9 @@ float&#160;</td><td class="memItemRight" valign="bottom"><b>covalentRadius</b></
 <tr class="memitem:a08385d35f2c62b653d5f00c7bb77b51f" id="r_a08385d35f2c62b653d5f00c7bb77b51f"><td class="memItemLeft" align="right" valign="top"><a id="a08385d35f2c62b653d5f00c7bb77b51f" name="a08385d35f2c62b653d5f00c7bb77b51f"></a>
 Vector3&#160;</td><td class="memItemRight" valign="bottom"><b>forceVector</b> = Vector3.zero</td></tr>
 <tr class="memdesc:a08385d35f2c62b653d5f00c7bb77b51f"><td class="mdescLeft">&#160;</td><td class="mdescRight">The force vector this <code> Element </code> will feel in the current frame. <br /></td></tr>
+<tr class="memitem:a6a81927a4e2ef745bb8a2afb8b10cee7" id="r_a6a81927a4e2ef745bb8a2afb8b10cee7"><td class="memItemLeft" align="right" valign="top"><a id="a6a81927a4e2ef745bb8a2afb8b10cee7" name="a6a81927a4e2ef745bb8a2afb8b10cee7"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>offset</b> = 0</td></tr>
+<tr class="memdesc:a6a81927a4e2ef745bb8a2afb8b10cee7"><td class="mdescLeft">&#160;</td><td class="mdescRight">An offset variable that ensures this <code> Element </code> will never attempt to move its parent. <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Class for representing the internal data of an atom in the main molecule. </p>
@@ -197,26 +216,6 @@ Vector3&#160;</td><td class="memItemRight" valign="bottom"><b>forceVector</b> = 
 
 </div>
 </div>
-<a id="a4a82ceffcffd5aac0e9add485ea845e1" name="a4a82ceffcffd5aac0e9add485ea845e1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4a82ceffcffd5aac0e9add485ea845e1">&#9670;&#160;</a></span>DeleteElement()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void Elements.DeleteElement </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Deletes the <code> Element </code> selected in <a class="el" href="classcreation_user.html">creationUser</a>. </p>
-<p>NOTE: Doesn't work with cyclic molecules </p>
-
-</div>
-</div>
 <a id="a223e6c36700f4370e6f18da496f252b0" name="a223e6c36700f4370e6f18da496f252b0"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a223e6c36700f4370e6f18da496f252b0">&#9670;&#160;</a></span>GetID()</h2>
 
@@ -234,26 +233,6 @@ Vector3&#160;</td><td class="memItemRight" valign="bottom"><b>forceVector</b> = 
 
 <p>Finds the construction order of <code> Element </code>s, its main use is finding the parent of an <code> Element </code>. </p>
 <dl class="section return"><dt>Returns</dt><dd>The number to the right of the name of the element, or -1 if it's the root</dd></dl>
-
-</div>
-</div>
-<a id="ad6173893e18b9eb3a1ac7b4b4c10e64a" name="ad6173893e18b9eb3a1ac7b4b4c10e64a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad6173893e18b9eb3a1ac7b4b4c10e64a">&#9670;&#160;</a></span>GetNeighbors()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">List&lt; Tuple&lt; GameObject, GameObject &gt; &gt; Elements.GetNeighbors </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Accessor method for neighbors. </p>
-<dl class="section return"><dt>Returns</dt><dd>neighbors</dd></dl>
 
 </div>
 </div>
@@ -283,8 +262,8 @@ Vector3&#160;</td><td class="memItemRight" valign="bottom"><b>forceVector</b> = 
 
 </div>
 </div>
-<a id="a1665a81ae3bcb31bddb64df509b535db" name="a1665a81ae3bcb31bddb64df509b535db"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1665a81ae3bcb31bddb64df509b535db">&#9670;&#160;</a></span>SpawnElement()</h2>
+<a id="aab8e2a4460583232a5054f975b199b9e" name="aab8e2a4460583232a5054f975b199b9e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aab8e2a4460583232a5054f975b199b9e">&#9670;&#160;</a></span>SpawnElement()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -292,15 +271,26 @@ Vector3&#160;</td><td class="memItemRight" valign="bottom"><b>forceVector</b> = 
         <tr>
           <td class="memname">void Elements.SpawnElement </td>
           <td>(</td>
-          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>num</em></span></td><td>)</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>element</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>order</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>num</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Spawns in a new <a class="el" href="class_elements.html" title="Class for representing the internal data of an atom in the main molecule.">Elements</a> instance. </p>
+<p>Spawns in a new Element instance. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
+    <tr><td class="paramname">element</td><td>The atomic number of the new element. </td></tr>
+    <tr><td class="paramname">order</td><td>The order of the bond to the new element. </td></tr>
     <tr><td class="paramname">num</td><td>The "construction ID" or number next to the name in the Hierarchy View</td></tr>
   </table>
   </dd>

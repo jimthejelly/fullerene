@@ -1,10 +1,9 @@
 var searchData=
 [
-  ['selectelement_0',['selectElement',['../classselect_element.html',1,'']]],
-  ['selectpreset_1',['selectPreset',['../classselect_preset.html',1,'']]],
-  ['setelements_2',['SetElements',['../class_bonds.html#aaec216a226a5ae65a69ba30902609d6d',1,'Bonds']]],
-  ['showlonepairs_3',['ShowLonePairs',['../class_elements.html#aa1f19a2656767528a2ac326247912786',1,'Elements']]],
-  ['sigma_4',['sigma',['../class_elements.html#a83f530f3abe71bb05984ca27c07054b8',1,'Elements.sigma'],['../class_lone_pairs.html#ab5a334f693808a73f7fda136098b6801',1,'LonePairs.sigma']]],
-  ['spawnelement_5',['SpawnElement',['../class_elements.html#a1665a81ae3bcb31bddb64df509b535db',1,'Elements']]],
-  ['start_6',['start',['../classstart.html',1,'']]]
+  ['parent_0',['parent',['../class_bonds.html#ad33f270cb14f56ec5f5b01acc0a89bed',1,'Bonds.parent'],['../class_lone_pairs.html#ab0f94ec059cb3ef05f347f8a48770596',1,'LonePairs.parent']]],
+  ['playagian_1',['PLayAgian',['../class_chem_wordle_1_1_wordle_manager.html#ac4072e37d5843f93737fee437c0cdaa1',1,'ChemWordle::WordleManager']]],
+  ['preset_2',['preset',['../classselect_preset.html#a9992678b21d725240ae7f08fd76b7b02',1,'selectPreset']]],
+  ['presetnumber_3',['presetNumber',['../classselect_preset.html#ae4906f20acf4259cea7d5a7a2b27f46c',1,'selectPreset']]],
+  ['protons_4',['protons',['../class_elements.html#a1b512c5fd46cbbab9d936ab4778453fe',1,'Elements']]],
+  ['pubchemapimanager_5',['PubChemAPIManager',['../class_chem_wordle_1_1_pub_chem_a_p_i_manager.html',1,'ChemWordle']]]
 ];

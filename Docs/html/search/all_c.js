@@ -1,5 +1,7 @@
 var searchData=
 [
-  ['resetchildpositions_0',['ResetChildPositions',['../class_elements.html#a9065ddac34b0d198cab4b202354190b3',1,'Elements']]],
-  ['restart_1',['Restart',['../classcreation_user.html#af24c2cc9b3b9975b4033855c5769c1da',1,'creationUser']]]
+  ['offset_0',['offset',['../class_elements.html#a6a81927a4e2ef745bb8a2afb8b10cee7',1,'Elements']]],
+  ['onplayagain_1',['OnPlayAgain',['../class_chem_wordle_1_1_victory_notice_script.html#a66ce38774d288d16e66f80b3dc479aa1',1,'ChemWordle::VictoryNoticeScript']]],
+  ['onpressed_2',['OnPressed',['../class_chem_wordle_1_1_for_prefab_button.html#a6df0585a66dee92cb6b954c2b860c116',1,'ChemWordle::ForPrefabButton']]],
+  ['onquittomain_3',['OnQuitToMain',['../class_chem_wordle_1_1_victory_notice_script.html#a726e8c80bfa590d3ac3c3291640f555f',1,'ChemWordle::VictoryNoticeScript']]]
 ];

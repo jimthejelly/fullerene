@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['lonepairs_0',['lonePairs',['../class_elements.html#a78d0fb544dce69aa6c3b94e4cf522253',1,'Elements']]],
-  ['lonepairsvisible_1',['lonePairsVisible',['../classcreation_user.html#af5f086629b93e68669fadf1b173c1ac9',1,'creationUser']]]
+  ['hasbeenforced_0',['hasBeenForced',['../class_elements.html#a95e7d773fc5a4affbeed3aee747ccf21',1,'Elements']]],
+  ['hasbeenmoved_1',['hasBeenMoved',['../class_elements.html#aa94fc9f55b1d870babea98d4a49fe8cc',1,'Elements']]]
 ];

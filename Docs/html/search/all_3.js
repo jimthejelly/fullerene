@@ -1,11 +1,7 @@
 var searchData=
 [
-  ['electrons_0',['electrons',['../class_elements.html#ac04a54df29f779d0a351635a033d74df',1,'Elements']]],
-  ['elements_1',['Elements',['../class_elements.html',1,'']]],
-  ['elementscomparer_2',['ElementsComparer',['../class_elements_comparer.html',1,'']]],
-  ['epsilon_3',['epsilon',['../class_elements.html#a4362ad20aeaf42f6f7f188c6354b603a',1,'Elements.epsilon'],['../class_lone_pairs.html#aaae86e270096eb85d747491ec124777c',1,'LonePairs.epsilon']]],
-  ['equals_4',['Equals',['../class_elements_comparer.html#a929c7d072db7c0ac86cb9a974aec41e1',1,'ElementsComparer']]],
-  ['expandedoctet_5',['expandedOctet',['../class_elements.html#af807ce7786da2588168a8e2a0eae51f0',1,'Elements']]],
-  ['explorationmenu_6',['explorationMenu',['../classexploration_menu.html',1,'']]],
-  ['explorationuser_7',['explorationUser',['../classexploration_user.html',1,'']]]
+  ['datatypes_0',['DataTypes',['../class_chem_wordle_1_1_general_data_controller.html#ae52bc7653ebdce5388c27ef6cbf3f891',1,'ChemWordle::GeneralDataController']]],
+  ['deleteelement_1',['DeleteElement',['../class_elements.html#a4a82ceffcffd5aac0e9add485ea845e1',1,'Elements']]],
+  ['dotext_2',['DOText',['../class_d_o_text.html',1,'']]],
+  ['draworgo_3',['DrawOrgo',['../class_draw_orgo.html',1,'']]]
 ];
