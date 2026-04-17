@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Xml.Linq;
 using Unity.Services.Analytics;
@@ -12,6 +13,34 @@ using UnityEngine.UIElements;
 /// </summary>
 public class Elements : MonoBehaviour
 {
+    /// <summary>
+    /// Retrieves the element prefab with the given atomic number.
+    /// </summary>
+    public static GameObject GetElementPrefab(int atomicNumber)
+    {
+        foreach (string prefabPath in Directory.EnumerateFiles("Assets/Elements")
+                     .Where(prefabPath => prefabPath.EndsWith(".prefab")))
+        {
+            GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
+            Elements elements = prefab.GetComponent<Elements>();
+            if (!elements) continue;
+            if (elements.protons == atomicNumber)
+                return prefab;
+        }
+        throw new Exception("No element prefab found for \"" + atomicNumber + "\"");
+    }
+    
+    /// <summary>
+    /// A reference to the molecule containing this element.
+    /// Initialized when the element is created.
+    /// </summary>
+    private GameObject molecule;
+
+    /// <summary>
+    /// Should be called immediately after creating this element, and never again.
+    /// </summary>
+    public void SetMolecule(GameObject _molecule) => molecule = _molecule;
+    
     /// <summary> The number of electrons in this <c> Element </c> </summary>
     public int electrons;
     /// <summary> The number of protons in this <c> Element </c> </summary>
@@ -186,19 +215,14 @@ public class Elements : MonoBehaviour
     }
 
     /// <summary>
-    /// Spawns in a new <see cref="Elements"/> instance
+    /// Spawns in a new Element instance
     /// </summary>
+    /// <param name="element"> The atomic number of the new element. </param>
+    /// <param name="order"> The order of the bond to the new element. </param>
     /// <param name="num">The "construction ID" or number next to the name in the Hierarchy View</param>
-    public void SpawnElement(int num)
+    public void SpawnElement(int element, int order, int num)
     {
         Debug.Log("neighbor num: " + neighbors.Count);
-
-        offset = 0;
-
-        if (neighbors.Any())
-        {
-            offset = 1;
-        }
 
         // checking if the element can make more bonds
         if (!CanBondMore())
@@ -207,46 +231,48 @@ public class Elements : MonoBehaviour
             return;
         }
         // making new bond
-        GameObject obj = AssetDatabase.LoadAssetAtPath("Assets/Elements/" + selectElement.element + ".prefab", typeof(GameObject)) as GameObject;
+        float radius = 3f;
+        GameObject obj = GetElementPrefab(element);
         GameObject clone = Instantiate(obj, Vector3.zero, Quaternion.identity);
         // making sure the newly created atom can bond
-        if (!clone.GetComponent<Elements>().CanBondMore())
+        if (!(clone.GetComponent<Elements>() as Elements).CanBondMore())
         {
-            Debug.Log(selectElement.element + " is inert!");
+            Debug.Log(element + " is inert!");
             return;
         }
-        // setting initial (theoretical) length of bond
-        float radius = covalentRadius + clone.GetComponent<Elements>().covalentRadius;
-        // creating bond and element objects
-        GameObject cyl = AssetDatabase.LoadAssetAtPath("Assets/Resources/SingleBond.prefab", typeof(GameObject)) as GameObject;
+        string bondTitle = order switch
+        {
+            1 => "SingleBond",
+            2 => "DoubleBond",
+            3 => "TripleBond",
+            _ => throw new Exception("invalid bond order (" + order + ")")
+        };
+        string bondPath = "Assets/Resources/" + bondTitle + ".prefab";
+        GameObject cyl = AssetDatabase.LoadAssetAtPath(bondPath, typeof(GameObject)) as GameObject;
         GameObject cylClone = Instantiate(cyl, Vector3.zero, Quaternion.identity);
-        // setting bond and element parameters
         cylClone.transform.localScale = new Vector3(0.15f, radius / 2, 0.15f);
-        cylClone.transform.SetParent(GameObject.Find("moleculeBody").transform, true);
-        clone.transform.SetParent(GameObject.Find("moleculeBody").transform, true);
-        clone.name = clone.name + " " + num;
+        // parent of new element should be the same parent as this element
+        if (!molecule) throw new Exception("Element has no parent molecule; unable to create new neighbor");
+        clone.GetComponent<Elements>().molecule = molecule;
+        cylClone.transform.SetParent(molecule.transform, true);
+        clone.transform.SetParent(molecule.transform, true);
+        clone.name = clone + " " + num;
         cylClone.name = cylClone.name + " " + num;
         bondCount++;
         bondOrders++;
         UpdateElectrons(1);
 
-        clone.GetComponent<Elements>().bondCount = 1;
-        clone.GetComponent<Elements>().bondOrders = 1;
-        clone.GetComponent<Elements>().UpdateElectrons(1);
+        (clone.GetComponent<Elements>() as Elements).bondCount = 1;
+        (clone.GetComponent<Elements>() as Elements).bondOrders = 1;
+        (clone.GetComponent<Elements>() as Elements).UpdateElectrons(1);
 
-        cylClone.GetComponent<Bonds>().SetElements(this, clone.GetComponent<Elements>());
+        (cylClone.GetComponent<Bonds>() as Bonds).SetElements(this, clone.GetComponent<Elements>() as Elements);
 
         neighbors.Add(new Tuple<GameObject, GameObject>(cylClone, clone));
-        
         clone.GetComponent<Elements>().neighbors.Add(new Tuple<GameObject, GameObject>(cylClone, gameObject));
-        int element1 = this.protons;
-        int element2 = (clone.GetComponent<Elements>() as Elements).protons;
-        neighborLoad.Add(new Tuple<int, int>(element1, element2));
-        (clone.GetComponent<Elements>() as Elements).neighborLoad.Add(new Tuple<int, int>(element2, element1));
-        //clone.GetComponent<Elements>().neighborLoad.Add(new Tuple<String, String>(element2, element1));
         ResetChildPositions();
-        // setting element and bond positions and angles
-        clone.transform.localEulerAngles = cylClone.transform.localEulerAngles;
+
+        clone.transform.localEulerAngles = cylClone.transform.localEulerAngles; //+ this.transform.localEulerAngles;
 
         clone.transform.localPosition = cylClone.transform.localPosition;
         clone.transform.Translate(0, -radius / 2, 0);
