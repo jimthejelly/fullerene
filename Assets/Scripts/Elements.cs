@@ -21,7 +21,8 @@ public class Elements : MonoBehaviour
     public int neutrons;
     /// <summary> A <c> List </c> of <c> Tuple</c>s of <see cref="Bonds"/> and <see cref="Elements"/> storing which atoms are bonded by which bonds to this <c> Element </c></summary>
     private List<Tuple<GameObject, GameObject>> neighbors = new List<Tuple<GameObject, GameObject>>();
-    /// <summary> The number of <see cref="LonePairs"/> this <c> Element </c> started with </summary>
+
+    public List<Tuple<int, int>> neighborLoad = new List<Tuple<int, int>>();
     public int defaultLonePairs;
     /// <summary> The number of <see cref="LonePairs"/> currently in this <c> Element </c> </summary>
     public int lonePairs;
@@ -175,10 +176,10 @@ public class Elements : MonoBehaviour
         bondingElectrons -= change;
     }
 
-    /// <summary>
-    /// Accessor method for <see cref="neighbors"/>
-    /// </summary>
-    /// <returns><see cref="neighbors"/></returns>
+    public List<Tuple<int, int>> GetStringNeighbors() { 
+        return neighborLoad;
+    }
+
     public List<Tuple<GameObject, GameObject>> GetNeighbors()
     {
         return neighbors;
@@ -236,7 +237,13 @@ public class Elements : MonoBehaviour
         cylClone.GetComponent<Bonds>().SetElements(this, clone.GetComponent<Elements>());
 
         neighbors.Add(new Tuple<GameObject, GameObject>(cylClone, clone));
+        
         clone.GetComponent<Elements>().neighbors.Add(new Tuple<GameObject, GameObject>(cylClone, gameObject));
+        int element1 = this.protons;
+        int element2 = (clone.GetComponent<Elements>() as Elements).protons;
+        neighborLoad.Add(new Tuple<int, int>(element1, element2));
+        (clone.GetComponent<Elements>() as Elements).neighborLoad.Add(new Tuple<int, int>(element2, element1));
+        //clone.GetComponent<Elements>().neighborLoad.Add(new Tuple<String, String>(element2, element1));
         ResetChildPositions();
         // setting element and bond positions and angles
         clone.transform.localEulerAngles = cylClone.transform.localEulerAngles;

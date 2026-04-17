@@ -74,10 +74,6 @@ public class creationUser : MonoBehaviour
     /// </summary>
     void Start()
     {
-        // clears the molecule.cml file
-        FileStream stream = File.Open("./Assets/Resources/molecule.cml", FileMode.OpenOrCreate);
-        stream.SetLength(0);
-        stream.Close();
 
         // Initializes variables to effectively nothing
         select = GameObject.Find("Main Camera");
