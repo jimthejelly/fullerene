@@ -1,9 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEditor;
-using System.IO;
 
 public class creationMenu : MonoBehaviour
 {
@@ -31,12 +32,27 @@ public class creationMenu : MonoBehaviour
 
     private Scene scene;
 
+    /// <summary>
+    /// Where the values of ElementMaterials.csv are stored at runtime.
+    /// Used to determine what material an element should have.
+    /// </summary>
+    private string[] elementMaterials;
+
+    public string GetElementMaterial(int id)
+    {
+        // keep in mind atomic numbers start at 1
+        if (id < 1 || id > elementMaterials.Length)
+            throw new IndexOutOfRangeException("Requested material for invalid element id " +
+                                               id + "; must be from 1-" + elementMaterials.Length + " inclusive");
+        return elementMaterials[id - 1];
+    }
+
+    private const string elementMaterialFileLocation =
+        "Assets/Resources/Materials/ElementMaterials.csv";
+
     void Start()
     {
-        //Restart the molecule.cml file
-        FileStream stream = File.Open("./Assets/Resources/molecule.cml", FileMode.OpenOrCreate);
-        stream.SetLength(0);
-        stream.Close();
+        
         // Pauses time and brings up menu
         Time.timeScale = 1;
         isPaused = false;
@@ -48,6 +64,16 @@ public class creationMenu : MonoBehaviour
         // loads minigame menu from prefab
         mini_menu = Instantiate(AssetDatabase.LoadAssetAtPath("Assets/Resources/Minigames_Menu.prefab", typeof(GameObject)) as GameObject);
         (mini_menu.GetComponent<MinigameSelectionButtons>() as MinigameSelectionButtons).previousMenu = pause_menu;
+        
+        // initialize elementMaterials from ElementMaterials.csv
+        var materialsFile = File.Open(elementMaterialFileLocation, FileMode.Open);
+        StreamReader materialsReader = new(materialsFile);
+        elementMaterials = materialsReader.ReadToEnd().Split('\n');
+        // each string seems to be one character too long? some weird newline behavior
+        // fix this by invoking Trim() for each element
+        for (var materialIndex = 0; materialIndex < elementMaterials.Length; materialIndex++)
+            elementMaterials[materialIndex] = elementMaterials[materialIndex].Trim();
+
     }
 
     // Update is called once per frame

@@ -48,11 +48,9 @@ public class Bonds : MonoBehaviour
     /// If either the parent or child <c> Element </c> cannot support an increase in bond order, this method cycles back to 1
     /// </summary>
     /// <param name="num">The "construction ID" or number next to the name in the Hierarchy View</param>
-    public void CycleBondOrder(int num) {
-        int newOrder = bondOrder + 1;
-        if(bondOrder == 3) {
-            newOrder = 1;
-        }
+    public void CycleBondOrder(int num) => SetBondOrder((bondOrder + 1) % 3, num);
+    
+    public void SetBondOrder(int newOrder, int num) {
 
         // checking if upgrade possible
         if(!parent.CanBondMore() || !child.CanBondMore()) {
