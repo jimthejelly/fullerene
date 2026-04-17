@@ -35,6 +35,7 @@ public class selectElement : MonoBehaviour
         {
             GameObject obj = Elements.GetElementPrefab(int.Parse(element[..element.IndexOf("-")]));
             GameObject clone = Instantiate(obj, Vector3.zero, Quaternion.identity, GameObject.Find("moleculeBody").transform);
+            clone.GetComponent<Elements>().SetMolecule(GameObject.Find("moleculeBody"));
             creationUser.head = clone;
             clone.transform.Rotate(180,0,0);
             (clone.GetComponent<Elements>() as Elements).ShowLonePairs();
