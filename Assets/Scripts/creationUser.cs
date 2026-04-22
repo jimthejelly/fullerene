@@ -140,21 +140,28 @@ public class creationUser : MonoBehaviour
                 moleculeUpdated = false;
             }
         }
-        /*
+        
         // exert forces on all the atoms starting at the root and moving out
         if(head != null) {
             foreach(Transform element in molecule.transform) {
                 if(element.CompareTag("Element")) {
-                    (element.GetComponent<Elements>() as Elements).CalculateForceVector();
+                    element.GetComponent<Elements>().CalculateForceVector();
+                }
+                else if(element.CompareTag("Lone Pair")) {
+                    element.GetComponent<LonePairs>().CalculateForceVector();
+                }
+                
+            }
+            head.GetComponent<Elements>().UpdatePosition();
+            foreach(Transform element in molecule.transform) {
+                if(element.CompareTag("Lone Pair")) {
+                    element.GetComponent<LonePairs>().UpdatePosition();
+                }
+                else if(element.CompareTag("Bond")) {
+                    element.GetComponent<Bonds>().UpdatePosition();
                 }
             }
-            (head.GetComponent<Elements>() as Elements).UpdatePosition();
         }
-        foreach(Transform element in molecule.transform) {
-            if(element.CompareTag("Element")) {
-                (element.GetComponent<Elements>() as Elements).hasMoved = false;
-            }
-        }*/
     }
 
     void ShowLonePairs() {
@@ -210,7 +217,7 @@ public class creationUser : MonoBehaviour
     }
     */
 
-    void ResetCamera() {
+        void ResetCamera() {
 
         if (Input.GetKeyDown(KeyCode.Alpha1)) {
             panOffset = Vector3.zero;  // To store cumulative pan offset

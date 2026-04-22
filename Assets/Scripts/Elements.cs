@@ -231,9 +231,9 @@ public class Elements : MonoBehaviour
             return;
         }
         // making new bond
-        float radius = 3f;
         GameObject obj = GetElementPrefab(element);
         GameObject clone = Instantiate(obj, Vector3.zero, Quaternion.identity);
+        float radius = covalentRadius + clone.GetComponent<Elements>().covalentRadius;
         // making sure the newly created atom can bond
         if (!(clone.GetComponent<Elements>() as Elements).CanBondMore())
         {
