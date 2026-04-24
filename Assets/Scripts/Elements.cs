@@ -224,6 +224,12 @@ public class Elements : MonoBehaviour
     {
         Debug.Log("neighbor num: " + neighbors.Count);
 
+        offset = 0;
+
+        if(neighbors.Any()) {
+            offset = 1;
+        }
+
         // checking if the element can make more bonds
         if (!CanBondMore())
         {
