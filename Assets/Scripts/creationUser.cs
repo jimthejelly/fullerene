@@ -1,44 +1,72 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Xml;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UIElements;
 
-using System.Xml;
-using System.IO;
-using System;
-
 public class creationUser : MonoBehaviour
 {
-    public static GameObject head; // First element added
-    GameObject molecule; // Current object the camera is rotated around
-    GameObject select; // Current object mouse is interacting with
-    private GameObject palm;
-    Transform focus; // select object's transform properties
-    Color focusMaterial; // select object's color properties
+    /// <summary> First element added </summary>
+    public static GameObject head;
+    /// <summary> Current object the camera is rotated around </summary>
+    GameObject molecule;
+    /// <summary> Current object mouse is interacting with </summary>
+    GameObject select;
+    /// <summary> <see cref="select"/>'s transform properties </summary>
+    Transform focus;
+    /// <summary> <see cref="select"/>'s color properties </summary>
+    Color focusMaterial;
+    /// <summary> Helper list to change color of all <c> Bond </c> sub-objects </summary>
     List<Component> bondSiblings = new List<Component>();
-    public float turnSpeed; // Look speed modifier
 
-    public float PanSpeed = 50f; //panning speed
-    Vector3 panOffset = Vector3.zero;  // To store cumulative pan offset
+    /// <summary> Look speed modifier </summary>
+    public float turnSpeed;
+    /// <summary> Panning speed </summary>
+    public float PanSpeed = 50f;
+    /// <summary> Cumulative pan offset </summary>
+    Vector3 panOffset = Vector3.zero;
 
+    /// <summary> Whether or not a <c> Bond </c> has been updated this frame </summary>
     bool bondReplace = false;
-    private bool hold = false;
-    int elements = 0;
-    string check; // Last object hovered over
-    float zoom = 12; // Distance from camera to molecule
-    float click = 0; // Number of clicks during clickdelay
-    float clickdelay = 0.2f; // Time limit for doubleclick to register
-    float clicktime = 0; // Current time between two clicks
-    Ray ray; // Tracks mouse
-	RaycastHit hit; // Object mouse touches
+    /// <summary> The number of times that <c> Elements </c> or <c> Bonds </c> have been spawned in the molecule </summary>
+    int spawnCount = 0;
 
+    /// <summary> Last object hovered over </summary>
+    string check;
+    /// <summary> Distance from camera to molecule </summary>
+    float zoom = 12;
+    /// <summary> Number of clicks during <see cref="clickdelay"/> </summary>
+    float click = 0;
+    /// <summary> Time limit for a double click to register </summary>
+    float clickdelay = 0.2f;
+    /// <summary> Current time between two clicks </summary>
+    float clicktime = 0;
+    /// <summary> Tracks mouse </summary>
+    Ray ray;
+    /// <summary> Object mouse touches </summary>
+	RaycastHit hit;
+
+    /// <summary> Whether or not lone pairs are currently visible </summary>
     public static bool lonePairsVisible = false; // Whether or not lone pairs are currently visible
 
-    private bool moleculeUpdated = false; // used to keep the lone pairs visible even while editing the molecule
+    /// <summary> Whether or not the molecule has been updated recently </summary>
+    /// <remarks>Used to keep the lone pairs visible even while editing the molecule </remarks>
+    private bool moleculeUpdated = false;
+    /// <summary> How many frames have passed since the last time the molecule was updated
+    /// <remarks>Used to keep the lone pairs visible even while editing the molecule </remarks>
     private int framesSinceMoleculeUpdated = 0; // used to keep the lone pairs visible even while editing the molecule
 
-    // GameObject tempHover; // temporary object made by hovering
+    /// <summary> Dictionary for converting <see cref="Elements"/> to ids for saving and loading </summary>
+    private Dictionary<Elements, string> atomIDs = new Dictionary<Elements, string>();
+    /// <summary> Dictionary for converting ids to <see cref="Elements"/> for saving and loading </summary>
+    private Dictionary<string, Elements> IDToAtom = new Dictionary<string, Elements>();
+
+    /// <summary> The first <c> Element </c> to be connected with a new <c> Bond </c> </summary>
+    private Elements bondParent;
 
     void Start()
     {
@@ -93,11 +121,8 @@ public class creationUser : MonoBehaviour
         // Uses number bar to reset camera position
         ResetCamera();
 
-        if (!hold)
-        {
-            // Manages mouse click and hover interaction
-            Hovering();
-        }
+        // Manages mouse click and hover interaction
+        Hovering();
 
         if(Input.GetKeyDown("s")) {
             Debug.Log("Saving Molecule");
@@ -261,7 +286,58 @@ public class creationUser : MonoBehaviour
     void Hovering() {
         ray = Camera.main.ScreenPointToRay(Input.mousePosition);	
         if (Physics.Raycast(ray, out hit)) { // Hovering over object 
-            // Debug.Log("Hovering");
+            // If "b" key is pressed, try and make a new bond
+            if(Input.GetKeyDown("b")) {
+                Debug.Log("b");
+                // If hovered object is an Element, keep going
+                if(select.CompareTag("Element")) {
+                    // If bondParent is null, set it
+                    if(bondParent == null) {
+                        bondParent = select.GetComponent<Elements>();
+                        Debug.Log("bonding " + bondParent.name);
+                    }
+                    else if(select.GetComponent<Elements>().Equals(bondParent)) { // If bondParent == select, cancel bonding
+                        bondParent = null;
+                        Debug.Log("cancelling bond");
+                    }
+                    else { // else make the bond between bondParent and select
+                           // If bondParent and select can bond more, bond them
+                        if(select.GetComponent<Elements>().CanBondMore() && bondParent.CanBondMore()) {
+                            // If select and bondParent are already bonded, skip bonding
+                            bool bonded = false;
+                            foreach(Tuple<GameObject, GameObject> neighbor in select.GetComponent<Elements>().GetNeighbors()) {
+                                if(neighbor.Item2.GetComponent<Elements>().Equals(bondParent)) {
+                                    bonded = true;
+                                }
+                            }
+                            if(!bonded) { // if select and bondParent are not already bonded
+                                float radius = bondParent.covalentRadius + select.GetComponent<Elements>().covalentRadius;
+                                GameObject cyl = AssetDatabase.LoadAssetAtPath("Assets/Resources/SingleBond.prefab", typeof(GameObject)) as GameObject;
+                                GameObject cylClone = Instantiate(cyl, Vector3.zero, Quaternion.identity);
+                                cylClone.transform.localScale = new Vector3(0.15f, radius / 2, 0.15f);
+                                cylClone.transform.SetParent(GameObject.Find("moleculeBody").transform, true);
+                                cylClone.name = cylClone.name + " " + spawnCount;
+                                spawnCount++;
+
+                                select.GetComponent<Elements>().UpdateElectrons(1);
+                                bondParent.UpdateElectrons(1);
+                                select.GetComponent<Elements>().bondCount++;
+                                select.GetComponent<Elements>().bondOrders++;
+                                bondParent.bondCount++;
+                                bondParent.bondOrders++;
+
+                                cylClone.GetComponent<Bonds>().SetElements(bondParent, select.GetComponent<Elements>());
+                                cylClone.GetComponent<Bonds>().UpdatePosition();
+
+                                bondParent.GetNeighbors().Add(new Tuple<GameObject, GameObject>(cylClone, select));
+                                select.GetComponent<Elements>().GetNeighbors().Add(new Tuple<GameObject, GameObject>(cylClone, bondParent.gameObject));
+
+                                bondParent = null;
+                            }
+                        }
+                    }
+                }
+            }
             if (select != null && check != hit.collider.gameObject.name) { // Don't check if already hovering this object
 
                 // Swaps current color and highlight
@@ -270,8 +346,6 @@ public class creationUser : MonoBehaviour
                     foreach (Renderer bond in bondSiblings) {
                         bond.material.color = focusMaterial;
                     }
-
-                } else {
 
                 }
 
@@ -358,14 +432,14 @@ public class creationUser : MonoBehaviour
                     if(hit.transform.tag.Equals("Element")) {
                         Elements script = hit.collider.gameObject.GetComponent<Elements>();
                         // mess to extract atomic number from element string
-                        script.SpawnElement(int.Parse(selectElement.element[..selectElement.element.IndexOf("-")]), 1, elements);
-                        elements++;
+                        script.SpawnElement(int.Parse(selectElement.element[..selectElement.element.IndexOf("-")]), 1, spawnCount);
+                        spawnCount++;
                         moleculeUpdated = true;
                     }
                     else if(hit.transform.tag.Equals("Bond")) {
                         Bonds script = hit.collider.gameObject.GetComponent<Bonds>();
-                        script.CycleBondOrder(elements);
-                        elements++;
+                        script.CycleBondOrder(spawnCount);
+                        spawnCount++;
                         bondReplace = true;
                         moleculeUpdated = true;
                     }
