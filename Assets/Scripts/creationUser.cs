@@ -200,24 +200,7 @@ public class creationUser : MonoBehaviour
 
     }
 
-    /*
-    void Holding()
-    {
-        Vector3 mouse = Input.mousePosition;
-        if (Camera.main != null)
-        {
-            Vector3 castPoint = Input.mousePosition);
-            palm.transform.position = castPoint + (Vector3.forward * 10);;
-        }
-        Debug.Log("Holding " + mouse);
-        if (Input.GetMouseButtonDown(0))
-        {
-            hold = false;
-        }
-    }
-    */
-
-        void ResetCamera() {
+    void ResetCamera() {
 
         if (Input.GetKeyDown(KeyCode.Alpha1)) {
             panOffset = Vector3.zero;  // To store cumulative pan offset
@@ -281,8 +264,6 @@ public class creationUser : MonoBehaviour
             // Debug.Log("Hovering");
             if (select != null && check != hit.collider.gameObject.name) { // Don't check if already hovering this object
 
-                
-
                 // Swaps current color and highlight
                 select.GetComponent<Renderer>().material.color = focusMaterial;
                 if (select.tag == "Bond" && bondSiblings != null)   {
@@ -294,30 +275,7 @@ public class creationUser : MonoBehaviour
 
                 }
 
-            
-                // if(!Input.GetKey(KeyCode.LeftControl) && !Input.GetKey(KeyCode.LeftShift)) {
-                //     if(hit.transform.tag.Equals("Element")) {
-                //         Elements script = hit.collider.gameObject.GetComponent<Elements>();
-                //         script.SpawnElement(elements);
-                //         elements++;
-                //     }
-                //     else if(hit.transform.tag.Equals("Bond")) {
-                //         Bonds script = hit.collider.gameObject.GetComponent<Bonds>();
-                //         script.CycleBondOrder(elements);
-                //         elements++;
-                //         bondReplace = true;
-                //     }
-                // }
-                // else if(Input.GetKey(KeyCode.LeftShift)){
-                //     Elements script = hit.collider.gameObject.GetComponent<Elements>();
-                //     script.DeleteElement();
-                // }
-
-
                 select = GameObject.Find(hit.collider.gameObject.name);
-
-
-                
 
                 bondSiblings.Clear();
                 foreach (Transform bond in hit.collider.transform) {
@@ -327,8 +285,6 @@ public class creationUser : MonoBehaviour
                     
                 }
 
-                
-                
                 focusMaterial = select.GetComponent<Renderer>().material.color;
                 if (select.tag == "Bond" && bondSiblings != null)   {
                     foreach (Renderer bond in bondSiblings) {
@@ -338,13 +294,9 @@ public class creationUser : MonoBehaviour
                 } else {
                     select.GetComponent<Renderer>().material.color = new Color(1.75f, 1.75f, 1.75f, 0f);
                 }
-                
-
-                
 
                 bondReplace = false;
                 
-
                 // If left clicks object
                 if (Input.GetMouseButtonUp(0)) {
                     Clicking();
@@ -363,26 +315,8 @@ public class creationUser : MonoBehaviour
                 if (bondReplace) {
                     select = GameObject.Find("Main Camera");
                 }
-                
-                // if(select.tag == "Bond") {
-                //     /*
-                //     //bond creation script
-                //     Bonds script = hit.collider.gameObject.GetComponent<Bonds>();
-                //     script.CycleBondOrder(elements);
-                //     elements++;
-                //     bondReplace = true;
-                //     */
-                // } else {
-                //     // element creation script
-                //     Elements script = hit.collider.gameObject.GetComponent<Elements>();
-                //     script.TempSpawnElement(elements);
-                //     elements++;
-
-                // }
             }
             
-            // tempHover = hit.collider.gameObject;
-
         } else { // No hovering
             // Debug.Log("Not Hovering");
             if (select != null && select.name != "Main Camera") {
@@ -390,9 +324,6 @@ public class creationUser : MonoBehaviour
                 foreach (Renderer bond in bondSiblings) {
                         bond.material.color = focusMaterial;
                 }
-
-                // Elements preview = select.transform.GetChild(select.transform.childCount-1).GetChild(0).GetChild(0).gameObject.GetComponent<Elements>();
-                // preview.DeleteElement();
 
             }
             select = GameObject.Find("Main Camera");
