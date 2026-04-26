@@ -68,8 +68,15 @@ public class creationUser : MonoBehaviour
     /// <summary> The first <c> Element </c> to be connected with a new <c> Bond </c> </summary>
     private Elements bondParent;
 
+    /// <summary>
+    /// Initializes molecule.cml, <see cref="select"/>, and camera position
+    /// </summary>
     void Start()
     {
+        // clears the molecule.cml file
+        FileStream stream = File.Open("./Assets/Resources/molecule.cml", FileMode.OpenOrCreate);
+        stream.SetLength(0);
+        stream.Close();
 
         // Initializes variables to effectively nothing
         select = GameObject.Find("Main Camera");
@@ -81,6 +88,9 @@ public class creationUser : MonoBehaviour
         transform.eulerAngles = new Vector3(0,0,0);
     }
 
+    /// <summary>
+    /// Restarts <see cref="creationUser"/> and re-initializes all variables initialized in <see cref="Start"/>
+    /// </summary>
     public void Restart()
     {
         // clears the molecule.cml file
@@ -98,7 +108,12 @@ public class creationUser : MonoBehaviour
         transform.eulerAngles = new Vector3(0,0,0);
     }
 
-    // Update is called once per frame
+    /// <summary>
+    /// Manages user input and molecule force interactions each frame update
+    /// </summary>
+    /// <remarks>
+    /// Force interactions should probably be moved elsewhere, it's bad code design. Works for now though!
+    /// </remarks>
     void Update()
     { 
         // Camera movement
@@ -189,6 +204,9 @@ public class creationUser : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Makes all <see cref="LonePairs"/> in the molecule visible
+    /// </summary>
     void ShowLonePairs() {
         foreach(Transform item in molecule.transform) {
             if(item.tag.Equals("Lone Pair")) {
@@ -198,6 +216,9 @@ public class creationUser : MonoBehaviour
         lonePairsVisible = true;
     }
 
+    /// <summary>
+    /// Hides all <see cref="LonePairs"/> in the molecule
+    /// </summary>
     void HideLonePairs() {
         foreach(Transform item in molecule.transform) {
             if(item.tag.Equals("Lone Pair")) {
@@ -207,6 +228,9 @@ public class creationUser : MonoBehaviour
         lonePairsVisible = false;
     }
 
+    /// <summary>
+    /// Spawns <see cref="LonePairs"/> around each <see cref="Elements"/>
+    /// </summary>
     void SpawnLonePairs() {
         foreach(Transform item in molecule.transform) {
             if(item.tag.Equals("Element")) {
@@ -216,6 +240,9 @@ public class creationUser : MonoBehaviour
         lonePairsVisible = true;
     }
 
+    /// <summary>
+    /// Deletes all <see cref="LonePairs"/> in the molecule
+    /// </summary>
     void DeleteLonePairs() {
         foreach(Transform item in molecule.transform) {
             if(item.tag.Equals("Lone Pair")) {
@@ -225,6 +252,9 @@ public class creationUser : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Uses the number bar to reset the camera position
+    /// </summary>
     void ResetCamera() {
 
         if (Input.GetKeyDown(KeyCode.Alpha1)) {
@@ -249,6 +279,9 @@ public class creationUser : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Rotates the camera around the center point
+    /// </summary>
     void Turning() {
         float xChange = Input.GetAxis("Mouse X") * turnSpeed * Time.deltaTime;
         float yChange = Input.GetAxis("Mouse Y") * turnSpeed * Time.deltaTime;
@@ -258,6 +291,9 @@ public class creationUser : MonoBehaviour
         transform.RotateAround(focus.position, transform.right, -yChange);
     }
 
+    /// <summary>
+    /// Pans the camera
+    /// </summary>
     void Panning() {
         // Get the mouse movement deltas in screen space
         float xChange = Input.GetAxis("Mouse X") * PanSpeed * Time.deltaTime;
@@ -275,6 +311,9 @@ public class creationUser : MonoBehaviour
         Debug.Log("Camera Position: " + transform.position);  // Debug to track camera position changes
     }
 
+    /// <summary>
+    /// Zooms in and out of the focus point
+    /// </summary>
     void HandleZoom() {
         // Changes distance of camera with scroll wheel input
         zoom -= (Input.mouseScrollDelta.y * 1);
@@ -283,6 +322,9 @@ public class creationUser : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Master function for handling what happens when the mouse is hovering over a <see cref="GameObject"/>
+    /// </summary>
     void Hovering() {
         ray = Camera.main.ScreenPointToRay(Input.mousePosition);	
         if (Physics.Raycast(ray, out hit)) { // Hovering over object 
@@ -405,6 +447,9 @@ public class creationUser : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Determines single click vs double click and calls <see cref="Interacting"/> accordingly
+    /// </summary>
     void Clicking() {
         click++;
         if (click == 1) { // If 1 clikc run 1 click interaction
@@ -424,6 +469,10 @@ public class creationUser : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Master function for handling what happens when a <see cref="GameObject"/> is clicked
+    /// </summary>
+    /// <param name="clicknumber"> The number of clicks (one or two) </param>
     void Interacting(int clicknumber) {
         ray = GetComponent<Camera>().ScreenPointToRay(Input.mousePosition);
         if (clicknumber == 1) { // 1 click interaction
