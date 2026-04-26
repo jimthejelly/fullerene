@@ -1,0 +1,21 @@
+User instructions:
+
+3D modeler:
+Tab - open periodic table
+Esc - open pause menu
+L Click - Spawn element/Cycle bond order
+L Shift + L Click - Delete element
+B - Select element to be bonded to another/create said bond
+P - Show/hide lone pairs
+M Click and drag - Pan camera
+R Click and drag - Rotate camera
+Scroll - Zoom
+S - Save molecule into a .cml file
+L - Load molecule from a .cml file (NOTE: All atoms and bonds in the .cml file need to be represented in the editor already for this to work)
+1 - Set camera view to front
+2 - Set camera view to right
+3 - Set camera view to left
+4 - Set camera view to back
+L Ctrl + Double L Click - Center camera on object clicked (NOTE: currently bugs if centered around a non-Element object)
+
+-- Add the rest of the minigame controls please! I don't know them -Cyrus
