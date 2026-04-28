@@ -14,7 +14,7 @@ var annotated_dup =
     [ "Bonds", "class_bonds.html", "class_bonds" ],
     [ "Compound", "class_compound.html", null ],
     [ "creationMenu", "classcreation_menu.html", null ],
-    [ "creationUser", "classcreation_user.html", null ],
+    [ "creationUser", "classcreation_user.html", "classcreation_user" ],
     [ "DOText", "class_d_o_text.html", null ],
     [ "DrawOrgo", "class_draw_orgo.html", null ],
     [ "ElementBehavoir", "class_element_behavoir.html", null ],

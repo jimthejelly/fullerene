@@ -224,6 +224,12 @@ public class Elements : MonoBehaviour
     {
         Debug.Log("neighbor num: " + neighbors.Count);
 
+        offset = 0;
+
+        if(neighbors.Any()) {
+            offset = 1;
+        }
+
         // checking if the element can make more bonds
         if (!CanBondMore())
         {
@@ -231,9 +237,9 @@ public class Elements : MonoBehaviour
             return;
         }
         // making new bond
-        float radius = 3f;
         GameObject obj = GetElementPrefab(element);
         GameObject clone = Instantiate(obj, Vector3.zero, Quaternion.identity);
+        float radius = covalentRadius + clone.GetComponent<Elements>().covalentRadius;
         // making sure the newly created atom can bond
         if (!(clone.GetComponent<Elements>() as Elements).CanBondMore())
         {
